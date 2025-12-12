@@ -19,7 +19,7 @@
 
     <!-- Navbar -->
     <nav class="bg-slate-900 text-white shadow-lg sticky top-0 z-50">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-14 sm:h-16">
                 <div class="flex items-center">
                     <span class="font-bold text-lg sm:text-xl tracking-tight text-white">CHan Analytics</span>
@@ -62,7 +62,10 @@
 
     <!-- Main Content -->
     <main class="flex-grow max-w-7xl w-full mx-auto px-0 sm:px-6 lg:px-8 py-4 sm:py-6">
-        <span class="ml-2 text-gray-700">*AdjO and AdjD include in-season results only*</span>
+        <div class="mb-4 px-2">
+            <span class="text-xs text-gray-500 italic">*AdjO and AdjD include in-season results only*</span>
+        </div>
+
         <!-- Table Container -->
         <div class="bg-white sm:shadow-lg sm:rounded-xl overflow-hidden border-t sm:border border-gray-200">
             <div class="overflow-x-auto">
@@ -70,7 +73,7 @@
                     <thead class="bg-slate-100 border-b border-gray-200 text-xs uppercase tracking-wider text-slate-500 font-semibold sticky top-0 z-20 shadow-sm">
                         <tr>
                             <!-- Rank (Sticky) -->
-                            <th class="sticky left-0 z-20 bg-slate-100 px-4 py-3 cursor-pointer hover:bg-slate-200 text-center border-r shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]" onclick="handleSort('Rank')">Rk</th>
+                            <th class="sticky left-0 z-20 bg-slate-100 px-4 py-3 cursor-pointer hover:bg-slate-200 text-center border-r shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] w-14 min-w-[3.5rem] max-w-[3.5rem]" onclick="handleSort('Rank')">Rk</th>
                             
                             <!-- Team (Sticky) -->
                             <th class="sticky left-[3.5rem] z-20 bg-slate-100 px-4 py-3 cursor-pointer hover:bg-slate-200 text-left border-r shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]" onclick="handleSort('Team')">Team</th>
@@ -93,6 +96,7 @@
 
     <footer class="bg-white border-t border-gray-200 mt-auto py-6">
         <div class="max-w-6xl mx-auto px-4 text-center text-slate-400 text-xs">
+            Automated Analysis System &bull; Powered by Python & GitHub Actions
         </div>
     </footer>
 
@@ -167,12 +171,16 @@
                 const pureColor = row.Pure_AdjEM > 0 ? 'text-green-600' : 'text-red-600';
                 const pureDisplay = showPure ? '' : 'display:none;';
 
-                // Notice strict adherence to sticky classes for first two cols
+                // --- DATA MAPPING: TEAM LINK ADDED HERE ---
                 html += `
                 <tr class="hover:bg-blue-50/30 transition-colors group">
-                    <td class="sticky left-0 z-10 bg-white group-hover:bg-blue-50 px-4 py-3 font-bold text-gray-500 text-center border-r border-gray-100 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] text-xs sm:text-sm">${row.Rank}</td>
+                    <td class="sticky left-0 z-10 bg-white group-hover:bg-blue-50 px-4 py-3 font-bold text-gray-500 text-center border-r border-gray-100 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] text-xs sm:text-sm w-14 min-w-[3.5rem] max-w-[3.5rem]">${row.Rank}</td>
                     
-                    <td class="sticky left-[3.5rem] z-10 bg-white group-hover:bg-blue-50 px-4 py-3 text-gray-900 font-medium border-r border-gray-100 whitespace-nowrap shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] text-xs sm:text-sm">${row.Team}</td>
+                    <td class="sticky left-[3.5rem] z-10 bg-white group-hover:bg-blue-50 px-4 py-3 text-gray-900 font-medium border-r border-gray-100 whitespace-nowrap shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] text-xs sm:text-sm">
+                        <a href="${row.Link}" class="text-blue-600 hover:text-blue-800 hover:underline block w-full h-full">
+                            ${row.Team}
+                        </a>
+                    </td>
                     
                     <td class="px-4 py-3 font-bold ${emColor} text-right bg-blue-50/20 text-xs sm:text-sm">${row.AdjEM.toFixed(2)}</td>
                     <td class="px-4 py-3 font-bold ${pureColor} text-right bg-orange-50/20 text-xs sm:text-sm pure-col" style="${pureDisplay}">${row.Pure_AdjEM.toFixed(2)}</td>
