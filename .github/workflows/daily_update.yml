@@ -1,0 +1,38 @@
+name: Daily CBB Update
+
+on:
+  schedule:
+    # Run at 09:00 UTC (4 AM EST) every day
+    - cron: '0 9 * * *'
+  workflow_dispatch: # Allows manual trigger button
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Install Dependencies
+      run: |
+        pip install -r requirements.txt
+
+    - name: Run Build Script
+      run: python build_site.py
+
+    - name: Commit and Push
+      run: |
+        git config --global user.name 'GitHub Actions Bot'
+        git config --global user.email 'actions@github.com'
+        git add .
+        # Only commit if changes exist
+        git diff --quiet && git diff --staged --quiet || (git commit -m "Daily Update $(date)" && git push)
