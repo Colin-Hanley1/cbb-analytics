@@ -21,12 +21,19 @@
     <nav class="bg-slate-900 text-white shadow-lg sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-14 sm:h-16">
+                <!-- Branding & Desktop Nav -->
                 <div class="flex items-center">
                     <span class="font-bold text-lg sm:text-xl tracking-tight text-white">CHan Analytics</span>
                     {{NAV_DESKTOP}}
                 </div>
+                
                 <div class="flex items-center">
-                    <div class="hidden md:block text-xs text-slate-400 mr-4">Updated: <span class="text-white">{{LAST_UPDATED}}</span></div>
+                    <!-- Update Time (Visible on Desktop) -->
+                    <div class="hidden md:block text-xs text-slate-400 mr-4">
+                        Updated: <span class="text-white">{{LAST_UPDATED}}</span>
+                    </div>
+
+                    <!-- Mobile Menu Button -->
                     <div class="-mr-2 flex md:hidden">
                         <button type="button" onclick="toggleMenu()" class="bg-slate-800 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-slate-700 focus:outline-none">
                             <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
@@ -35,6 +42,7 @@
                 </div>
             </div>
         </div>
+        <!-- Mobile Menu Panel -->
         {{NAV_MOBILE}}
     </nav>
 
@@ -73,17 +81,17 @@
                     <thead class="bg-slate-100 border-b border-gray-200 text-xs uppercase tracking-wider text-slate-500 font-semibold sticky top-0 z-20 shadow-sm">
                         <tr>
                             <!-- Rank (Sticky) -->
-                            <th class="sticky left-0 z-20 bg-slate-100 px-4 py-3 cursor-pointer hover:bg-slate-200 text-center border-r shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] w-14 min-w-[3.5rem] max-w-[3.5rem]" onclick="handleSort('Rank')">Rk</th>
+                            <th class="sticky left-0 z-20 bg-slate-100 px-4 py-3 cursor-pointer hover:bg-slate-200 text-center border-r shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] w-14 min-w-[3.5rem] max-w-[3.5rem]" onclick="handleSort('Rank', this)">Rk</th>
                             
                             <!-- Team (Sticky) -->
-                            <th class="sticky left-[3.5rem] z-20 bg-slate-100 px-4 py-3 cursor-pointer hover:bg-slate-200 text-left border-r shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]" onclick="handleSort('Team')">Team</th>
+                            <th class="sticky left-[3.5rem] z-20 bg-slate-100 px-4 py-3 cursor-pointer hover:bg-slate-200 text-left border-r shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]" onclick="handleSort('Team', this)">Team</th>
                             
                             <!-- Stats Columns -->
-                            <th class="px-4 py-3 cursor-pointer hover:bg-slate-200 text-right bg-blue-50/50" onclick="handleSort('AdjEM')">AdjEM w/ Pre</th>
-                            <th class="px-4 py-3 cursor-pointer hover:bg-slate-200 text-right bg-orange-50/50 hidden pure-col" onclick="handleSort('Pure_AdjEM')">Pure AdjEM</th>
-                            <th class="px-4 py-3 cursor-pointer hover:bg-slate-200 text-right" onclick="handleSort('AdjO')">AdjO</th>
-                            <th class="px-4 py-3 cursor-pointer hover:bg-slate-200 text-right" onclick="handleSort('AdjD')">AdjD</th>
-                            <th class="px-4 py-3 cursor-pointer hover:bg-slate-200 text-right" onclick="handleSort('AdjT')">Tempo</th>
+                            <th class="px-4 py-3 cursor-pointer hover:bg-slate-200 text-right bg-blue-50/50" onclick="handleSort('AdjEM', this)">AdjEM w/ Pre</th>
+                            <th class="px-4 py-3 cursor-pointer hover:bg-slate-200 text-right bg-orange-50/50 hidden pure-col" onclick="handleSort('Pure_AdjEM', this)">Pure AdjEM</th>
+                            <th class="px-4 py-3 cursor-pointer hover:bg-slate-200 text-right" onclick="handleSort('AdjO', this)">AdjO</th>
+                            <th class="px-4 py-3 cursor-pointer hover:bg-slate-200 text-right" onclick="handleSort('AdjD', this)">AdjD</th>
+                            <th class="px-4 py-3 cursor-pointer hover:bg-slate-200 text-right" onclick="handleSort('AdjT', this)">Tempo</th>
                         </tr>
                     </thead>
                     <tbody class="text-sm divide-y divide-gray-100" id="tableBody">
@@ -112,7 +120,7 @@
             document.getElementById('mobile-menu').classList.toggle('open');
         }
 
-        function handleSort(col) {
+        function handleSort(col, headerElement) {
             if (sortCol === col) {
                 sortAsc = !sortAsc;
             } else {
@@ -171,7 +179,7 @@
                 const pureColor = row.Pure_AdjEM > 0 ? 'text-green-600' : 'text-red-600';
                 const pureDisplay = showPure ? '' : 'display:none;';
 
-                // --- DATA MAPPING: TEAM LINK ADDED HERE ---
+                // --- DATA MAPPING: TEAM LINK FROM build_site.py USED HERE ---
                 html += `
                 <tr class="hover:bg-blue-50/30 transition-colors group">
                     <td class="sticky left-0 z-10 bg-white group-hover:bg-blue-50 px-4 py-3 font-bold text-gray-500 text-center border-r border-gray-100 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] text-xs sm:text-sm w-14 min-w-[3.5rem] max-w-[3.5rem]">${row.Rank}</td>

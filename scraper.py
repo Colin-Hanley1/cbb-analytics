@@ -7,6 +7,116 @@ import random
 import re
 import os
 
+# --- CONFIGURATION: NAME MAPPING ---
+# Maps Sports-Reference names to your preferred naming convention
+NAME_MAPPING = {
+   "Iowa State": "Iowa St.",
+   "Brigham Young": "BYU",
+   "Michigan State": "Michigan St.",
+   "Saint Mary's (CA)": "Saint Mary's",
+   "St. John's (NY)": "St. John's",
+   "Mississippi State": "Mississippi St.",
+   "Ohio State": "Ohio St.",
+   "Southern Methodist": "SMU",
+   "Utah State": "Utah St.",
+   "San Diego State": "San Diego St.",
+   "Southern California": "USC",
+   "NC State": "N.C. State",
+   "Virginia Commonwealth": "VCU",
+   "Oklahoma State": "Oklahoma St.",
+   "Louisiana State": "LSU",
+   "Penn State": "Penn St.",
+   "Boise State": "Boise St.",
+   "Miami (FL)": "Miami FL",
+   "Colorado State": "Colorado St.",
+   "Arizona State": "Arizona St.",
+   "Kansas State": "Kansas St.",
+   "Florida State": "Florida St.",
+   "McNeese State": "McNeese",
+   "Nevada-Las Vegas": "UNLV",
+   "Loyola (IL)": "Loyola Chicago",
+   "Kennesaw State": "Kennesaw St.",
+   "Murray State": "Murray St.",
+   "Kent State": "Kent St.",
+   "Illinois State": "Illinois St.",
+   "College of Charleston": "Charleston",
+   "Cal State Northridge": "CSUN",
+   "Wichita State": "Wichita St.",
+   "Miami (OH)": "Miami OH",
+   "East Tennessee State": "East Tennessee St.",
+   "South Dakota State": "South Dakota St.",
+   "New Mexico State": "New Mexico St.",
+   "Oregon State": "Oregon St.",
+   "Jacksonville State": "Jacksonville St.",
+   "Arkansas State": "Arkansas St.",
+   "Montana State": "Montana St.",
+   "Omaha": "Nebraska Omaha",
+   "Sam Houston": "Sam Houston St.",
+   "California Baptist": "Cal Baptist",
+   "Portland State": "Portland St.",
+   "Nicholls State": "Nicholls",
+   "Texas A&M-Corpus Christi": "Texas A&M Corpus Chris",
+   "Illinois-Chicago": "Illinois Chicago",
+   "Youngstown State": "Youngstown St.",
+   "North Dakota State": "North Dakota St.",
+   "Queens (NC)": "Queens",
+   "Southeast Missouri State": "Southeast Missouri",
+   "Texas State": "Texas St.",
+   "Jackson State": "Jackson St.",
+   "Appalachian State": "Appalachian St.",
+   "Wright State": "Wright St.",
+   "Indiana State": "Indiana St.",
+   "Missouri State": "Missouri St.",
+   "San Jose State": "San Jose St.",
+   "Bethune-Cookman": "Bethune Cookman",
+   "Southern Illinois-Edwardsville": "SIUE",
+   "Loyola (MD)": "Loyola MD",
+   "Norfolk State": "Norfolk St.",
+   "Idaho State": "Idaho St.",
+   "Texas-Rio Grande Valley": "UT Rio Grande Valley",
+   "South Carolina State": "South Carolina St.",
+   "Georgia State": "Georgia St.",
+   "Washington State": "Washington St.",
+   "Cleveland State": "Cleveland St.",
+   "Northwestern State": "Northwestern St.",
+   "Albany (NY)": "Albany",
+   "Virginia Military Institute": "VMI",
+   "Maryland-Baltimore County": "UMBC",
+   "Pennsylvania": "Penn",
+   "Long Island University": "LIU",
+   "Tennessee-Martin": "Tennessee Martin",
+   "Tennessee State": "Tennessee St.",
+   "Central Connecticut State": "Central Connecticut",
+   "Weber State": "Weber St.",
+   "Tarleton State": "Tarleton St." ,
+   "Morgan State": "Morgan St.",
+   "Morehead State": "Morehead St.",
+   "Fresno State": "Fresno St.",
+   "Cal State Bakersfield": "Cal St. Bakersfield",
+   "Ball State": "Ball St.",
+   "Alabama State": "Alabama St.",
+   "Sacramento State": "Sacramento St.",
+   "Long Beach State": "Long Beach St.",
+   "Massachusetts-Lowell": "UMass Lowell",
+   "South Carolina Upstate": "USC Upstate",
+   "Florida International": "FIU",
+   "Southern Miss.": "Southern Miss.",
+   "Gardner-Webb": "Gardner Webb",
+   "Cal State Fullerton": "Cal St. Fullerton",
+   "Coppin State": "Coppin St.",
+   "Maryland-Eastern Shore": "Maryland Eastern Shore",
+   "Saint Francis (PA)": "Saint Francis",
+   "FDU": "Fairleigh Dickinson",
+   "Grambling": "Grambling St.",
+   "Alcorn State": "Alcorn St.",
+   "Delaware State": "Delaware St.",
+   "Chicago State": "Chicago St.",
+   "Louisiana-Monroe": "Louisiana Monroe",
+   "Prairie View": "Prairie View A&M",
+   "Arkansas-Pine Bluff": "Arkansas Pine Bluff",
+   "Mississippi Valley State": "Mississippi Valley St."
+}
+
 class CBBScraper:
     def __init__(self):
         self.delay = 4.0 
@@ -23,10 +133,19 @@ class CBBScraper:
         ]
 
     def clean_team_name(self, name_str):
+        # 1. Clean raw text
         name_str = name_str.replace('Table', '')
-        name_str = re.sub(r'\s*\(\d+-\d+\)', '', name_str)
-        name_str = re.sub(r'\s*\(\d+\)', '', name_str)
-        return name_str.strip()
+        name_str = re.sub(r'\s*\(\d+-\d+\)', '', name_str) # Remove record like (7-1)
+        name_str = re.sub(r'\s*\(\d+\)', '', name_str)     # Remove rank like (25)
+        name_str = name_str.strip()
+        
+        # 2. Apply Mapping
+        # If the cleaned name is in our dictionary, swap it.
+        # Otherwise, keep it as is.
+        if name_str in NAME_MAPPING:
+            return NAME_MAPPING[name_str]
+            
+        return name_str
 
     def get_mens_game_links(self, date_obj):
         url = f"{self.base_url}/cbb/boxscores/index.cgi?month={date_obj.month}&day={date_obj.day}&year={date_obj.year}"
@@ -115,6 +234,7 @@ class CBBScraper:
                 else:
                     team_names.append("Unknown Team")
 
+        # Apply the cleaning AND mapping here
         team_names = [self.clean_team_name(n) for n in team_names]
         
         game_data = []
