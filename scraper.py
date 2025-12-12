@@ -5,7 +5,7 @@ import time
 from datetime import datetime, timedelta
 import random
 import re
-import os  # Needed to check if file exists
+import os
 
 class CBBScraper:
     def __init__(self):
@@ -206,11 +206,33 @@ class CBBScraper:
 
 if __name__ == "__main__":
     scraper = CBBScraper()
+    output_filename = "cbb_scores.csv"
     
-    # --- CONFIGURATION ---
-    start = datetime(2025, 12, 11) 
-    end = datetime(2025, 12, 11)   
-    # ---------------------
+    # 1. Calculate Yesterday's Date
+    # Sports-Reference updates overnight, so we always want "Yesterday" relative to now.
+    today = datetime.now()
+    yesterday = today - timedelta(days=1)
+    yesterday_str = yesterday.strftime('%Y-%m-%d')
+    
+    print(f"Checking scrape status for: {yesterday_str}")
 
-    # Note: Using cbb_scores.csv as requested
-    scraper.run(start, end, output_filename="cbb_scores.csv")
+    # 2. Check if Yesterday is already in the CSV
+    already_scraped = False
+    if os.path.exists(output_filename):
+        try:
+            # We read the file to check existing dates
+            # (If file is huge, reading unique dates is still reasonably fast for this size)
+            existing_df = pd.read_csv(output_filename)
+            if 'date' in existing_df.columns:
+                existing_dates = set(existing_df['date'].astype(str).unique())
+                if yesterday_str in existing_dates:
+                    already_scraped = True
+        except Exception as e:
+            print(f"Warning: Could not read {output_filename} to verify dates. Proceeding with scrape.")
+
+    # 3. Execute Scrape if needed
+    if already_scraped:
+        print(f"  > Data for {yesterday_str} is already present in {output_filename}. Skipping scrape.")
+    else:
+        print(f"  > Data for {yesterday_str} not found. Starting scraper...")
+        scraper.run(yesterday, yesterday, output_filename=output_filename)

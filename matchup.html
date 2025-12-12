@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matchup Simulator | CBB Analytics</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style> 
+        body { font-family: 'Inter', sans-serif; } 
+        /* Mobile menu transition state */
+        #mobile-menu { display: none; }
+        #mobile-menu.open { display: block; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900 min-h-screen flex flex-col">
+
+    <!-- NAVBAR -->
+    <nav class="bg-slate-800 text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Branding & Desktop Nav -->
+                <div class="flex items-center">
+                    <span class="font-bold text-xl tracking-tight text-white">CHan Analytics</span>
+                    <div class="hidden md:block"><div class="ml-10 flex items-baseline space-x-4"><a href="index.html" class="text-gray-300 hover:bg-slate-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Rankings</a><a href="matchup.html" class="bg-slate-900 text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Matchup Simulator</a></div></div>
+                </div>
+                
+                <div class="flex items-center">
+                    <!-- Update Time (Desktop) -->
+                    <div class="hidden md:block text-xs text-slate-400 mr-4">
+                        Updated: <span class="text-white">2025-12-12 19:36 UTC</span>
+                    </div>
+
+                    <!-- Mobile Menu Button -->
+                    <div class="-mr-2 flex md:hidden">
+                        <button type="button" onclick="toggleMenu()" class="bg-slate-800 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-slate-700 focus:outline-none">
+                            <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu Panel -->
+        <div class="md:hidden" id="mobile-menu"><div class="px-2 pt-2 pb-3 space-y-1 sm:px-3"><a href="index.html" class="text-gray-300 hover:bg-slate-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Rankings</a><a href="matchup.html" class="bg-slate-900 text-white block px-3 py-2 rounded-md text-base font-medium">Matchup Simulator</a></div></div>
+    </nav>
+
+    <!-- CONTENT -->
+    <main class="flex-grow max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+        
+        <div class="mb-6 text-center sm:text-left">
+            <h1 class="text-2xl sm:text-3xl font-bold text-slate-900">Matchup Simulator</h1>
+            <p class="text-sm text-slate-500">Project spreads and totals based on adjusted efficiency.</p>
+        </div>
+
+        <!-- INPUTS GRID -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <!-- Team A -->
+            <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">Home / Team A</label>
+                <select id="teamA" class="block w-full p-3 border border-gray-300 bg-gray-50 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-base sm:text-lg font-medium appearance-none" onchange="runSim()">
+                    <option value="">Select Team...</option>
+                </select>
+                <div id="statsA" class="mt-3 flex justify-between text-xs text-gray-500 hidden font-mono">
+                    <span>AdjO: <b id="valOA" class="text-slate-800"></b></span>
+                    <span>AdjD: <b id="valDA" class="text-slate-800"></b></span>
+                    <span>Tmp: <b id="valTA" class="text-slate-800"></b></span>
+                </div>
+            </div>
+
+            <!-- Team B -->
+            <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">Away / Team B</label>
+                <select id="teamB" class="block w-full p-3 border border-gray-300 bg-gray-50 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-base sm:text-lg font-medium appearance-none" onchange="runSim()">
+                    <option value="">Select Team...</option>
+                </select>
+                <div id="statsB" class="mt-3 flex justify-between text-xs text-gray-500 hidden font-mono">
+                    <span>AdjO: <b id="valOB" class="text-slate-800"></b></span>
+                    <span>AdjD: <b id="valDB" class="text-slate-800"></b></span>
+                    <span>Tmp: <b id="valTB" class="text-slate-800"></b></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- LOCATION BUTTONS -->
+        <div class="flex justify-center mb-8">
+            <div class="inline-flex rounded-lg shadow-sm w-full sm:w-auto" role="group">
+                <button type="button" onclick="setLoc('Home')" id="btnHome" class="flex-1 sm:flex-none px-6 py-3 text-sm font-medium text-white bg-blue-600 border border-blue-600 rounded-l-lg hover:bg-blue-700 transition-colors">Home</button>
+                <button type="button" onclick="setLoc('Neutral')" id="btnNeutral" class="flex-1 sm:flex-none px-6 py-3 text-sm font-medium text-gray-700 bg-white border-t border-b border-gray-300 hover:bg-gray-50 transition-colors">Neutral</button>
+                <button type="button" onclick="setLoc('Away')" id="btnAway" class="flex-1 sm:flex-none px-6 py-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-50 transition-colors">Away</button>
+            </div>
+        </div>
+
+        <!-- SCOREBOARD -->
+        <div id="scoreboard" class="hidden bg-slate-800 text-white rounded-2xl shadow-xl overflow-hidden transform transition-all duration-300">
+            <div class="p-6 sm:p-8 text-center">
+                <div class="text-[10px] font-bold text-blue-400 uppercase tracking-widest mb-4">Projected Result</div>
+                
+                <!-- Scores -->
+                <div class="flex justify-center items-center space-x-4 sm:space-x-12 mb-8">
+                    <div class="text-center w-1/3">
+                        <div class="text-4xl sm:text-6xl font-bold tracking-tighter" id="scoreA">--</div>
+                        <div class="text-xs sm:text-sm text-slate-400 font-medium mt-1 truncate max-w-[100px] sm:max-w-[150px] mx-auto" id="nameA">Team A</div>
+                    </div>
+                    <div class="text-xl sm:text-3xl text-slate-600 font-light pb-4">-</div>
+                    <div class="text-center w-1/3">
+                        <div class="text-4xl sm:text-6xl font-bold tracking-tighter" id="scoreB">--</div>
+                        <div class="text-xs sm:text-sm text-slate-400 font-medium mt-1 truncate max-w-[100px] sm:max-w-[150px] mx-auto" id="nameB">Team B</div>
+                    </div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="grid grid-cols-3 gap-2 sm:gap-6 border-t border-slate-700 pt-6">
+                    <div class="bg-slate-700/30 rounded-lg p-2">
+                        <div class="text-[10px] sm:text-xs text-slate-400 uppercase tracking-wider mb-1">Spread</div>
+                        <div class="text-sm sm:text-xl font-bold text-white" id="spread">--</div>
+                    </div>
+                    <div class="bg-slate-700/30 rounded-lg p-2">
+                        <div class="text-[10px] sm:text-xs text-slate-400 uppercase tracking-wider mb-1">Total</div>
+                        <div class="text-sm sm:text-xl font-bold text-white" id="total">--</div>
+                    </div>
+                    <div class="bg-slate-700/30 rounded-lg p-2">
+                        <div class="text-[10px] sm:text-xs text-slate-400 uppercase tracking-wider mb-1">Win %</div>
+                        <div class="text-sm sm:text-xl font-bold text-green-400" id="winProb">--</div>
+                    </div>
+                </div>
+                
+                <div class="mt-4 text-[10px] text-slate-500">
+                    Est. Possessions: <span id="pace">--</span>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="bg-white border-t border-gray-200 mt-auto py-6">
+        <div class="max-w-6xl mx-auto px-4 text-center text-slate-400 text-xs">
+            Automated Analysis System
+        </div>
+    </footer>
+
+    <script>
+        // Data injected by build_site.py
+        const teams = {"Abilene Christian": {"AdjO": 98.8, "AdjD": 106.5, "AdjT": 67.5}, "Air Force": {"AdjO": 98.0, "AdjD": 107.7, "AdjT": 67.0}, "Akron": {"AdjO": 121.7, "AdjD": 103.7, "AdjT": 74.4}, "Alabama": {"AdjO": 125.7, "AdjD": 96.8, "AdjT": 77.4}, "Alabama A&M": {"AdjO": 98.4, "AdjD": 106.8, "AdjT": 67.4}, "Alabama St.": {"AdjO": 105.8, "AdjD": 111.5, "AdjT": 70.9}, "Albany": {"AdjO": 98.4, "AdjD": 114.4, "AdjT": 71.5}, "Alcorn St.": {"AdjO": 97.8, "AdjD": 115.2, "AdjT": 73.9}, "American": {"AdjO": 101.6, "AdjD": 107.4, "AdjT": 72.8}, "Appalachian St.": {"AdjO": 98.5, "AdjD": 107.0, "AdjT": 65.1}, "Arizona": {"AdjO": 123.3, "AdjD": 87.1, "AdjT": 75.1}, "Arizona St.": {"AdjO": 113.3, "AdjD": 100.6, "AdjT": 71.3}, "Arkansas": {"AdjO": 116.7, "AdjD": 94.5, "AdjT": 74.2}, "Arkansas Pine Bluff": {"AdjO": 98.6, "AdjD": 113.0, "AdjT": 76.5}, "Arkansas St.": {"AdjO": 106.2, "AdjD": 108.4, "AdjT": 75.9}, "Army": {"AdjO": 98.2, "AdjD": 115.0, "AdjT": 69.4}, "Auburn": {"AdjO": 120.5, "AdjD": 100.9, "AdjT": 71.9}, "Austin Peay": {"AdjO": 97.4, "AdjD": 96.5, "AdjT": 72.2}, "BYU": {"AdjO": 121.3, "AdjD": 90.6, "AdjT": 72.2}, "Ball St.": {"AdjO": 90.1, "AdjD": 111.2, "AdjT": 67.9}, "Baylor": {"AdjO": 123.4, "AdjD": 106.2, "AdjT": 73.5}, "Bellarmine": {"AdjO": 108.5, "AdjD": 116.3, "AdjT": 66.7}, "Belmont": {"AdjO": 111.5, "AdjD": 95.2, "AdjT": 73.7}, "Bethune Cookman": {"AdjO": 102.4, "AdjD": 108.6, "AdjT": 69.2}, "Binghamton": {"AdjO": 90.5, "AdjD": 118.0, "AdjT": 69.5}, "Boise St.": {"AdjO": 110.8, "AdjD": 92.4, "AdjT": 69.1}, "Boston College": {"AdjO": 97.3, "AdjD": 97.6, "AdjT": 69.3}, "Boston University": {"AdjO": 109.5, "AdjD": 118.3, "AdjT": 65.3}, "Bowling Green": {"AdjO": 107.3, "AdjD": 98.2, "AdjT": 71.0}, "Bradley": {"AdjO": 103.6, "AdjD": 100.8, "AdjT": 71.0}, "Brown": {"AdjO": 97.0, "AdjD": 100.8, "AdjT": 69.4}, "Bryant": {"AdjO": 93.7, "AdjD": 105.9, "AdjT": 68.7}, "Bucknell": {"AdjO": 96.5, "AdjD": 110.6, "AdjT": 69.2}, "Buffalo": {"AdjO": 111.4, "AdjD": 109.9, "AdjT": 69.3}, "Butler": {"AdjO": 118.0, "AdjD": 97.3, "AdjT": 73.9}, "CSUN": {"AdjO": 102.1, "AdjD": 113.7, "AdjT": 76.5}, "Cal Baptist": {"AdjO": 105.9, "AdjD": 99.8, "AdjT": 70.9}, "Cal Poly": {"AdjO": 101.8, "AdjD": 106.7, "AdjT": 78.7}, "Cal St. Bakersfield": {"AdjO": 96.0, "AdjD": 111.3, "AdjT": 73.9}, "Cal St. Fullerton": {"AdjO": 104.6, "AdjD": 109.0, "AdjT": 78.2}, "California": {"AdjO": 113.8, "AdjD": 96.6, "AdjT": 71.4}, "Campbell": {"AdjO": 100.8, "AdjD": 111.6, "AdjT": 74.1}, "Canisius": {"AdjO": 90.9, "AdjD": 115.6, "AdjT": 65.8}, "Central Arkansas": {"AdjO": 97.1, "AdjD": 104.3, "AdjT": 72.5}, "Central Connecticut": {"AdjO": 102.1, "AdjD": 106.9, "AdjT": 69.4}, "Central Michigan": {"AdjO": 100.1, "AdjD": 117.6, "AdjT": 68.7}, "Charleston": {"AdjO": 105.8, "AdjD": 107.5, "AdjT": 69.1}, "Charleston Southern": {"AdjO": 99.7, "AdjD": 104.6, "AdjT": 73.5}, "Charlotte": {"AdjO": 106.9, "AdjD": 109.6, "AdjT": 64.9}, "Chattanooga": {"AdjO": 103.6, "AdjD": 114.4, "AdjT": 65.1}, "Chicago St.": {"AdjO": 95.4, "AdjD": 117.7, "AdjT": 72.4}, "Cincinnati": {"AdjO": 97.9, "AdjD": 92.9, "AdjT": 73.7}, "Clemson": {"AdjO": 120.2, "AdjD": 97.2, "AdjT": 67.2}, "Cleveland St.": {"AdjO": 100.2, "AdjD": 116.6, "AdjT": 72.8}, "Coastal Carolina": {"AdjO": 99.0, "AdjD": 101.0, "AdjT": 72.9}, "Colgate": {"AdjO": 109.2, "AdjD": 105.2, "AdjT": 69.4}, "Colorado": {"AdjO": 122.6, "AdjD": 103.4, "AdjT": 72.2}, "Colorado St.": {"AdjO": 121.4, "AdjD": 105.5, "AdjT": 64.6}, "Columbia": {"AdjO": 108.8, "AdjD": 99.3, "AdjT": 71.2}, "Connecticut": {"AdjO": 119.6, "AdjD": 90.3, "AdjT": 68.0}, "Coppin St.": {"AdjO": 88.3, "AdjD": 121.4, "AdjT": 72.2}, "Cornell": {"AdjO": 113.1, "AdjD": 111.5, "AdjT": 76.8}, "Creighton": {"AdjO": 111.0, "AdjD": 100.9, "AdjT": 67.7}, "Dartmouth": {"AdjO": 102.8, "AdjD": 112.1, "AdjT": 73.2}, "Davidson": {"AdjO": 110.6, "AdjD": 104.8, "AdjT": 68.5}, "Dayton": {"AdjO": 109.4, "AdjD": 98.9, "AdjT": 72.3}, "DePaul": {"AdjO": 103.8, "AdjD": 101.4, "AdjT": 70.9}, "Delaware": {"AdjO": 100.1, "AdjD": 107.2, "AdjT": 67.7}, "Delaware St.": {"AdjO": 85.1, "AdjD": 112.0, "AdjT": 69.9}, "Denver": {"AdjO": 115.3, "AdjD": 119.9, "AdjT": 70.5}, "Detroit Mercy": {"AdjO": 99.4, "AdjD": 112.0, "AdjT": 72.3}, "Drake": {"AdjO": 108.1, "AdjD": 104.9, "AdjT": 67.9}, "Drexel": {"AdjO": 99.3, "AdjD": 112.2, "AdjT": 68.0}, "Duke": {"AdjO": 122.2, "AdjD": 86.4, "AdjT": 70.8}, "Duquesne": {"AdjO": 105.2, "AdjD": 108.6, "AdjT": 75.5}, "East Carolina": {"AdjO": 94.7, "AdjD": 110.8, "AdjT": 72.7}, "East Tennessee St.": {"AdjO": 109.7, "AdjD": 98.5, "AdjT": 71.2}, "East Texas A&M": {"AdjO": 100.4, "AdjD": 104.8, "AdjT": 72.2}, "Eastern Illinois": {"AdjO": 94.9, "AdjD": 113.1, "AdjT": 68.3}, "Eastern Kentucky": {"AdjO": 102.4, "AdjD": 111.5, "AdjT": 72.4}, "Eastern Michigan": {"AdjO": 101.1, "AdjD": 104.3, "AdjT": 67.8}, "Eastern Washington": {"AdjO": 107.4, "AdjD": 111.9, "AdjT": 71.9}, "Elon": {"AdjO": 115.7, "AdjD": 112.9, "AdjT": 71.3}, "Evansville": {"AdjO": 97.0, "AdjD": 108.7, "AdjT": 71.2}, "FIU": {"AdjO": 104.6, "AdjD": 104.7, "AdjT": 74.9}, "Fairfield": {"AdjO": 98.5, "AdjD": 110.9, "AdjT": 71.4}, "Fairleigh Dickinson": {"AdjO": 94.5, "AdjD": 118.1, "AdjT": 71.0}, "Florida": {"AdjO": 115.1, "AdjD": 91.7, "AdjT": 73.6}, "Florida A&M": {"AdjO": 91.2, "AdjD": 110.8, "AdjT": 73.3}, "Florida Atlantic": {"AdjO": 114.4, "AdjD": 105.3, "AdjT": 69.1}, "Florida Gulf Coast": {"AdjO": 106.9, "AdjD": 109.1, "AdjT": 74.0}, "Florida St.": {"AdjO": 105.1, "AdjD": 100.4, "AdjT": 77.2}, "Fordham": {"AdjO": 100.2, "AdjD": 103.9, "AdjT": 66.1}, "Fresno St.": {"AdjO": 103.0, "AdjD": 103.4, "AdjT": 71.0}, "Furman": {"AdjO": 107.6, "AdjD": 105.5, "AdjT": 70.2}, "Gardner Webb": {"AdjO": 92.8, "AdjD": 119.8, "AdjT": 75.0}, "George Mason": {"AdjO": 111.7, "AdjD": 98.0, "AdjT": 68.2}, "George Washington": {"AdjO": 115.9, "AdjD": 105.6, "AdjT": 73.7}, "Georgetown": {"AdjO": 110.1, "AdjD": 105.8, "AdjT": 70.0}, "Georgia": {"AdjO": 119.9, "AdjD": 96.6, "AdjT": 79.0}, "Georgia Southern": {"AdjO": 103.4, "AdjD": 109.0, "AdjT": 75.4}, "Georgia St.": {"AdjO": 87.6, "AdjD": 106.6, "AdjT": 73.4}, "Georgia Tech": {"AdjO": 97.1, "AdjD": 100.7, "AdjT": 73.5}, "Gonzaga": {"AdjO": 123.4, "AdjD": 84.2, "AdjT": 74.4}, "Grambling St.": {"AdjO": 96.8, "AdjD": 104.4, "AdjT": 70.0}, "Grand Canyon": {"AdjO": 102.3, "AdjD": 98.0, "AdjT": 69.8}, "Green Bay": {"AdjO": 105.3, "AdjD": 110.4, "AdjT": 67.4}, "Hampton": {"AdjO": 102.7, "AdjD": 108.7, "AdjT": 69.9}, "Harvard": {"AdjO": 104.9, "AdjD": 109.3, "AdjT": 67.3}, "Hawaii": {"AdjO": 100.8, "AdjD": 92.4, "AdjT": 73.5}, "High Point": {"AdjO": 115.7, "AdjD": 106.4, "AdjT": 73.8}, "Hofstra": {"AdjO": 108.5, "AdjD": 100.4, "AdjT": 70.6}, "Holy Cross": {"AdjO": 102.0, "AdjD": 110.2, "AdjT": 67.8}, "Houston": {"AdjO": 110.8, "AdjD": 89.8, "AdjT": 67.7}, "Houston Christian": {"AdjO": 103.7, "AdjD": 112.4, "AdjT": 66.0}, "Howard": {"AdjO": 97.1, "AdjD": 109.4, "AdjT": 71.6}, "IU Indy": {"AdjO": 101.1, "AdjD": 117.7, "AdjT": 81.0}, "Idaho": {"AdjO": 110.3, "AdjD": 107.0, "AdjT": 68.2}, "Idaho St.": {"AdjO": 108.6, "AdjD": 101.3, "AdjT": 65.9}, "Illinois": {"AdjO": 124.3, "AdjD": 95.5, "AdjT": 70.5}, "Illinois Chicago": {"AdjO": 99.1, "AdjD": 108.0, "AdjT": 70.6}, "Illinois St.": {"AdjO": 109.2, "AdjD": 98.4, "AdjT": 70.0}, "Incarnate Word": {"AdjO": 109.4, "AdjD": 114.2, "AdjT": 67.1}, "Indiana": {"AdjO": 117.9, "AdjD": 92.1, "AdjT": 72.3}, "Indiana St.": {"AdjO": 97.0, "AdjD": 103.6, "AdjT": 73.8}, "Iona": {"AdjO": 106.2, "AdjD": 105.2, "AdjT": 74.9}, "Iowa": {"AdjO": 117.4, "AdjD": 96.9, "AdjT": 65.4}, "Iowa St.": {"AdjO": 124.1, "AdjD": 90.9, "AdjT": 73.2}, "Jackson St.": {"AdjO": 89.7, "AdjD": 112.9, "AdjT": 71.6}, "Jacksonville": {"AdjO": 98.7, "AdjD": 111.9, "AdjT": 67.2}, "Jacksonville St.": {"AdjO": 92.6, "AdjD": 105.3, "AdjT": 67.1}, "James Madison": {"AdjO": 107.1, "AdjD": 112.2, "AdjT": 69.0}, "Kansas": {"AdjO": 114.4, "AdjD": 90.2, "AdjT": 69.7}, "Kansas City": {"AdjO": 91.3, "AdjD": 107.2, "AdjT": 73.0}, "Kansas St.": {"AdjO": 112.7, "AdjD": 101.0, "AdjT": 76.5}, "Kennesaw St.": {"AdjO": 107.4, "AdjD": 109.6, "AdjT": 78.1}, "Kent St.": {"AdjO": 112.7, "AdjD": 110.9, "AdjT": 76.5}, "Kentucky": {"AdjO": 116.8, "AdjD": 96.2, "AdjT": 71.8}, "LIU": {"AdjO": 103.9, "AdjD": 107.2, "AdjT": 73.4}, "LSU": {"AdjO": 116.6, "AdjD": 97.0, "AdjT": 72.4}, "La Salle": {"AdjO": 94.4, "AdjD": 106.9, "AdjT": 68.6}, "Lafayette": {"AdjO": 95.0, "AdjD": 114.8, "AdjT": 70.4}, "Lamar": {"AdjO": 96.3, "AdjD": 100.6, "AdjT": 69.0}, "Le Moyne": {"AdjO": 107.5, "AdjD": 118.2, "AdjT": 70.6}, "Lehigh": {"AdjO": 97.5, "AdjD": 112.8, "AdjT": 69.8}, "Liberty": {"AdjO": 109.1, "AdjD": 105.2, "AdjT": 68.1}, "Lindenwood": {"AdjO": 101.2, "AdjD": 102.1, "AdjT": 76.5}, "Lipscomb": {"AdjO": 108.5, "AdjD": 99.1, "AdjT": 72.8}, "Little Rock": {"AdjO": 95.1, "AdjD": 118.9, "AdjT": 67.2}, "Long Beach St.": {"AdjO": 101.9, "AdjD": 111.7, "AdjT": 70.2}, "Longwood": {"AdjO": 97.7, "AdjD": 114.1, "AdjT": 73.4}, "Louisiana": {"AdjO": 90.6, "AdjD": 110.7, "AdjT": 66.7}, "Louisiana Monroe": {"AdjO": 93.5, "AdjD": 117.9, "AdjT": 73.1}, "Louisiana Tech": {"AdjO": 97.6, "AdjD": 103.5, "AdjT": 66.1}, "Louisville": {"AdjO": 123.0, "AdjD": 95.8, "AdjT": 74.1}, "Loyola Chicago": {"AdjO": 98.4, "AdjD": 118.5, "AdjT": 68.6}, "Loyola MD": {"AdjO": 97.5, "AdjD": 118.0, "AdjT": 71.4}, "Loyola Marymount": {"AdjO": 100.9, "AdjD": 98.2, "AdjT": 69.9}, "Maine": {"AdjO": 91.6, "AdjD": 103.0, "AdjT": 67.2}, "Manhattan": {"AdjO": 102.8, "AdjD": 117.2, "AdjT": 72.1}, "Marist": {"AdjO": 93.1, "AdjD": 91.9, "AdjT": 70.7}, "Marquette": {"AdjO": 104.0, "AdjD": 104.7, "AdjT": 73.4}, "Marshall": {"AdjO": 107.2, "AdjD": 102.4, "AdjT": 73.4}, "Maryland": {"AdjO": 102.7, "AdjD": 103.8, "AdjT": 72.1}, "Maryland Eastern Shore": {"AdjO": 91.5, "AdjD": 108.9, "AdjT": 64.1}, "Massachusetts": {"AdjO": 98.9, "AdjD": 101.3, "AdjT": 75.6}, "McNeese": {"AdjO": 110.6, "AdjD": 94.6, "AdjT": 69.7}, "Memphis": {"AdjO": 106.3, "AdjD": 95.6, "AdjT": 71.8}, "Mercer": {"AdjO": 109.9, "AdjD": 106.0, "AdjT": 73.6}, "Mercyhurst": {"AdjO": 95.5, "AdjD": 107.6, "AdjT": 66.5}, "Merrimack": {"AdjO": 97.2, "AdjD": 110.1, "AdjT": 67.7}, "Miami FL": {"AdjO": 113.1, "AdjD": 91.1, "AdjT": 74.5}, "Miami OH": {"AdjO": 115.6, "AdjD": 104.8, "AdjT": 73.7}, "Michigan": {"AdjO": 122.1, "AdjD": 78.3, "AdjT": 76.7}, "Michigan St.": {"AdjO": 116.1, "AdjD": 86.5, "AdjT": 68.7}, "Middle Tennessee": {"AdjO": 109.6, "AdjD": 105.5, "AdjT": 68.7}, "Milwaukee": {"AdjO": 105.0, "AdjD": 110.6, "AdjT": 74.0}, "Minnesota": {"AdjO": 105.1, "AdjD": 102.1, "AdjT": 66.6}, "Mississippi": {"AdjO": 109.9, "AdjD": 100.0, "AdjT": 68.5}, "Mississippi St.": {"AdjO": 107.4, "AdjD": 103.2, "AdjT": 71.7}, "Mississippi Valley St.": {"AdjO": 88.9, "AdjD": 120.5, "AdjT": 72.2}, "Missouri": {"AdjO": 114.6, "AdjD": 102.7, "AdjT": 71.6}, "Missouri St.": {"AdjO": 100.1, "AdjD": 110.4, "AdjT": 70.0}, "Monmouth": {"AdjO": 104.0, "AdjD": 109.2, "AdjT": 69.8}, "Montana": {"AdjO": 106.4, "AdjD": 110.3, "AdjT": 72.9}, "Montana St.": {"AdjO": 107.3, "AdjD": 102.2, "AdjT": 68.4}, "Morehead St.": {"AdjO": 98.3, "AdjD": 109.2, "AdjT": 71.5}, "Morgan St.": {"AdjO": 92.6, "AdjD": 122.3, "AdjT": 71.8}, "Mount St. Mary's": {"AdjO": 96.5, "AdjD": 114.5, "AdjT": 70.3}, "Murray St.": {"AdjO": 113.3, "AdjD": 103.1, "AdjT": 75.4}, "N.C. State": {"AdjO": 120.9, "AdjD": 98.7, "AdjT": 72.9}, "NJIT": {"AdjO": 91.8, "AdjD": 111.5, "AdjT": 72.4}, "Navy": {"AdjO": 98.4, "AdjD": 105.3, "AdjT": 70.0}, "Nebraska": {"AdjO": 115.0, "AdjD": 90.1, "AdjT": 72.5}, "Nebraska Omaha": {"AdjO": 102.4, "AdjD": 109.2, "AdjT": 71.4}, "Nevada": {"AdjO": 111.6, "AdjD": 100.1, "AdjT": 70.3}, "New Hampshire": {"AdjO": 92.2, "AdjD": 105.7, "AdjT": 70.1}, "New Haven": {"AdjO": 94.5, "AdjD": 108.4, "AdjT": 65.9}, "New Mexico": {"AdjO": 114.2, "AdjD": 100.0, "AdjT": 72.5}, "New Mexico St.": {"AdjO": 107.3, "AdjD": 103.9, "AdjT": 68.9}, "New Orleans": {"AdjO": 103.8, "AdjD": 108.6, "AdjT": 73.8}, "Niagara": {"AdjO": 90.4, "AdjD": 114.3, "AdjT": 67.2}, "Nicholls": {"AdjO": 100.4, "AdjD": 107.3, "AdjT": 72.3}, "Norfolk St.": {"AdjO": 94.1, "AdjD": 100.8, "AdjT": 69.4}, "North Alabama": {"AdjO": 100.1, "AdjD": 107.9, "AdjT": 70.2}, "North Carolina": {"AdjO": 113.2, "AdjD": 92.6, "AdjT": 72.7}, "North Carolina A&T": {"AdjO": 97.5, "AdjD": 107.1, "AdjT": 72.7}, "North Carolina Central": {"AdjO": 92.4, "AdjD": 113.8, "AdjT": 69.7}, "North Dakota": {"AdjO": 92.8, "AdjD": 109.5, "AdjT": 72.7}, "North Dakota St.": {"AdjO": 101.7, "AdjD": 99.0, "AdjT": 71.8}, "North Florida": {"AdjO": 101.8, "AdjD": 117.2, "AdjT": 74.1}, "North Texas": {"AdjO": 100.6, "AdjD": 100.3, "AdjT": 67.2}, "Northeastern": {"AdjO": 98.1, "AdjD": 101.2, "AdjT": 72.7}, "Northern Arizona": {"AdjO": 100.0, "AdjD": 103.0, "AdjT": 69.9}, "Northern Colorado": {"AdjO": 107.6, "AdjD": 105.6, "AdjT": 70.4}, "Northern Illinois": {"AdjO": 96.8, "AdjD": 120.5, "AdjT": 70.6}, "Northern Iowa": {"AdjO": 102.3, "AdjD": 93.0, "AdjT": 65.0}, "Northern Kentucky": {"AdjO": 103.6, "AdjD": 108.1, "AdjT": 72.6}, "Northwestern": {"AdjO": 114.7, "AdjD": 100.4, "AdjT": 70.7}, "Northwestern St.": {"AdjO": 102.6, "AdjD": 119.2, "AdjT": 68.5}, "Notre Dame": {"AdjO": 113.9, "AdjD": 98.4, "AdjT": 68.7}, "Oakland": {"AdjO": 117.4, "AdjD": 112.5, "AdjT": 75.3}, "Ohio": {"AdjO": 106.5, "AdjD": 110.6, "AdjT": 72.2}, "Ohio St.": {"AdjO": 116.3, "AdjD": 97.9, "AdjT": 72.6}, "Oklahoma": {"AdjO": 117.1, "AdjD": 101.3, "AdjT": 70.3}, "Oklahoma St.": {"AdjO": 114.0, "AdjD": 99.4, "AdjT": 77.7}, "Old Dominion": {"AdjO": 103.4, "AdjD": 109.7, "AdjT": 71.4}, "Oral Roberts": {"AdjO": 102.3, "AdjD": 111.4, "AdjT": 72.5}, "Oregon": {"AdjO": 106.3, "AdjD": 106.5, "AdjT": 70.3}, "Oregon St.": {"AdjO": 104.3, "AdjD": 108.7, "AdjT": 67.2}, "Pacific": {"AdjO": 106.8, "AdjD": 97.1, "AdjT": 68.4}, "Penn": {"AdjO": 104.0, "AdjD": 110.1, "AdjT": 72.3}, "Penn St.": {"AdjO": 112.4, "AdjD": 108.7, "AdjT": 70.6}, "Pepperdine": {"AdjO": 95.0, "AdjD": 106.7, "AdjT": 68.8}, "Pittsburgh": {"AdjO": 108.0, "AdjD": 104.9, "AdjT": 66.8}, "Portland": {"AdjO": 102.5, "AdjD": 106.8, "AdjT": 72.3}, "Portland St.": {"AdjO": 99.9, "AdjD": 102.3, "AdjT": 72.2}, "Prairie View A&M": {"AdjO": 96.3, "AdjD": 109.2, "AdjT": 75.6}, "Presbyterian": {"AdjO": 98.8, "AdjD": 106.0, "AdjT": 64.7}, "Princeton": {"AdjO": 95.0, "AdjD": 108.0, "AdjT": 69.0}, "Providence": {"AdjO": 116.7, "AdjD": 104.4, "AdjT": 76.3}, "Purdue": {"AdjO": 125.1, "AdjD": 94.8, "AdjT": 67.6}, "Purdue Fort Wayne": {"AdjO": 104.5, "AdjD": 111.3, "AdjT": 72.8}, "Queens": {"AdjO": 111.2, "AdjD": 112.2, "AdjT": 70.6}, "Quinnipiac": {"AdjO": 105.9, "AdjD": 103.9, "AdjT": 73.9}, "Radford": {"AdjO": 97.2, "AdjD": 107.5, "AdjT": 76.7}, "Rhode Island": {"AdjO": 106.2, "AdjD": 99.0, "AdjT": 70.0}, "Rice": {"AdjO": 99.9, "AdjD": 105.6, "AdjT": 69.1}, "Richmond": {"AdjO": 112.1, "AdjD": 101.8, "AdjT": 72.0}, "Rider": {"AdjO": 86.0, "AdjD": 110.4, "AdjT": 68.9}, "Robert Morris": {"AdjO": 104.9, "AdjD": 106.2, "AdjT": 68.3}, "Rutgers": {"AdjO": 104.9, "AdjD": 104.4, "AdjT": 69.1}, "SIUE": {"AdjO": 97.0, "AdjD": 105.7, "AdjT": 69.4}, "SMU": {"AdjO": 114.6, "AdjD": 95.1, "AdjT": 73.6}, "Sacramento St.": {"AdjO": 98.8, "AdjD": 104.0, "AdjT": 75.3}, "Sacred Heart": {"AdjO": 102.2, "AdjD": 115.1, "AdjT": 72.1}, "Saint Francis": {"AdjO": 89.0, "AdjD": 116.6, "AdjT": 73.6}, "Saint Joseph's": {"AdjO": 100.3, "AdjD": 107.3, "AdjT": 71.1}, "Saint Louis": {"AdjO": 116.2, "AdjD": 95.3, "AdjT": 75.1}, "Saint Mary's": {"AdjO": 118.3, "AdjD": 90.6, "AdjT": 69.2}, "Saint Peter's": {"AdjO": 97.8, "AdjD": 112.6, "AdjT": 67.9}, "Sam Houston St.": {"AdjO": 114.2, "AdjD": 99.8, "AdjT": 74.4}, "Samford": {"AdjO": 102.3, "AdjD": 111.3, "AdjT": 69.3}, "San Diego": {"AdjO": 100.0, "AdjD": 110.5, "AdjT": 73.2}, "San Diego St.": {"AdjO": 114.4, "AdjD": 102.2, "AdjT": 72.0}, "San Francisco": {"AdjO": 107.5, "AdjD": 99.7, "AdjT": 68.9}, "San Jose St.": {"AdjO": 103.5, "AdjD": 108.1, "AdjT": 67.2}, "Santa Clara": {"AdjO": 114.1, "AdjD": 100.9, "AdjT": 72.4}, "Seattle": {"AdjO": 107.4, "AdjD": 96.2, "AdjT": 71.3}, "Seton Hall": {"AdjO": 109.4, "AdjD": 90.7, "AdjT": 68.8}, "Siena": {"AdjO": 103.3, "AdjD": 101.0, "AdjT": 67.7}, "South Alabama": {"AdjO": 106.6, "AdjD": 108.4, "AdjT": 68.0}, "South Carolina": {"AdjO": 112.4, "AdjD": 100.4, "AdjT": 68.6}, "South Carolina St.": {"AdjO": 87.9, "AdjD": 115.8, "AdjT": 74.0}, "South Dakota": {"AdjO": 101.6, "AdjD": 113.2, "AdjT": 74.9}, "South Dakota St.": {"AdjO": 105.0, "AdjD": 103.1, "AdjT": 71.1}, "South Florida": {"AdjO": 111.6, "AdjD": 98.0, "AdjT": 76.7}, "Southeast Missouri": {"AdjO": 104.2, "AdjD": 108.3, "AdjT": 73.9}, "Southeastern Louisiana": {"AdjO": 92.3, "AdjD": 107.6, "AdjT": 69.4}, "Southern": {"AdjO": 100.5, "AdjD": 111.9, "AdjT": 76.9}, "Southern Illinois": {"AdjO": 110.4, "AdjD": 101.8, "AdjT": 73.0}, "Southern Indiana": {"AdjO": 91.3, "AdjD": 108.6, "AdjT": 75.2}, "Southern Mississippi": {"AdjO": 108.1, "AdjD": 107.5, "AdjT": 69.5}, "Southern Utah": {"AdjO": 95.6, "AdjD": 113.5, "AdjT": 74.5}, "St. Bonaventure": {"AdjO": 108.6, "AdjD": 101.0, "AdjT": 71.1}, "St. John's": {"AdjO": 116.4, "AdjD": 90.4, "AdjT": 75.1}, "St. Thomas": {"AdjO": 107.2, "AdjD": 101.4, "AdjT": 71.8}, "Stanford": {"AdjO": 111.1, "AdjD": 101.3, "AdjT": 72.6}, "Stephen F. Austin": {"AdjO": 107.9, "AdjD": 102.4, "AdjT": 71.2}, "Stetson": {"AdjO": 95.0, "AdjD": 115.2, "AdjT": 68.9}, "Stonehill": {"AdjO": 91.6, "AdjD": 109.3, "AdjT": 69.7}, "Stony Brook": {"AdjO": 104.7, "AdjD": 105.7, "AdjT": 69.5}, "Syracuse": {"AdjO": 104.2, "AdjD": 95.0, "AdjT": 71.1}, "TCU": {"AdjO": 110.7, "AdjD": 93.9, "AdjT": 71.3}, "Tarleton St.": {"AdjO": 107.9, "AdjD": 109.9, "AdjT": 72.3}, "Temple": {"AdjO": 111.0, "AdjD": 114.8, "AdjT": 69.5}, "Tennessee": {"AdjO": 114.8, "AdjD": 94.7, "AdjT": 70.6}, "Tennessee Martin": {"AdjO": 101.3, "AdjD": 102.3, "AdjT": 68.4}, "Tennessee St.": {"AdjO": 97.5, "AdjD": 105.1, "AdjT": 76.5}, "Tennessee Tech": {"AdjO": 103.3, "AdjD": 106.2, "AdjT": 73.9}, "Texas": {"AdjO": 116.7, "AdjD": 103.6, "AdjT": 71.1}, "Texas A&M": {"AdjO": 111.7, "AdjD": 101.9, "AdjT": 74.7}, "Texas A&M Corpus Chris": {"AdjO": 95.5, "AdjD": 99.6, "AdjT": 70.7}, "Texas Southern": {"AdjO": 98.0, "AdjD": 110.4, "AdjT": 74.5}, "Texas St.": {"AdjO": 96.7, "AdjD": 106.6, "AdjT": 69.5}, "Texas Tech": {"AdjO": 116.3, "AdjD": 91.5, "AdjT": 70.1}, "The Citadel": {"AdjO": 98.4, "AdjD": 125.0, "AdjT": 67.9}, "Toledo": {"AdjO": 113.2, "AdjD": 110.2, "AdjT": 71.9}, "Towson": {"AdjO": 104.6, "AdjD": 103.7, "AdjT": 65.6}, "Troy": {"AdjO": 102.7, "AdjD": 104.2, "AdjT": 70.9}, "Tulane": {"AdjO": 108.0, "AdjD": 113.9, "AdjT": 68.9}, "Tulsa": {"AdjO": 121.2, "AdjD": 106.6, "AdjT": 70.6}, "UAB": {"AdjO": 105.4, "AdjD": 99.4, "AdjT": 73.8}, "UC Davis": {"AdjO": 107.4, "AdjD": 101.0, "AdjT": 71.1}, "UC Irvine": {"AdjO": 97.8, "AdjD": 92.1, "AdjT": 71.9}, "UC Riverside": {"AdjO": 106.6, "AdjD": 112.3, "AdjT": 69.3}, "UC San Diego": {"AdjO": 114.6, "AdjD": 103.3, "AdjT": 71.3}, "UC Santa Barbara": {"AdjO": 113.6, "AdjD": 114.0, "AdjT": 68.1}, "UCF": {"AdjO": 117.7, "AdjD": 102.0, "AdjT": 72.6}, "UCLA": {"AdjO": 114.3, "AdjD": 97.8, "AdjT": 68.6}, "UMBC": {"AdjO": 101.2, "AdjD": 111.2, "AdjT": 68.8}, "UMass Lowell": {"AdjO": 98.7, "AdjD": 112.9, "AdjT": 73.5}, "UNC Asheville": {"AdjO": 104.6, "AdjD": 108.3, "AdjT": 68.0}, "UNC Greensboro": {"AdjO": 101.8, "AdjD": 113.8, "AdjT": 70.6}, "UNC Wilmington": {"AdjO": 112.2, "AdjD": 104.5, "AdjT": 65.6}, "UNLV": {"AdjO": 107.2, "AdjD": 105.4, "AdjT": 77.9}, "USC": {"AdjO": 117.1, "AdjD": 102.0, "AdjT": 74.2}, "USC Upstate": {"AdjO": 101.6, "AdjD": 103.6, "AdjT": 71.9}, "UT Arlington": {"AdjO": 98.8, "AdjD": 96.9, "AdjT": 68.1}, "UT Rio Grande Valley": {"AdjO": 102.6, "AdjD": 100.7, "AdjT": 70.7}, "UTEP": {"AdjO": 97.5, "AdjD": 106.9, "AdjT": 66.5}, "UTSA": {"AdjO": 89.1, "AdjD": 106.1, "AdjT": 72.2}, "Utah": {"AdjO": 112.7, "AdjD": 106.7, "AdjT": 72.1}, "Utah St.": {"AdjO": 113.5, "AdjD": 91.6, "AdjT": 72.3}, "Utah Tech": {"AdjO": 102.3, "AdjD": 106.9, "AdjT": 68.1}, "Utah Valley": {"AdjO": 110.8, "AdjD": 96.2, "AdjT": 73.7}, "VCU": {"AdjO": 112.4, "AdjD": 94.6, "AdjT": 72.9}, "VMI": {"AdjO": 95.9, "AdjD": 115.3, "AdjT": 70.2}, "Valparaiso": {"AdjO": 97.3, "AdjD": 100.6, "AdjT": 69.6}, "Vanderbilt": {"AdjO": 127.6, "AdjD": 94.7, "AdjT": 73.3}, "Vermont": {"AdjO": 110.8, "AdjD": 113.6, "AdjT": 68.2}, "Villanova": {"AdjO": 115.6, "AdjD": 99.0, "AdjT": 67.7}, "Virginia": {"AdjO": 121.7, "AdjD": 99.2, "AdjT": 70.4}, "Virginia Tech": {"AdjO": 113.9, "AdjD": 98.4, "AdjT": 72.9}, "Wagner": {"AdjO": 101.8, "AdjD": 111.4, "AdjT": 72.2}, "Wake Forest": {"AdjO": 115.1, "AdjD": 96.5, "AdjT": 73.5}, "Washington": {"AdjO": 110.1, "AdjD": 97.6, "AdjT": 69.7}, "Washington St.": {"AdjO": 110.0, "AdjD": 111.7, "AdjT": 69.7}, "Weber St.": {"AdjO": 106.0, "AdjD": 104.5, "AdjT": 72.9}, "West Georgia": {"AdjO": 98.8, "AdjD": 108.3, "AdjT": 71.0}, "West Virginia": {"AdjO": 105.7, "AdjD": 96.3, "AdjT": 67.2}, "Western Carolina": {"AdjO": 99.4, "AdjD": 110.4, "AdjT": 73.4}, "Western Illinois": {"AdjO": 95.3, "AdjD": 121.9, "AdjT": 66.8}, "Western Kentucky": {"AdjO": 105.2, "AdjD": 100.4, "AdjT": 74.7}, "Western Michigan": {"AdjO": 102.4, "AdjD": 111.3, "AdjT": 71.9}, "Wichita St.": {"AdjO": 112.0, "AdjD": 97.3, "AdjT": 69.1}, "William & Mary": {"AdjO": 108.8, "AdjD": 99.0, "AdjT": 77.6}, "Winthrop": {"AdjO": 115.5, "AdjD": 108.9, "AdjT": 72.4}, "Wisconsin": {"AdjO": 114.5, "AdjD": 102.8, "AdjT": 73.0}, "Wofford": {"AdjO": 100.6, "AdjD": 109.2, "AdjT": 70.3}, "Wright St.": {"AdjO": 106.3, "AdjD": 97.6, "AdjT": 69.7}, "Wyoming": {"AdjO": 113.3, "AdjD": 99.5, "AdjT": 72.3}, "Xavier": {"AdjO": 109.3, "AdjD": 102.2, "AdjT": 73.2}, "Yale": {"AdjO": 121.2, "AdjD": 108.4, "AdjT": 68.7}, "Youngstown St.": {"AdjO": 103.2, "AdjD": 102.2, "AdjT": 69.0}};
+        
+        // Constants
+        const AVG_EFF = 106.0;
+        const AVG_TEMPO = 68.5;
+        const HFA = 3.2;
+        let locState = 'Home';
+
+        // Mobile Menu Toggle
+        function toggleMenu() {
+            document.getElementById('mobile-menu').classList.toggle('open');
+        }
+
+        // Initialize Dropdowns
+        window.onload = function() {
+            const selA = document.getElementById('teamA');
+            const selB = document.getElementById('teamB');
+            // Sort teams alphabetically
+            const sortedTeams = Object.keys(teams).sort();
+            sortedTeams.forEach(t => {
+                selA.add(new Option(t, t));
+                selB.add(new Option(t, t));
+            });
+        };
+
+        function setLoc(loc) {
+            locState = loc;
+            
+            // Simplified styling logic
+            const baseClass = "flex-1 sm:flex-none px-6 py-3 text-sm font-medium transition-colors border";
+            const activeClass = "text-white bg-blue-600 border-blue-600 hover:bg-blue-700 z-10";
+            const inactiveClass = "text-gray-700 bg-white border-gray-300 hover:bg-gray-50";
+            
+            ['Home', 'Neutral', 'Away'].forEach(l => {
+                const btn = document.getElementById('btn'+l);
+                let rounded = "";
+                if(l === 'Home') rounded = "rounded-l-lg";
+                else if(l === 'Away') rounded = "rounded-r-lg";
+                else rounded = "border-l-0 border-r-0"; // Middle button border fix
+
+                if(l === loc) btn.className = `${baseClass} ${activeClass} ${rounded}`;
+                else btn.className = `${baseClass} ${inactiveClass} ${rounded}`;
+            });
+            runSim();
+        }
+
+        function runSim() {
+            const nameA = document.getElementById('teamA').value;
+            const nameB = document.getElementById('teamB').value;
+            if(!nameA || !nameB) return;
+
+            const A = teams[nameA];
+            const B = teams[nameB];
+
+            // Update Stats Display
+            document.getElementById('statsA').classList.remove('hidden');
+            document.getElementById('valOA').innerText = A.AdjO.toFixed(1);
+            document.getElementById('valDA').innerText = A.AdjD.toFixed(1);
+            document.getElementById('valTA').innerText = A.AdjT.toFixed(1);
+
+            document.getElementById('statsB').classList.remove('hidden');
+            document.getElementById('valOB').innerText = B.AdjO.toFixed(1);
+            document.getElementById('valDB').innerText = B.AdjD.toFixed(1);
+            document.getElementById('valTB').innerText = B.AdjT.toFixed(1);
+
+            // --- MATH ---
+            let hfaAdj = 0;
+            if(locState === 'Home') hfaAdj = HFA;
+            else if(locState === 'Away') hfaAdj = -HFA;
+
+            const expEffA = A.AdjO + B.AdjD - AVG_EFF + hfaAdj;
+            const expEffB = B.AdjO + A.AdjD - AVG_EFF - hfaAdj;
+            const expTempo = A.AdjT + B.AdjT - AVG_TEMPO;
+
+            const scoreA = (expEffA * expTempo) / 100;
+            const scoreB = (expEffB * expTempo) / 100;
+
+            const spreadVal = scoreB - scoreA;
+            const totalVal = scoreA + scoreB;
+            
+            // Pythagenport Win %
+            const x = 11.5;
+            const wpA = (Math.pow(scoreA, x)) / (Math.pow(scoreA, x) + Math.pow(scoreB, x));
+
+            // --- DISPLAY ---
+            document.getElementById('scoreboard').classList.remove('hidden');
+            
+            document.getElementById('nameA').innerText = nameA;
+            document.getElementById('nameB').innerText = nameB;
+            document.getElementById('scoreA').innerText = Math.round(scoreA);
+            document.getElementById('scoreB').innerText = Math.round(scoreB);
+            
+            // Spread Logic: If ScoreB > ScoreA, Spread is + (B is favored). 
+            // We want to show the favored team.
+            let spreadText = "Pick";
+            if (Math.abs(spreadVal) >= 0.1) {
+                if (scoreA > scoreB) {
+                    spreadText = `${nameA} -${Math.abs(spreadVal).toFixed(1)}`;
+                } else {
+                    spreadText = `${nameB} -${Math.abs(spreadVal).toFixed(1)}`;
+                }
+            }
+            
+            document.getElementById('spread').innerText = spreadText;
+            document.getElementById('total').innerText = totalVal.toFixed(1);
+            document.getElementById('winProb').innerText = (wpA * 100).toFixed(1) + "%";
+            document.getElementById('pace').innerText = expTempo.toFixed(1);
+        }
+    </script>
+</body>
+</html>
