@@ -171,9 +171,9 @@
                 // Notice strict adherence to sticky classes for first two cols
                 html += `
                 <tr class="hover:bg-blue-50/30 transition-colors group">
-                    <td class="sticky left-0 z-10 bg-white group-hover:bg-blue-50/30 px-4 py-3 font-bold text-gray-500 text-center border-r border-gray-100 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] text-xs sm:text-sm">${row.Rank}</td>
+                    <td class="sticky left-0 z-10 bg-white group-hover:bg-blue-50 px-4 py-3 font-bold text-gray-500 text-center border-r border-gray-100 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] text-xs sm:text-sm">${row.Rank}</td>
                     
-                    <td class="sticky left-[3.5rem] z-10 bg-white group-hover:bg-blue-50/30 px-4 py-3 text-gray-900 font-medium border-r border-gray-100 whitespace-nowrap shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] text-xs sm:text-sm">${row.Team}</td>
+                    <td class="sticky left-[3.5rem] z-10 bg-white group-hover:bg-blue-50 px-4 py-3 text-gray-900 font-medium border-r border-gray-100 whitespace-nowrap shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] text-xs sm:text-sm">${row.Team}</td>
                     
                     <td class="px-4 py-3 font-bold ${emColor} text-right bg-blue-50/20 text-xs sm:text-sm">${row.AdjEM.toFixed(2)}</td>
                     <td class="px-4 py-3 font-bold ${pureColor} text-right bg-orange-50/20 text-xs sm:text-sm pure-col" style="${pureDisplay}">${row.Pure_AdjEM.toFixed(2)}</td>
