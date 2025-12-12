@@ -1,0 +1,366 @@
+Rank,Team,ExpectedMargin_vs_Avg
+1,Michigan,44.28
+2,Gonzaga,40.49
+3,Arizona,35.77
+4,Duke,35.77
+5,Iowa St.,34.01
+6,Vanderbilt,33.35
+7,BYU,32.41
+8,Connecticut,31.69
+9,Alabama,29.58
+10,Louisville,29.34
+11,Michigan St.,29.04
+12,Illinois,28.65
+13,Purdue,28.08
+14,Saint Mary's,27.28
+15,St. John's,26.05
+16,Kansas,25.3
+17,Virginia,24.51
+18,Georgia,24.18
+19,Indiana,24.13
+20,Texas Tech,24.11
+21,Arkansas,23.23
+22,Utah St.,23.15
+23,Kentucky,22.72
+24,Florida,22.17
+25,Miami FL,22.03
+26,Clemson,21.86
+27,Nebraska,21.83
+28,North Carolina,20.98
+29,Butler,20.59
+30,Ohio St.,20.4
+31,SMU,19.97
+32,Houston,19.83
+33,LSU,19.78
+34,Saint Louis,19.54
+35,Tennessee,19.44
+36,Iowa,19.34
+37,Colorado,19.24
+38,VCU,18.59
+39,Wake Forest,18.01
+40,Auburn,18.0
+41,Seton Hall,17.66
+42,Villanova,17.33
+43,Akron,17.25
+44,N.C. State,17.19
+45,George Washington,16.76
+46,Wisconsin,16.73
+47,Belmont,16.58
+48,McNeese,16.47
+49,Virginia Tech,16.32
+50,California,16.22
+51,UCLA,16.21
+52,TCU,16.2
+53,George Mason,16.08
+54,Tulsa,15.97
+55,Northwestern,15.87
+56,South Florida,15.75
+57,Boise St.,15.48
+58,USC,15.38
+59,Colorado St.,15.06
+60,UCF,15.01
+61,Notre Dame,14.9
+62,Yale,14.9
+63,Wyoming,14.82
+64,Baylor,14.73
+65,Utah Valley,14.6
+66,New Mexico,14.56
+67,Sam Houston St.,14.54
+68,Wichita St.,14.43
+69,Oklahoma St.,14.41
+70,Providence,14.12
+71,Oklahoma,13.99
+72,Santa Clara,12.82
+73,Missouri,12.81
+74,San Diego St.,12.33
+75,Dayton,12.31
+76,Murray St.,12.27
+77,Washington,12.13
+78,East Tennessee St.,12.07
+79,South Carolina,11.61
+80,Liberty,11.5
+81,William & Mary,11.46
+82,Columbia,11.1
+83,Syracuse,10.91
+84,Arizona St.,10.85
+85,UC San Diego,10.7
+86,Texas,10.67
+87,Seattle,10.63
+88,Texas A&M,10.48
+89,Richmond,10.04
+90,Nevada,9.99
+91,Illinois St.,9.88
+92,Stanford,9.66
+93,Creighton,9.6
+94,High Point,9.51
+95,Pacific,9.44
+96,Florida Atlantic,9.29
+97,Mississippi,9.02
+98,Kansas St.,8.95
+99,Bowling Green,8.84
+100,Rhode Island,8.83
+101,Hofstra,8.77
+102,Memphis,8.53
+103,Northern Iowa,8.32
+104,Lipscomb,8.26
+105,West Virginia,8.18
+106,St. Bonaventure,8.11
+107,Miami OH,8.09
+108,Winthrop,7.53
+109,San Francisco,7.33
+110,Wright St.,7.04
+111,UNC Wilmington,6.92
+112,Hawaii,6.56
+113,Stephen F. Austin,6.5
+114,Penn St.,6.3
+115,Western Kentucky,6.08
+116,Idaho St.,5.82
+117,New Mexico St.,5.7
+118,Utah,5.49
+119,St. Thomas,5.45
+120,UAB,5.38
+121,Cal Baptist,5.35
+122,Davidson,5.31
+123,Georgetown,5.13
+124,Middle Tennessee,4.78
+125,Florida St.,4.74
+126,UT Rio Grande Valley,4.67
+127,UC Davis,4.6
+128,Xavier,4.59
+129,Montana St.,4.51
+130,Cincinnati,4.34
+131,Minnesota,4.17
+132,Bradley,4.11
+133,Oakland,4.06
+134,UC Irvine,4.04
+135,Southern Illinois,4.04
+136,Towson,3.94
+137,Mississippi St.,3.78
+138,Furman,3.77
+139,Pittsburgh,3.45
+140,Grand Canyon,3.29
+141,Drake,3.18
+142,Tennessee Martin,3.14
+143,Mercer,3.05
+144,Weber St.,2.84
+145,Colgate,2.83
+146,Marshall,2.82
+147,Quinnipiac,2.82
+148,Northern Colorado,2.69
+149,Southern Mississippi,2.09
+150,Idaho,2.03
+151,Elon,2.02
+152,UNLV,1.65
+153,Toledo,1.63
+154,Austin Peay,1.6
+155,South Dakota St.,1.57
+156,Siena,1.53
+157,Cornell,1.32
+158,Loyola Marymount,1.0
+159,Buffalo,0.83
+160,North Dakota St.,0.74
+161,Fresno St.,0.71
+162,Marquette,0.69
+163,Iona,0.52
+164,North Texas,0.47
+165,Kent St.,-0.23
+166,UT Arlington,-0.26
+167,Marist,-0.27
+168,FIU,-0.38
+169,Oregon,-0.45
+170,Youngstown St.,-0.64
+171,Rutgers,-0.65
+172,Queens,-0.69
+173,Lindenwood,-0.79
+174,Boston College,-0.87
+175,Troy,-1.01
+176,UC Santa Barbara,-1.11
+177,DePaul,-1.11
+178,Eastern Michigan,-1.11
+179,Washington St.,-1.38
+180,Robert Morris,-1.43
+181,Valparaiso,-1.51
+182,Maryland,-1.6
+183,Kennesaw St.,-1.66
+184,Florida Gulf Coast,-1.68
+185,Coastal Carolina,-1.81
+186,Northeastern,-2.05
+187,Northern Arizona,-2.06
+188,Portland St.,-2.07
+189,Harvard,-2.36
+190,Vermont,-2.4
+191,Arkansas St.,-2.42
+192,Duquesne,-2.43
+193,Georgia Tech,-2.44
+194,South Alabama,-2.45
+195,Charleston,-2.46
+196,Montana,-2.78
+197,LIU,-2.83
+198,USC Upstate,-2.93
+199,Eastern Washington,-3.04
+200,Massachusetts,-3.09
+201,Stony Brook,-3.33
+202,UNC Asheville,-3.37
+203,Charlotte,-3.37
+204,Tarleton St.,-3.39
+205,Georgia Southern,-3.54
+206,Norfolk St.,-3.84
+207,James Madison,-3.85
+208,Utah Tech,-3.85
+209,Cal St. Fullerton,-3.87
+210,Temple,-3.88
+211,Southeast Missouri,-4.09
+212,Tennessee Tech,-4.11
+213,Central Connecticut,-4.16
+214,Denver,-4.28
+215,Old Dominion,-4.41
+216,Louisiana Tech,-4.42
+217,Northern Kentucky,-4.44
+218,Dartmouth,-4.47
+219,Penn,-4.47
+220,Portland,-4.57
+221,Oregon St.,-4.59
+222,Fordham,-4.64
+223,Ohio,-4.64
+224,Cal Poly,-4.69
+225,Monmouth,-4.73
+226,Brown,-4.87
+227,UC Riverside,-4.91
+228,Alabama St.,-4.94
+229,Texas A&M Corpus Chris,-4.94
+230,San Jose St.,-5.39
+231,Lamar,-5.51
+232,East Texas A&M,-5.53
+233,Incarnate Word,-5.62
+234,Central Arkansas,-5.72
+235,Charleston Southern,-5.77
+236,Boston University,-5.78
+237,New Orleans,-5.95
+238,Indiana St.,-6.18
+239,Milwaukee,-6.21
+240,Sacramento St.,-6.27
+241,Nebraska Omaha,-6.32
+242,American,-6.37
+243,North Carolina A&T,-6.38
+244,Hampton,-6.4
+245,Abilene Christian,-6.59
+246,Navy,-6.78
+247,Rice,-6.98
+248,Green Bay,-7.01
+249,Bethune Cookman,-7.03
+250,Nicholls,-7.06
+251,Presbyterian,-7.16
+252,SIUE,-7.21
+253,Tennessee St.,-7.53
+254,Wagner,-7.84
+255,UMBC,-8.28
+256,Tulane,-8.31
+257,Grambling St.,-8.35
+258,Oral Roberts,-8.42
+259,Southern,-8.44
+260,Saint Joseph's,-8.53
+261,North Alabama,-8.56
+262,Illinois Chicago,-8.62
+263,Holy Cross,-8.66
+264,Wofford,-8.66
+265,Western Michigan,-8.67
+266,Purdue Fort Wayne,-8.77
+267,Missouri St.,-9.1
+268,Bellarmine,-9.1
+269,Samford,-9.11
+270,Air Force,-9.18
+271,UTEP,-9.49
+272,West Georgia,-9.65
+273,Houston Christian,-9.78
+274,South Dakota,-10.07
+275,Appalachian St.,-10.32
+276,Texas St.,-10.35
+277,Radford,-10.48
+278,Long Beach St.,-10.54
+279,Alabama A&M,-10.64
+280,Drexel,-10.81
+281,Campbell,-10.83
+282,Morehead St.,-10.88
+283,Chattanooga,-11.04
+284,Fairfield,-11.07
+285,San Diego,-11.09
+286,Pepperdine,-11.37
+287,Mercyhurst,-11.44
+288,La Salle,-11.48
+289,Le Moyne,-11.55
+290,New Hampshire,-11.6
+291,Bryant,-11.78
+292,Eastern Kentucky,-11.83
+293,Prairie View A&M,-11.85
+294,Princeton,-12.01
+295,Western Carolina,-12.15
+296,Texas Southern,-12.16
+297,Detroit Mercy,-12.42
+298,Howard,-12.81
+299,Evansville,-12.91
+300,Jacksonville,-13.4
+301,Sacred Heart,-13.48
+302,UNC Greensboro,-13.71
+303,Jacksonville St.,-13.87
+304,Merrimack,-14.09
+305,Manhattan,-14.26
+306,UMass Lowell,-14.31
+307,Delaware,-14.46
+308,Maine,-14.49
+309,New Haven,-14.71
+310,Cal St. Bakersfield,-14.75
+311,Southeastern Louisiana,-14.88
+312,IU Indy,-14.9
+313,North Florida,-14.95
+314,Lehigh,-15.18
+315,East Carolina,-15.2
+316,Longwood,-15.43
+317,CSUN,-15.48
+318,Eastern Illinois,-15.57
+319,Bucknell,-15.72
+320,Saint Peter's,-15.8
+321,Southern Indiana,-16.41
+322,North Dakota,-16.48
+323,UTSA,-16.55
+324,Loyola MD,-16.69
+325,Cleveland St.,-17.05
+326,Arkansas Pine Bluff,-17.11
+327,Northwestern St.,-17.11
+328,Stonehill,-17.52
+329,Central Michigan,-17.59
+330,Army,-18.03
+331,Kansas City,-18.07
+332,Albany,-18.11
+333,Southern Utah,-18.17
+334,Mount St. Mary's,-18.32
+335,Alcorn St.,-18.33
+336,Maryland Eastern Shore,-18.89
+337,Florida A&M,-19.56
+338,Georgia St.,-19.6
+339,Loyola Chicago,-19.84
+340,Stetson,-20.33
+341,Louisiana,-20.54
+342,NJIT,-20.64
+343,Little Rock,-20.97
+344,North Carolina Central,-21.06
+345,Northern Illinois,-21.3
+346,Ball St.,-21.51
+347,Jackson St.,-21.83
+348,Lafayette,-22.35
+349,VMI,-23.2
+350,Chicago St.,-23.26
+351,Louisiana Monroe,-23.92
+352,Rider,-23.98
+353,Morgan St.,-24.39
+354,Fairleigh Dickinson,-24.42
+355,Niagara,-24.49
+356,South Carolina St.,-24.71
+357,Binghamton,-26.41
+358,Western Illinois,-26.43
+359,Canisius,-26.54
+360,Gardner Webb,-26.84
+361,The Citadel,-26.91
+362,Delaware St.,-27.02
+363,Saint Francis,-27.12
+364,Mississippi Valley St.,-29.2
+365,Coppin St.,-32.49
