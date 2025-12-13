@@ -6,7 +6,7 @@ import json
 import urllib.parse
 
 # --- CONFIGURATION ---
-SCRAPER_SCRIPT = "scrape_cbb.py" 
+SCRAPER_SCRIPT = "scraper.py" 
 RATINGS_SCRIPT = "adj.py"
 OUTPUT_INDEX = "index.html"
 OUTPUT_MATCHUP = "matchup.html"
