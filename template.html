@@ -14,6 +14,13 @@
         #mobile-menu { display: none; }
         #mobile-menu.open { display: block; }
         .chart-wrapper { position: relative; height: 60vh; width: 100%; }
+        
+        /* Sticky Column Fixes */
+        .sticky-col-1 { position: sticky; left: 0; z-index: 20; }
+        .sticky-col-2 { position: sticky; left: 3.5rem; z-index: 20; }
+        /* Ensure background covers scrolling text */
+        .bg-opaque { background-color: white; }
+        tr:hover .bg-opaque { background-color: #eff6ff; } /* bg-blue-50 */
     </style>
 </head>
 <body class="bg-gray-50 text-gray-900 min-h-screen flex flex-col">
@@ -26,7 +33,6 @@
                     <span class="font-bold text-lg sm:text-xl tracking-tight text-white">CHan Analytics</span>
                     {{NAV_DESKTOP}}
                 </div>
-                
                 <div class="flex items-center">
                     <div class="hidden md:block text-xs text-slate-400 mr-4">Updated: <span class="text-white">{{LAST_UPDATED}}</span></div>
                     <div class="-mr-2 flex md:hidden">
@@ -44,16 +50,12 @@
     <div class="bg-white border-b border-gray-200 sticky top-14 sm:top-16 z-40 shadow-sm px-4 py-3">
         <div class="max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             
-            <!-- View Toggles & Schedule Link -->
+            <!-- View Buttons (Chart hidden on mobile) -->
             <div class="flex space-x-2 w-full sm:w-auto">
-                
-                <!-- TOGGLE BUTTONS: Hidden on mobile (hidden), Flex on desktop (md:flex) -->
                 <div class="hidden md:flex bg-slate-100 p-1 rounded-lg">
                     <button onclick="setView('table')" id="btnTable" class="px-4 py-1.5 text-xs font-bold rounded-md shadow-sm bg-white text-slate-900 transition-all">List</button>
                     <button onclick="setView('chart')" id="btnChart" class="px-4 py-1.5 text-xs font-medium rounded-md text-slate-500 hover:text-slate-900 transition-all">Chart</button>
                 </div>
-                
-                <!-- Schedule Link: Expands to fill space on mobile (flex-1) -->
                 <a href="schedule.html" class="flex-1 sm:flex-none flex items-center justify-center px-4 py-1.5 text-xs font-bold text-white bg-green-600 hover:bg-green-700 rounded-lg shadow-sm transition-colors">
                     Today's Games &rarr;
                 </a>
@@ -62,13 +64,10 @@
             <!-- Search & Filters -->
             <div class="flex flex-1 items-center space-x-3 w-full sm:w-auto">
                 <div class="relative w-full">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <svg class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-                    </div>
-                    <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Search Team..." class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-gray-50 placeholder-gray-500 focus:outline-none focus:bg-white focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition duration-150 ease-in-out">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><svg class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg></div>
+                    <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Search..." class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg bg-gray-50 focus:bg-white focus:ring-1 focus:ring-blue-500 sm:text-sm">
                 </div>
-                
-                <select id="confFilter" onchange="filterTable()" class="block w-24 sm:w-32 pl-2 pr-6 py-2 text-xs border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 rounded-md bg-gray-50 truncate">
+                <select id="confFilter" onchange="filterTable()" class="block w-24 sm:w-32 pl-2 pr-6 py-2 text-xs border-gray-300 rounded-md bg-gray-50 truncate">
                     <option value="">All Conf</option>
                 </select>
             </div>
@@ -82,44 +81,45 @@
         <div id="tableView" class="bg-white sm:shadow-lg sm:rounded-xl overflow-hidden border-t sm:border border-gray-200">
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse whitespace-nowrap text-sm" id="rankingsTable">
-                    <thead class="bg-slate-100 border-b border-gray-200 text-xs uppercase tracking-wider text-slate-500 font-semibold sticky top-0 z-20 shadow-sm">
+                    <thead class="bg-slate-100 border-b border-gray-200 text-xs uppercase tracking-wider text-slate-500 font-semibold sticky top-0 z-30 shadow-sm">
                         <tr>
-                            <th class="sticky left-0 z-20 bg-slate-100 px-4 py-3 cursor-pointer hover:bg-slate-200 text-center border-r shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] w-14 min-w-[3.5rem] max-w-[3.5rem]" onclick="handleSort('Rank', this)">Rk</th>
-                            <th class="sticky left-[3.5rem] z-20 bg-slate-100 px-4 py-3 cursor-pointer hover:bg-slate-200 text-left border-r shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]" onclick="handleSort('Team', this)">Team</th>
+                            <th class="sticky-col-1 bg-slate-100 px-4 py-3 text-center border-r shadow-sm cursor-pointer hover:bg-slate-200 w-14 min-w-[3.5rem]" onclick="handleSort('Rank', this)">Rk</th>
+                            <th class="sticky-col-2 bg-slate-100 px-4 py-3 text-left border-r shadow-sm cursor-pointer hover:bg-slate-200" onclick="handleSort('Team', this)">Team</th>
                             <th class="px-3 py-3 text-left border-r border-gray-200 cursor-pointer hover:bg-slate-100 hidden sm:table-cell" onclick="handleSort('Conference', this)">Conf</th>
-                            <th class="px-4 py-3 cursor-pointer hover:bg-slate-200 text-right bg-blue-50/50" onclick="handleSort('AdjEM', this)">AdjEM</th>
-                            <th class="px-4 py-3 cursor-pointer hover:bg-slate-200 text-right" onclick="handleSort('AdjO', this)">AdjO</th>
-                            <th class="px-4 py-3 cursor-pointer hover:bg-slate-200 text-right" onclick="handleSort('AdjD', this)">AdjD</th>
-                            <th class="px-4 py-3 cursor-pointer hover:bg-slate-200 text-right" onclick="handleSort('AdjT', this)">Tempo</th>
+                            <th class="px-4 py-3 text-right bg-blue-50/50 cursor-pointer hover:bg-blue-100" onclick="handleSort('AdjEM', this)">AdjEM</th>
+                            <th class="px-4 py-3 text-right cursor-pointer hover:bg-slate-100" onclick="handleSort('AdjO', this)">AdjO</th>
+                            <th class="px-4 py-3 text-right cursor-pointer hover:bg-slate-100" onclick="handleSort('AdjD', this)">AdjD</th>
+                            <th class="px-4 py-3 text-right cursor-pointer hover:bg-slate-100" onclick="handleSort('AdjT', this)">Tempo</th>
                         </tr>
                     </thead>
                     <tbody class="text-sm divide-y divide-gray-100" id="tableBody"></tbody>
                 </table>
+                <div id="noDataMsg" class="hidden p-8 text-center text-gray-500">No teams found matching your search.</div>
             </div>
         </div>
 
-        <!-- CHART VIEW (Desktop Only) -->
+        <!-- CHART VIEW -->
         <div id="chartView" class="hidden bg-white sm:shadow-lg sm:rounded-xl p-4 border border-gray-200">
-            <div class="chart-wrapper">
-                <canvas id="quadrantChart"></canvas>
-            </div>
-            <div class="mt-4 text-center text-xs text-slate-500">
-                <strong>Top Right:</strong> Elite Balanced &bull; <strong>Bottom Left:</strong> Struggling<br>
-                <strong>Top Left:</strong> Defensive Specialist &bull; <strong>Bottom Right:</strong> All Offense
-            </div>
+            <div class="chart-wrapper"><canvas id="quadrantChart"></canvas></div>
         </div>
-
     </main>
 
     <footer class="bg-white border-t border-gray-200 mt-auto py-6">
-        <div class="max-w-6xl mx-auto px-4 text-center text-slate-400 text-xs">
-            Automated Analysis System &bull; Powered by Python & GitHub Actions
-        </div>
+        <div class="max-w-6xl mx-auto px-4 text-center text-slate-400 text-xs">Automated Analysis System</div>
     </footer>
 
     <script>
-        const rawData = {{RANKINGS_JSON}};
-        const conferences = {{CONF_JSON}};
+        // DATA INJECTION - If this fails, the script will catch it
+        let rawData = [];
+        let conferences = [];
+        try {
+            rawData = {{RANKINGS_JSON}};
+            conferences = {{CONF_JSON}};
+        } catch (e) {
+            console.error("Data Injection Failed. Run build_site.py!", e);
+            document.getElementById('tableBody').innerHTML = '<tr><td colspan="7" class="p-4 text-center text-red-600 font-bold">Error: Data not loaded. Please run python build_site.py</td></tr>';
+        }
+
         let currentData = [...rawData];
         let sortCol = 'AdjEM';
         let sortAsc = false;
@@ -127,33 +127,24 @@
 
         function toggleMenu() { document.getElementById('mobile-menu').classList.toggle('open'); }
 
-        // --- VIEW SWITCHING ---
         function setView(view) {
-            const tView = document.getElementById('tableView');
-            const cView = document.getElementById('chartView');
-            const bTable = document.getElementById('btnTable');
-            const bChart = document.getElementById('btnChart');
-
             if(view === 'table') {
-                tView.classList.remove('hidden');
-                cView.classList.add('hidden');
-                bTable.className = "px-4 py-1.5 text-xs font-bold rounded-md shadow-sm bg-white text-slate-900 transition-all";
-                bChart.className = "px-4 py-1.5 text-xs font-medium rounded-md text-slate-500 hover:text-slate-900 transition-all";
+                document.getElementById('tableView').classList.remove('hidden');
+                document.getElementById('chartView').classList.add('hidden');
+                document.getElementById('btnTable').className = "px-4 py-1.5 text-xs font-bold rounded-md shadow-sm bg-white text-slate-900 transition-all";
+                document.getElementById('btnChart').className = "px-4 py-1.5 text-xs font-medium rounded-md text-slate-500 hover:text-slate-900 transition-all";
             } else {
-                tView.classList.add('hidden');
-                cView.classList.remove('hidden');
-                bChart.className = "px-4 py-1.5 text-xs font-bold rounded-md shadow-sm bg-white text-slate-900 transition-all";
-                bTable.className = "px-4 py-1.5 text-xs font-medium rounded-md text-slate-500 hover:text-slate-900 transition-all";
+                document.getElementById('tableView').classList.add('hidden');
+                document.getElementById('chartView').classList.remove('hidden');
+                document.getElementById('btnChart').className = "px-4 py-1.5 text-xs font-bold rounded-md shadow-sm bg-white text-slate-900 transition-all";
+                document.getElementById('btnTable').className = "px-4 py-1.5 text-xs font-medium rounded-md text-slate-500 hover:text-slate-900 transition-all";
                 if(!chartInstance) initChart();
             }
         }
 
-        // --- CHART LOGIC ---
         function initChart() {
             const ctx = document.getElementById('quadrantChart').getContext('2d');
-            const points = currentData.map(row => ({
-                x: row.AdjO, y: row.AdjD, team: row.Team, rank: row.Rank, em: row.AdjEM, conf: row.Conference
-            }));
+            const points = currentData.map(row => ({ x: row.AdjO, y: row.AdjD, team: row.Team, rank: row.Rank, em: row.AdjEM, conf: row.Conference }));
             const avgO = points.reduce((a,b)=>a+b.x,0)/points.length;
             const avgD = points.reduce((a,b)=>a+b.y,0)/points.length;
 
@@ -161,46 +152,22 @@
                 type: 'scatter',
                 data: {
                     datasets: [{
-                        label: 'Teams',
-                        data: points,
-                        backgroundColor: (ctx) => {
-                            const v = ctx.raw?.em || 0;
-                            return v > 20 ? 'rgba(22, 163, 74, 0.8)' : 
-                                   v > 0  ? 'rgba(37, 99, 235, 0.6)' : 
-                                            'rgba(239, 68, 68, 0.6)';
-                        },
-                        borderColor: 'transparent',
-                        pointRadius: 5,
-                        hoverRadius: 8
+                        label: 'Teams', data: points,
+                        backgroundColor: (ctx) => ctx.raw?.em > 15 ? 'rgba(22, 163, 74, 0.7)' : ctx.raw?.em > 0 ? 'rgba(59, 130, 246, 0.6)' : 'rgba(239, 68, 68, 0.6)',
+                        pointRadius: 5
                     }]
                 },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        tooltip: {
-                            callbacks: {
-                                label: (ctx) => `#${ctx.raw.rank} ${ctx.raw.team} (${ctx.raw.conf})`
-                            }
-                        },
-                        legend: { display: false }
-                    },
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { tooltip: { callbacks: { label: (ctx) => `#${ctx.raw.rank} ${ctx.raw.team} (${ctx.raw.conf})` }}, legend: { display: false }},
                     scales: {
-                        x: { 
-                            title: { display: true, text: 'Adjusted Offense' },
-                            grid: { color: (ctx) => Math.abs(ctx.tick.value - avgO) < 1 ? '#000' : '#e2e8f0', lineWidth: (ctx) => Math.abs(ctx.tick.value - avgO) < 1 ? 2 : 1 }
-                        },
-                        y: { 
-                            title: { display: true, text: 'Adjusted Defense' },
-                            reverse: true, 
-                            grid: { color: (ctx) => Math.abs(ctx.tick.value - avgD) < 1 ? '#000' : '#e2e8f0', lineWidth: (ctx) => Math.abs(ctx.tick.value - avgD) < 1 ? 2 : 1 }
-                        }
+                        x: { title: { display: true, text: 'Adjusted Offense' }, grid: { color: (ctx) => Math.abs(ctx.tick.value - avgO) < 1 ? '#000' : '#e2e8f0' }},
+                        y: { title: { display: true, text: 'Adjusted Defense' }, reverse: true, grid: { color: (ctx) => Math.abs(ctx.tick.value - avgD) < 1 ? '#000' : '#e2e8f0' }}
                     }
                 }
             });
         }
 
-        // --- TABLE LOGIC ---
         window.onload = function() {
             const sel = document.getElementById('confFilter');
             if(conferences) {
@@ -212,12 +179,11 @@
             renderTable();
         };
 
-        function handleSort(col, el) {
+        function handleSort(col) {
             if (sortCol === col) sortAsc = !sortAsc;
             else {
                 sortCol = col;
-                if (col === 'Rank' || col === 'Team' || col === 'AdjD' || col === 'Conference') sortAsc = true;
-                else sortAsc = false;
+                sortAsc = (col === 'Rank' || col === 'Team' || col === 'AdjD' || col === 'Conference');
             }
             renderTable();
         }
@@ -225,28 +191,27 @@
         function filterTable() {
             const query = document.getElementById('searchInput').value.toLowerCase();
             const conf = document.getElementById('confFilter').value;
-
             currentData = rawData.filter(row => {
-                const matchesName = row.Team.toLowerCase().includes(query);
-                const matchesConf = conf === "" || row.Conference === conf;
-                return matchesName && matchesConf;
+                return row.Team.toLowerCase().includes(query) && (conf === "" || row.Conference === conf);
             });
             renderTable();
-            if(chartInstance) {
-                chartInstance.destroy();
-                initChart();
-            }
+            if(chartInstance) { chartInstance.destroy(); initChart(); }
         }
 
         function renderTable() {
             const tbody = document.getElementById('tableBody');
-            const showPure = document.getElementById('togglePure').checked;
+            const noData = document.getElementById('noDataMsg');
             
-            document.querySelectorAll('.pure-col').forEach(el => el.style.display = showPure ? 'table-cell' : 'none');
+            if (currentData.length === 0) {
+                tbody.innerHTML = '';
+                noData.classList.remove('hidden');
+                return;
+            } else {
+                noData.classList.add('hidden');
+            }
 
             currentData.sort((a, b) => {
-                let valA = a[sortCol] || "";
-                let valB = b[sortCol] || "";
+                let valA = a[sortCol], valB = b[sortCol];
                 if (typeof valA === 'string') return sortAsc ? valA.localeCompare(valB) : valB.localeCompare(valA);
                 return sortAsc ? valA - valB : valB - valA;
             });
@@ -259,33 +224,18 @@
             let html = '';
             currentData.forEach(row => {
                 const emColor = row.AdjEM > 0 ? 'text-green-600' : 'text-red-600';
-                const pureColor = row.Pure_AdjEM > 0 ? 'text-green-600' : 'text-red-600';
-                const pureDisplay = showPure ? '' : 'display:none;';
-
+                
                 html += `
-                <tr class="hover:bg-blue-50/30 transition-colors group">
-                    <td class="sticky left-0 z-10 bg-white group-hover:bg-blue-50 px-4 py-3 font-bold text-gray-500 text-center border-r border-gray-100 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] text-xs sm:text-sm w-14 min-w-[3.5rem] max-w-[3.5rem]">${row.Rank}</td>
-                    
-                    <td class="sticky left-[3.5rem] z-10 bg-white group-hover:bg-blue-50 px-4 py-3 text-gray-900 font-medium border-r border-gray-100 whitespace-nowrap shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] text-xs sm:text-sm">
-                        <a href="${row.Link}" class="text-blue-600 hover:text-blue-800 hover:underline block w-full h-full">
-                            ${row.Team}
-                        </a>
+                <tr class="hover:bg-blue-50/50 transition-colors group">
+                    <td class="sticky-col-1 bg-opaque px-4 py-3 font-bold text-gray-500 text-center border-r border-gray-100 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] text-xs sm:text-sm">${row.Rank}</td>
+                    <td class="sticky-col-2 bg-opaque px-4 py-3 text-gray-900 font-medium border-r border-gray-100 whitespace-nowrap shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] text-xs sm:text-sm">
+                        <a href="${row.Link}" class="text-blue-600 hover:text-blue-800 hover:underline block w-full">${row.Team}</a>
                     </td>
-                    
                     <td class="px-3 py-3 text-gray-500 text-left border-r border-gray-100 hidden sm:table-cell text-xs">${row.Conference || '-'}</td>
-                    
                     <td class="px-4 py-3 font-bold ${emColor} text-right bg-blue-50/20 text-xs sm:text-sm">${row.AdjEM.toFixed(2)}</td>
-                    <td class="px-4 py-3 font-bold ${pureColor} text-right bg-orange-50/20 text-xs sm:text-sm pure-col" style="${pureDisplay}">${row.Pure_AdjEM.toFixed(2)}</td>
-                    
-                    <td class="px-4 py-3 text-gray-600 text-right text-xs sm:text-sm">
-                        ${row.AdjO.toFixed(1)} <span class="text-[10px] text-gray-400 ml-1">${row.Rank_AdjO || '-'}</span>
-                    </td>
-                    <td class="px-4 py-3 text-gray-600 text-right text-xs sm:text-sm">
-                        ${row.AdjD.toFixed(1)} <span class="text-[10px] text-gray-400 ml-1">${row.Rank_AdjD || '-'}</span>
-                    </td>
-                    <td class="px-4 py-3 text-gray-600 text-right text-xs sm:text-sm">
-                        ${row.AdjT.toFixed(1)} <span class="text-[10px] text-gray-400 ml-1">${row.Rank_AdjT || '-'}</span>
-                    </td>
+                    <td class="px-4 py-3 text-gray-600 text-right text-xs sm:text-sm">${row.AdjO.toFixed(1)} <span class="text-[10px] text-gray-400 ml-1">${row.Rank_AdjO || '-'}</span></td>
+                    <td class="px-4 py-3 text-gray-600 text-right text-xs sm:text-sm">${row.AdjD.toFixed(1)} <span class="text-[10px] text-gray-400 ml-1">${row.Rank_AdjD || '-'}</span></td>
+                    <td class="px-4 py-3 text-gray-600 text-right text-xs sm:text-sm">${row.AdjT.toFixed(1)} <span class="text-[10px] text-gray-400 ml-1">${row.Rank_AdjT || '-'}</span></td>
                 </tr>`;
             });
             tbody.innerHTML = html;
