@@ -10,6 +10,7 @@ SCRAPER_SCRIPT = "scraper.py"
 RATINGS_SCRIPT = "adj.py" 
 OUTPUT_INDEX = "index.html"
 OUTPUT_MATCHUP = "matchup.html"
+OUTPUT_SCHEDULE = "schedule.html"
 OUTPUT_TEAM_DATA = "teams_data.js"
 CONFERENCE_FILE = "cbb_conferences.csv"
 
@@ -222,7 +223,39 @@ def generate_teams_js(df_ratings, df_scores):
     with open(OUTPUT_TEAM_DATA, "w") as f:
         f.write(js_content)
     print(f"Generated {OUTPUT_TEAM_DATA}")
+def generate_schedule(df_ratings):
+    print("Generating Daily Schedule...")
+    
+    # 1. Scrape Today's Games
+    # We instantiate the scraper just for this task
+    import scraper # Import your module
+    scraper = scraper.CBBScraper() 
+    games = scraper.get_todays_schedule()
+    
+    # 2. Convert to JSON
+    games_json = json.dumps(games)
+    
+    # 3. Load Template
+    # We will reuse a new template called schedule_template.html
+    try:
+        with open("schedule_template.html", "r") as f:
+            template = f.read()
+    except:
+        print("schedule_template.html not found")
+        return
 
+    now = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    nav_d, nav_m = get_nav_html('schedule') # You need to update get_nav_html to handle 'schedule' active state
+
+    html = template.replace("{{GAMES_JSON}}", games_json)
+    html = html.replace("{{LAST_UPDATED}}", now)
+    html = html.replace("{{NAV_DESKTOP}}", nav_d)
+    html = html.replace("{{NAV_MOBILE}}", nav_m)
+    
+    with open(OUTPUT_SCHEDULE, "w") as f:
+        f.write(html)
+    print(f"Generated {OUTPUT_SCHEDULE}")
+    
 def generate_index(df, df_conf):
     print("Generating Index...")
     try:
@@ -325,3 +358,4 @@ if __name__ == "__main__":
         generate_teams_js(df_ratings, df_scores)
         generate_index(df_ratings, df_conf)
         generate_matchup(df_ratings)
+        generate_schedule(df_ratings)

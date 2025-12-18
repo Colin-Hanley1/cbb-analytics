@@ -131,7 +131,55 @@ class CBBScraper:
             'ft', 'fta', 'ft_pct', 'orb', 'drb', 'trb', 
             'ast', 'stl', 'blk', 'tov', 'pf', 'pts'
         ]
-
+    # ... inside class CBBScraper ...
+    
+    def get_todays_schedule(self):
+        """Scrapes the matchups for the current date."""
+        now = datetime.now()
+        # Note: Sports-Reference determines 'today' based on their server time.
+        url = f"{self.base_url}/cbb/boxscores/index.cgi?month={now.month}&day={now.day}&year={now.year}"
+        print(f"Fetching schedule for today: {now.strftime('%Y-%m-%d')}")
+        
+        try:
+            response = requests.get(url, headers=self.headers)
+        except:
+            return []
+            
+        soup = BeautifulSoup(response.content, 'html.parser')
+        games = []
+        
+        # Look for game summaries
+        summary_divs = soup.find_all('div', class_='game_summary')
+        
+        for div in summary_divs:
+            # Skip women's games if present
+            if 'gender-f' in div.get('class', []): continue
+            
+            table = div.find('table')
+            if not table: continue
+            
+            rows = table.find_all('tr')
+            if len(rows) < 2: continue
+            
+            # Extract team names
+            # Usually row 0 is team A, row 1 is team B
+            try:
+                teamA_raw = rows[0].find('a').text
+                teamB_raw = rows[1].find('a').text
+                
+                # Check for location (Neutral site logic is hard to scrape perfectly here, 
+                # we will assume Home/Away based on listing order or simple logic)
+                # SR usually lists Away first (top), Home second (bottom)
+                
+                games.append({
+                    'away': self.clean_team_name(teamA_raw),
+                    'home': self.clean_team_name(teamB_raw)
+                })
+            except:
+                continue
+                
+        return games
+    
     def clean_team_name(self, name_str):
         # 1. Clean raw text
         name_str = name_str.replace('Table', '')
