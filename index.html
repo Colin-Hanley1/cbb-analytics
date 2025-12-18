@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>CBB Analytical Ratings</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Chart.js for the visual graph -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style> 
@@ -27,8 +26,9 @@
                     <span class="font-bold text-lg sm:text-xl tracking-tight text-white">CHan Analytics</span>
                     <div class="hidden md:block"><div class="ml-10 flex items-baseline space-x-4"><a href="index.html" class="bg-slate-900 text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Rankings</a><a href="matchup.html" class="text-gray-300 hover:bg-slate-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Matchup Simulator</a></div></div>
                 </div>
+                
                 <div class="flex items-center">
-                    <div class="hidden md:block text-xs text-slate-400 mr-4">Updated: <span class="text-white">2025-12-18 22:04 UTC</span></div>
+                    <div class="hidden md:block text-xs text-slate-400 mr-4">Updated: <span class="text-white">2025-12-18 22:07 UTC</span></div>
                     <div class="-mr-2 flex md:hidden">
                         <button type="button" onclick="toggleMenu()" class="bg-slate-800 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-slate-700 focus:outline-none">
                             <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
@@ -46,12 +46,14 @@
             
             <!-- View Toggles & Schedule Link -->
             <div class="flex space-x-2 w-full sm:w-auto">
-                <div class="flex bg-slate-100 p-1 rounded-lg">
+                
+                <!-- TOGGLE BUTTONS: Hidden on mobile (hidden), Flex on desktop (md:flex) -->
+                <div class="hidden md:flex bg-slate-100 p-1 rounded-lg">
                     <button onclick="setView('table')" id="btnTable" class="px-4 py-1.5 text-xs font-bold rounded-md shadow-sm bg-white text-slate-900 transition-all">List</button>
                     <button onclick="setView('chart')" id="btnChart" class="px-4 py-1.5 text-xs font-medium rounded-md text-slate-500 hover:text-slate-900 transition-all">Chart</button>
                 </div>
                 
-                <!-- NEW: Link to Today's Games -->
+                <!-- Schedule Link: Expands to fill space on mobile (flex-1) -->
                 <a href="schedule.html" class="flex-1 sm:flex-none flex items-center justify-center px-4 py-1.5 text-xs font-bold text-white bg-green-600 hover:bg-green-700 rounded-lg shadow-sm transition-colors">
                     Today's Games &rarr;
                 </a>
@@ -96,7 +98,7 @@
             </div>
         </div>
 
-        <!-- CHART VIEW (Hidden by default) -->
+        <!-- CHART VIEW (Desktop Only) -->
         <div id="chartView" class="hidden bg-white sm:shadow-lg sm:rounded-xl p-4 border border-gray-200">
             <div class="chart-wrapper">
                 <canvas id="quadrantChart"></canvas>
@@ -149,13 +151,9 @@
         // --- CHART LOGIC ---
         function initChart() {
             const ctx = document.getElementById('quadrantChart').getContext('2d');
-            
-            // Map Data: X=AdjO, Y=AdjD (Reversed)
             const points = currentData.map(row => ({
                 x: row.AdjO, y: row.AdjD, team: row.Team, rank: row.Rank, em: row.AdjEM, conf: row.Conference
             }));
-            
-            // Calculate Averages for Crosshairs
             const avgO = points.reduce((a,b)=>a+b.x,0)/points.length;
             const avgD = points.reduce((a,b)=>a+b.y,0)/points.length;
 
@@ -167,9 +165,9 @@
                         data: points,
                         backgroundColor: (ctx) => {
                             const v = ctx.raw?.em || 0;
-                            return v > 20 ? 'rgba(22, 163, 74, 0.8)' : // Elite
-                                   v > 0  ? 'rgba(37, 99, 235, 0.6)' : // Good
-                                            'rgba(239, 68, 68, 0.6)';  // Bad
+                            return v > 20 ? 'rgba(22, 163, 74, 0.8)' : 
+                                   v > 0  ? 'rgba(37, 99, 235, 0.6)' : 
+                                            'rgba(239, 68, 68, 0.6)';
                         },
                         borderColor: 'transparent',
                         pointRadius: 5,
@@ -194,7 +192,7 @@
                         },
                         y: { 
                             title: { display: true, text: 'Adjusted Defense' },
-                            reverse: true, // Lower is better
+                            reverse: true, 
                             grid: { color: (ctx) => Math.abs(ctx.tick.value - avgD) < 1 ? '#000' : '#e2e8f0', lineWidth: (ctx) => Math.abs(ctx.tick.value - avgD) < 1 ? 2 : 1 }
                         }
                     }
@@ -234,8 +232,6 @@
                 return matchesName && matchesConf;
             });
             renderTable();
-            
-            // Update chart if visible
             if(chartInstance) {
                 chartInstance.destroy();
                 initChart();
@@ -244,7 +240,10 @@
 
         function renderTable() {
             const tbody = document.getElementById('tableBody');
+            const showPure = document.getElementById('togglePure').checked;
             
+            document.querySelectorAll('.pure-col').forEach(el => el.style.display = showPure ? 'table-cell' : 'none');
+
             currentData.sort((a, b) => {
                 let valA = a[sortCol] || "";
                 let valB = b[sortCol] || "";
@@ -260,6 +259,8 @@
             let html = '';
             currentData.forEach(row => {
                 const emColor = row.AdjEM > 0 ? 'text-green-600' : 'text-red-600';
+                const pureColor = row.Pure_AdjEM > 0 ? 'text-green-600' : 'text-red-600';
+                const pureDisplay = showPure ? '' : 'display:none;';
 
                 html += `
                 <tr class="hover:bg-blue-50/30 transition-colors group">
@@ -274,6 +275,7 @@
                     <td class="px-3 py-3 text-gray-500 text-left border-r border-gray-100 hidden sm:table-cell text-xs">${row.Conference || '-'}</td>
                     
                     <td class="px-4 py-3 font-bold ${emColor} text-right bg-blue-50/20 text-xs sm:text-sm">${row.AdjEM.toFixed(2)}</td>
+                    <td class="px-4 py-3 font-bold ${pureColor} text-right bg-orange-50/20 text-xs sm:text-sm pure-col" style="${pureDisplay}">${row.Pure_AdjEM.toFixed(2)}</td>
                     
                     <td class="px-4 py-3 text-gray-600 text-right text-xs sm:text-sm">
                         ${row.AdjO.toFixed(1)} <span class="text-[10px] text-gray-400 ml-1">${row.Rank_AdjO || '-'}</span>
