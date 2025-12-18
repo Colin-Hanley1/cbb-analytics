@@ -58,11 +58,18 @@
                 <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Search Team..." class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-gray-50 placeholder-gray-500 focus:outline-none focus:bg-white focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition duration-150 ease-in-out">
             </div>
 
-            <!-- Toggles -->
-            <div class="flex items-center space-x-4 text-sm">
-                <label class="inline-flex items-center cursor-pointer">
+            <!-- Filters Group -->
+            <div class="flex items-center space-x-4 w-full sm:w-auto overflow-x-auto">
+                <!-- NEW: Conference Filter -->
+                <select id="confFilter" onchange="filterTable()" class="block w-full sm:w-40 pl-3 pr-8 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md bg-gray-50">
+                    <option value="">All Conf</option>
+                    <!-- Options injected by JS -->
+                </select>
+
+                <!-- Toggles -->
+                <label class="inline-flex items-center cursor-pointer whitespace-nowrap">
                     <input type="checkbox" id="togglePure" class="form-checkbox h-4 w-4 text-blue-600 rounded" onchange="renderTable()">
-                    <span class="ml-2 text-gray-700">Show Pure Ratings</span>
+                    <span class="ml-2 text-sm text-gray-700">Pure</span>
                 </label>
             </div>
         </div>
@@ -85,6 +92,9 @@
                             
                             <!-- Team (Sticky) -->
                             <th class="sticky left-[3.5rem] z-20 bg-slate-100 px-4 py-3 cursor-pointer hover:bg-slate-200 text-left border-r shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]" onclick="handleSort('Team', this)">Team</th>
+                            
+                            <!-- NEW: Conf Column -->
+                            <th class="px-3 py-3 text-left border-r border-gray-200 cursor-pointer hover:bg-slate-100 hidden sm:table-cell" onclick="handleSort('Conference', this)">Conf</th>
                             
                             <!-- Stats Columns -->
                             <th class="px-4 py-3 cursor-pointer hover:bg-slate-200 text-right bg-blue-50/50" onclick="handleSort('AdjEM', this)">AdjEM w/ Pre</th>
@@ -112,6 +122,8 @@
     <script>
         // Injected by build_site.py
         const rawData = {{RANKINGS_JSON}};
+        const conferences = {{CONF_JSON}}; // NEW: Injected Conference List
+        
         let currentData = [...rawData];
         let sortCol = 'AdjEM';
         let sortAsc = false; // Default DESC for stats
@@ -120,13 +132,30 @@
             document.getElementById('mobile-menu').classList.toggle('open');
         }
 
+        // --- INIT ---
+        window.onload = function() {
+            // Populate Conference Dropdown
+            const sel = document.getElementById('confFilter');
+            if(conferences) {
+                conferences.forEach(c => {
+                    if(c && c !== 'Unknown') {
+                        const opt = document.createElement('option');
+                        opt.value = c;
+                        opt.innerText = c;
+                        sel.appendChild(opt);
+                    }
+                });
+            }
+            renderTable();
+        };
+
         function handleSort(col, headerElement) {
             if (sortCol === col) {
                 sortAsc = !sortAsc;
             } else {
                 sortCol = col;
                 // Default directions
-                if (col === 'Rank' || col === 'Team' || col === 'AdjD') sortAsc = true;
+                if (col === 'Rank' || col === 'Team' || col === 'AdjD' || col === 'Conference') sortAsc = true;
                 else sortAsc = false;
             }
             renderTable();
@@ -134,13 +163,13 @@
 
         function filterTable() {
             const query = document.getElementById('searchInput').value.toLowerCase();
-            if (!query) {
-                currentData = [...rawData];
-            } else {
-                currentData = rawData.filter(row => 
-                    row.Team.toLowerCase().includes(query)
-                );
-            }
+            const conf = document.getElementById('confFilter').value;
+
+            currentData = rawData.filter(row => {
+                const matchesName = row.Team.toLowerCase().includes(query);
+                const matchesConf = conf === "" || row.Conference === conf;
+                return matchesName && matchesConf;
+            });
             renderTable();
         }
 
@@ -158,6 +187,10 @@
                 let valA = a[sortCol];
                 let valB = b[sortCol];
                 
+                // Handle potentially missing string values
+                if (valA === undefined) valA = "";
+                if (valB === undefined) valB = "";
+                
                 if (typeof valA === 'string') {
                     return sortAsc ? valA.localeCompare(valB) : valB.localeCompare(valA);
                 }
@@ -172,7 +205,6 @@
                 }
             });
 
-            // Render Rows
             // Render Rows
             let html = '';
             currentData.forEach(row => {
@@ -190,27 +222,26 @@
                         </a>
                     </td>
                     
+                    <!-- NEW: Conf Cell (Hidden on mobile) -->
+                    <td class="px-3 py-3 text-gray-500 text-left border-r border-gray-100 hidden sm:table-cell text-xs">${row.Conference || '-'}</td>
+                    
                     <td class="px-4 py-3 font-bold ${emColor} text-right bg-blue-50/20 text-xs sm:text-sm">${row.AdjEM.toFixed(2)}</td>
                     <td class="px-4 py-3 font-bold ${pureColor} text-right bg-orange-50/20 text-xs sm:text-sm pure-col" style="${pureDisplay}">${row.Pure_AdjEM.toFixed(2)}</td>
                     
-                    <!-- Updated Columns with Sub-Ranks -->
                     <td class="px-4 py-3 text-gray-600 text-right text-xs sm:text-sm">
-                        ${row.AdjO.toFixed(1)} <span class="text-[10px] text-gray-400 ml-1">${row.Rank_AdjO}</span>
+                        ${row.AdjO.toFixed(1)} <span class="text-[10px] text-gray-400 ml-1">${row.Rank_AdjO || '-'}</span>
                     </td>
                     <td class="px-4 py-3 text-gray-600 text-right text-xs sm:text-sm">
-                        ${row.AdjD.toFixed(1)} <span class="text-[10px] text-gray-400 ml-1">${row.Rank_AdjD}</span>
+                        ${row.AdjD.toFixed(1)} <span class="text-[10px] text-gray-400 ml-1">${row.Rank_AdjD || '-'}</span>
                     </td>
                     <td class="px-4 py-3 text-gray-600 text-right text-xs sm:text-sm">
-                        ${row.AdjT.toFixed(1)} <span class="text-[10px] text-gray-400 ml-1">${row.Rank_AdjT}</span>
+                        ${row.AdjT.toFixed(1)} <span class="text-[10px] text-gray-400 ml-1">${row.Rank_AdjT || '-'}</span>
                     </td>
                 </tr>`;
             });
             
             tbody.innerHTML = html;
         }
-
-        // Initialize
-        renderTable();
     </script>
 </body>
 </html>

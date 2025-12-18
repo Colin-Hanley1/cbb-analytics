@@ -7,10 +7,69 @@ import urllib.parse
 
 # --- CONFIGURATION ---
 SCRAPER_SCRIPT = "scraper.py" 
-RATINGS_SCRIPT = "adj.py"
+RATINGS_SCRIPT = "adj.py" 
 OUTPUT_INDEX = "index.html"
 OUTPUT_MATCHUP = "matchup.html"
 OUTPUT_TEAM_DATA = "teams_data.js"
+CONFERENCE_FILE = "cbb_conferences.csv"
+
+# --- NAME MAPPING (Must match scrape_cbb.py) ---
+NAME_MAPPING = {
+   "Iowa State": "Iowa St.", "Brigham Young": "BYU", "Michigan State": "Michigan St.",
+   "Saint Mary's (CA)": "Saint Mary's", "St. John's (NY)": "St. John's",
+   "Mississippi State": "Mississippi St.", "Ohio State": "Ohio St.",
+   "Southern Methodist": "SMU", "Utah State": "Utah St.",
+   "San Diego State": "San Diego St.", "Southern California": "USC",
+   "NC State": "N.C. State", "Virginia Commonwealth": "VCU",
+   "Oklahoma State": "Oklahoma St.", "Louisiana State": "LSU",
+   "Penn State": "Penn St.", "Boise State": "Boise St.",
+   "Miami (FL)": "Miami FL", "Colorado State": "Colorado St.",
+   "Arizona State": "Arizona St.", "Kansas State": "Kansas St.",
+   "Florida State": "Florida St.", "McNeese State": "McNeese",
+   "Nevada-Las Vegas": "UNLV", "Loyola (IL)": "Loyola Chicago",
+   "Kennesaw State": "Kennesaw St.", "Murray State": "Murray St.",
+   "Kent State": "Kent St.", "Illinois State": "Illinois St.",
+   "College of Charleston": "Charleston", "Cal State Northridge": "CSUN",
+   "Wichita State": "Wichita St.", "Miami (OH)": "Miami OH",
+   "East Tennessee State": "East Tennessee St.", "South Dakota State": "South Dakota St.",
+   "New Mexico State": "New Mexico St.", "Oregon State": "Oregon St.",
+   "Jacksonville State": "Jacksonville St.", "Arkansas State": "Arkansas St.",
+   "Montana State": "Montana St.", "Omaha": "Nebraska Omaha",
+   "Sam Houston": "Sam Houston St.", "California Baptist": "Cal Baptist",
+   "Portland State": "Portland St.", "Nicholls State": "Nicholls",
+   "Texas A&M-Corpus Christi": "Texas A&M Corpus Chris",
+   "Illinois-Chicago": "Illinois Chicago", "Youngstown State": "Youngstown St.",
+   "North Dakota State": "North Dakota St.", "Queens (NC)": "Queens",
+   "Southeast Missouri State": "Southeast Missouri", "Texas State": "Texas St.",
+   "Jackson State": "Jackson St.", "Appalachian State": "Appalachian St.",
+   "Wright State": "Wright St.", "Indiana State": "Indiana St.",
+   "Missouri State": "Missouri St.", "San Jose State": "San Jose St.",
+   "Bethune-Cookman": "Bethune Cookman", "Southern Illinois-Edwardsville": "SIUE",
+   "Loyola (MD)": "Loyola MD", "Norfolk State": "Norfolk St.",
+   "Idaho State": "Idaho St.", "Texas-Rio Grande Valley": "UT Rio Grande Valley",
+   "South Carolina State": "South Carolina St.", "Georgia State": "Georgia St.",
+   "Washington State": "Washington St.", "Cleveland State": "Cleveland St.",
+   "Northwestern State": "Northwestern St.", "Albany (NY)": "Albany",
+   "Virginia Military Institute": "VMI", "Maryland-Baltimore County": "UMBC",
+   "Pennsylvania": "Penn", "Long Island University": "LIU",
+   "Tennessee-Martin": "Tennessee Martin", "Tennessee State": "Tennessee St.",
+   "Central Connecticut State": "Central Connecticut", "Weber State": "Weber St.",
+   "Tarleton State": "Tarleton St." , "Morgan State": "Morgan St.",
+   "Morehead State": "Morehead St.", "Fresno State": "Fresno St.",
+   "Cal State Bakersfield": "Cal St. Bakersfield", "Ball State": "Ball St.",
+   "Alabama State": "Alabama St.", "Sacramento State": "Sacramento St.",
+   "Long Beach State": "Long Beach St.", "Massachusetts-Lowell": "UMass Lowell",
+   "South Carolina Upstate": "USC Upstate", "Florida International": "FIU",
+   "Southern Miss.": "Southern Miss.", "Gardner-Webb": "Gardner Webb",
+   "Cal State Fullerton": "Cal St. Fullerton", "Coppin State": "Coppin St.",
+   "Maryland-Eastern Shore": "Maryland Eastern Shore",
+   "Saint Francis (PA)": "Saint Francis", "FDU": "Fairleigh Dickinson",
+   "Grambling": "Grambling St.", "Alcorn State": "Alcorn St.",
+   "Delaware State": "Delaware St.", "Chicago State": "Chicago St.",
+   "Louisiana-Monroe": "Louisiana Monroe", "Prairie View": "Prairie View A&M",
+   "Arkansas-Pine Bluff": "Arkansas Pine Bluff",
+   "Mississippi Valley State": "Mississippi Valley St."
+}
 
 def run_script(script_name):
     print(f"--- Running {script_name} ---")
@@ -21,19 +80,37 @@ def run_script(script_name):
         print(f"Error running {script_name}: {e}")
 
 def get_data():
+    # 1. Ratings
     try:
         df_rat = pd.read_csv("cbb_ratings.csv")
     except FileNotFoundError:
         print("Error: cbb_ratings.csv not found.")
-        return None, None
+        return None, None, None
 
+    # 2. Scores
     try:
         df_sco = pd.read_csv("cbb_scores.csv")
     except FileNotFoundError:
         print("Error: cbb_scores.csv not found.")
-        return df_rat, None
+        return df_rat, None, None
     
-    return df_rat, df_sco
+    # 3. Pure Ratings (Optional)
+    try:
+        df_pure = pd.read_csv("kenpom_pure.csv")
+        pure_map = df_pure.set_index('Team')['AdjEM'].to_dict()
+        df_rat['Pure_AdjEM'] = df_rat['Team'].map(pure_map).fillna(0.0)
+    except:
+        df_rat['Pure_AdjEM'] = 0.0
+
+    # 4. Conferences (Optional)
+    try:
+        df_conf = pd.read_csv(CONFERENCE_FILE)
+        df_conf['Team'] = df_conf['Team'].replace(NAME_MAPPING)
+    except FileNotFoundError:
+        df_conf = None
+        print("conferences not found")
+
+    return df_rat, df_sco, df_conf
 
 # --- SHARED NAVIGATION GENERATOR ---
 def get_nav_html(active_page):
@@ -46,7 +123,6 @@ def get_nav_html(active_page):
         is_active = (active_page == 'index' and url == 'index.html') or \
                     (active_page == 'matchup' and url == 'matchup.html')
         
-        # Styles
         d_cls = "bg-slate-900 text-white" if is_active else "text-gray-300 hover:bg-slate-700 hover:text-white"
         desktop_html += f'<a href="{url}" class="{d_cls} px-3 py-2 rounded-md text-sm font-medium transition-colors">{label}</a>'
         
@@ -63,24 +139,27 @@ def generate_teams_js(df_ratings, df_scores):
     
     teams_dict = {}
     
-    # Handle column name (fallback to AdjEM if Blended doesn't exist, just in case)
-    em_col = 'Blended_AdjEM' if 'Blended_AdjEM' in df_ratings.columns else 'AdjEM'
+    # Handle column name variance
+    em_col = 'AdjEM' if 'AdjEM' in df_ratings.columns else 'Blended_AdjEM'
     ratings_map = df_ratings.set_index('Team')[em_col].to_dict()
     
     if df_scores is not None and not df_scores.empty:
         pts_col = 'pts' if 'pts' in df_scores.columns else 'points'
         
         # --- FIX: DATA DEDUPLICATION START ---
+        
         # 1. Clean duplicates in the team's own rows
-        # We sort desc so if there are dupes, we keep the first one encountered (latest)
+        # If dates are strings, standard sort works fine.
+        # We sort desc so if there are dupes, we keep the first one encountered (usually fine)
         df_scores = df_scores.drop_duplicates(subset=['date', 'team', 'opponent'], keep='last')
 
         # 2. Prepare Opponent Lookup
         opp_df = df_scores[['date', 'team', pts_col]].rename(columns={'team': 'opponent', pts_col: 'opp_pts'})
         
         # 3. Clean duplicates in opponent lookup (CRITICAL FIX)
-        # This prevents the "Cartesian Explosion" where 1 game matches 2 opponent entries
+        # This prevents the "Cartesian Explosion" where 1 game matches 2 opponent entries (e.g. correct score + bad score)
         opp_df = opp_df.drop_duplicates(subset=['date', 'opponent'], keep='last')
+        
         # --- FIX END ---
 
         full_scores = df_scores.merge(opp_df, on=['date', 'opponent'], how='left')
@@ -144,7 +223,7 @@ def generate_teams_js(df_ratings, df_scores):
         f.write(js_content)
     print(f"Generated {OUTPUT_TEAM_DATA}")
 
-def generate_index(df):
+def generate_index(df, df_conf):
     print("Generating Index...")
     try:
         with open("template.html", "r") as f:
@@ -164,24 +243,33 @@ def generate_index(df):
     if 'Current_AdjEM' in df.columns:
          df = df.rename(columns={'Current_AdjEM': 'Pure_AdjEM'})
 
-    # --- NEW: CALCULATE STAT RANKS ---
-    # Method='min' means ties get the same top rank (e.g. T-1st)
+    # --- FEATURE: CALCULATE STAT RANKS ---
     df['Rank_AdjO'] = df['AdjO'].rank(ascending=False, method='min').astype(int)
-    df['Rank_AdjD'] = df['AdjD'].rank(ascending=True, method='min').astype(int) # Lower is better
+    df['Rank_AdjD'] = df['AdjD'].rank(ascending=True, method='min').astype(int) 
     df['Rank_AdjT'] = df['AdjT'].rank(ascending=False, method='min').astype(int)
-    # ---------------------------------
-         
+    
+    # --- FEATURE: CONFERENCES ---
+    if df_conf is not None:
+        df = df.merge(df_conf, on='Team', how='left')
+        df['Conference'] = df['Conference'].fillna('Unknown')
+    else:
+        df['Conference'] = '-'
+        
+    # Build Conference List for Dropdown
+    conf_list = sorted([c for c in df['Conference'].unique() if c and c != 'Unknown' and c != '-'])
+    conf_json = json.dumps(conf_list)
+
+    # Safe duplicate removal
     df = df.loc[:, ~df.columns.duplicated()]
 
-    # Add new Rank columns to the export list
-    cols = ['Rank', 'Team', 'Link', 'AdjEM', 'Pure_AdjEM', 'AdjO', 'AdjD', 'AdjT', 
+    cols = ['Rank', 'Team', 'Conference', 'Link', 'AdjEM', 'Pure_AdjEM', 'AdjO', 'AdjD', 'AdjT', 
             'Rank_AdjO', 'Rank_AdjD', 'Rank_AdjT']
-    
     cols = [c for c in cols if c in df.columns]
     
     rankings_json = df[cols].to_json(orient='records')
 
     html = template.replace("{{RANKINGS_JSON}}", rankings_json)
+    html = html.replace("{{CONF_JSON}}", conf_json) # Inject conference list
     html = html.replace("{{LAST_UPDATED}}", now)
     html = html.replace("{{NAV_DESKTOP}}", nav_d)
     html = html.replace("{{NAV_MOBILE}}", nav_m)
@@ -189,7 +277,7 @@ def generate_index(df):
     with open(OUTPUT_INDEX, "w") as f:
         f.write(html)
     print(f"Generated {OUTPUT_INDEX}")
-    
+
 def generate_matchup(df):
     print("Generating Matchup...")
     teams_data = {}
@@ -230,10 +318,10 @@ if __name__ == "__main__":
     run_script(RATINGS_SCRIPT)
     
     # 2. Get Data
-    df_ratings, df_scores = get_data()
+    df_ratings, df_scores, df_conf = get_data()
 
     if df_ratings is not None:
         # 3. Build SPA Assets
         generate_teams_js(df_ratings, df_scores)
-        generate_index(df_ratings)
+        generate_index(df_ratings, df_conf)
         generate_matchup(df_ratings)
