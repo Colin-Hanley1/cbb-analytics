@@ -46,6 +46,7 @@ def get_nav_html(active_page):
         is_active = (active_page == 'index' and url == 'index.html') or \
                     (active_page == 'matchup' and url == 'matchup.html')
         
+        # Styles
         d_cls = "bg-slate-900 text-white" if is_active else "text-gray-300 hover:bg-slate-700 hover:text-white"
         desktop_html += f'<a href="{url}" class="{d_cls} px-3 py-2 rounded-md text-sm font-medium transition-colors">{label}</a>'
         
@@ -62,27 +63,24 @@ def generate_teams_js(df_ratings, df_scores):
     
     teams_dict = {}
     
-    # Use 'Blended_AdjEM'
-    ratings_map = df_ratings.set_index('Team')['Blended_AdjEM'].to_dict()
+    # Handle column name (fallback to AdjEM if Blended doesn't exist, just in case)
+    em_col = 'Blended_AdjEM' if 'Blended_AdjEM' in df_ratings.columns else 'AdjEM'
+    ratings_map = df_ratings.set_index('Team')[em_col].to_dict()
     
     if df_scores is not None and not df_scores.empty:
         pts_col = 'pts' if 'pts' in df_scores.columns else 'points'
         
         # --- FIX: DATA DEDUPLICATION START ---
-        
         # 1. Clean duplicates in the team's own rows
-        # If dates are strings (YYYY-MM-DD), standard sort works fine.
-        # We sort desc so if there are dupes, we keep the first one encountered (usually fine)
-        # or we could keep 'last' if we assume file is appended chronologically.
+        # We sort desc so if there are dupes, we keep the first one encountered (latest)
         df_scores = df_scores.drop_duplicates(subset=['date', 'team', 'opponent'], keep='last')
 
         # 2. Prepare Opponent Lookup
         opp_df = df_scores[['date', 'team', pts_col]].rename(columns={'team': 'opponent', pts_col: 'opp_pts'})
         
         # 3. Clean duplicates in opponent lookup (CRITICAL FIX)
-        # This prevents the "Cartesian Explosion" where 1 game matches 2 opponent entries (e.g. correct score + bad score)
+        # This prevents the "Cartesian Explosion" where 1 game matches 2 opponent entries
         opp_df = opp_df.drop_duplicates(subset=['date', 'opponent'], keep='last')
-        
         # --- FIX END ---
 
         full_scores = df_scores.merge(opp_df, on=['date', 'opponent'], how='left')
@@ -115,7 +113,7 @@ def generate_teams_js(df_ratings, df_scores):
                     
                     opp_rating = ratings_map.get(opp, 0.0)
                     hfa_adj = 3.2 if loc_val == 1 else (-3.2 if loc_val == -1 else 0)
-                    exp_margin = (row['Blended_AdjEM'] - opp_rating) + hfa_adj
+                    exp_margin = (row[em_col] - opp_rating) + hfa_adj
                     
                     poss = g.get('possessions', 70)
                     if poss == 0: poss = 70
@@ -133,7 +131,7 @@ def generate_teams_js(df_ratings, df_scores):
             
         teams_dict[team] = {
             'rank': int(row['Rank']),
-            'adjem': round(row['Blended_AdjEM'], 2),
+            'adjem': round(row[em_col], 2),
             'adjo': round(row['AdjO'], 1),
             'adjd': round(row['AdjD'], 1),
             'adjt': round(row['AdjT'], 1),
@@ -160,19 +158,28 @@ def generate_index(df):
 
     df['Link'] = df['Team'].apply(lambda x: f"team.html?q={urllib.parse.quote(x)}")
     
-    # Rename columns for JS template compatibility
-    json_df = df.rename(columns={
-        'Blended_AdjEM': 'AdjEM',
-        'Current_AdjEM': 'Pure_AdjEM'
-    })
+    # Handle column names
+    if 'Blended_AdjEM' in df.columns:
+         df = df.rename(columns={'Blended_AdjEM': 'AdjEM'})
+    if 'Current_AdjEM' in df.columns:
+         df = df.rename(columns={'Current_AdjEM': 'Pure_AdjEM'})
+
+    # --- NEW: CALCULATE STAT RANKS ---
+    # Method='min' means ties get the same top rank (e.g. T-1st)
+    df['Rank_AdjO'] = df['AdjO'].rank(ascending=False, method='min').astype(int)
+    df['Rank_AdjD'] = df['AdjD'].rank(ascending=True, method='min').astype(int) # Lower is better
+    df['Rank_AdjT'] = df['AdjT'].rank(ascending=False, method='min').astype(int)
+    # ---------------------------------
+         
+    df = df.loc[:, ~df.columns.duplicated()]
+
+    # Add new Rank columns to the export list
+    cols = ['Rank', 'Team', 'Link', 'AdjEM', 'Pure_AdjEM', 'AdjO', 'AdjD', 'AdjT', 
+            'Rank_AdjO', 'Rank_AdjD', 'Rank_AdjT']
     
-    # Drop duplicates if any exist after rename
-    json_df = json_df.loc[:, ~json_df.columns.duplicated()]
+    cols = [c for c in cols if c in df.columns]
     
-    cols = ['Rank', 'Team', 'Link', 'AdjEM', 'Pure_AdjEM', 'AdjO', 'AdjD', 'AdjT']
-    cols = [c for c in cols if c in json_df.columns]
-    
-    rankings_json = json_df[cols].to_json(orient='records')
+    rankings_json = df[cols].to_json(orient='records')
 
     html = template.replace("{{RANKINGS_JSON}}", rankings_json)
     html = html.replace("{{LAST_UPDATED}}", now)
@@ -182,17 +189,20 @@ def generate_index(df):
     with open(OUTPUT_INDEX, "w") as f:
         f.write(html)
     print(f"Generated {OUTPUT_INDEX}")
-
+    
 def generate_matchup(df):
     print("Generating Matchup...")
     teams_data = {}
+    
+    # Handle column name safely
+    em_col = 'Blended_AdjEM' if 'Blended_AdjEM' in df.columns else 'AdjEM'
+    
     for _, row in df.sort_values('Team').iterrows():
-        # Pass Blended_AdjEM implicitly for logic via AdjO/AdjD if they are blended
         teams_data[row['Team']] = {
             'AdjO': row['AdjO'], 
             'AdjD': row['AdjD'], 
             'AdjT': row['AdjT'],
-            'AdjEM': row['Blended_AdjEM']
+            'AdjEM': row[em_col]
         }
     teams_json = json.dumps(teams_data)
 

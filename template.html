@@ -173,13 +173,13 @@
             });
 
             // Render Rows
+            // Render Rows
             let html = '';
             currentData.forEach(row => {
                 const emColor = row.AdjEM > 0 ? 'text-green-600' : 'text-red-600';
                 const pureColor = row.Pure_AdjEM > 0 ? 'text-green-600' : 'text-red-600';
                 const pureDisplay = showPure ? '' : 'display:none;';
 
-                // --- DATA MAPPING: TEAM LINK FROM build_site.py USED HERE ---
                 html += `
                 <tr class="hover:bg-blue-50/30 transition-colors group">
                     <td class="sticky left-0 z-10 bg-white group-hover:bg-blue-50 px-4 py-3 font-bold text-gray-500 text-center border-r border-gray-100 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] text-xs sm:text-sm w-14 min-w-[3.5rem] max-w-[3.5rem]">${row.Rank}</td>
@@ -192,9 +192,17 @@
                     
                     <td class="px-4 py-3 font-bold ${emColor} text-right bg-blue-50/20 text-xs sm:text-sm">${row.AdjEM.toFixed(2)}</td>
                     <td class="px-4 py-3 font-bold ${pureColor} text-right bg-orange-50/20 text-xs sm:text-sm pure-col" style="${pureDisplay}">${row.Pure_AdjEM.toFixed(2)}</td>
-                    <td class="px-4 py-3 text-gray-600 text-right text-xs sm:text-sm">${row.AdjO.toFixed(1)}</td>
-                    <td class="px-4 py-3 text-gray-600 text-right text-xs sm:text-sm">${row.AdjD.toFixed(1)}</td>
-                    <td class="px-4 py-3 text-gray-600 text-right text-xs sm:text-sm">${row.AdjT.toFixed(1)}</td>
+                    
+                    <!-- Updated Columns with Sub-Ranks -->
+                    <td class="px-4 py-3 text-gray-600 text-right text-xs sm:text-sm">
+                        ${row.AdjO.toFixed(1)} <span class="text-[10px] text-gray-400 ml-1">${row.Rank_AdjO}</span>
+                    </td>
+                    <td class="px-4 py-3 text-gray-600 text-right text-xs sm:text-sm">
+                        ${row.AdjD.toFixed(1)} <span class="text-[10px] text-gray-400 ml-1">${row.Rank_AdjD}</span>
+                    </td>
+                    <td class="px-4 py-3 text-gray-600 text-right text-xs sm:text-sm">
+                        ${row.AdjT.toFixed(1)} <span class="text-[10px] text-gray-400 ml-1">${row.Rank_AdjT}</span>
+                    </td>
                 </tr>`;
             });
             
