@@ -13,19 +13,16 @@
         th.sort-desc::after { content: " \2193"; opacity: 0.8; margin-left: 2px; color: #2563eb; }
         #mobile-menu { display: none; }
         #mobile-menu.open { display: block; }
-        .chart-wrapper { position: relative; height: 60vh; width: 100%; }
+        .chart-wrapper { position: relative; height: 65vh; width: 100%; }
         
-        /* Sticky Column Fixes */
         .sticky-col-1 { position: sticky; left: 0; z-index: 20; }
         .sticky-col-2 { position: sticky; left: 3.5rem; z-index: 20; }
-        /* Ensure background covers scrolling text */
         .bg-opaque { background-color: white; }
-        tr:hover .bg-opaque { background-color: #eff6ff; } /* bg-blue-50 */
+        tr:hover .bg-opaque { background-color: #eff6ff; }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-900 min-h-screen flex flex-col">
 
-    <!-- Navbar -->
     <nav class="bg-slate-900 text-white shadow-lg sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-14 sm:h-16">
@@ -46,11 +43,8 @@
         {{NAV_MOBILE}}
     </nav>
 
-    <!-- Controls Bar -->
     <div class="bg-white border-b border-gray-200 sticky top-14 sm:top-16 z-40 shadow-sm px-4 py-3">
         <div class="max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            
-            <!-- View Buttons (Chart hidden on mobile) -->
             <div class="flex space-x-2 w-full sm:w-auto">
                 <div class="hidden md:flex bg-slate-100 p-1 rounded-lg">
                     <button onclick="setView('table')" id="btnTable" class="px-4 py-1.5 text-xs font-bold rounded-md shadow-sm bg-white text-slate-900 transition-all">List</button>
@@ -60,12 +54,10 @@
                     Today's Games &rarr;
                 </a>
             </div>
-
-            <!-- Search & Filters -->
             <div class="flex flex-1 items-center space-x-3 w-full sm:w-auto">
                 <div class="relative w-full">
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><svg class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg></div>
-                    <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Search..." class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg bg-gray-50 focus:bg-white focus:ring-1 focus:ring-blue-500 sm:text-sm">
+                    <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Search Team..." class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg bg-gray-50 focus:bg-white focus:ring-1 focus:ring-blue-500 sm:text-sm">
                 </div>
                 <select id="confFilter" onchange="filterTable()" class="block w-24 sm:w-32 pl-2 pr-6 py-2 text-xs border-gray-300 rounded-md bg-gray-50 truncate">
                     <option value="">All Conf</option>
@@ -74,10 +66,7 @@
         </div>
     </div>
 
-    <!-- Main Content -->
     <main class="flex-grow max-w-7xl w-full mx-auto px-0 sm:px-6 lg:px-8 py-4 sm:py-6">
-        
-        <!-- TABLE VIEW -->
         <div id="tableView" class="bg-white sm:shadow-lg sm:rounded-xl overflow-hidden border-t sm:border border-gray-200">
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse whitespace-nowrap text-sm" id="rankingsTable">
@@ -98,9 +87,12 @@
             </div>
         </div>
 
-        <!-- CHART VIEW -->
         <div id="chartView" class="hidden bg-white sm:shadow-lg sm:rounded-xl p-4 border border-gray-200">
             <div class="chart-wrapper"><canvas id="quadrantChart"></canvas></div>
+            <div class="mt-4 text-center text-xs text-slate-500">
+                <strong>Top Right:</strong> Elite Balanced &bull; <strong>Bottom Left:</strong> Struggling<br>
+                <strong>Top Left:</strong> Defensive Specialist &bull; <strong>Bottom Right:</strong> All Offense
+            </div>
         </div>
     </main>
 
@@ -109,23 +101,26 @@
     </footer>
 
     <script>
-        // DATA INJECTION - If this fails, the script will catch it
         let rawData = [];
         let conferences = [];
         try {
             rawData = {{RANKINGS_JSON}};
             conferences = {{CONF_JSON}};
         } catch (e) {
-            console.error("Data Injection Failed. Run build_site.py!", e);
-            document.getElementById('tableBody').innerHTML = '<tr><td colspan="7" class="p-4 text-center text-red-600 font-bold">Error: Data not loaded. Please run python build_site.py</td></tr>';
+            console.error("Data Injection Failed", e);
+            document.getElementById('tableBody').innerHTML = '<tr><td colspan="7" class="p-4 text-center text-red-600 font-bold">Error loading data. Run build_site.py</td></tr>';
         }
 
         let currentData = [...rawData];
         let sortCol = 'AdjEM';
         let sortAsc = false;
         let chartInstance = null;
+        
+        // Image Cache to prevent reloading
+        const imageCache = {};
 
         function toggleMenu() { document.getElementById('mobile-menu').classList.toggle('open'); }
+        function getLogoPath(teamName) { return `logos/${teamName}.png`; }
 
         function setView(view) {
             if(view === 'table') {
@@ -138,32 +133,74 @@
                 document.getElementById('chartView').classList.remove('hidden');
                 document.getElementById('btnChart').className = "px-4 py-1.5 text-xs font-bold rounded-md shadow-sm bg-white text-slate-900 transition-all";
                 document.getElementById('btnTable').className = "px-4 py-1.5 text-xs font-medium rounded-md text-slate-500 hover:text-slate-900 transition-all";
-                if(!chartInstance) initChart();
+                initChart();
             }
         }
 
+        // --- PROGRESSIVE LOADING CHART ---
         function initChart() {
             const ctx = document.getElementById('quadrantChart').getContext('2d');
-            const points = currentData.map(row => ({ x: row.AdjO, y: row.AdjD, team: row.Team, rank: row.Rank, em: row.AdjEM, conf: row.Conference }));
+            
+            // 1. Prepare Data
+            const points = currentData.map(row => ({
+                x: row.AdjO, y: row.AdjD, team: row.Team, rank: row.Rank, em: row.AdjEM, conf: row.Conference
+            }));
+            
+            // 2. Initialize pointStyles with 'circle' (Instant Render)
+            // If image is already cached, use it immediately
+            const pointStyles = points.map(p => imageCache[p.team] ? imageCache[p.team] : 'circle');
+            
+            if(chartInstance) chartInstance.destroy();
+            
             const avgO = points.reduce((a,b)=>a+b.x,0)/points.length;
             const avgD = points.reduce((a,b)=>a+b.y,0)/points.length;
 
+            // 3. Render Chart immediately with circles/cached images
             chartInstance = new Chart(ctx, {
                 type: 'scatter',
                 data: {
                     datasets: [{
-                        label: 'Teams', data: points,
-                        backgroundColor: (ctx) => ctx.raw?.em > 15 ? 'rgba(22, 163, 74, 0.7)' : ctx.raw?.em > 0 ? 'rgba(59, 130, 246, 0.6)' : 'rgba(239, 68, 68, 0.6)',
-                        pointRadius: 5
+                        label: 'Teams',
+                        data: points,
+                        pointStyle: pointStyles,
+                        pointRadius: 10,
+                        hoverRadius: 15,
+                        backgroundColor: (ctx) => ctx.raw?.em > 15 ? 'rgba(22, 163, 74, 0.5)' : ctx.raw?.em > 0 ? 'rgba(59, 130, 246, 0.5)' : 'rgba(239, 68, 68, 0.5)'
                     }]
                 },
                 options: {
-                    responsive: true, maintainAspectRatio: false,
+                    responsive: true, maintainAspectRatio: false, animation: false,
                     plugins: { tooltip: { callbacks: { label: (ctx) => `#${ctx.raw.rank} ${ctx.raw.team} (${ctx.raw.conf})` }}, legend: { display: false }},
                     scales: {
                         x: { title: { display: true, text: 'Adjusted Offense' }, grid: { color: (ctx) => Math.abs(ctx.tick.value - avgO) < 1 ? '#000' : '#e2e8f0' }},
                         y: { title: { display: true, text: 'Adjusted Defense' }, reverse: true, grid: { color: (ctx) => Math.abs(ctx.tick.value - avgD) < 1 ? '#000' : '#e2e8f0' }}
                     }
+                }
+            });
+
+            // 4. Lazy Load Images in Background
+            let pendingUpdate = false;
+            const triggerUpdate = () => {
+                if (!pendingUpdate) {
+                    pendingUpdate = true;
+                    // Batch updates to avoid freezing
+                    requestAnimationFrame(() => {
+                        if(chartInstance) chartInstance.update('none'); // Update without animation
+                        pendingUpdate = false;
+                    });
+                }
+            };
+
+            points.forEach((p, index) => {
+                if (!imageCache[p.team]) {
+                    const img = new Image(20, 20);
+                    img.src = getLogoPath(p.team);
+                    img.onload = () => {
+                        imageCache[p.team] = img;
+                        // Update the specific point style
+                        chartInstance.data.datasets[0].pointStyle[index] = img;
+                        triggerUpdate();
+                    };
                 }
             });
         }
@@ -179,12 +216,9 @@
             renderTable();
         };
 
-        function handleSort(col) {
+        function handleSort(col, el) {
             if (sortCol === col) sortAsc = !sortAsc;
-            else {
-                sortCol = col;
-                sortAsc = (col === 'Rank' || col === 'Team' || col === 'AdjD' || col === 'Conference');
-            }
+            else { sortCol = col; sortAsc = (col === 'Rank' || col === 'Team' || col === 'AdjD' || col === 'Conference'); }
             renderTable();
         }
 
@@ -195,23 +229,17 @@
                 return row.Team.toLowerCase().includes(query) && (conf === "" || row.Conference === conf);
             });
             renderTable();
-            if(chartInstance) { chartInstance.destroy(); initChart(); }
+            if(!document.getElementById('chartView').classList.contains('hidden')) initChart();
         }
 
         function renderTable() {
             const tbody = document.getElementById('tableBody');
             const noData = document.getElementById('noDataMsg');
-            
-            if (currentData.length === 0) {
-                tbody.innerHTML = '';
-                noData.classList.remove('hidden');
-                return;
-            } else {
-                noData.classList.add('hidden');
-            }
+            if (currentData.length === 0) { tbody.innerHTML = ''; noData.classList.remove('hidden'); return; } 
+            else { noData.classList.add('hidden'); }
 
             currentData.sort((a, b) => {
-                let valA = a[sortCol], valB = b[sortCol];
+                let valA = a[sortCol] || "", valB = b[sortCol] || "";
                 if (typeof valA === 'string') return sortAsc ? valA.localeCompare(valB) : valB.localeCompare(valA);
                 return sortAsc ? valA - valB : valB - valA;
             });
@@ -224,7 +252,6 @@
             let html = '';
             currentData.forEach(row => {
                 const emColor = row.AdjEM > 0 ? 'text-green-600' : 'text-red-600';
-                
                 html += `
                 <tr class="hover:bg-blue-50/50 transition-colors group">
                     <td class="sticky-col-1 bg-opaque px-4 py-3 font-bold text-gray-500 text-center border-r border-gray-100 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] text-xs sm:text-sm">${row.Rank}</td>
