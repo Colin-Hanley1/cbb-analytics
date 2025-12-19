@@ -3,7 +3,7 @@ name: Daily CBB Update
 on:
   schedule:
     # Run at 09:00 UTC (4 AM EST) every day
-    - cron: '0 14 * * *'
+    - cron: '0 11 * * *'
   workflow_dispatch: # Allows manual trigger button
 
 permissions:
