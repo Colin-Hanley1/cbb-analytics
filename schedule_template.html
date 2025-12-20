@@ -5,29 +5,79 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Today's Predictions | CHan Analytics</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <style> body { font-family: 'Inter', sans-serif; } </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style> 
+        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; }
+        .font-mono { font-family: 'Roboto Mono', monospace; }
+        #mobile-menu { display: none; }
+        #mobile-menu.open { display: block; }
+    </style>
 </head>
-<body class="bg-gray-50 text-gray-900 min-h-screen flex flex-col">
+<body class="text-slate-900 min-h-screen flex flex-col">
 
     <!-- Navbar -->
-    <nav class="bg-slate-900 text-white shadow-lg sticky top-0 z-50">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <nav class="bg-slate-900/95 backdrop-blur-md text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
-                <div class="flex items-center">
+                <div class="flex items-center space-x-4">
                     <span class="font-bold text-xl tracking-tight text-white">CHan Analytics</span>
                     {{NAV_DESKTOP}}
+                </div>
+                <div class="-mr-2 flex md:hidden">
+                    <button type="button" onclick="toggleMenu()" class="bg-slate-800 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-slate-700 focus:outline-none">
+                        <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                    </button>
                 </div>
             </div>
         </div>
         {{NAV_MOBILE}}
     </nav>
 
-    <main class="flex-grow max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
-        <h1 class="text-2xl font-bold text-slate-900 mb-6">Today's Projections</h1>
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
         
-        <div id="games-container" class="space-y-4">
-            <!-- Games injected here -->
+        <!-- Header & Search -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+            <div>
+                <h1 class="text-2xl font-bold text-slate-900">Today's Projections</h1>
+                <p class="text-sm text-slate-500 mt-1">Projected scores and spreads for today's slate.</p>
+            </div>
+            
+            <div class="relative w-full sm:w-72">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <svg class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </div>
+                <input type="text" id="scheduleSearch" onkeyup="filterSchedule()" placeholder="Search teams..." 
+                    class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm shadow-sm transition duration-150 ease-in-out">
+            </div>
+        </div>
+
+        <!-- Table Card -->
+        <div class="bg-white shadow-xl rounded-xl overflow-hidden border border-gray-200">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse whitespace-nowrap text-sm" id="scheduleTable">
+                    <thead class="bg-slate-50 border-b border-gray-200 text-xs uppercase tracking-wider text-slate-500 font-bold">
+                        <tr>
+                            <th class="px-6 py-4">Team A</th>
+                            <th class="px-6 py-4 text-center">v</th>
+                            <th class="px-6 py-4">Team B</th>
+                            <th class="px-6 py-4 text-right">A Score</th>
+                            <th class="px-6 py-4 text-right">B Score</th>
+                            <th class="px-6 py-4 text-right">Spread</th>
+                            <th class="px-6 py-4 text-right">Win Prob</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100 bg-white" id="scheduleBody">
+                        <!-- Rows injected by JS -->
+                    </tbody>
+                </table>
+                
+                <!-- Empty State -->
+                <div id="noGamesMsg" class="hidden p-12 text-center text-gray-500">
+                    <p class="font-medium">No games found.</p>
+                </div>
+            </div>
         </div>
     </main>
 
@@ -42,69 +92,148 @@
 
     <script>
         const games = {{GAMES_JSON}};
-        const container = document.getElementById('games-container');
+        const tbody = document.getElementById('scheduleBody');
+        const noGamesMsg = document.getElementById('noGamesMsg');
         
-        // Math Constants
         const AVG_EFF = 106.0;
         const AVG_TEMPO = 68.5;
         const HFA = 3.2;
 
-        if (games.length === 0) {
-            container.innerHTML = '<div class="text-center text-gray-500 py-10">No games scheduled for today (or scraper failed).</div>';
+        function toggleMenu() {
+            document.getElementById('mobile-menu').classList.toggle('open');
         }
 
-        games.forEach(g => {
-            const home = TEAMS_DATA[g.home];
-            const away = TEAMS_DATA[g.away];
+        function renderSchedule() {
+            if (!games || games.length === 0) {
+                tbody.innerHTML = '';
+                noGamesMsg.innerHTML = "<p>No games scheduled for today.</p>";
+                noGamesMsg.classList.remove('hidden');
+                return;
+            }
 
-            if (!home || !away) return; // Skip if team not found in ratings
+            let rows = "";
+            let gamesFound = false;
 
-            // Run Sim (Home vs Away)
-            const expTempo = home.adjt + away.adjt - AVG_TEMPO;
-            const expEffHome = (home.adjo + away.adjd - AVG_EFF) + HFA;
-            const expEffAway = (away.adjo + home.adjd - AVG_EFF) - HFA;
-
-            const scoreHome = (expEffHome * expTempo) / 100;
-            const scoreAway = (expEffAway * expTempo) / 100;
-            
-            const margin = scoreHome - scoreAway;
-            const winner = margin > 0 ? g.home : g.away;
-            const loser = margin > 0 ? g.away : g.home;
-            const winScore = Math.round(Math.max(scoreHome, scoreAway));
-            const loseScore = Math.round(Math.min(scoreHome, scoreAway));
-            const spread = Math.abs(margin).toFixed(1);
-            
-            // Win Prob
-            const x = 11.5;
-            const wp = (Math.pow(winScore, x)) / (Math.pow(winScore, x) + Math.pow(loseScore, x));
-            const wpPct = (wp * 100).toFixed(0) + "%";
-
-            // Render Card
-            const card = document.createElement('div');
-            card.className = "bg-white p-4 rounded-lg shadow border border-gray-200 flex flex-col sm:flex-row justify-between items-center";
-            
-            card.innerHTML = `
-                <div class="flex-1 w-full flex justify-between items-center sm:block">
-                    <div class="font-bold text-lg text-slate-900">
-                        <a href="team.html?q=${encodeURIComponent(winner)}" class="hover:underline">${winner}</a>
-                        <span class="text-gray-400 font-normal text-sm ml-1">#${TEAMS_DATA[winner].rank}</span>
-                    </div>
-                    <div class="text-sm text-gray-500 mt-1">
-                        def. <a href="team.html?q=${encodeURIComponent(loser)}" class="hover:underline">${loser}</a>
-                        <span class="text-xs text-gray-400">#${TEAMS_DATA[loser].rank}</span>
-                    </div>
-                </div>
+            games.forEach(g => {
+                const homeTeam = g.home;
+                const awayTeam = g.away;
                 
-                <div class="mt-4 sm:mt-0 flex items-center space-x-6">
-                    <div class="text-center min-w-[80px]">
-                        <div class="text-sm font-bold text-blue-600">${winner} -${spread}</div>
-                        <div class="text-xs text-slate-500">Win Prob: ${wpPct}</div>
-                    </div>
-                </div>
-            `;
+                const home = TEAMS_DATA[homeTeam];
+                const away = TEAMS_DATA[awayTeam];
+
+                if (!home || !away) return; 
+                gamesFound = true;
+
+                // Calc
+                const expTempo = home.adjt + away.adjt - AVG_TEMPO;
+                const expEffHome = (home.adjo + away.adjd - AVG_EFF) + HFA;
+                const expEffAway = (away.adjo + home.adjd - AVG_EFF) - HFA;
+
+                const rawScoreHome = (expEffHome * expTempo) / 100;
+                const rawScoreAway = (expEffAway * expTempo) / 100;
+                
+                const scoreHome = Math.round(rawScoreHome);
+                const scoreAway = Math.round(rawScoreAway);
+                
+                const margin = rawScoreHome - rawScoreAway;
+                const spreadVal = Math.abs(margin).toFixed(1);
+                
+                let spreadDisplay = "Pick";
+                if (Math.abs(margin) >= 0.1) {
+                    const fav = margin > 0 ? homeTeam : awayTeam;
+                    spreadDisplay = `${fav} -${spreadVal}`;
+                }
+
+                const x = 11.5;
+                const wpHome = (Math.pow(rawScoreHome, x)) / (Math.pow(rawScoreHome, x) + Math.pow(rawScoreAway, x));
+                const wpAway = 1 - wpHome;
+                
+                const winnerProb = margin > 0 ? wpHome : wpAway;
+                // --- UPDATE: 2 Decimal Places ---
+                const probDisplay = (winnerProb * 100).toFixed(2) + "%";
+                const winnerName = margin > 0 ? homeTeam : awayTeam;
+                
+                // --- UPDATE: Highlight Names, not scores ---
+                const homeNameClass = margin > 0 ? "text-emerald-700 font-bold" : "text-rose-700 font-medium";
+                const awayNameClass = margin < 0 ? "text-emerald-700 font-bold" : "text-rose-700 font-medium";
+                
+                const spreadColor = "text-blue-600"; 
+                const probColor = "text-slate-700";
+
+                rows += `
+                <tr class="hover:bg-slate-50 transition-colors group">
+                    <!-- Home Team (Highlighted) -->
+                    <td class="px-6 py-4 border-r border-transparent group-hover:border-slate-100">
+                        <a href="team.html?q=${encodeURIComponent(homeTeam)}" class="hover:text-blue-600 hover:underline decoration-2 underline-offset-2 ${homeNameClass}">${homeTeam}</a>
+                        <span class="text-xs text-slate-400 ml-1 font-mono">#${home.rank}</span>
+                    </td>
+                    
+                    <td class="px-2 py-4 text-center text-xs text-slate-300">vs</td>
+                    
+                    <!-- Away Team (Highlighted) -->
+                    <td class="px-6 py-4 border-r border-transparent group-hover:border-slate-100">
+                        <a href="team.html?q=${encodeURIComponent(awayTeam)}" class="hover:text-blue-600 hover:underline decoration-2 underline-offset-2 ${awayNameClass}">${awayTeam}</a>
+                        <span class="text-xs text-slate-400 ml-1 font-mono">#${away.rank}</span>
+                    </td>
+
+                    <!-- Scores (Neutral) -->
+                    <td class="px-6 py-4 text-right font-mono text-base text-slate-700">${scoreHome}</td>
+                    <td class="px-6 py-4 text-right font-mono text-base text-slate-700">${scoreAway}</td>
+                    
+                    <td class="px-6 py-4 text-right font-bold ${spreadColor} text-sm">${spreadDisplay}</td>
+                    <td class="px-6 py-4 text-right font-mono ${probColor} font-bold">
+                        ${probDisplay} 
+                        <span class="text-[10px] text-slate-400 font-sans font-medium uppercase ml-1">${winnerName}</span>
+                    </td>
+                </tr>
+                `;
+            });
             
-            container.appendChild(card);
-        });
+            if (!gamesFound) {
+                 tbody.innerHTML = "";
+                 noGamesMsg.innerText = "Schedule loaded, but team ratings not found.";
+                 noGamesMsg.classList.remove('hidden');
+            } else {
+                 tbody.innerHTML = rows;
+                 noGamesMsg.classList.add('hidden');
+            }
+        }
+
+        function filterSchedule() {
+            const input = document.getElementById('scheduleSearch');
+            const filter = input.value.toUpperCase();
+            const table = document.getElementById('scheduleTable');
+            const tr = table.getElementsByTagName('tr');
+            let hasVisible = false;
+
+            for (let i = 1; i < tr.length; i++) {
+                const tdHome = tr[i].getElementsByTagName("td")[0];
+                const tdAway = tr[i].getElementsByTagName("td")[2];
+                
+                if (tdAway || tdHome) {
+                    const txtValueAway = tdAway.textContent || tdAway.innerText;
+                    const txtValueHome = tdHome.textContent || tdHome.innerText;
+                    
+                    if (txtValueAway.toUpperCase().indexOf(filter) > -1 || txtValueHome.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                        hasVisible = true;
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+            
+            const msg = document.getElementById('noGamesMsg');
+            if (!hasVisible && tr.length > 1) {
+                msg.innerText = "No teams found matching '" + input.value + "'";
+                msg.classList.remove('hidden');
+            } else {
+                if (tr.length <= 1) { } 
+                else { msg.classList.add('hidden'); }
+            }
+        }
+
+        renderSchedule();
     </script>
 </body>
 </html>
