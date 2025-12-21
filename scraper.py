@@ -264,7 +264,7 @@ class CBBScraper:
         """Scrapes the matchups for the current date."""
         now = datetime.now()
         # Note: Sports-Reference determines 'today' based on their server time.
-        url = f"{self.base_url}/cbb/boxscores/index.cgi?month={today.month}&day={today.day}&year={today.year}"
+        url = f"{self.base_url}/cbb/boxscores/index.cgi?month={now.month}&day={now.day}&year={now.year}"
         print(f"Fetching schedule for today: {now.strftime('%Y-%m-%d')}")
         
         try:
