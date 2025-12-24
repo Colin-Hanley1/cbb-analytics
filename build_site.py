@@ -107,7 +107,7 @@ def get_data():
         df_conf = pd.read_csv(CONFERENCE_FILE)
         df_conf['Team'] = df_conf['Team'].replace(NAME_MAPPING)
     except FileNotFoundError:
-        df_conf = None
+        df_conf = None 
 
     return df_rat, df_sco, df_conf
 
