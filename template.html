@@ -134,7 +134,7 @@
         const imageCache = {};
 
         function toggleMenu() { document.getElementById('mobile-menu').classList.toggle('open'); }
-        function getLogoPath(teamName) { return `logos/${teamName.replace(/[^a-zA-Z0-9]/g, '_')}.png`; }
+        function getLogoPath(teamName) { return `logos/${teamName}.png`; }
 
         function setView(view) {
             if(view === 'table') {

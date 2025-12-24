@@ -4,13 +4,15 @@ import datetime
 import os
 import json
 import urllib.parse
-from scipy.stats import norm
+# --- IMPORT THE SCRAPER MODULE ---
+import scrape_cbb 
 
 # --- CONFIGURATION ---
 SCRAPER_SCRIPT = "scrape_cbb.py" 
 RATINGS_SCRIPT = "adj.py"
 OUTPUT_INDEX = "index.html"
 OUTPUT_MATCHUP = "matchup.html"
+OUTPUT_SCHEDULE = "schedule.html"
 OUTPUT_TEAM_DATA = "teams_data.js"
 CONFERENCE_FILE = "cbb_conferences.csv"
 
@@ -111,17 +113,24 @@ def get_data():
 
 def get_nav_html(active_page):
     links = [("index.html", "Rankings"), ("matchup.html", "Matchup Simulator")]
+    
     desktop_html = '<div class="hidden md:block"><div class="ml-10 flex items-baseline space-x-4">'
     mobile_html = '<div class="md:hidden" id="mobile-menu"><div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">'
+    
     for url, label in links:
         is_active = (active_page == 'index' and url == 'index.html') or \
-                    (active_page == 'matchup' and url == 'matchup.html')
+                    (active_page == 'matchup' and url == 'matchup.html') or \
+                    (active_page == 'schedule' and url == 'schedule.html')
+        
         d_cls = "bg-slate-900 text-white" if is_active else "text-gray-300 hover:bg-slate-700 hover:text-white"
         desktop_html += f'<a href="{url}" class="{d_cls} px-3 py-2 rounded-md text-sm font-medium transition-colors">{label}</a>'
+        
         m_cls = "bg-slate-900 text-white" if is_active else "text-gray-300 hover:bg-slate-700 hover:text-white"
         mobile_html += f'<a href="{url}" class="{m_cls} block px-3 py-2 rounded-md text-base font-medium">{label}</a>'
+        
     desktop_html += '</div></div>'
     mobile_html += '</div></div>'
+    
     return desktop_html, mobile_html
 
 def generate_teams_js(df_ratings, df_scores):
@@ -131,13 +140,10 @@ def generate_teams_js(df_ratings, df_scores):
     em_col = 'AdjEM' if 'AdjEM' in df_ratings.columns else 'Blended_AdjEM'
     ratings_map = df_ratings.set_index('Team')[em_col].to_dict()
     
-    # --- CALCULATE BUBBLE THRESHOLD ---
-    # Find the average AdjEM of teams ranked ~#45-50
+    # Calculate Bubble Threshold
     sorted_df = df_ratings.sort_values(em_col, ascending=False).reset_index(drop=True)
-    # Handle case where fewer than 50 teams exist
     start_idx = 44 if len(sorted_df) > 50 else max(0, len(sorted_df) - 6)
     end_idx = 50 if len(sorted_df) > 50 else len(sorted_df)
-    
     bubble_adjem = sorted_df.iloc[start_idx:end_idx][em_col].mean()
     print(f"Bubble AdjEM Threshold: {bubble_adjem:.2f}")
     
@@ -173,6 +179,7 @@ def generate_teams_js(df_ratings, df_scores):
                     
                     loc_val = g.get('location_value', 0)
                     loc_str = "H" if loc_val == 1 else ("A" if loc_val == -1 else "N")
+                    
                     pts = g[pts_col]
                     margin = pts - opp_pt
                     res = "W" if margin > 0 else "L"
@@ -186,14 +193,21 @@ def generate_teams_js(df_ratings, df_scores):
                     act_eff = (margin / poss) * 100
                     val_add = act_eff - exp_margin
                     
-                    # --- NEW: WAB GAME CALCULATION ---
-                    # Bubble Team vs Opponent
-                    # Exp Margin = (Bubble - Opp + HFA)
-                    # Win Prob = NormCDF( Margin / 11.0 )
+                    # WAB Calculation
                     bubble_margin = (bubble_adjem - opp_rating) + hfa_adj
-                    # Simple logistic approximation if scipy.stats not desired, but we imported norm
-                    exp_win_bubble = norm.cdf(bubble_margin / 11.0)
-                    
+                    # Approximate Win Prob using Logistic CDF (Matches Predict.py logic roughly)
+                    # Or use standard norm.cdf if scipy available
+                    # Simplified Pythagenport logic for JS/Python consistency
+                    # But here we just need a number. Let's use simple logic:
+                    # Z = Margin / 11.0. Prob = 1 / (1 + exp(-0.16 * Margin)) roughly logistic
+                    # Or better, just use the imported norm from scipy if available
+                    try:
+                        from scipy.stats import norm
+                        exp_win_bubble = norm.cdf(bubble_margin / 11.0)
+                    except:
+                        # Fallback if scipy not installed
+                        exp_win_bubble = 1 / (1 + 10 ** (-bubble_margin * 0.027))
+
                     actual_win = 1.0 if res == "W" else 0.0
                     wab_game = actual_win - exp_win_bubble
                     
@@ -201,9 +215,10 @@ def generate_teams_js(df_ratings, df_scores):
                         'date': g['date'].strftime('%m/%d'),
                         'opp': opp,
                         'res': res,
+                        'loc': loc_str,
                         'score': f"{int(pts)}-{int(opp_pt)}",
                         'val': round(val_add, 1),
-                        'wab': round(wab_game, 2) # Adding per-game WAB
+                        'wab': round(wab_game, 2)
                     })
         
         teams_dict[team] = {
@@ -212,7 +227,7 @@ def generate_teams_js(df_ratings, df_scores):
             'adjo': round(row['AdjO'], 1),
             'adjd': round(row['AdjD'], 1),
             'adjt': round(row['AdjT'], 1),
-            'wab_total': round(row.get('WAB', 0.0), 2), # Adding total WAB
+            'wab_total': round(row.get('WAB', 0.0), 2),
             'games': game_list
         }
     
@@ -290,6 +305,34 @@ def generate_matchup(df):
     except FileNotFoundError:
         print("Warning: matchup_template.html not found.")
 
+def generate_schedule():
+    print("Generating Schedule Page...")
+    
+    # 1. Instantiate Scraper (Fixed)
+    my_scraper = scrape_cbb.CBBScraper()
+    games_list = my_scraper.get_todays_schedule()
+    
+    # 2. Serialize to JSON
+    games_json = json.dumps(games_list)
+    
+    try:
+        with open("schedule_template.html", "r") as f:
+            template = f.read()
+            
+        now = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+        nav_d, nav_m = get_nav_html('schedule')
+
+        html = template.replace("{{GAMES_JSON}}", games_json)
+        html = html.replace("{{LAST_UPDATED}}", now)
+        html = html.replace("{{NAV_DESKTOP}}", nav_d)
+        html = html.replace("{{NAV_MOBILE}}", nav_m)
+
+        with open(OUTPUT_SCHEDULE, "w") as f:
+            f.write(html)
+        print(f"Generated {OUTPUT_SCHEDULE}")
+    except FileNotFoundError:
+        print("Warning: schedule_template.html not found.")
+
 if __name__ == "__main__":
     run_script(SCRAPER_SCRIPT)
     run_script(RATINGS_SCRIPT)
@@ -298,3 +341,4 @@ if __name__ == "__main__":
         generate_teams_js(df_ratings, df_scores)
         generate_index(df_ratings, df_conf)
         generate_matchup(df_ratings)
+        generate_schedule()

@@ -277,7 +277,8 @@ class CBBScraper:
         
         # Look for game summaries
         summary_divs = soup.find_all('div', class_='game_summary')
-        
+        if summary_divs is None:
+            return games
         for div in summary_divs:
             # Skip women's games if present
             if 'gender-f' in div.get('class', []): continue

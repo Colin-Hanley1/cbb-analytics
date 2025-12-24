@@ -36,21 +36,18 @@
                 </div>
             </div>
             
-            <!-- Cards (Now 5 Columns to include WAB) -->
+            <!-- Cards -->
             <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
                 <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 text-center relative overflow-hidden">
                     <div class="text-[10px] text-slate-400 uppercase tracking-widest font-bold mb-1">AdjEM</div>
                     <div class="text-2xl font-bold font-mono" id="teamEM">--</div>
                     <div class="absolute top-0 left-0 w-full h-1 bg-gray-200" id="borderEM"></div>
                 </div>
-                
-                <!-- NEW: WAB Card -->
                 <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 text-center relative overflow-hidden">
                     <div class="text-[10px] text-slate-400 uppercase tracking-widest font-bold mb-1">WAB</div>
                     <div class="text-2xl font-bold font-mono text-purple-600" id="teamWAB">--</div>
                     <div class="absolute top-0 left-0 w-full h-1 bg-purple-500"></div>
                 </div>
-
                 <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 text-center relative overflow-hidden">
                     <div class="text-[10px] text-slate-400 uppercase tracking-widest font-bold mb-1">AdjO</div>
                     <div class="text-xl font-bold text-slate-700 font-mono" id="teamO">--</div>
@@ -85,10 +82,10 @@
                         <tr>
                             <th class="px-5 py-4">Date</th>
                             <th class="px-5 py-4 w-full">Opponent</th>
+                            <th class="px-5 py-4 text-center">Loc</th>
                             <th class="px-5 py-4 text-center">Res</th>
                             <th class="px-5 py-4 text-right">Score</th>
                             <th class="px-5 py-4 text-right" title="Performance relative to expectation">Value Add</th>
-                            <!-- NEW: WAB Column -->
                             <th class="px-5 py-4 text-right text-purple-700" title="Wins Above Bubble Impact">WAB</th>
                         </tr>
                     </thead>
@@ -115,13 +112,11 @@
             document.getElementById('teamName').innerText = teamName;
             document.getElementById('teamRank').innerText = "#" + t.rank;
             
-            // Stats
             const emEl = document.getElementById('teamEM');
             emEl.innerText = t.adjem.toFixed(2);
             emEl.className = `text-3xl font-bold font-mono ${t.adjem > 0 ? 'text-emerald-600' : 'text-rose-600'}`;
             document.getElementById('borderEM').className = `absolute top-0 left-0 w-full h-1 ${t.adjem > 0 ? 'bg-emerald-500' : 'bg-rose-500'}`;
 
-            // WAB Total (Handle missing data safely with || 0)
             const wabTotal = t.wab_total !== undefined ? t.wab_total : 0.0;
             document.getElementById('teamWAB').innerText = (wabTotal > 0 ? "+" : "") + wabTotal.toFixed(2);
             document.getElementById('teamWAB').className = `text-2xl font-bold font-mono ${wabTotal > 0 ? 'text-purple-600' : 'text-slate-500'}`;
@@ -130,7 +125,6 @@
             document.getElementById('teamD').innerText = t.adjd.toFixed(1);
             document.getElementById('teamT').innerText = t.adjt.toFixed(1);
 
-            // CHART Logic
             const chartGames = [...t.games].reverse();
             new Chart(document.getElementById('trendChart'), {
                 type: 'bar',
@@ -153,36 +147,28 @@
                 }
             });
 
-            // TABLE Logic
             const tbody = document.getElementById('gameTable');
             let rows = "";
-            
-            if (t.games && t.games.length > 0) {
-                t.games.forEach(g => {
-                    const resColor = g.res === 'W' ? 'text-emerald-700 bg-emerald-50' : 'text-rose-700 bg-rose-50';
-                    const valColor = g.val > 0 ? 'text-emerald-600' : 'text-rose-600';
-                    const valSign = g.val > 0 ? '+' : '';
-                    
-                    // WAB Logic
-                    const gameWAB = g.wab !== undefined ? g.wab : 0.0;
-                    const wabColor = gameWAB > 0 ? 'text-purple-600 font-bold' : 'text-slate-400';
-                    const wabSign = gameWAB > 0 ? '+' : '';
+            t.games.forEach(g => {
+                const resColor = g.res === 'W' ? 'text-emerald-700 bg-emerald-50' : 'text-rose-700 bg-rose-50';
+                const valColor = g.val > 0 ? 'text-emerald-600' : 'text-rose-600';
+                const valSign = g.val > 0 ? '+' : '';
+                const wabColor = g.wab > 0 ? 'text-purple-600 font-bold' : 'text-slate-400';
+                const wabSign = g.wab > 0 ? '+' : '';
 
-                    rows += `
-                    <tr class="hover:bg-slate-50 transition-colors">
-                        <td class="px-5 py-4 text-slate-400 text-xs font-mono">${g.date}</td>
-                        <td class="px-5 py-4 font-medium text-slate-900">
-                            <a href="team.html?q=${encodeURIComponent(g.opp)}" class="hover:text-blue-600 hover:underline decoration-2 underline-offset-2">${g.opp}</a>
-                        </td>
-                        <td class="px-5 py-4 text-center"><span class="px-2.5 py-1 rounded-full text-xs font-bold ${resColor}">${g.res}</span></td>
-                        <td class="px-5 py-4 text-right text-slate-600 font-mono text-sm">${g.score}</td>
-                        <td class="px-5 py-4 text-right font-bold font-mono ${valColor} text-sm">${valSign}${g.val.toFixed(1)}</td>
-                        <td class="px-5 py-4 text-right font-mono ${wabColor} text-sm">${wabSign}${gameWAB.toFixed(2)}</td>
-                    </tr>`;
-                });
-            } else {
-                rows = `<tr><td colspan="7" class="px-4 py-8 text-center text-gray-500">No game data available yet.</td></tr>`;
-            }
+                rows += `
+                <tr class="hover:bg-slate-50 transition-colors">
+                    <td class="px-5 py-4 text-slate-400 text-xs font-mono">${g.date}</td>
+                    <td class="px-5 py-4 font-medium text-slate-900">
+                        <a href="team.html?q=${encodeURIComponent(g.opp)}" class="hover:text-blue-600 hover:underline decoration-2 underline-offset-2">${g.opp}</a>
+                    </td>
+                    <td class="px-5 py-4 text-center text-xs text-slate-400 font-bold">${g.loc}</td>
+                    <td class="px-5 py-4 text-center"><span class="px-2.5 py-1 rounded-full text-xs font-bold ${resColor}">${g.res}</span></td>
+                    <td class="px-5 py-4 text-right text-slate-600 font-mono text-sm">${g.score}</td>
+                    <td class="px-5 py-4 text-right font-bold font-mono ${valColor} text-sm">${valSign}${g.val.toFixed(1)}</td>
+                    <td class="px-5 py-4 text-right font-mono ${wabColor} text-sm">${wabSign}${g.wab.toFixed(2)}</td>
+                </tr>`;
+            });
             tbody.innerHTML = rows;
             
         } else {
