@@ -59,11 +59,11 @@
                 <table class="w-full text-left border-collapse whitespace-nowrap text-sm" id="scheduleTable">
                     <thead class="bg-slate-50 border-b border-gray-200 text-xs uppercase tracking-wider text-slate-500 font-bold">
                         <tr>
-                            <th class="px-6 py-4">Team A</th>
+                            <th class="px-6 py-4">Home Team</th>
                             <th class="px-6 py-4 text-center">v</th>
-                            <th class="px-6 py-4">Team B</th>
-                            <th class="px-6 py-4 text-right">A Score</th>
-                            <th class="px-6 py-4 text-right">B Score</th>
+                            <th class="px-6 py-4">Away Team</th>
+                            <th class="px-6 py-4 text-right">Home Score</th>
+                            <th class="px-6 py-4 text-right">Away Score</th>
                             <th class="px-6 py-4 text-right">Spread</th>
                             <th class="px-6 py-4 text-right">Win Prob</th>
                         </tr>
@@ -91,7 +91,9 @@
     <script src="teams_data.js"></script>
 
     <script>
-        const games = {GAMES_JSON};
+        // --- FIX IS HERE: Double Braces ---
+        const games = [{"away": "Gonzaga", "home": "Pepperdine"}, {"away": "Winthrop", "home": "Texas Tech"}, {"away": "Le Moyne", "home": "Boston College"}, {"away": "Worcester State", "home": "Bryant"}, {"away": "Liberty", "home": "FIU"}, {"away": "Penn", "home": "George Mason"}, {"away": "Florida A&M", "home": "Georgia Tech"}, {"away": "Old Dominion", "home": "Maryland"}, {"away": "Columbia", "home": "North Florida"}, {"away": "Truett-McConnell", "home": "Presbyterian"}, {"away": "Charleston Southern", "home": "Richmond"}, {"away": "Arcadia", "home": "St. Joseph's"}, {"away": "Union (KY)", "home": "Wofford"}, {"away": "Fisk", "home": "Austin Peay"}, {"away": "Northern Colorado", "home": "Colorado"}, {"away": "Pacific Union", "home": "UC-Davis"}, {"away": "Nebraska Omaha", "home": "Oregon"}, {"away": "Santa Clara", "home": "Oregon St."}, {"away": "Pacific", "home": "San Diego"}, {"away": "Harvard", "home": "Colgate"}, {"away": "Univ. of Ft. Lauderdale", "home": "Florida Gulf Coast"}, {"away": "Columbia College", "home": "Georgia St."}, {"away": "Pfeiffer", "home": "High Point"}, {"away": "Louisiana Monroe", "home": "Kansas St."}, {"away": "Baptist University of Florida", "home": "Mercer"}, {"away": "Alice Lloyd", "home": "Morehead St."}, {"away": "Dakota State", "home": "North Dakota"}, {"away": "Shenandoah", "home": "Radford"}, {"away": "Mount Marty", "home": "South Dakota"}, {"away": "North Central (MN)", "home": "St. Thomas"}, {"away": "Averett", "home": "Longwood"}, {"away": "Norfolk St.", "home": "Louisiana"}, {"away": "Principia", "home": "Saint Louis"}, {"away": "College of Biblical Studies", "home": "Sam Houston St."}, {"away": "Cal St. Fullerton", "home": "SMU"}, {"away": "University of the Southwest", "home": "New Mexico St."}, {"away": "Washington St.", "home": "Portland"}, {"away": "McPherson", "home": "Kansas City"}, {"away": "Stanton University", "home": "UC-San Diego"}, {"away": "Saint Mary's", "home": "Loyola Marymount"}, {"away": "San Francisco", "home": "Seattle"}];
+        
         const tbody = document.getElementById('scheduleBody');
         const noGamesMsg = document.getElementById('noGamesMsg');
         
@@ -113,6 +115,13 @@
 
             let rows = "";
             let gamesFound = false;
+
+            // Safety check for TEAMS_DATA
+            if (typeof TEAMS_DATA === 'undefined') {
+                noGamesMsg.innerHTML = "<p class='text-red-600'>Error: Team Ratings data not loaded.</p>";
+                noGamesMsg.classList.remove('hidden');
+                return;
+            }
 
             games.forEach(g => {
                 const homeTeam = g.home;
@@ -149,11 +158,9 @@
                 const wpAway = 1 - wpHome;
                 
                 const winnerProb = margin > 0 ? wpHome : wpAway;
-                // --- UPDATE: 2 Decimal Places ---
                 const probDisplay = (winnerProb * 100).toFixed(2) + "%";
                 const winnerName = margin > 0 ? homeTeam : awayTeam;
                 
-                // --- UPDATE: Highlight Names, not scores ---
                 const homeNameClass = margin > 0 ? "text-emerald-700 font-bold" : "text-rose-700 font-medium";
                 const awayNameClass = margin < 0 ? "text-emerald-700 font-bold" : "text-rose-700 font-medium";
                 
@@ -162,7 +169,6 @@
 
                 rows += `
                 <tr class="hover:bg-slate-50 transition-colors group">
-                    <!-- Home Team (Highlighted) -->
                     <td class="px-6 py-4 border-r border-transparent group-hover:border-slate-100">
                         <a href="team.html?q=${encodeURIComponent(homeTeam)}" class="hover:text-blue-600 hover:underline decoration-2 underline-offset-2 ${homeNameClass}">${homeTeam}</a>
                         <span class="text-xs text-slate-400 ml-1 font-mono">#${home.rank}</span>
@@ -170,13 +176,11 @@
                     
                     <td class="px-2 py-4 text-center text-xs text-slate-300">vs</td>
                     
-                    <!-- Away Team (Highlighted) -->
                     <td class="px-6 py-4 border-r border-transparent group-hover:border-slate-100">
                         <a href="team.html?q=${encodeURIComponent(awayTeam)}" class="hover:text-blue-600 hover:underline decoration-2 underline-offset-2 ${awayNameClass}">${awayTeam}</a>
                         <span class="text-xs text-slate-400 ml-1 font-mono">#${away.rank}</span>
                     </td>
 
-                    <!-- Scores (Neutral) -->
                     <td class="px-6 py-4 text-right font-mono text-base text-slate-700">${scoreHome}</td>
                     <td class="px-6 py-4 text-right font-mono text-base text-slate-700">${scoreAway}</td>
                     

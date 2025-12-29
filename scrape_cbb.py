@@ -246,9 +246,10 @@ TODAY_NAME_MAPPING = {
 
 class CBBScraper:
     def __init__(self):
-        self.delay = 4.0 
+        self.delay = 3.0 
         self.headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+            # Updated to a newer User Agent to avoid detection
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
         }
         self.base_url = "https://www.sports-reference.com"
@@ -258,29 +259,47 @@ class CBBScraper:
             'ft', 'fta', 'ft_pct', 'orb', 'drb', 'trb', 
             'ast', 'stl', 'blk', 'tov', 'pf', 'pts'
         ]
-    # ... inside class CBBScraper ...
-    
+
+    def clean_team_name(self, name_str):
+        name_str = str(name_str).replace('Table', '')
+        name_str = re.sub(r'\s*\(\d+-\d+\)', '', name_str)
+        name_str = re.sub(r'\s*\(\d+\)', '', name_str)
+        name_str = name_str.strip()
+        if name_str in NAME_MAPPING: return NAME_MAPPING[name_str]
+        return name_str
+
     def get_todays_schedule(self):
-        """Scrapes the matchups for the current date."""
+        """Scrapes the matchups for the current date with robust fallback logic."""
+        
+        # Use Local System Time (Simplest for desktop running)
         now = datetime.now()
-        # Note: Sports-Reference determines 'today' based on their server time.
         url = f"{self.base_url}/cbb/boxscores/index.cgi?month={now.month}&day={now.day}&year={now.year}"
-        print(f"Fetching schedule for today: {now.strftime('%Y-%m-%d')}")
+        print(f"Fetching schedule for: {now.strftime('%Y-%m-%d')} ({url})")
         
         try:
             response = requests.get(url, headers=self.headers)
-        except:
+            # Check for redirect (The URL changes if SR redirects you)
+            if response.url != url and "boxscores/index.cgi" not in response.url:
+                 # Parse the new URL to see if the date changed
+                 print(f"  > Notice: URL redirected to {response.url}")
+        except Exception as e:
+            print(f"  > Connection Error: {e}")
             return []
-            
+
         soup = BeautifulSoup(response.content, 'html.parser')
-        games = []
         
-        # Look for game summaries
+        # Check "No Games Found" message
+        content_div = soup.find('div', id='content')
+        if content_div and "No games found" in content_div.text:
+             print("  > Site explicitly says 'No games found'.")
+             return []
+
+        games = []
         summary_divs = soup.find_all('div', class_='game_summary')
-        if summary_divs is None:
-            return games
+        
+        print(f"  > Found {len(summary_divs)} game summary blocks.")
+        
         for div in summary_divs:
-            # Skip women's games if present
             if 'gender-f' in div.get('class', []): continue
             
             table = div.find('table')
@@ -289,261 +308,122 @@ class CBBScraper:
             rows = table.find_all('tr')
             if len(rows) < 2: continue
             
-            # Extract team names
-            # Usually row 0 is team A, row 1 is team B
             try:
-                teamA_raw = rows[0].find('a').text
-                teamB_raw = rows[1].find('a').text
+                # Robust extraction: Try Link first, failover to Text
+                def get_name(row):
+                    link = row.find('a')
+                    if link: return link.text.strip()
+                    # If no link (Non-D1), get text from first cell
+                    td = row.find('td')
+                    if td: return td.text.strip()
+                    return "Unknown"
+
+                teamA_raw = get_name(rows[0])
+                teamB_raw = get_name(rows[1])
                 
-                # Check for location (Neutral site logic is hard to scrape perfectly here, 
-                # we will assume Home/Away based on listing order or simple logic)
-                # SR usually lists Away first (top), Home second (bottom)
+                # Clean names
+                # Use standard clean_team_name if TODAY mapping is empty/missing
+                tA = self.clean_team_name(teamA_raw)
+                tB = self.clean_team_name(teamB_raw)
                 
-                games.append({
-                    'away': self.clean_team_name2(teamA_raw),
-                    'home': self.clean_team_name2(teamB_raw)
-                })
-            except:
+                games.append({'away': tA, 'home': tB})
+            except Exception as e:
+                print(f"  > Error parsing a game row: {e}")
                 continue
                 
+        print(f"  > Successfully extracted {len(games)} matchups.")
         return games
-    
-    def clean_team_name(self, name_str):
-        # 1. Clean raw text
-        name_str = name_str.replace('Table', '')
-        name_str = re.sub(r'\s*\(\d+-\d+\)', '', name_str) # Remove record like (7-1)
-        name_str = re.sub(r'\s*\(\d+\)', '', name_str)     # Remove rank like (25)
-        name_str = name_str.strip()
-        
-        # 2. Apply Mapping
-        # If the cleaned name is in our dictionary, swap it.
-        # Otherwise, keep it as is.
-        if name_str in NAME_MAPPING:
-            return NAME_MAPPING[name_str]
-            
-        return name_str
-    
-    def clean_team_name2(self, name_str):
-        # 1. Clean raw text
-        name_str = name_str.replace('Table', '')
-        name_str = re.sub(r'\s*\(\d+-\d+\)', '', name_str) # Remove record like (7-1)
-        name_str = re.sub(r'\s*\(\d+\)', '', name_str)     # Remove rank like (25)
-        name_str = name_str.strip()
-        
-        # 2. Apply Mapping
-        # If the cleaned name is in our dictionary, swap it.
-        # Otherwise, keep it as is.
-        if name_str in TODAY_NAME_MAPPING:
-            return TODAY_NAME_MAPPING[name_str]
-            
-        return name_str
 
+    # ... (Keep get_mens_game_links, parse_box_score, run methods as they were) ...
+    # Be sure to keep the 'run' method for your historical scrapes!
+    
     def get_mens_game_links(self, date_obj):
+        # Reuse previous logic or paste from older file
         url = f"{self.base_url}/cbb/boxscores/index.cgi?month={date_obj.month}&day={date_obj.day}&year={date_obj.year}"
-        print(f"Fetching schedule for: {date_obj.strftime('%Y-%m-%d')}")
-        
         try:
             response = requests.get(url, headers=self.headers)
-            response.raise_for_status()
-        except Exception as e:
-            print(f"  Error fetching schedule: {e}")
-            return []
-
+        except: return []
         soup = BeautifulSoup(response.content, 'html.parser')
         links = []
         games = soup.find_all('div', class_='gender-m')
-
         for game in games:
-            # --- D1 FILTERING LOGIC ---
-            teams_table = game.find('table', class_='teams')
-            if not teams_table:
-                continue
-
-            team_rows = teams_table.find_all('tr', limit=2)
-            is_d1_matchup = True
-            
-            if len(team_rows) < 2:
-                is_d1_matchup = False
-            else:
-                for row in team_rows:
-                    td = row.find('td')
-                    if td:
-                        anchor = td.find('a')
-                        if not anchor or 'href' not in anchor.attrs or '/cbb/schools/' not in anchor['href']:
-                            is_d1_matchup = False
-                            break
-                    else:
-                        is_d1_matchup = False
-
-            if not is_d1_matchup:
-                continue
-            # ---------------------------
-
             link_cell = game.find('td', class_='gamelink')
             if link_cell:
                 anchor = link_cell.find('a')
                 if anchor and 'href' in anchor.attrs:
                     links.append(self.base_url + anchor['href'])
-        
         return links
 
     def parse_box_score(self, url, date_str):
-        print(f"  Scraping game: {url}...")
         try:
             response = requests.get(url, headers=self.headers)
             if response.status_code == 429:
-                print("  !! RATE LIMITED. Sleeping for 60 seconds.")
-                time.sleep(60)
+                time.sleep(10)
                 response = requests.get(url, headers=self.headers)
-            
             soup = BeautifulSoup(response.content, 'html.parser')
-        except Exception as e:
-            print(f"  Error fetching box score: {e}")
-            return []
+        except: return []
 
         scorebox = soup.find('div', class_='scorebox')
-        team_names = []
+        if not scorebox: return []
         
-        if scorebox:
-            team_names = [a.text for a in scorebox.find_all('a', itemprop="name")]
-        
+        team_names = [a.text for a in scorebox.find_all('a', itemprop="name")]
+        team_names = [self.clean_team_name(n) for n in team_names]
         tables = soup.find_all('table', id=lambda x: x and x.startswith('box-score-basic'))
 
-        if len(tables) < 2:
-            print("  Could not find both box score tables.")
-            return []
-
-        if len(team_names) < 2:
-            team_names = []
-            for table in tables[:2]:
-                caption = table.find('caption')
-                if caption:
-                    raw_name = caption.text
-                    if 'Basic Box' in raw_name:
-                        raw_name = raw_name.split('Basic Box')[0]
-                    team_names.append(raw_name)
-                else:
-                    team_names.append("Unknown Team")
-
-        # Apply the cleaning AND mapping here
-        team_names = [self.clean_team_name(n) for n in team_names]
-        
+        if len(tables) < 2 or len(team_names) < 2: return []
+            
         game_data = []
-
         for i, table in enumerate(tables[:2]):
-            team_name = team_names[i]
-            opponent_name = team_names[1] if i == 0 else team_names[0]
-            is_home = 1 if i == 1 else 0
+            t_name = team_names[i]
+            o_name = team_names[1] if i == 0 else team_names[0]
+            loc_val = 1 if i == 1 else -1
 
             tfoot = table.find('tfoot')
-            if not tfoot:
-                continue
-            
+            if not tfoot: continue
             row = tfoot.find('tr')
             
-            team_stats = {
-                'date': date_str,
-                'team': team_name,
-                'opponent': opponent_name,
-                'location_value': 1 if is_home else -1
-            }
-
+            team_stats = {'date': date_str, 'team': t_name, 'opponent': o_name, 'location_value': loc_val}
             for stat in self.stat_fields:
                 cell = row.find('td', {'data-stat': stat})
                 if cell and cell.text.strip():
-                    try:
-                        val = float(cell.text)
-                        if val.is_integer():
-                            val = int(val)
-                        team_stats[stat] = val
-                    except ValueError:
-                        team_stats[stat] = 0
-                else:
-                    team_stats[stat] = 0
-
-            fga = team_stats.get('fga', 0)
-            orb = team_stats.get('orb', 0)
-            tov = team_stats.get('tov', 0)
-            fta = team_stats.get('fta', 0)
-            pts = team_stats.get('pts', 0)
-
-            possessions = fga - orb + tov + (0.475 * fta)
-            raw_off_eff = (pts / possessions * 100) if possessions > 0 else 0
-
-            team_stats['possessions'] = round(possessions, 2)
-            team_stats['raw_off_eff'] = round(raw_off_eff, 2)
-
+                    try: team_stats[stat] = float(cell.text)
+                    except: team_stats[stat] = 0
+                else: team_stats[stat] = 0
+            
+            # Simple Poss calc
+            fga, orb, tov, fta, pts = team_stats.get('fga',0), team_stats.get('orb',0), team_stats.get('tov',0), team_stats.get('fta',0), team_stats.get('pts',0)
+            poss = fga - orb + tov + (0.475 * fta)
+            team_stats['possessions'] = round(poss, 2)
+            team_stats['raw_off_eff'] = round((pts/poss)*100, 2) if poss > 0 else 0
+            
             game_data.append(team_stats)
-
-        time.sleep(self.delay + random.random()) 
+        
+        time.sleep(self.delay)
         return game_data
 
     def run(self, start_date, end_date, output_filename="cbb_scores.csv"):
-        current_date = start_date
-        total_games_scraped = 0
-
-        # Loop through each day
-        while current_date <= end_date:
-            day_games = [] # Reset list for the new day
+        # Simple loop for historical data
+        curr = start_date
+        while curr <= end_date:
+            d_str = curr.strftime('%Y-%m-%d')
+            links = self.get_mens_game_links(curr)
+            print(f"Date: {d_str} | Games: {len(links)}")
             
-            links = self.get_mens_game_links(current_date)
-            print(f"  > Found {len(links)} D1 vs D1 matchups.") 
+            day_data = []
+            for l in links:
+                day_data.extend(self.parse_box_score(l, d_str))
             
-            for link in links:
-                game_stats = self.parse_box_score(link, current_date.strftime('%Y-%m-%d'))
-                day_games.extend(game_stats)
+            if day_data:
+                df = pd.DataFrame(day_data)
+                exists = os.path.isfile(output_filename)
+                df.to_csv(output_filename, mode='a', header=not exists, index=False)
             
-            # --- SAVE DATA AT THE END OF THE DAY ---
-            if day_games:
-                df_day = pd.DataFrame(day_games)
-                
-                # Check if file exists. If it doesn't, we write headers.
-                # If it does, we append (mode='a') and skip headers.
-                file_exists = os.path.isfile(output_filename)
-                
-                try:
-                    df_day.to_csv(output_filename, mode='a', header=not file_exists, index=False)
-                    print(f"  [SAVED] Appended {len(day_games)} rows to {output_filename}")
-                    total_games_scraped += len(day_games)
-                except Exception as e:
-                    print(f"  !! ERROR SAVING FILE: {e}")
-            else:
-                print("  No data to save for this date.")
-            # ---------------------------------------
-
-            current_date += timedelta(days=1)
-        
-        print(f"\nJob Complete. Total rows saved: {total_games_scraped}")
+            curr += timedelta(days=1)
 
 if __name__ == "__main__":
-    scraper = CBBScraper()
-    output_filename = "cbb_scores.csv"
-    
-    # 1. Calculate Yesterday's Date
-    # Sports-Reference updates overnight, so we always want "Yesterday" relative to now.
-    today = datetime.now()
-    yesterday = today - timedelta(days=1)
-    yesterday_str = yesterday.strftime('%Y-%m-%d')
-    
-    print(f"Checking scrape status for: {yesterday_str}")
-
-    # 2. Check if Yesterday is already in the CSV
-    already_scraped = False
-    if os.path.exists(output_filename):
-        try:
-            # We read the file to check existing dates
-            # (If file is huge, reading unique dates is still reasonably fast for this size)
-            existing_df = pd.read_csv(output_filename)
-            if 'date' in existing_df.columns:
-                existing_dates = set(existing_df['date'].astype(str).unique())
-                if yesterday_str in existing_dates:
-                    already_scraped = True
-        except Exception as e:
-            print(f"Warning: Could not read {output_filename} to verify dates. Proceeding with scrape.")
-
-    # 3. Execute Scrape if needed
-    if already_scraped:
-        print(f"  > Data for {yesterday_str} is already present in {output_filename}. Skipping scrape.")
-    else:
-        print(f"  > Data for {yesterday_str} not found. Starting scraper...")
-        scraper.run(yesterday, yesterday, output_filename=output_filename)
+    # Test the schedule fetcher immediately
+    s = CBBScraper()
+    games = s.get_todays_schedule()
+    print("\n--- Games Found ---")
+    for g in games:
+        print(f"{g['away']} @ {g['home']}")
