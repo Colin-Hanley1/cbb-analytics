@@ -8,45 +8,8 @@ CONFERENCE_FILE = "cbb_conferences.csv"
 OUTPUT_HTML = "bracketology.html"
 
 # --- MANUAL AUTO-BIDS ---
-# Format: "Conference Name": "Team Name" (Must match mapped names)
-# Leave empty {} to use highest rated team automatically.
-# Example: "Ivy": "Princeton", "Big Ten": "Purdue"
-'''
-MANUAL_AQS = {
-    "SEC": "Florida",
-    "B12": "Houston",
-    "ACC": "Duke",
-    "BE": "St. John's",
-    "B10": "Michigan",
-    "WCC": "Gonzaga",
-    "Amer": "Memphis",
-    "MVC": "Drake",
-    "A10": "VCU",
-    "BW": "UC San Diego",
-    "MWC": "Colorado St.",
-    "Slnd": "McNeese",
-    "CUSA": "Liberty",
-    "Ivy": "Yale",
-    "BSth": "High Point",
-    "MAC": "Akron",
-    "CAA": "UNC Wilmington",
-    "ASun": "Lipscomb",
-    "WAC": "Grand Canyon",
-    "SC": "Wofford",
-    "SB": "Troy",
-    "Horz": "Robert Morris",
-    "BSky": "Montana",
-    "Sum": "Nebraska Omaha",
-    "NEC": "Saint Francis",
-    "AE": "Bryant",
-    "SWAC": "Alabama St.",
-    "OVC": "Southeast Missouri",
-    "PL": "American",
-    "MEAC": "Norfolk St.",
-    "MAAC": "Mount St. Mary's"   
-}
-'''
-MANUAL_AQS={}
+# Format: "Conference Name": "Team Name"
+MANUAL_AQS = {}
 
 # --- NAME MAPPING (Must match your other scripts) ---
 NAME_MAPPING = {
@@ -128,42 +91,32 @@ def generate_bracket():
     df['Conference'] = df['Conference'].fillna('Unknown')
 
     # 3. Calculate Selection Score
-    df['Selection_Score'] = (df['WAB'] * 4) + df['Blended_AdjEM']
+    df['Selection_Score'] = (df['WAB'] * 4.0) + df['Blended_AdjEM']
     
-    # 4. Determine Automatic Qualifiers (AQs) with Manual Override
+    # 4. Determine Automatic Qualifiers (AQs)
     df['AQ'] = False
-    
-    # Get all unique conferences from the data
     conferences = df['Conference'].dropna().unique()
-    
     aq_teams_list = []
     
     for conf in conferences:
         if conf == 'Unknown': continue
-        
-        # A. Check Manual Overrides first
         if conf in MANUAL_AQS:
             forced_team = MANUAL_AQS[conf]
-            # Verify team exists in our data
             if forced_team in df['Team'].values:
                 aq_teams_list.append(forced_team)
                 continue
-            else:
-                print(f"Warning: Manual AQ '{forced_team}' for '{conf}' not found in ratings. Reverting to auto-select.")
         
-        # B. Fallback: Highest rated team (AdjEM) in conference
         conf_teams = df[df['Conference'] == conf]
         if not conf_teams.empty:
             top_team = conf_teams.sort_values('Blended_AdjEM', ascending=False).iloc[0]['Team']
             aq_teams_list.append(top_team)
             
-    # Mark AQs in DataFrame
     df.loc[df['Team'].isin(aq_teams_list), 'AQ'] = True
     
     # 5. Select the Field (68 Teams)
     field = []
     
-    # A. Automatic Bids
+    # A. Auto Bids
     auto_bids = df[df['AQ'] == True].copy()
     for _, row in auto_bids.iterrows():
         row['Bid_Type'] = 'Auto'
@@ -171,10 +124,7 @@ def generate_bracket():
         
     # B. At-Large Bids
     at_large_pool = df[df['AQ'] == False].sort_values('Selection_Score', ascending=False)
-    
-    # We need 68 teams total. Remove count of AQs from 68 to get At-Large spots.
     num_at_large = 68 - len(auto_bids)
-    
     at_large_bids = at_large_pool.head(num_at_large).copy()
     
     # Bubble Teams
@@ -189,19 +139,16 @@ def generate_bracket():
 
     # 6. Seed the Field (Custom 68-team logic)
     field_df = pd.DataFrame(field)
-    
-    # Sort S-Curve
     field_df = field_df.sort_values('Selection_Score', ascending=False).reset_index(drop=True)
     field_df['Overall_Rank'] = field_df.index + 1
     
-    # Assign Seeds (1-10 have 4 teams; 11 and 16 have 6 teams; 12-15 have 4 teams)
+    # Seeds 1-10: 4 each. 11: 6 teams. 12-15: 4 each. 16: 6 teams.
     seeds = []
-    for s in range(1, 11): seeds.extend([s] * 4) # 1-10
-    seeds.extend([11] * 6) # 11 (First Four)
-    for s in range(12, 16): seeds.extend([s] * 4) # 12-15
-    seeds.extend([16] * 6) # 16 (First Four)
+    for s in range(1, 11): seeds.extend([s] * 4) 
+    seeds.extend([11] * 6) 
+    for s in range(12, 16): seeds.extend([s] * 4) 
+    seeds.extend([16] * 6) 
     
-    # Handle list length mismatches (safety)
     if len(field_df) <= len(seeds):
         field_df['Seed'] = seeds[:len(field_df)]
     else:
@@ -221,32 +168,33 @@ def generate_html(field_df, l4i, f4o, n4o):
     
     rows = ""
     for _, row in field_df.iterrows():
-        type_class = "bg-green-100 text-green-800" if row['Bid_Type'] == 'Auto' else "bg-blue-100 text-blue-800"
-        score_val = row['Selection_Score']
+        # Match style of main rankings table
+        type_class = "text-emerald-700 bg-emerald-50" if row['Bid_Type'] == 'Auto' else "text-blue-700 bg-blue-50"
+        seed_color = "text-gray-900" if row['Seed'] <= 4 else "text-gray-500"
         
         rows += f"""
-        <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
-            <td class="px-6 py-4 font-bold text-center text-slate-700">{int(row['Seed'])}</td>
-            <td class="px-6 py-4 font-medium text-slate-900">{row['Team']}</td>
-            <td class="px-6 py-4 text-center text-xs font-bold uppercase"><span class="px-2 py-1 rounded {type_class}">{row['Bid_Type']}</span></td>
-            <td class="px-6 py-4 text-right text-slate-500 text-sm">{row['Conference']}</td>
-            <td class="px-6 py-4 text-right font-mono font-bold text-slate-900">{score_val:.2f}</td>
-            <td class="px-6 py-4 text-right font-mono text-sm text-slate-400">{row['WAB']:.2f}</td>
+        <tr class="hover:bg-slate-50 border-b border-gray-100 transition-colors">
+            <td class="px-5 py-4 font-bold text-center {seed_color} border-r border-gray-100 text-sm">{int(row['Seed'])}</td>
+            <td class="px-5 py-4 font-medium text-slate-900 border-r border-gray-100 text-sm">{row['Team']}</td>
+            <td class="px-5 py-4 text-center border-r border-gray-100"><span class="px-2.5 py-1 rounded-full text-xs font-bold {type_class}">{row['Bid_Type']}</span></td>
+            <td class="px-5 py-4 text-center text-slate-500 text-sm">{row['Conference']}</td>
+            <td class="px-5 py-4 text-right font-mono font-bold text-slate-800 text-sm">{row['Selection_Score']:.2f}</td>
+            <td class="px-5 py-4 text-right font-mono text-purple-600 font-bold text-sm bg-purple-50/30">{row['WAB']:.2f}</td>
         </tr>
         """
         
-    def make_bubble_list(df):
+    def make_bubble_list(df, border_color):
         h = ""
         for _, r in df.iterrows():
             h += f"""
-            <div class="flex justify-between items-center py-2 border-b border-gray-100 last:border-0">
+            <div class="flex justify-between items-center py-3 border-b border-gray-100 last:border-0 hover:bg-gray-50 px-2 rounded-lg transition-colors">
                 <div>
-                    <span class="font-bold text-slate-800">{r['Team']}</span>
-                    <span class="text-xs text-slate-400 ml-1">{r['Conference']}</span>
+                    <div class="font-bold text-slate-900 text-sm">{r['Team']}</div>
+                    <div class="text-xs text-slate-400">{r['Conference']}</div>
                 </div>
                 <div class="text-right">
-                    <div class="text-xs font-bold text-slate-600">WAB: {r['WAB']:.2f}</div>
-                    <div class="text-[10px] text-slate-400">Score: {r['Selection_Score']:.1f}</div>
+                    <div class="text-xs font-mono font-bold text-purple-600">WAB: {r['WAB']:.2f}</div>
+                    <div class="text-[10px] text-slate-400 font-mono">Score: {r['Selection_Score']:.1f}</div>
                 </div>
             </div>
             """
@@ -257,65 +205,103 @@ def generate_html(field_df, l4i, f4o, n4o):
     <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <title>Bracketology | CHan Analytics</title>
         <script src="https://cdn.tailwindcss.com"></script>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
-        <style> body {{ font-family: 'Inter', sans-serif; }} .font-mono {{ font-family: 'Roboto Mono', monospace; }} </style>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+        <style> 
+            body {{ font-family: 'Inter', sans-serif; background-color: #f1f5f9; }} 
+            .font-mono {{ font-family: 'Roboto Mono', monospace; }}
+            #mobile-menu {{ display: none; }}
+            #mobile-menu.open {{ display: block; }}
+        </style>
     </head>
-    <body class="bg-slate-50 text-slate-900 font-sans min-h-screen flex flex-col">
+    <body class="text-slate-900 min-h-screen flex flex-col">
         
+        <!-- Navbar -->
         <nav class="bg-slate-900 text-white shadow-lg sticky top-0 z-50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between h-16">
-                    <div class="flex items-center space-x-4">
+                    <div class="flex items-center">
                         <span class="font-bold text-xl tracking-tight text-white">CHan Analytics</span>
-                        <a href="index.html" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Rankings</a>
-                        <a href="bracketology.html" class="bg-slate-800 text-white px-3 py-2 rounded-md text-sm font-medium">Bracketology</a>
+                        
+                        <!-- Desktop Nav -->
+                        <div class="hidden md:block ml-10">
+                            <div class="flex items-baseline space-x-4">
+                                <a href="index.html" class="text-gray-300 hover:bg-slate-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Rankings</a>
+                                <a href="schedule.html" class="text-gray-300 hover:bg-slate-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Today's Games</a>
+                                <a href="matchup.html" class="text-gray-300 hover:bg-slate-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Matchup Simulator</a>
+                                <a href="bracketology.html" class="bg-slate-800 text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Bracketology</a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="text-xs text-slate-400">Updated: {now}</div>
+                    
+                    <div class="flex items-center">
+                        <div class="hidden md:block text-xs text-slate-400 mr-4">Updated: <span class="text-white">{now}</span></div>
+                        <div class="-mr-2 flex md:hidden">
+                            <button type="button" onclick="document.getElementById('mobile-menu').classList.toggle('open')" class="bg-slate-800 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-slate-700 focus:outline-none">
+                                <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div class="md:hidden" id="mobile-menu">
+                <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                    <a href="index.html" class="text-gray-300 hover:bg-slate-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Rankings</a>
+                    <a href="schedule.html" class="text-gray-300 hover:bg-slate-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Today's Games</a>
+                    <a href="matchup.html" class="text-gray-300 hover:bg-slate-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Matchup Simulator</a>
+                    <a href="bracketology.html" class="bg-slate-900 text-white block px-3 py-2 rounded-md text-base font-medium">Bracketology</a>
                 </div>
             </div>
         </nav>
 
         <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <h1 class="text-3xl font-bold text-slate-900 mb-2">Bracketology Projection</h1>
-            <p class="text-slate-500 mb-8 max-w-2xl">
-                Projections based on a composite "Selection Score" (4x WAB + AdjEM). 
-                <br>Automatic bids awarded to highest rated team in conference (or manual override).
-            </p>
+            
+            <div class="mb-8 text-center sm:text-left">
+                <h1 class="text-3xl font-bold text-slate-900">Bracketology Projection</h1>
+                <p class="mt-2 text-slate-500 max-w-2xl">
+                    68-Team Field projection based on Resume Score. 
+                    <br class="hidden sm:inline">Automatic bids awarded to the highest rated team in each conference.
+                </p>
+            </div>
 
             <!-- Bubble Watch -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-                <div class="bg-white p-5 rounded-xl shadow-sm border-t-4 border-green-500">
-                    <h3 class="font-bold text-green-700 uppercase tracking-wide text-sm mb-4">Last 4 In</h3>
-                    {make_bubble_list(l4i)}
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-emerald-500"></div>
+                    <h3 class="font-bold text-emerald-700 uppercase tracking-widest text-xs mb-4">Last 4 In</h3>
+                    {make_bubble_list(l4i, "emerald")}
                 </div>
-                <div class="bg-white p-5 rounded-xl shadow-sm border-t-4 border-orange-500">
-                    <h3 class="font-bold text-orange-700 uppercase tracking-wide text-sm mb-4">First 4 Out</h3>
-                    {make_bubble_list(f4o)}
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-orange-500"></div>
+                    <h3 class="font-bold text-orange-700 uppercase tracking-widest text-xs mb-4">First 4 Out</h3>
+                    {make_bubble_list(f4o, "orange")}
                 </div>
-                <div class="bg-white p-5 rounded-xl shadow-sm border-t-4 border-red-500">
-                    <h3 class="font-bold text-red-700 uppercase tracking-wide text-sm mb-4">Next 4 Out</h3>
-                    {make_bubble_list(n4o)}
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-red-500"></div>
+                    <h3 class="font-bold text-red-700 uppercase tracking-widest text-xs mb-4">Next 4 Out</h3>
+                    {make_bubble_list(n4o, "red")}
                 </div>
             </div>
 
             <!-- The Field Table -->
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
+            <div class="bg-white shadow-xl rounded-2xl overflow-hidden border border-slate-200">
                 <div class="overflow-x-auto">
                     <table class="w-full text-left whitespace-nowrap">
-                        <thead class="bg-slate-100 text-xs uppercase text-slate-500 font-bold border-b border-gray-200">
+                        <thead class="bg-slate-50 border-b border-gray-200 text-xs uppercase tracking-wider text-slate-500 font-bold">
                             <tr>
-                                <th class="px-6 py-4 text-center">Seed</th>
-                                <th class="px-6 py-4">Team</th>
-                                <th class="px-6 py-4 text-center">Bid</th>
-                                <th class="px-6 py-4 text-right">Conf</th>
+                                <th class="px-6 py-4 text-center border-r border-gray-200">Seed</th>
+                                <th class="px-6 py-4 border-r border-gray-200">Team</th>
+                                <th class="px-6 py-4 text-center border-r border-gray-200">Bid</th>
+                                <th class="px-6 py-4 text-center border-r border-gray-200">Conf</th>
                                 <th class="px-6 py-4 text-right">Score</th>
                                 <th class="px-6 py-4 text-right">WAB</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-gray-100">
+                        <tbody class="divide-y divide-gray-100 bg-white text-sm">
                             {rows}
                         </tbody>
                     </table>
@@ -325,7 +311,7 @@ def generate_html(field_df, l4i, f4o, n4o):
         
         <footer class="bg-white border-t border-gray-200 mt-auto py-6">
             <div class="max-w-6xl mx-auto px-4 text-center text-slate-400 text-xs">
-                Automated Analysis System
+                Automated Analysis System &bull; Powered by Python & GitHub Actions
             </div>
         </footer>
     </body>

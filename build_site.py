@@ -4,8 +4,11 @@ import datetime
 import os
 import json
 import urllib.parse
-# --- IMPORT THE SCRAPER MODULE ---
-import scrape_cbb 
+from scipy.stats import norm
+
+# --- CRITICAL IMPORTS ---
+import scrape_cbb          
+# ------------------------
 
 # --- CONFIGURATION ---
 SCRAPER_SCRIPT = "scrape_cbb.py" 
@@ -95,7 +98,6 @@ def get_data():
         print("Error: cbb_scores.csv not found.")
         return df_rat, None, None
     
-    # Optional: Load Pure Ratings if available
     try:
         df_pure = pd.read_csv("kenpom_pure.csv")
         pure_map = df_pure.set_index('Team')['AdjEM'].to_dict()
@@ -107,24 +109,20 @@ def get_data():
         df_conf = pd.read_csv(CONFERENCE_FILE)
         df_conf['Team'] = df_conf['Team'].replace(NAME_MAPPING)
     except FileNotFoundError:
-        df_conf = None 
+        df_conf = None
 
     return df_rat, df_sco, df_conf
 
 def get_nav_html(active_page):
-    links = [("index.html", "Rankings"), ("matchup.html", "Matchup Simulator")]
+    links = [("index.html", "Rankings"), ("schedule.html", "Today's Games"), ("matchup.html", "Matchup Simulator"), ("bracketology.html", "Bracketology")]
     
     desktop_html = '<div class="hidden md:block"><div class="ml-10 flex items-baseline space-x-4">'
     mobile_html = '<div class="md:hidden" id="mobile-menu"><div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">'
     
     for url, label in links:
-        is_active = (active_page == 'index' and url == 'index.html') or \
-                    (active_page == 'matchup' and url == 'matchup.html') or \
-                    (active_page == 'schedule' and url == 'schedule.html')
-        
+        is_active = (active_page in url)
         d_cls = "bg-slate-900 text-white" if is_active else "text-gray-300 hover:bg-slate-700 hover:text-white"
         desktop_html += f'<a href="{url}" class="{d_cls} px-3 py-2 rounded-md text-sm font-medium transition-colors">{label}</a>'
-        
         m_cls = "bg-slate-900 text-white" if is_active else "text-gray-300 hover:bg-slate-700 hover:text-white"
         mobile_html += f'<a href="{url}" class="{m_cls} block px-3 py-2 rounded-md text-base font-medium">{label}</a>'
         
@@ -140,12 +138,10 @@ def generate_teams_js(df_ratings, df_scores):
     em_col = 'AdjEM' if 'AdjEM' in df_ratings.columns else 'Blended_AdjEM'
     ratings_map = df_ratings.set_index('Team')[em_col].to_dict()
     
-    # Calculate Bubble Threshold
     sorted_df = df_ratings.sort_values(em_col, ascending=False).reset_index(drop=True)
     start_idx = 44 if len(sorted_df) > 50 else max(0, len(sorted_df) - 6)
     end_idx = 50 if len(sorted_df) > 50 else len(sorted_df)
     bubble_adjem = sorted_df.iloc[start_idx:end_idx][em_col].mean()
-    print(f"Bubble AdjEM Threshold: {bubble_adjem:.2f}")
     
     if df_scores is not None and not df_scores.empty:
         pts_col = 'pts' if 'pts' in df_scores.columns else 'points'
@@ -167,6 +163,7 @@ def generate_teams_js(df_ratings, df_scores):
 
     for _, row in df_ratings.iterrows():
         team = row['Team']
+        
         game_list = []
         if not full_scores.empty:
             games = full_scores[full_scores['team'] == team].copy()
@@ -193,19 +190,10 @@ def generate_teams_js(df_ratings, df_scores):
                     act_eff = (margin / poss) * 100
                     val_add = act_eff - exp_margin
                     
-                    # WAB Calculation
                     bubble_margin = (bubble_adjem - opp_rating) + hfa_adj
-                    # Approximate Win Prob using Logistic CDF (Matches Predict.py logic roughly)
-                    # Or use standard norm.cdf if scipy available
-                    # Simplified Pythagenport logic for JS/Python consistency
-                    # But here we just need a number. Let's use simple logic:
-                    # Z = Margin / 11.0. Prob = 1 / (1 + exp(-0.16 * Margin)) roughly logistic
-                    # Or better, just use the imported norm from scipy if available
                     try:
-                        from scipy.stats import norm
                         exp_win_bubble = norm.cdf(bubble_margin / 11.0)
                     except:
-                        # Fallback if scipy not installed
                         exp_win_bubble = 1 / (1 + 10 ** (-bubble_margin * 0.027))
 
                     actual_win = 1.0 if res == "W" else 0.0
@@ -228,6 +216,7 @@ def generate_teams_js(df_ratings, df_scores):
             'adjd': round(row['AdjD'], 1),
             'adjt': round(row['AdjT'], 1),
             'wab_total': round(row.get('WAB', 0.0), 2),
+            'consistency': round(row.get('Consistency', 50.0), 1), # ADDED
             'games': game_list
         }
     
@@ -266,8 +255,9 @@ def generate_index(df, df_conf):
     conf_json = json.dumps(conf_list)
     df = df.loc[:, ~df.columns.duplicated()]
 
-    cols = ['Rank', 'Team', 'Conference', 'Link', 'AdjEM', 'Pure_AdjEM', 'WAB', 'AdjO', 'AdjD', 'AdjT', 
-            'Rank_AdjO', 'Rank_AdjD', 'Rank_AdjT']
+    # Added Consistency to export list
+    cols = ['Rank', 'Team', 'Conference', 'Link', 'AdjEM', 'Pure_AdjEM', 'WAB', 'Consistency', 
+            'AdjO', 'AdjD', 'AdjT', 'Rank_AdjO', 'Rank_AdjD', 'Rank_AdjT']
     cols = [c for c in cols if c in df.columns]
     rankings_json = df[cols].to_json(orient='records')
 
@@ -290,15 +280,19 @@ def generate_matchup(df):
             'AdjO': row['AdjO'], 'AdjD': row['AdjD'], 'AdjT': row['AdjT'], 'AdjEM': row[em_col]
         }
     teams_json = json.dumps(teams_data)
+
     try:
         with open("matchup_template.html", "r") as f:
             template = f.read()
+            
         nav_d, nav_m = get_nav_html('matchup')
         now = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+
         html = template.replace("{{TEAMS_JSON}}", teams_json)
         html = html.replace("{{LAST_UPDATED}}", now)
         html = html.replace("{{NAV_DESKTOP}}", nav_d)
         html = html.replace("{{NAV_MOBILE}}", nav_m)
+
         with open(OUTPUT_MATCHUP, "w") as f:
             f.write(html)
         print(f"Generated {OUTPUT_MATCHUP}")
@@ -330,13 +324,16 @@ def generate_schedule():
         with open(OUTPUT_SCHEDULE, "w") as f:
             f.write(html)
         print(f"Generated {OUTPUT_SCHEDULE}")
-    except FileNotFoundError:
-        print("Warning: schedule_template.html not found.")
+    except Exception as e:
+        print(f"Error generating schedule: {e}")
 
 if __name__ == "__main__":
     run_script(SCRAPER_SCRIPT)
     run_script(RATINGS_SCRIPT)
+    
+    # Run bracket generation first so we can link to it if needed
     df_ratings, df_scores, df_conf = get_data()
+
     if df_ratings is not None:
         generate_teams_js(df_ratings, df_scores)
         generate_index(df_ratings, df_conf)

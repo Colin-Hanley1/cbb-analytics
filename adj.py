@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 from sklearn.linear_model import RidgeCV
 from scipy.sparse import lil_matrix
+from scipy.stats import norm
 from datetime import datetime
 
 # ================= CONFIG =================
@@ -86,7 +87,81 @@ def cap_efficiency_margin(raw_diff, cap=25.0):
 def prior_collapse_factor(z):
     return 1 / (1 + np.exp(SURPRISE_STEEPNESS * (np.abs(z) - SURPRISE_CUTOFF)))
 
-# --- WAB CALCULATOR (UPDATED WITH PYTHAGENPORT) ---
+# --- CONSISTENCY CALCULATOR (NEW) ---
+def calculate_consistency(ratings_df, scores_df, pts_col, model_hfa):
+    """
+    Calculates a 0-100 Consistency score based on the standard deviation 
+    of a team's performance residuals (Actual Margin - Predicted Margin).
+    """
+    print("Calculating Consistency Scores...")
+    
+    # Map for easy lookup of Blended AdjEM
+    stats_map = ratings_df.set_index('Team')[['Blended_AdjEM']].to_dict('index')
+    
+    # Prepare data with opponent points
+    opp_scores = scores_df[['date', 'team', pts_col]].rename(columns={'team': 'opponent', pts_col: 'opp_pts'})
+    opp_scores = opp_scores.drop_duplicates(subset=['date', 'opponent'])
+    games = scores_df.merge(opp_scores, on=['date', 'opponent'], how='left')
+    
+    residuals = {} # {Team: [list of residuals]}
+    
+    for _, row in games.iterrows():
+        team = row['team']
+        opp = row['opponent']
+        
+        if team not in stats_map or opp not in stats_map:
+            continue
+            
+        pts = row[pts_col]
+        opp_pts = row['opp_pts']
+        poss = row['possessions']
+        
+        if poss == 0 or pd.isna(opp_pts): continue
+        
+        # 1. Actual Efficiency Margin for this game
+        actual_margin = (pts - opp_pts) / poss * 100
+        
+        # 2. Predicted Margin
+        # Margin = Team_AdjEM - Opp_AdjEM + HFA
+        loc_val = row['location_value']
+        hfa_adj = 0
+        if loc_val == 1: hfa_adj = model_hfa
+        elif loc_val == -1: hfa_adj = -model_hfa
+            
+        exp_margin = stats_map[team]['Blended_AdjEM'] - stats_map[opp]['Blended_AdjEM'] + hfa_adj
+        
+        # 3. Residual
+        resid = actual_margin - exp_margin
+        
+        if team not in residuals: residuals[team] = []
+        residuals[team].append(resid)
+        
+    # Calculate Score
+    cons_scores = []
+    teams_in_order = ratings_df['Team'].tolist()
+    
+    for team in teams_in_order:
+        res_list = residuals.get(team, [])
+        if len(res_list) < 3:
+            # Not enough data for variance
+            score = 50.0 
+        else:
+            mad = np.mean(np.abs(res_list))
+            
+            # SCALE THE SCORE:
+            # An average team misses projection by about 9-11 points per 100 poss.
+            # MAD = 0 (Perfect) -> Score 100
+            # MAD = 10 (Average) -> Score 60
+            # MAD = 20 (Chaotic) -> Score 20
+            # Formula: 100 - (MAD * 4.0)
+             # Clamp 0-100 # Clamp 0-100
+            
+        cons_scores.append(mad)
+        
+    ratings_df['Consistency'] = cons_scores
+    return ratings_df
+
+# --- WAB CALCULATOR ---
 def calculate_wab_pythag(ratings_df, scores_df, pts_col):
     """
     Calculates Wins Above Bubble (WAB) using the Pythagenport prediction logic.
@@ -247,11 +322,21 @@ def calculate_ratings(
     y_pace = df['pace_40'].values - global_pace
 
     # ---------- FIT ----------
-    clf_eff = RidgeCV(alphas=[0.1, 1, 5, 10, 25], fit_intercept=False).fit(X_eff, y_eff, sample_weight=weights)
-    clf_pace = RidgeCV(alphas=[0.1, 1, 5, 10], fit_intercept=False).fit(X_pace, y_pace, sample_weight=weights)
+    clf_eff = RidgeCV(
+        alphas=[0.1, 1, 5, 10, 25],
+        fit_intercept=False
+    ).fit(X_eff, y_eff, sample_weight=weights)
+
+    clf_pace = RidgeCV(
+        alphas=[0.1, 1, 5, 10],
+        fit_intercept=False
+    ).fit(X_pace, y_pace, sample_weight=weights)
 
     coefs = clf_eff.coef_
     pace_coefs = clf_pace.coef_
+    
+    # Extract Model HFA (The coefficient for the last column)
+    model_hfa = coefs[-1]
 
     # ---------- CURRENT RATINGS ----------
     current = []
@@ -272,42 +357,77 @@ def calculate_ratings(
     ratings = pd.DataFrame(current)
 
     # ---------- GAMES PLAYED ----------
-    games_played = df.groupby('team').size().rename("Games").reset_index().rename(columns={"team": "Team"})
+    games_played = (
+        df.groupby('team')
+          .size()
+          .rename("Games")
+          .reset_index()
+          .rename(columns={"team": "Team"})
+    )
+
     ratings = ratings.merge(games_played, on="Team", how="left")
 
     # ---------- PRESEASON ----------
     try:
         preseason = pd.read_csv(preseason_file)
         preseason['Team'] = preseason['Team'].replace(NAME_MAPPING)
-        ratings = ratings.merge(preseason[['Team', 'Preseason_AdjEM']], on='Team', how='left')
+        ratings = ratings.merge(
+            preseason[['Team', 'Preseason_AdjEM']],
+            on='Team',
+            how='left'
+        )
     except FileNotFoundError:
-        print("Warning: Preseason file not found. Using 0.0 defaults.")
+        print("Warning: Preseason file not found. Skipping prior blend.")
         ratings['Preseason_AdjEM'] = 0.0
 
     ratings['Preseason_AdjEM'] = ratings['Preseason_AdjEM'].fillna(0.0)
 
     # ---------- PRIOR COLLAPSE ----------
-    ratings['SurpriseZ'] = (ratings['Current_AdjEM'] - ratings['Preseason_AdjEM']) / SURPRISE_SCALE
+    ratings['SurpriseZ'] = (
+        ratings['Current_AdjEM'] - ratings['Preseason_AdjEM']
+    ) / SURPRISE_SCALE
+
     ratings['CollapseFactor'] = ratings['SurpriseZ'].apply(prior_collapse_factor)
-    ratings['FinalPreseasonWeight'] = BASE_PRESEASON_GAMES * ratings['CollapseFactor']
+
+    ratings['FinalPreseasonWeight'] = (
+        BASE_PRESEASON_GAMES * ratings['CollapseFactor']
+    )
 
     # ---------- BLENDED RATING ----------
     G = ratings['Games']
     w = ratings['FinalPreseasonWeight']
-    ratings['Blended_AdjEM'] = (G/(G + w) * ratings['Current_AdjEM'] + w/(G + w) * ratings['Preseason_AdjEM'])
+
+    ratings['Blended_AdjEM'] = (
+        G/(G + w) * ratings['Current_AdjEM'] +
+        w/(G + w) * ratings['Preseason_AdjEM']
+    )
 
     # ---------- WAB CALCULATION (PYTHAGENPORT) ----------
     ratings = calculate_wab_pythag(ratings, df, pts_col)
+    
+    # ---------- CONSISTENCY CALCULATION ----------
+    ratings = calculate_consistency(ratings, df, pts_col, model_hfa)
 
     # ---------- RANK ----------
-    ratings = ratings.sort_values('Blended_AdjEM', ascending=False).reset_index(drop=True)
+    ratings = ratings.sort_values(
+        'Blended_AdjEM',
+        ascending=False
+    ).reset_index(drop=True)
+
     ratings.index += 1
     ratings.index.name = 'Rank'
 
     ratings.to_csv('cbb_ratings.csv')
 
     print("\nTop 15 (Blended AdjEM):")
-    print(ratings[['Team', 'Blended_AdjEM', 'WAB', 'Current_AdjEM', 'Games']].head(15).round(2).to_string())
+    print(
+        ratings[['Team', 'Blended_AdjEM', 'WAB', 'Consistency',
+                 'Current_AdjEM', 'Preseason_AdjEM',
+                 'Games']]
+        .head(15)
+        .round(2)
+        .to_string()
+    )
 
     print("\nSaved to cbb_ratings.csv")
 
