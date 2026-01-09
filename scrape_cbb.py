@@ -516,7 +516,7 @@ if __name__ == "__main__":
     # Sports-Reference updates overnight, so we always want "Yesterday" relative to now.
     today = datetime.now()
     yesterday = today - timedelta(days=1)
-    sd = datetime(2022,11,18)
+    sd = datetime(2022,11,26)
     ed = datetime(2023,3,12)
     yesterday_str = yesterday.strftime('%Y-%m-%d')
     print(f"Checking scrape status for: {yesterday_str}")
@@ -540,4 +540,4 @@ if __name__ == "__main__":
         print(f" > Data for {yesterday_str} is already present in {output_filename}. Skipping scrape.")
     else:
         print(f" > Data for {yesterday_str} not found. Starting scraper...")
-        scraper.run(yesterday, yesterday, output_filename=output_filename)
+        scraper.run(sd, ed, output_filename=output_filename)

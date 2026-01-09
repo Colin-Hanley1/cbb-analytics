@@ -94,7 +94,7 @@ def get_data():
         return None, None, None
 
     try:
-        df_sco = pd.read_csv("cbb_scores.csv")
+        df_sco = pd.read_csv("cbb_scores2425.csv")
     except FileNotFoundError:
         print("Error: cbb_scores.csv not found.")
         return df_rat, None, None
@@ -359,7 +359,7 @@ def generate_schedule():
         print(f"Error generating schedule: {e}")
 
 if __name__ == "__main__":
-    run_script(SCRAPER_SCRIPT)
+    #run_script(SCRAPER_SCRIPT)
     run_script(RATINGS_SCRIPT)
     
     df_ratings, df_scores, df_conf = get_data()
