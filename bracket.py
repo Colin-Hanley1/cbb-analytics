@@ -1,17 +1,38 @@
 import pandas as pd
 import datetime
 import os
+import numpy as np
 
 # --- CONFIGURATION ---
 RATINGS_FILE = "cbb_ratings.csv"
 CONFERENCE_FILE = "cbb_conferences.csv"
 OUTPUT_HTML = "bracketology.html"
 
+# --- MODEL COEFFICIENTS ---
+# PASTE THE OUTPUT FROM train_bracket_model.py HERE
+# These are placeholder weights based on typical committee behavior
+SCORING_WEIGHTS = {
+    'ADJEM': 7.850849855591601,       # Base Power Metric (Mapped from Blended_AdjEM)
+    'WAB': 18.74810332838076,         # Base Resume Metric
+    'Q1_W': -7.661616041377189,       # Bonus for Elite Wins
+    'Q1_L': 0.0,        # No penalty for quality losses
+    'Q2_W': 0.0,        # Slight bonus
+    'Q2_L': 0.0,       # Slight penalty
+    'Q3_W': 0.0,        # Expected win
+    'Q3_L': 0.0,       # Bad loss
+    'Q4_W': 0.0,        # Expected win
+    'Q4_L': 0.0,       # Catastrophic loss
+    'T100_W': 11.213503749200006,     # Depth of wins
+    'T100_L': 0.0     # Depth of losses
+}
+
 # --- MANUAL AUTO-BIDS ---
 # Format: "Conference Name": "Team Name"
-MANUAL_AQS = {}
+MANUAL_AQS = {
+    # "Ivy": "Princeton",
+}
 
-# --- NAME MAPPING (Must match your other scripts) ---
+# --- NAME MAPPING ---
 NAME_MAPPING = {
    "Iowa State": "Iowa St.", "Brigham Young": "BYU", "Michigan State": "Michigan St.",
    "Saint Mary's (CA)": "Saint Mary's", "St. John's (NY)": "St. John's",
@@ -90,8 +111,21 @@ def generate_bracket():
     df = df.merge(df_conf, on='Team', how='left')
     df['Conference'] = df['Conference'].fillna('Unknown')
 
-    # 3. Calculate Selection Score
-    df['Selection_Score'] = (df['WAB'] * 4.0) + df['Blended_AdjEM']
+    # 3. CALCULATE SELECTION SCORE (New Model)
+    # ----------------------------------------------------
+    # Map the CSV column 'Blended_AdjEM' to the model feature 'ADJEM'
+    df['ADJEM'] = df['Current_AdjEM']
+    
+    # Initialize score
+    df['Selection_Score'] = 0.0
+    
+    # Apply weights
+    for feature, weight in SCORING_WEIGHTS.items():
+        if feature in df.columns:
+            df['Selection_Score'] += df[feature] * weight
+        else:
+            print(f"Warning: Feature '{feature}' missing from ratings. Treated as 0.")
+    # ----------------------------------------------------
     
     # 4. Determine Automatic Qualifiers (AQs)
     df['AQ'] = False
@@ -106,9 +140,10 @@ def generate_bracket():
                 aq_teams_list.append(forced_team)
                 continue
         
+        # Fallback: Highest Selection Score in conference wins AQ
         conf_teams = df[df['Conference'] == conf]
         if not conf_teams.empty:
-            top_team = conf_teams.sort_values('Blended_AdjEM', ascending=False).iloc[0]['Team']
+            top_team = conf_teams.sort_values('Selection_Score', ascending=False).iloc[0]['Team']
             aq_teams_list.append(top_team)
             
     df.loc[df['Team'].isin(aq_teams_list), 'AQ'] = True
@@ -116,7 +151,7 @@ def generate_bracket():
     # 5. Select the Field (68 Teams)
     field = []
     
-    # A. Auto Bids
+    # A. Automatic Bids
     auto_bids = df[df['AQ'] == True].copy()
     for _, row in auto_bids.iterrows():
         row['Bid_Type'] = 'Auto'
@@ -142,7 +177,6 @@ def generate_bracket():
     field_df = field_df.sort_values('Selection_Score', ascending=False).reset_index(drop=True)
     field_df['Overall_Rank'] = field_df.index + 1
     
-    # Seeds 1-10: 4 each. 11: 6 teams. 12-15: 4 each. 16: 6 teams.
     seeds = []
     for s in range(1, 11): seeds.extend([s] * 4) 
     seeds.extend([11] * 6) 
@@ -168,9 +202,8 @@ def generate_html(field_df, l4i, f4o, n4o):
     
     rows = ""
     for _, row in field_df.iterrows():
-        # Match style of main rankings table
         type_class = "text-emerald-700 bg-emerald-50" if row['Bid_Type'] == 'Auto' else "text-blue-700 bg-blue-50"
-        seed_color = "text-gray-900" if row['Seed'] <= 4 else "text-gray-500"
+        seed_color = "text-slate-900" if row['Seed'] <= 4 else "text-slate-500"
         
         rows += f"""
         <tr class="hover:bg-slate-50 border-b border-gray-100 transition-colors">
@@ -208,7 +241,7 @@ def generate_html(field_df, l4i, f4o, n4o):
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <title>Bracketology | CHan Analytics</title>
         <script src="https://cdn.tailwindcss.com"></script>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
         <style> 
             body {{ font-family: 'Inter', sans-serif; background-color: #f1f5f9; }} 
             .font-mono {{ font-family: 'Roboto Mono', monospace; }}
@@ -218,14 +251,11 @@ def generate_html(field_df, l4i, f4o, n4o):
     </head>
     <body class="text-slate-900 min-h-screen flex flex-col">
         
-        <!-- Navbar -->
         <nav class="bg-slate-900 text-white shadow-lg sticky top-0 z-50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between h-16">
                     <div class="flex items-center">
                         <span class="font-bold text-xl tracking-tight text-white">CHan Analytics</span>
-                        
-                        <!-- Desktop Nav -->
                         <div class="hidden md:block ml-10">
                             <div class="flex items-baseline space-x-4">
                                 <a href="index.html" class="text-gray-300 hover:bg-slate-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Rankings</a>
@@ -247,7 +277,6 @@ def generate_html(field_df, l4i, f4o, n4o):
                 </div>
             </div>
             
-            <!-- Mobile Menu -->
             <div class="md:hidden" id="mobile-menu">
                 <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
                     <a href="index.html" class="text-gray-300 hover:bg-slate-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Rankings</a>
@@ -259,16 +288,12 @@ def generate_html(field_df, l4i, f4o, n4o):
         </nav>
 
         <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            
-            <div class="mb-8 text-center sm:text-left">
-                <h1 class="text-3xl font-bold text-slate-900">Bracketology Projection</h1>
-                <p class="mt-2 text-slate-500 max-w-2xl">
-                    68-Team Field projection based on Resume Score. 
-                    <br class="hidden sm:inline">Automatic bids awarded to the highest rated team in each conference.
-                </p>
-            </div>
+            <h1 class="text-3xl font-bold text-slate-900 mb-2">Bracketology Projection</h1>
+            <p class="text-slate-500 mb-8 max-w-2xl">
+                Projections based on a weighted composite of efficiency, resume, and quality wins.
+                <br class="hidden sm:inline">Automatic bids awarded to the highest rated team in each conference.
+            </p>
 
-            <!-- Bubble Watch -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
                 <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 relative overflow-hidden">
                     <div class="absolute top-0 left-0 w-full h-1 bg-emerald-500"></div>
@@ -287,7 +312,6 @@ def generate_html(field_df, l4i, f4o, n4o):
                 </div>
             </div>
 
-            <!-- The Field Table -->
             <div class="bg-white shadow-xl rounded-2xl overflow-hidden border border-slate-200">
                 <div class="overflow-x-auto">
                     <table class="w-full text-left whitespace-nowrap">
@@ -298,7 +322,7 @@ def generate_html(field_df, l4i, f4o, n4o):
                                 <th class="px-6 py-4 text-center border-r border-gray-200">Bid</th>
                                 <th class="px-6 py-4 text-center border-r border-gray-200">Conf</th>
                                 <th class="px-6 py-4 text-right">Score</th>
-                                <th class="px-6 py-4 text-right">WAB</th>
+                                <th class="px-6 py-4 text-right text-purple-700">WAB</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-100 bg-white text-sm">
