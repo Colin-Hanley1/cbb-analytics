@@ -478,9 +478,12 @@ class CBBScraper:
             day_games = []  # Reset list for the new day
             links = self.get_mens_game_links(current_date)
             print(f" > Found {len(links)} D1 vs D1 matchups.")
-            
+            i = 0
             for link in links:
+                i += 1
+                print(f"  [{i}/{len(links)}]", end="")
                 game_stats = self.parse_box_score(link, current_date.strftime('%Y-%m-%d'))
+                
                 day_games.extend(game_stats)
             
             # --- SAVE DATA AT THE END OF THE DAY ---
@@ -513,6 +516,8 @@ if __name__ == "__main__":
     # Sports-Reference updates overnight, so we always want "Yesterday" relative to now.
     today = datetime.now()
     yesterday = today - timedelta(days=1)
+    sd = datetime(2026,1,6)
+    ed = datetime(2026,1,8)
     yesterday_str = yesterday.strftime('%Y-%m-%d')
     print(f"Checking scrape status for: {yesterday_str}")
 
