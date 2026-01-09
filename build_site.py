@@ -18,6 +18,7 @@ OUTPUT_MATCHUP = "matchup.html"
 OUTPUT_SCHEDULE = "schedule.html"
 OUTPUT_TEAM_DATA = "teams_data.js"
 CONFERENCE_FILE = "cbb_conferences.csv"
+WEIGHTS_FILE = "model_weights.json"
 
 # --- NAME MAPPING ---
 NAME_MAPPING = {
@@ -98,6 +99,7 @@ def get_data():
         print("Error: cbb_scores.csv not found.")
         return df_rat, None, None
     
+    # Optional: Load Pure Ratings if available
     try:
         df_pure = pd.read_csv("kenpom_pure.csv")
         pure_map = df_pure.set_index('Team')['AdjEM'].to_dict()
@@ -120,9 +122,13 @@ def get_nav_html(active_page):
     mobile_html = '<div class="md:hidden" id="mobile-menu"><div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">'
     
     for url, label in links:
-        is_active = (active_page in url)
+        is_active = (active_page == 'index' and url == 'index.html') or \
+                    (active_page == 'matchup' and url == 'matchup.html') or \
+                    (active_page == 'schedule' and url == 'schedule.html')
+        
         d_cls = "bg-slate-900 text-white" if is_active else "text-gray-300 hover:bg-slate-700 hover:text-white"
         desktop_html += f'<a href="{url}" class="{d_cls} px-3 py-2 rounded-md text-sm font-medium transition-colors">{label}</a>'
+        
         m_cls = "bg-slate-900 text-white" if is_active else "text-gray-300 hover:bg-slate-700 hover:text-white"
         mobile_html += f'<a href="{url}" class="{m_cls} block px-3 py-2 rounded-md text-base font-medium">{label}</a>'
         
@@ -138,10 +144,12 @@ def generate_teams_js(df_ratings, df_scores):
     em_col = 'AdjEM' if 'AdjEM' in df_ratings.columns else 'Blended_AdjEM'
     ratings_map = df_ratings.set_index('Team')[em_col].to_dict()
     
+    # Calculate Bubble Threshold
     sorted_df = df_ratings.sort_values(em_col, ascending=False).reset_index(drop=True)
     start_idx = 44 if len(sorted_df) > 50 else max(0, len(sorted_df) - 6)
     end_idx = 50 if len(sorted_df) > 50 else len(sorted_df)
     bubble_adjem = sorted_df.iloc[start_idx:end_idx][em_col].mean()
+    print(f"Bubble AdjEM Threshold: {bubble_adjem:.2f}")
     
     if df_scores is not None and not df_scores.empty:
         pts_col = 'pts' if 'pts' in df_scores.columns else 'points'
@@ -169,6 +177,7 @@ def generate_teams_js(df_ratings, df_scores):
             games = full_scores[full_scores['team'] == team].copy()
             if not games.empty:
                 games = games.sort_values('date', ascending=False)
+                
                 for _, g in games.iterrows():
                     opp = g['opponent']
                     opp_pt = g['opp_pts']
@@ -216,7 +225,7 @@ def generate_teams_js(df_ratings, df_scores):
             'adjd': round(row['AdjD'], 1),
             'adjt': round(row['AdjT'], 1),
             'wab_total': round(row.get('WAB', 0.0), 2),
-            'consistency': round(row.get('Consistency', 50.0), 1), # ADDED
+            'consistency': round(row.get('Consistency', 50.0), 1),
             'games': game_list
         }
     
@@ -238,8 +247,31 @@ def generate_index(df, df_conf):
     nav_d, nav_m = get_nav_html('index')
 
     df['Link'] = df['Team'].apply(lambda x: f"team.html?q={urllib.parse.quote(x)}")
+    
+    # 1. Rename columns to standardized names
     if 'Blended_AdjEM' in df.columns: df = df.rename(columns={'Blended_AdjEM': 'AdjEM'})
     if 'Current_AdjEM' in df.columns: df = df.rename(columns={'Current_AdjEM': 'Pure_AdjEM'})
+
+    # 2. DROP DUPLICATES (Fixes the ValueError)
+    # If Pure_AdjEM was loaded in get_data() AND renamed from Current_AdjEM, we have two.
+    df = df.loc[:, ~df.columns.duplicated()]
+
+    # --- CALCULATE SELECTION SCORE ---
+    try:
+        if os.path.exists(WEIGHTS_FILE):
+            with open(WEIGHTS_FILE, "r") as f: weights = json.load(f)
+        else:
+            weights = {'ADJEM': 1.0, 'WAB': 4.0}
+            
+        df['ADJEM'] = df['Pure_AdjEM'] # Map for model
+        
+        df['Selection_Score'] = 0.0
+        for feat, w in weights.items():
+            if feat in df.columns:
+                df['Selection_Score'] += df[feat] * w
+    except Exception as e:
+        print(f"Warning: Selection Score calc failed ({e}). Defaulting to 0.")
+        df['Selection_Score'] = 0.0
 
     df['Rank_AdjO'] = df['AdjO'].rank(ascending=False, method='min').astype(int)
     df['Rank_AdjD'] = df['AdjD'].rank(ascending=True, method='min').astype(int) 
@@ -255,9 +287,8 @@ def generate_index(df, df_conf):
     conf_json = json.dumps(conf_list)
     df = df.loc[:, ~df.columns.duplicated()]
 
-    # Added Consistency to export list
     cols = ['Rank', 'Team', 'Conference', 'Link', 'AdjEM', 'Pure_AdjEM', 'WAB', 'Consistency', 
-            'AdjO', 'AdjD', 'AdjT', 'Rank_AdjO', 'Rank_AdjD', 'Rank_AdjT']
+            'Selection_Score', 'AdjO', 'AdjD', 'AdjT', 'Rank_AdjO', 'Rank_AdjD', 'Rank_AdjT']
     cols = [c for c in cols if c in df.columns]
     rankings_json = df[cols].to_json(orient='records')
 
@@ -274,7 +305,7 @@ def generate_index(df, df_conf):
 def generate_matchup(df):
     print("Generating Matchup...")
     teams_data = {}
-    em_col = 'Blended_AdjEM' if 'Blended_AdjEM' in df.columns else 'AdjEM'
+    em_col = 'AdjEM' if 'AdjEM' in df.columns else 'Blended_AdjEM'
     for _, row in df.sort_values('Team').iterrows():
         teams_data[row['Team']] = {
             'AdjO': row['AdjO'], 'AdjD': row['AdjD'], 'AdjT': row['AdjT'], 'AdjEM': row[em_col]
@@ -331,7 +362,6 @@ if __name__ == "__main__":
     run_script(SCRAPER_SCRIPT)
     run_script(RATINGS_SCRIPT)
     
-    # Run bracket generation first so we can link to it if needed
     df_ratings, df_scores, df_conf = get_data()
 
     if df_ratings is not None:

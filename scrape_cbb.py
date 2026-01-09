@@ -510,14 +510,14 @@ class CBBScraper:
 
 if __name__ == "__main__":
     scraper = CBBScraper()
-    output_filename = "cbb_scores.csv"
+    output_filename = "cbb_scores2223.csv"
 
     # 1. Calculate Yesterday's Date
     # Sports-Reference updates overnight, so we always want "Yesterday" relative to now.
     today = datetime.now()
     yesterday = today - timedelta(days=1)
-    sd = datetime(2026,1,6)
-    ed = datetime(2026,1,8)
+    sd = datetime(2022,11,18)
+    ed = datetime(2023,3,12)
     yesterday_str = yesterday.strftime('%Y-%m-%d')
     print(f"Checking scrape status for: {yesterday_str}")
 
