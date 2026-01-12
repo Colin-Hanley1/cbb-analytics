@@ -6,10 +6,10 @@ from scipy.stats import norm
 from datetime import datetime
 
 # ================= CONFIG =================
-BASE_PRESEASON_GAMES = 12         # baseline preseason strength
+BASE_PRESEASON_GAMES = 10      # baseline preseason strength
 SURPRISE_SCALE = 8.0              # AdjEM std dev
-SURPRISE_CUTOFF = 2.0             # z-score where collapse accelerates
-SURPRISE_STEEPNESS = 1.2          # how sharp the cutoff is
+SURPRISE_CUTOFF = 1.75            # z-score where collapse accelerates
+SURPRISE_STEEPNESS = 1.5          # how sharp the cutoff is
 
 # Prediction Constants
 AVG_EFF = 106.0 
