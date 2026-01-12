@@ -247,23 +247,25 @@ def generate_index(df, df_conf):
     nav_d, nav_m = get_nav_html('index')
 
     df['Link'] = df['Team'].apply(lambda x: f"team.html?q={urllib.parse.quote(x)}")
-    
-    # 1. Rename columns to standardized names
     if 'Blended_AdjEM' in df.columns: df = df.rename(columns={'Blended_AdjEM': 'AdjEM'})
     if 'Current_AdjEM' in df.columns: df = df.rename(columns={'Current_AdjEM': 'Pure_AdjEM'})
-
-    # 2. DROP DUPLICATES (Fixes the ValueError)
-    # If Pure_AdjEM was loaded in get_data() AND renamed from Current_AdjEM, we have two.
     df = df.loc[:, ~df.columns.duplicated()]
-
-    # --- CALCULATE SELECTION SCORE ---
+    # --- STEP 1: CALCULATE SCORE (Before Renaming) ---
     try:
         if os.path.exists(WEIGHTS_FILE):
             with open(WEIGHTS_FILE, "r") as f: weights = json.load(f)
         else:
             weights = {'ADJEM': 1.0, 'WAB': 4.0}
             
-        df['ADJEM'] = df['Pure_AdjEM'] # Map for model
+        # FIX: Ensure we use the Current (Pure) AdjEM for Selection Score if desired
+        # Or check 'ADJEM' in weights vs 'AdjEM' in DF
+        
+        # NOTE: Your weights file uses 'ADJEM' key.
+        # We assume this maps to the 'Pure_AdjEM' (Current performance) 
+        # or 'AdjEM' (Blended). Usually Blended is better for projection, but you asked for Current.
+        
+        # Using Pure/Current AdjEM as requested:
+        df['ADJEM'] = df['Pure_AdjEM'] 
         
         df['Selection_Score'] = 0.0
         for feat, w in weights.items():
@@ -273,6 +275,13 @@ def generate_index(df, df_conf):
         print(f"Warning: Selection Score calc failed ({e}). Defaulting to 0.")
         df['Selection_Score'] = 0.0
 
+    # --- STEP 2: RENAME COLUMNS ---
+    # (Already renamed above for JSON compatibility)
+
+    # --- STEP 3: DEDUPLICATE COLUMNS ---
+    df = df.loc[:, ~df.columns.duplicated()]
+
+    # Ranks
     df['Rank_AdjO'] = df['AdjO'].rank(ascending=False, method='min').astype(int)
     df['Rank_AdjD'] = df['AdjD'].rank(ascending=True, method='min').astype(int) 
     df['Rank_AdjT'] = df['AdjT'].rank(ascending=False, method='min').astype(int)
@@ -305,7 +314,15 @@ def generate_index(df, df_conf):
 def generate_matchup(df):
     print("Generating Matchup...")
     teams_data = {}
-    em_col = 'AdjEM' if 'AdjEM' in df.columns else 'Blended_AdjEM'
+    em_col = 'Blended_AdjEM' if 'Blended_AdjEM' in df.columns else 'AdjEM'
+    
+    # --- NEW: CALCULATE BUBBLE FOR MATCHUP INJECTION ---
+    sorted_df = df.sort_values(em_col, ascending=False).reset_index(drop=True)
+    start_idx = 44 if len(sorted_df) > 50 else max(0, len(sorted_df) - 6)
+    end_idx = 50 if len(sorted_df) > 50 else len(sorted_df)
+    bubble_adjem = sorted_df.iloc[start_idx:end_idx][em_col].mean()
+    # ---------------------------------------------------
+
     for _, row in df.sort_values('Team').iterrows():
         teams_data[row['Team']] = {
             'AdjO': row['AdjO'], 'AdjD': row['AdjD'], 'AdjT': row['AdjT'], 'AdjEM': row[em_col]
@@ -320,6 +337,9 @@ def generate_matchup(df):
         now = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
 
         html = template.replace("{{TEAMS_JSON}}", teams_json)
+        # --- NEW: INJECT BUBBLE VAR ---
+        html = html.replace("{{BUBBLE_ADJEM}}", f"{bubble_adjem:.2f}") 
+        
         html = html.replace("{{LAST_UPDATED}}", now)
         html = html.replace("{{NAV_DESKTOP}}", nav_d)
         html = html.replace("{{NAV_MOBILE}}", nav_m)
@@ -362,6 +382,8 @@ if __name__ == "__main__":
     run_script(SCRAPER_SCRIPT)
     run_script(RATINGS_SCRIPT)
     
+    # Run bracket generation first so we can link to it if needed
+
     df_ratings, df_scores, df_conf = get_data()
 
     if df_ratings is not None:

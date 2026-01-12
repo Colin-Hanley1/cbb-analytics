@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Matchup Simulator | CBB Analytics</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style> 
-        body { font-family: 'Inter', sans-serif; } 
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; } 
         #mobile-menu { display: none; }
         #mobile-menu.open { display: block; }
         
@@ -21,13 +21,13 @@
         .suggestions-list::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 3px; }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-900 min-h-screen flex flex-col">
+<body class="text-slate-900 min-h-screen flex flex-col">
 
     <!-- NAVBAR -->
-    <nav class="bg-slate-800 text-white shadow-lg sticky top-0 z-50">
+    <nav class="bg-slate-900/95 backdrop-blur-md text-white shadow-lg sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
-                <div class="flex items-center">
+                <div class="flex items-center space-x-4">
                     <span class="font-bold text-xl tracking-tight text-white">CHan Analytics</span>
                     <div class="hidden md:block"><div class="ml-10 flex items-baseline space-x-4"><a href="index.html" class="text-gray-300 hover:bg-slate-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Rankings</a><a href="schedule.html" class="text-gray-300 hover:bg-slate-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Today's Games</a><a href="matchup.html" class="bg-slate-900 text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Matchup Simulator</a><a href="bracketology.html" class="text-gray-300 hover:bg-slate-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Bracketology</a></div></div>
                 </div>
@@ -43,94 +43,94 @@
         <div class="md:hidden" id="mobile-menu"><div class="px-2 pt-2 pb-3 space-y-1 sm:px-3"><a href="index.html" class="text-gray-300 hover:bg-slate-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Rankings</a><a href="schedule.html" class="text-gray-300 hover:bg-slate-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Today's Games</a><a href="matchup.html" class="bg-slate-900 text-white block px-3 py-2 rounded-md text-base font-medium">Matchup Simulator</a><a href="bracketology.html" class="text-gray-300 hover:bg-slate-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Bracketology</a></div></div>
     </nav>
 
-    <main class="flex-grow max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+    <main class="flex-grow max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
         
-        <div class="mb-6 text-center sm:text-left">
-            <h1 class="text-2xl sm:text-3xl font-bold text-slate-900">Matchup Simulator</h1>
-            <p class="text-sm text-slate-500">Project spreads and totals based on adjusted efficiency.</p>
+        <div class="mb-8 text-center">
+            <h1 class="text-3xl font-bold text-slate-900">Matchup Simulator</h1>
+            <p class="text-slate-500 mt-2">Projected spreads, totals, and WAB implications.</p>
         </div>
 
         <!-- INPUTS GRID -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
             
             <!-- Team A Input -->
-            <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 relative group z-30">
-                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">Home / Team A</label>
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 relative group z-30">
+                <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Home / Team A</label>
                 <div class="relative">
-                    <input type="text" id="teamA" placeholder="Type team name..." autocomplete="off"
-                        class="block w-full p-3 border border-gray-300 bg-gray-50 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-base sm:text-lg font-medium placeholder-gray-400 transition-colors">
-                    <!-- Suggestions Dropdown -->
-                    <ul id="listA" class="suggestions-list absolute z-50 w-full bg-white border border-gray-200 rounded-lg shadow-xl max-h-60 overflow-y-auto mt-1 hidden"></ul>
+                    <input type="text" id="teamA" placeholder="Type Name..." autocomplete="off"
+                        class="w-full p-3 border-b-2 border-slate-200 text-lg font-bold text-slate-900 focus:outline-none focus:border-blue-500 transition-colors bg-transparent">
+                    <ul id="listA" class="suggestions-list absolute z-50 w-full bg-white border border-slate-200 rounded-b-xl shadow-xl max-h-60 overflow-y-auto mt-1 hidden"></ul>
                 </div>
                 
-                <div id="statsA" class="mt-3 flex justify-between text-xs text-gray-500 hidden font-mono">
-                    <span>AdjO: <b id="valOA" class="text-slate-800"></b></span>
-                    <span>AdjD: <b id="valDA" class="text-slate-800"></b></span>
-                    <span>Tmp: <b id="valTA" class="text-slate-800"></b></span>
+                <div id="statsA" class="mt-4 flex justify-between text-xs text-slate-400 font-mono hidden">
+                    <span>AdjO: <b class="text-slate-800" id="valOA"></b></span>
+                    <span>AdjD: <b class="text-slate-800" id="valDA"></b></span>
+                    <span>Tmp: <b class="text-slate-800" id="valTA"></b></span>
                 </div>
             </div>
 
             <!-- Team B Input -->
-            <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 relative z-20">
-                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">Away / Team B</label>
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 relative z-20">
+                <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Away / Team B</label>
                 <div class="relative">
-                    <input type="text" id="teamB" placeholder="Type team name..." autocomplete="off"
-                        class="block w-full p-3 border border-gray-300 bg-gray-50 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-base sm:text-lg font-medium placeholder-gray-400 transition-colors">
-                    <!-- Suggestions Dropdown -->
-                    <ul id="listB" class="suggestions-list absolute z-50 w-full bg-white border border-gray-200 rounded-lg shadow-xl max-h-60 overflow-y-auto mt-1 hidden"></ul>
+                    <input type="text" id="teamB" placeholder="Type Name..." autocomplete="off"
+                        class="w-full p-3 border-b-2 border-slate-200 text-lg font-bold text-slate-900 focus:outline-none focus:border-blue-500 transition-colors bg-transparent">
+                    <ul id="listB" class="suggestions-list absolute z-50 w-full bg-white border border-slate-200 rounded-b-xl shadow-xl max-h-60 overflow-y-auto mt-1 hidden"></ul>
                 </div>
 
-                <div id="statsB" class="mt-3 flex justify-between text-xs text-gray-500 hidden font-mono">
-                    <span>AdjO: <b id="valOB" class="text-slate-800"></b></span>
-                    <span>AdjD: <b id="valDB" class="text-slate-800"></b></span>
-                    <span>Tmp: <b id="valTB" class="text-slate-800"></b></span>
+                <div id="statsB" class="mt-4 flex justify-between text-xs text-slate-400 font-mono hidden">
+                    <span>AdjO: <b class="text-slate-800" id="valOB"></b></span>
+                    <span>AdjD: <b class="text-slate-800" id="valDB"></b></span>
+                    <span>Tmp: <b class="text-slate-800" id="valTB"></b></span>
                 </div>
             </div>
         </div>
 
         <!-- LOCATION BUTTONS -->
         <div class="flex justify-center mb-8">
-            <div class="inline-flex rounded-lg shadow-sm w-full sm:w-auto" role="group">
-                <button type="button" onclick="setLoc('Home')" id="btnHome" class="flex-1 sm:flex-none px-6 py-3 text-sm font-medium text-white bg-blue-600 border border-blue-600 rounded-l-lg hover:bg-blue-700 transition-colors">Home</button>
-                <button type="button" onclick="setLoc('Neutral')" id="btnNeutral" class="flex-1 sm:flex-none px-6 py-3 text-sm font-medium text-gray-700 bg-white border-t border-b border-gray-300 hover:bg-gray-50 transition-colors">Neutral</button>
-                <button type="button" onclick="setLoc('Away')" id="btnAway" class="flex-1 sm:flex-none px-6 py-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-50 transition-colors">Away</button>
+            <div class="inline-flex rounded-xl shadow-sm bg-white p-1 border border-slate-200">
+                <button onclick="setLoc('Home')" id="btnHome" class="px-6 py-2 text-sm font-bold text-white bg-slate-900 rounded-lg shadow-sm transition-all">Home</button>
+                <button onclick="setLoc('Neutral')" id="btnNeutral" class="px-6 py-2 text-sm font-medium text-slate-500 hover:text-slate-900 transition-all">Neutral</button>
+                <button onclick="setLoc('Away')" id="btnAway" class="px-6 py-2 text-sm font-medium text-slate-500 hover:text-slate-900 transition-all">Away</button>
             </div>
         </div>
 
         <!-- SCOREBOARD -->
-        <div id="scoreboard" class="hidden bg-slate-800 text-white rounded-2xl shadow-xl overflow-hidden transform transition-all duration-300">
-            <div class="p-6 sm:p-8 text-center">
-                <div class="text-[10px] font-bold text-blue-400 uppercase tracking-widest mb-4">Projected Result</div>
+        <div id="scoreboard" class="hidden bg-black text-white rounded-3xl shadow-2xl overflow-hidden ring-4 ring-slate-900/10">
+            <div class="p-8 text-center relative">
+                <div class="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-white/10 to-transparent pointer-events-none"></div>
                 
-                <div class="flex justify-center items-center space-x-4 sm:space-x-12 mb-8">
+                <div class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-6">Final Projection</div>
+                
+                <div class="flex justify-center items-center space-x-8 mb-8">
                     <div class="text-center w-1/3">
-                        <div class="text-4xl sm:text-6xl font-bold tracking-tighter" id="scoreA">--</div>
-                        <div class="text-xs sm:text-sm text-slate-400 font-medium mt-1 truncate max-w-[100px] sm:max-w-[150px] mx-auto" id="nameA">Team A</div>
+                        <div class="text-5xl sm:text-7xl font-bold tracking-tighter font-mono" id="scoreA">--</div>
+                        <div class="text-xs sm:text-sm text-slate-400 font-bold uppercase mt-2 truncate" id="nameA">Team A</div>
+                        <!-- NEW: WAB Display -->
+                        <div id="wabA" class="mt-2 text-[10px] font-mono opacity-0 transition-opacity">Win: <span class="text-emerald-400">+0.00</span> / Lose: <span class="text-rose-400">-0.00</span></div>
                     </div>
-                    <div class="text-xl sm:text-3xl text-slate-600 font-light pb-4">-</div>
+                    <div class="text-slate-600 text-3xl font-light">-</div>
                     <div class="text-center w-1/3">
-                        <div class="text-4xl sm:text-6xl font-bold tracking-tighter" id="scoreB">--</div>
-                        <div class="text-xs sm:text-sm text-slate-400 font-medium mt-1 truncate max-w-[100px] sm:max-w-[150px] mx-auto" id="nameB">Team B</div>
+                        <div class="text-5xl sm:text-7xl font-bold tracking-tighter font-mono" id="scoreB">--</div>
+                        <div class="text-xs sm:text-sm text-slate-400 font-bold uppercase mt-2 truncate" id="nameB">Team B</div>
+                         <!-- NEW: WAB Display -->
+                         <div id="wabB" class="mt-2 text-[10px] font-mono opacity-0 transition-opacity">Win: <span class="text-emerald-400">+0.00</span> / Lose: <span class="text-rose-400">-0.00</span></div>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-3 gap-2 sm:gap-6 border-t border-slate-700 pt-6">
-                    <div class="bg-slate-700/30 rounded-lg p-2">
-                        <div class="text-[10px] sm:text-xs text-slate-400 uppercase tracking-wider mb-1">Spread</div>
-                        <div class="text-sm sm:text-xl font-bold text-white" id="spread">--</div>
+                <div class="grid grid-cols-3 gap-4 border-t border-slate-800 pt-6">
+                    <div>
+                        <div class="text-[10px] text-slate-500 uppercase tracking-widest mb-1">Spread</div>
+                        <div class="text-lg font-bold text-blue-400" id="spread">--</div>
                     </div>
-                    <div class="bg-slate-700/30 rounded-lg p-2">
-                        <div class="text-[10px] sm:text-xs text-slate-400 uppercase tracking-wider mb-1">Total</div>
-                        <div class="text-sm sm:text-xl font-bold text-white" id="total">--</div>
+                    <div>
+                        <div class="text-[10px] text-slate-500 uppercase tracking-widest mb-1">Total</div>
+                        <div class="text-lg font-bold text-white" id="total">--</div>
                     </div>
-                    <div class="bg-slate-700/30 rounded-lg p-2">
-                        <div class="text-[10px] sm:text-xs text-slate-400 uppercase tracking-wider mb-1">Win %</div>
-                        <div class="text-sm sm:text-xl font-bold text-green-400" id="winProb">--</div>
+                    <div>
+                        <div class="text-[10px] text-slate-500 uppercase tracking-widest mb-1">Win Prob</div>
+                        <div class="text-lg font-bold text-emerald-400" id="winProb">--</div>
                     </div>
-                </div>
-                
-                <div class="mt-4 text-[10px] text-slate-500">
-                    Est. Possessions: <span id="pace">--</span>
                 </div>
             </div>
         </div>
@@ -143,9 +143,16 @@
         </div>
     </footer>
 
+    <!-- Load Data File -->
+    <script src="teams_data.js"></script>
+
     <script>
-        const teams = {"Abilene Christian": {"AdjO": 104.4, "AdjD": 108.3, "AdjT": 68.2, "AdjEM": -4.863358613180782}, "Air Force": {"AdjO": 93.3, "AdjD": 109.4, "AdjT": 66.8, "AdjEM": -14.73528080847032}, "Akron": {"AdjO": 119.0, "AdjD": 104.2, "AdjT": 74.4, "AdjEM": 11.312548962903312}, "Alabama": {"AdjO": 124.0, "AdjD": 100.0, "AdjT": 76.3, "AdjEM": 24.33524961861545}, "Alabama A&M": {"AdjO": 96.5, "AdjD": 110.8, "AdjT": 66.7, "AdjEM": -14.849727231170796}, "Alabama St.": {"AdjO": 99.8, "AdjD": 115.4, "AdjT": 71.6, "AdjEM": -13.53182305501934}, "Albany": {"AdjO": 100.4, "AdjD": 114.7, "AdjT": 69.7, "AdjEM": -11.87668926124355}, "Alcorn St.": {"AdjO": 95.9, "AdjD": 116.8, "AdjT": 73.6, "AdjEM": -18.324070375326148}, "American": {"AdjO": 102.6, "AdjD": 111.1, "AdjT": 70.5, "AdjEM": -7.416408509838097}, "Appalachian St.": {"AdjO": 102.8, "AdjD": 105.0, "AdjT": 65.2, "AdjEM": -3.652554410000546}, "Arizona": {"AdjO": 123.7, "AdjD": 86.7, "AdjT": 74.9, "AdjEM": 33.52607240029916}, "Arizona St.": {"AdjO": 111.5, "AdjD": 103.5, "AdjT": 73.6, "AdjEM": 8.256455128512082}, "Arkansas": {"AdjO": 121.4, "AdjD": 102.7, "AdjT": 74.3, "AdjEM": 21.458414402910694}, "Arkansas Pine Bluff": {"AdjO": 102.7, "AdjD": 114.2, "AdjT": 75.0, "AdjEM": -14.436450907061246}, "Arkansas St.": {"AdjO": 108.1, "AdjD": 106.7, "AdjT": 75.6, "AdjEM": 0.1482759601539417}, "Army": {"AdjO": 100.6, "AdjD": 115.0, "AdjT": 69.3, "AdjEM": -13.543204660709788}, "Auburn": {"AdjO": 121.1, "AdjD": 101.5, "AdjT": 70.4, "AdjEM": 19.76216252981636}, "Austin Peay": {"AdjO": 101.7, "AdjD": 101.3, "AdjT": 72.6, "AdjEM": -1.7493683569889282}, "BYU": {"AdjO": 121.0, "AdjD": 91.9, "AdjT": 74.5, "AdjEM": 26.97081388486712}, "Ball St.": {"AdjO": 96.1, "AdjD": 113.3, "AdjT": 66.8, "AdjEM": -14.417544875843149}, "Baylor": {"AdjO": 117.8, "AdjD": 102.6, "AdjT": 71.3, "AdjEM": 16.440271536113073}, "Bellarmine": {"AdjO": 111.2, "AdjD": 119.0, "AdjT": 67.1, "AdjEM": -10.04358291880207}, "Belmont": {"AdjO": 115.3, "AdjD": 101.1, "AdjT": 72.1, "AdjEM": 10.19274780700758}, "Bethune Cookman": {"AdjO": 102.6, "AdjD": 111.2, "AdjT": 71.6, "AdjEM": -7.898103051365479}, "Binghamton": {"AdjO": 93.7, "AdjD": 117.8, "AdjT": 69.2, "AdjEM": -19.881084219255985}, "Boise St.": {"AdjO": 108.2, "AdjD": 98.5, "AdjT": 68.9, "AdjEM": 9.510133848256508}, "Boston College": {"AdjO": 99.8, "AdjD": 98.6, "AdjT": 68.3, "AdjEM": 3.801884379536273}, "Boston University": {"AdjO": 111.1, "AdjD": 118.6, "AdjT": 65.3, "AdjEM": -6.436127317322697}, "Bowling Green": {"AdjO": 107.3, "AdjD": 103.6, "AdjT": 70.7, "AdjEM": -0.4579768131783206}, "Bradley": {"AdjO": 109.2, "AdjD": 102.5, "AdjT": 70.8, "AdjEM": 5.847935919880049}, "Brown": {"AdjO": 94.7, "AdjD": 103.4, "AdjT": 69.4, "AdjEM": -6.5243813328144835}, "Bryant": {"AdjO": 91.2, "AdjD": 110.2, "AdjT": 67.7, "AdjEM": -15.210246437125264}, "Bucknell": {"AdjO": 92.3, "AdjD": 109.5, "AdjT": 69.6, "AdjEM": -13.754200841608668}, "Buffalo": {"AdjO": 112.6, "AdjD": 111.8, "AdjT": 69.4, "AdjEM": -3.511536191133949}, "Butler": {"AdjO": 114.2, "AdjD": 99.8, "AdjT": 73.1, "AdjEM": 13.117229424799724}, "CSUN": {"AdjO": 103.7, "AdjD": 108.7, "AdjT": 76.3, "AdjEM": -2.8234878809385697}, "Cal Baptist": {"AdjO": 104.3, "AdjD": 102.6, "AdjT": 67.8, "AdjEM": -0.2659933019910898}, "Cal Poly": {"AdjO": 102.1, "AdjD": 108.4, "AdjT": 76.8, "AdjEM": -5.815025654343036}, "Cal St. Bakersfield": {"AdjO": 97.5, "AdjD": 109.4, "AdjT": 73.0, "AdjEM": -11.257488302203654}, "Cal St. Fullerton": {"AdjO": 107.0, "AdjD": 107.6, "AdjT": 76.9, "AdjEM": -4.535249545148742}, "California": {"AdjO": 111.5, "AdjD": 99.0, "AdjT": 69.9, "AdjEM": 11.913948799685102}, "Campbell": {"AdjO": 106.3, "AdjD": 111.3, "AdjT": 72.6, "AdjEM": -6.435858432624352}, "Canisius": {"AdjO": 94.6, "AdjD": 113.0, "AdjT": 66.1, "AdjEM": -19.2643620864629}, "Central Arkansas": {"AdjO": 102.9, "AdjD": 107.1, "AdjT": 70.8, "AdjEM": -8.424788747035869}, "Central Connecticut": {"AdjO": 105.3, "AdjD": 110.1, "AdjT": 68.0, "AdjEM": -6.898597176807044}, "Central Michigan": {"AdjO": 100.7, "AdjD": 115.2, "AdjT": 69.4, "AdjEM": -12.815209458372614}, "Charleston": {"AdjO": 106.0, "AdjD": 105.4, "AdjT": 71.2, "AdjEM": 0.7458697358404898}, "Charleston Southern": {"AdjO": 102.9, "AdjD": 104.8, "AdjT": 74.9, "AdjEM": -5.943570960819768}, "Charlotte": {"AdjO": 111.8, "AdjD": 110.3, "AdjT": 65.6, "AdjEM": -2.084966975599737}, "Chattanooga": {"AdjO": 101.3, "AdjD": 113.9, "AdjT": 69.2, "AdjEM": -8.056471020263482}, "Chicago St.": {"AdjO": 95.1, "AdjD": 115.9, "AdjT": 70.6, "AdjEM": -18.648477951935856}, "Cincinnati": {"AdjO": 103.6, "AdjD": 92.6, "AdjT": 71.3, "AdjEM": 9.793454745197772}, "Clemson": {"AdjO": 116.3, "AdjD": 94.8, "AdjT": 67.0, "AdjEM": 19.88484868663992}, "Cleveland St.": {"AdjO": 101.6, "AdjD": 117.7, "AdjT": 71.8, "AdjEM": -13.097179689751822}, "Coastal Carolina": {"AdjO": 98.6, "AdjD": 106.8, "AdjT": 70.2, "AdjEM": -9.865653637520786}, "Colgate": {"AdjO": 106.0, "AdjD": 109.9, "AdjT": 68.5, "AdjEM": -4.684064753402778}, "Colorado": {"AdjO": 116.8, "AdjD": 102.2, "AdjT": 72.5, "AdjEM": 12.3625935268839}, "Colorado St.": {"AdjO": 117.9, "AdjD": 107.4, "AdjT": 63.9, "AdjEM": 9.755348479552753}, "Columbia": {"AdjO": 105.8, "AdjD": 104.4, "AdjT": 71.7, "AdjEM": -2.291410427964567}, "Connecticut": {"AdjO": 118.7, "AdjD": 88.9, "AdjT": 68.0, "AdjEM": 28.240364406852308}, "Coppin St.": {"AdjO": 88.9, "AdjD": 123.2, "AdjT": 71.7, "AdjEM": -30.585841711747342}, "Cornell": {"AdjO": 116.7, "AdjD": 118.5, "AdjT": 76.8, "AdjEM": -0.9893012481035822}, "Creighton": {"AdjO": 116.5, "AdjD": 98.6, "AdjT": 68.8, "AdjEM": 19.28842305153193}, "Dartmouth": {"AdjO": 106.0, "AdjD": 106.8, "AdjT": 73.0, "AdjEM": -2.913607444570476}, "Davidson": {"AdjO": 105.4, "AdjD": 103.8, "AdjT": 66.5, "AdjEM": -0.4379371286704711}, "Dayton": {"AdjO": 109.2, "AdjD": 96.8, "AdjT": 70.2, "AdjEM": 11.220933967587849}, "DePaul": {"AdjO": 103.8, "AdjD": 96.8, "AdjT": 69.9, "AdjEM": 8.371475397144684}, "Delaware": {"AdjO": 100.0, "AdjD": 107.8, "AdjT": 64.5, "AdjEM": -5.361840758765454}, "Delaware St.": {"AdjO": 85.6, "AdjD": 106.7, "AdjT": 69.2, "AdjEM": -18.46844975229847}, "Denver": {"AdjO": 111.5, "AdjD": 117.5, "AdjT": 71.3, "AdjEM": -9.121162069390042}, "Detroit Mercy": {"AdjO": 103.6, "AdjD": 112.8, "AdjT": 73.2, "AdjEM": -9.079824893840703}, "Drake": {"AdjO": 106.4, "AdjD": 109.1, "AdjT": 68.4, "AdjEM": 0.1919953665791194}, "Drexel": {"AdjO": 101.2, "AdjD": 107.2, "AdjT": 65.7, "AdjEM": -5.912898787199878}, "Duke": {"AdjO": 121.5, "AdjD": 92.0, "AdjT": 71.0, "AdjEM": 26.383328634767107}, "Duquesne": {"AdjO": 108.2, "AdjD": 109.0, "AdjT": 74.2, "AdjEM": -1.1794764060349192}, "East Carolina": {"AdjO": 95.0, "AdjD": 107.3, "AdjT": 72.6, "AdjEM": -8.8535187083216}, "East Tennessee St.": {"AdjO": 110.4, "AdjD": 100.8, "AdjT": 69.4, "AdjEM": 5.884424622033507}, "East Texas A&M": {"AdjO": 97.8, "AdjD": 109.1, "AdjT": 72.3, "AdjEM": -11.699691716828388}, "Eastern Illinois": {"AdjO": 96.0, "AdjD": 106.4, "AdjT": 68.0, "AdjEM": -11.269576880830066}, "Eastern Kentucky": {"AdjO": 105.8, "AdjD": 114.8, "AdjT": 69.4, "AdjEM": -6.481912740958001}, "Eastern Michigan": {"AdjO": 102.5, "AdjD": 105.0, "AdjT": 67.6, "AdjEM": -6.086094324940319}, "Eastern Washington": {"AdjO": 106.6, "AdjD": 113.9, "AdjT": 70.8, "AdjEM": -8.520614919482348}, "Elon": {"AdjO": 113.1, "AdjD": 112.0, "AdjT": 70.1, "AdjEM": -3.0613526548521905}, "Evansville": {"AdjO": 97.2, "AdjD": 104.1, "AdjT": 70.8, "AdjEM": -7.236414803580288}, "FIU": {"AdjO": 107.5, "AdjD": 106.5, "AdjT": 74.8, "AdjEM": -3.8711346735500007}, "Fairfield": {"AdjO": 103.3, "AdjD": 113.6, "AdjT": 70.5, "AdjEM": -11.162236971212293}, "Fairleigh Dickinson": {"AdjO": 96.9, "AdjD": 114.5, "AdjT": 69.4, "AdjEM": -16.1917986904173}, "Florida": {"AdjO": 118.1, "AdjD": 90.7, "AdjT": 72.7, "AdjEM": 26.02528566252355}, "Florida A&M": {"AdjO": 93.6, "AdjD": 109.4, "AdjT": 71.7, "AdjEM": -13.936370750707557}, "Florida Atlantic": {"AdjO": 111.8, "AdjD": 101.4, "AdjT": 73.9, "AdjEM": 6.715025513833113}, "Florida Gulf Coast": {"AdjO": 108.1, "AdjD": 112.1, "AdjT": 71.1, "AdjEM": -2.923950023723493}, "Florida St.": {"AdjO": 108.3, "AdjD": 106.4, "AdjT": 75.8, "AdjEM": 3.99617793530659}, "Fordham": {"AdjO": 103.3, "AdjD": 104.1, "AdjT": 66.2, "AdjEM": -2.4802874901390335}, "Fresno St.": {"AdjO": 99.6, "AdjD": 99.5, "AdjT": 70.9, "AdjEM": -3.614789605003671}, "Furman": {"AdjO": 104.5, "AdjD": 103.8, "AdjT": 69.0, "AdjEM": 0.9071171903169172}, "Gardner Webb": {"AdjO": 92.8, "AdjD": 120.2, "AdjT": 73.6, "AdjEM": -22.89594720966519}, "George Mason": {"AdjO": 112.1, "AdjD": 101.8, "AdjT": 67.8, "AdjEM": 8.660275357297845}, "George Washington": {"AdjO": 117.1, "AdjD": 104.3, "AdjT": 72.8, "AdjEM": 9.223974261527772}, "Georgetown": {"AdjO": 109.4, "AdjD": 105.4, "AdjT": 70.0, "AdjEM": 6.463237552584021}, "Georgia": {"AdjO": 118.9, "AdjD": 98.1, "AdjT": 78.0, "AdjEM": 19.374600192382452}, "Georgia Southern": {"AdjO": 105.7, "AdjD": 111.2, "AdjT": 75.0, "AdjEM": -7.505310163980077}, "Georgia St.": {"AdjO": 96.8, "AdjD": 105.9, "AdjT": 71.3, "AdjEM": -8.7472713090104}, "Georgia Tech": {"AdjO": 105.8, "AdjD": 101.9, "AdjT": 73.7, "AdjEM": 5.508663726148482}, "Gonzaga": {"AdjO": 122.2, "AdjD": 91.4, "AdjT": 73.5, "AdjEM": 27.673222070123447}, "Grambling St.": {"AdjO": 100.4, "AdjD": 107.0, "AdjT": 70.4, "AdjEM": -9.728891685291169}, "Grand Canyon": {"AdjO": 106.0, "AdjD": 96.2, "AdjT": 69.7, "AdjEM": 7.508120975288669}, "Green Bay": {"AdjO": 107.4, "AdjD": 110.4, "AdjT": 65.4, "AdjEM": -6.374360973085039}, "Hampton": {"AdjO": 100.1, "AdjD": 107.4, "AdjT": 68.8, "AdjEM": -6.802212061251115}, "Harvard": {"AdjO": 107.6, "AdjD": 103.9, "AdjT": 66.7, "AdjEM": 0.8905056262160316}, "Hawaii": {"AdjO": 103.1, "AdjD": 93.5, "AdjT": 72.0, "AdjEM": 4.683342620037024}, "High Point": {"AdjO": 115.2, "AdjD": 105.2, "AdjT": 72.4, "AdjEM": 5.9347739731091815}, "Hofstra": {"AdjO": 111.6, "AdjD": 101.1, "AdjT": 68.6, "AdjEM": 5.966097015620519}, "Holy Cross": {"AdjO": 98.4, "AdjD": 112.2, "AdjT": 66.7, "AdjEM": -12.159773821291758}, "Houston": {"AdjO": 115.7, "AdjD": 88.8, "AdjT": 66.8, "AdjEM": 27.135851801716292}, "Houston Christian": {"AdjO": 101.4, "AdjD": 115.1, "AdjT": 66.8, "AdjEM": -12.000251360888305}, "Howard": {"AdjO": 93.8, "AdjD": 104.1, "AdjT": 71.1, "AdjEM": -10.931679582888194}, "IU Indy": {"AdjO": 100.8, "AdjD": 119.8, "AdjT": 77.7, "AdjEM": -17.353775817244312}, "Idaho": {"AdjO": 108.9, "AdjD": 108.4, "AdjT": 69.0, "AdjEM": -2.4781057780118356}, "Idaho St.": {"AdjO": 113.1, "AdjD": 111.9, "AdjT": 66.5, "AdjEM": -2.28933154128405}, "Illinois": {"AdjO": 123.8, "AdjD": 93.0, "AdjT": 69.2, "AdjEM": 27.574675479289024}, "Illinois Chicago": {"AdjO": 101.7, "AdjD": 103.9, "AdjT": 68.6, "AdjEM": -3.2300547226827785}, "Illinois St.": {"AdjO": 108.9, "AdjD": 98.5, "AdjT": 68.9, "AdjEM": 7.024758805369779}, "Incarnate Word": {"AdjO": 105.1, "AdjD": 108.7, "AdjT": 69.0, "AdjEM": -5.027939633151652}, "Indiana": {"AdjO": 118.5, "AdjD": 97.8, "AdjT": 70.5, "AdjEM": 18.611087323781724}, "Indiana St.": {"AdjO": 100.4, "AdjD": 105.7, "AdjT": 71.8, "AdjEM": -5.820633080454317}, "Iona": {"AdjO": 102.1, "AdjD": 103.9, "AdjT": 74.1, "AdjEM": -2.961016982681266}, "Iowa": {"AdjO": 119.2, "AdjD": 95.3, "AdjT": 66.7, "AdjEM": 20.224608803350563}, "Iowa St.": {"AdjO": 120.8, "AdjD": 88.9, "AdjT": 71.5, "AdjEM": 29.350539329102872}, "Jackson St.": {"AdjO": 93.2, "AdjD": 115.3, "AdjT": 72.8, "AdjEM": -17.506019131907774}, "Jacksonville": {"AdjO": 98.1, "AdjD": 112.1, "AdjT": 65.2, "AdjEM": -10.452119242486893}, "Jacksonville St.": {"AdjO": 104.4, "AdjD": 106.8, "AdjT": 66.6, "AdjEM": -1.935588274163223}, "James Madison": {"AdjO": 105.8, "AdjD": 110.7, "AdjT": 67.5, "AdjEM": -4.469123264793507}, "Kansas": {"AdjO": 116.8, "AdjD": 93.5, "AdjT": 71.4, "AdjEM": 22.72938621463176}, "Kansas City": {"AdjO": 96.3, "AdjD": 111.2, "AdjT": 71.6, "AdjEM": -11.730700199481698}, "Kansas St.": {"AdjO": 112.3, "AdjD": 102.2, "AdjT": 76.2, "AdjEM": 9.221386926642056}, "Kennesaw St.": {"AdjO": 105.5, "AdjD": 104.9, "AdjT": 77.7, "AdjEM": 1.4904906939072058}, "Kent St.": {"AdjO": 106.6, "AdjD": 110.7, "AdjT": 77.0, "AdjEM": -1.734748240270903}, "Kentucky": {"AdjO": 116.8, "AdjD": 96.5, "AdjT": 70.4, "AdjEM": 20.846360924967268}, "LIU": {"AdjO": 104.8, "AdjD": 107.5, "AdjT": 70.9, "AdjEM": -5.104823880199965}, "LSU": {"AdjO": 118.0, "AdjD": 101.7, "AdjT": 69.9, "AdjEM": 14.266991549402077}, "La Salle": {"AdjO": 102.4, "AdjD": 107.9, "AdjT": 67.7, "AdjEM": -6.790884163484259}, "Lafayette": {"AdjO": 97.6, "AdjD": 116.0, "AdjT": 69.9, "AdjEM": -14.643730762412671}, "Lamar": {"AdjO": 99.8, "AdjD": 103.2, "AdjT": 67.4, "AdjEM": -4.083390315157896}, "Le Moyne": {"AdjO": 101.3, "AdjD": 111.0, "AdjT": 71.3, "AdjEM": -11.524656759370895}, "Lehigh": {"AdjO": 96.6, "AdjD": 110.8, "AdjT": 70.4, "AdjEM": -11.278288514558488}, "Liberty": {"AdjO": 114.0, "AdjD": 103.9, "AdjT": 67.0, "AdjEM": 9.10062567176629}, "Lindenwood": {"AdjO": 99.9, "AdjD": 107.0, "AdjT": 75.0, "AdjEM": -9.089944454217664}, "Lipscomb": {"AdjO": 106.3, "AdjD": 105.0, "AdjT": 73.4, "AdjEM": 0.0892019558094325}, "Little Rock": {"AdjO": 100.7, "AdjD": 113.3, "AdjT": 68.2, "AdjEM": -10.175720564903568}, "Long Beach St.": {"AdjO": 101.9, "AdjD": 110.7, "AdjT": 70.6, "AdjEM": -9.609104107355629}, "Longwood": {"AdjO": 101.3, "AdjD": 112.9, "AdjT": 70.6, "AdjEM": -8.066810784737623}, "Louisiana": {"AdjO": 93.7, "AdjD": 110.8, "AdjT": 66.0, "AdjEM": -13.631174977644095}, "Louisiana Monroe": {"AdjO": 99.0, "AdjD": 118.1, "AdjT": 73.6, "AdjEM": -17.697322192631205}, "Louisiana Tech": {"AdjO": 96.1, "AdjD": 107.0, "AdjT": 65.3, "AdjEM": -6.895756884708894}, "Louisville": {"AdjO": 121.0, "AdjD": 96.1, "AdjT": 73.0, "AdjEM": 23.256941479353323}, "Loyola Chicago": {"AdjO": 100.7, "AdjD": 115.3, "AdjT": 69.3, "AdjEM": -10.415732991418745}, "Loyola MD": {"AdjO": 98.1, "AdjD": 118.0, "AdjT": 70.7, "AdjEM": -15.650583065471563}, "Loyola Marymount": {"AdjO": 103.6, "AdjD": 100.9, "AdjT": 70.3, "AdjEM": 0.470450320983556}, "Maine": {"AdjO": 90.0, "AdjD": 107.0, "AdjT": 68.0, "AdjEM": -14.276070429425346}, "Manhattan": {"AdjO": 101.7, "AdjD": 117.4, "AdjT": 71.4, "AdjEM": -12.063005257864592}, "Marist": {"AdjO": 101.7, "AdjD": 96.5, "AdjT": 69.1, "AdjEM": 0.8858473938197409}, "Marquette": {"AdjO": 104.1, "AdjD": 102.2, "AdjT": 72.8, "AdjEM": 6.072324488000206}, "Marshall": {"AdjO": 107.8, "AdjD": 106.9, "AdjT": 72.4, "AdjEM": -0.7107471168435904}, "Maryland": {"AdjO": 103.6, "AdjD": 103.9, "AdjT": 70.0, "AdjEM": 3.826847578257638}, "Maryland Eastern Shore": {"AdjO": 94.0, "AdjD": 107.9, "AdjT": 66.3, "AdjEM": -13.728600546785737}, "Massachusetts": {"AdjO": 103.2, "AdjD": 105.3, "AdjT": 75.1, "AdjEM": -3.748936271033091}, "McNeese": {"AdjO": 115.6, "AdjD": 101.4, "AdjT": 69.6, "AdjEM": 10.560880011241975}, "Memphis": {"AdjO": 105.9, "AdjD": 97.2, "AdjT": 71.8, "AdjEM": 7.983723062920324}, "Mercer": {"AdjO": 111.1, "AdjD": 106.2, "AdjT": 73.1, "AdjEM": 0.0470980248401207}, "Mercyhurst": {"AdjO": 97.6, "AdjD": 106.7, "AdjT": 66.3, "AdjEM": -10.115126191650932}, "Merrimack": {"AdjO": 99.9, "AdjD": 109.5, "AdjT": 66.5, "AdjEM": -8.877949720077464}, "Miami FL": {"AdjO": 117.5, "AdjD": 98.6, "AdjT": 72.2, "AdjEM": 15.423351516296265}, "Miami OH": {"AdjO": 115.3, "AdjD": 103.2, "AdjT": 72.9, "AdjEM": 7.743122009906518}, "Michigan": {"AdjO": 123.7, "AdjD": 84.8, "AdjT": 77.4, "AdjEM": 34.286269528831426}, "Michigan St.": {"AdjO": 114.0, "AdjD": 88.6, "AdjT": 68.8, "AdjEM": 25.232279173118304}, "Middle Tennessee": {"AdjO": 107.8, "AdjD": 100.8, "AdjT": 67.2, "AdjEM": 3.1903279393312474}, "Milwaukee": {"AdjO": 106.1, "AdjD": 112.0, "AdjT": 69.7, "AdjEM": -3.5062595709423063}, "Minnesota": {"AdjO": 108.0, "AdjD": 97.0, "AdjT": 66.3, "AdjEM": 9.797370602368652}, "Mississippi": {"AdjO": 109.7, "AdjD": 99.9, "AdjT": 68.6, "AdjEM": 12.939051513736732}, "Mississippi St.": {"AdjO": 110.7, "AdjD": 99.9, "AdjT": 71.5, "AdjEM": 14.43356239071445}, "Mississippi Valley St.": {"AdjO": 88.1, "AdjD": 118.7, "AdjT": 70.5, "AdjEM": -28.007069610882457}, "Missouri": {"AdjO": 113.6, "AdjD": 102.5, "AdjT": 69.9, "AdjEM": 14.61485877161262}, "Missouri St.": {"AdjO": 103.9, "AdjD": 106.0, "AdjT": 68.3, "AdjEM": -4.053675975411366}, "Monmouth": {"AdjO": 103.3, "AdjD": 102.5, "AdjT": 68.3, "AdjEM": -1.4002766452688469}, "Montana": {"AdjO": 104.1, "AdjD": 105.0, "AdjT": 73.0, "AdjEM": -0.4606675378374351}, "Montana St.": {"AdjO": 109.3, "AdjD": 105.0, "AdjT": 68.8, "AdjEM": 1.7325448402801358}, "Morehead St.": {"AdjO": 99.8, "AdjD": 110.7, "AdjT": 68.8, "AdjEM": -10.542722152837875}, "Morgan St.": {"AdjO": 91.8, "AdjD": 120.0, "AdjT": 72.1, "AdjEM": -23.637369462134473}, "Mount St. Mary's": {"AdjO": 95.0, "AdjD": 109.2, "AdjT": 71.5, "AdjEM": -11.489685645130477}, "Murray St.": {"AdjO": 117.5, "AdjD": 103.0, "AdjT": 74.8, "AdjEM": 10.795763251157512}, "N.C. State": {"AdjO": 119.4, "AdjD": 97.5, "AdjT": 70.9, "AdjEM": 18.74428037475994}, "NJIT": {"AdjO": 93.4, "AdjD": 113.9, "AdjT": 70.8, "AdjEM": -17.872363151469195}, "Navy": {"AdjO": 102.6, "AdjD": 102.2, "AdjT": 69.2, "AdjEM": -2.6591925433953665}, "Nebraska": {"AdjO": 117.5, "AdjD": 91.5, "AdjT": 70.1, "AdjEM": 22.185607954938583}, "Nebraska Omaha": {"AdjO": 103.4, "AdjD": 112.7, "AdjT": 70.0, "AdjEM": -6.935580467235743}, "Nevada": {"AdjO": 114.7, "AdjD": 103.9, "AdjT": 67.9, "AdjEM": 8.981047510647336}, "New Hampshire": {"AdjO": 96.3, "AdjD": 108.7, "AdjT": 69.9, "AdjEM": -11.905226249143825}, "New Haven": {"AdjO": 93.9, "AdjD": 108.3, "AdjT": 65.1, "AdjEM": -14.907522603786344}, "New Mexico": {"AdjO": 113.4, "AdjD": 96.1, "AdjT": 70.8, "AdjEM": 12.788751601521705}, "New Mexico St.": {"AdjO": 106.4, "AdjD": 104.6, "AdjT": 69.6, "AdjEM": 0.548619800886345}, "New Orleans": {"AdjO": 107.6, "AdjD": 111.7, "AdjT": 71.7, "AdjEM": -6.761461804583453}, "Niagara": {"AdjO": 96.5, "AdjD": 118.1, "AdjT": 64.3, "AdjEM": -19.20496477200671}, "Nicholls": {"AdjO": 107.9, "AdjD": 107.6, "AdjT": 70.5, "AdjEM": -1.452413679970594}, "Norfolk St.": {"AdjO": 94.8, "AdjD": 109.2, "AdjT": 70.5, "AdjEM": -11.682182343600536}, "North Alabama": {"AdjO": 97.3, "AdjD": 111.7, "AdjT": 69.2, "AdjEM": -9.969791378782013}, "North Carolina": {"AdjO": 116.9, "AdjD": 95.2, "AdjT": 70.6, "AdjEM": 20.374610979148056}, "North Carolina A&T": {"AdjO": 99.8, "AdjD": 110.0, "AdjT": 72.6, "AdjEM": -12.398839845979012}, "North Carolina Central": {"AdjO": 96.2, "AdjD": 115.8, "AdjT": 69.7, "AdjEM": -17.196247205301994}, "North Dakota": {"AdjO": 100.8, "AdjD": 113.9, "AdjT": 70.0, "AdjEM": -12.07413507653123}, "North Dakota St.": {"AdjO": 109.0, "AdjD": 105.7, "AdjT": 69.5, "AdjEM": 0.2970353241879633}, "North Florida": {"AdjO": 101.8, "AdjD": 121.2, "AdjT": 73.5, "AdjEM": -17.019405068642826}, "North Texas": {"AdjO": 99.5, "AdjD": 95.9, "AdjT": 67.0, "AdjEM": 3.4276851728087907}, "Northeastern": {"AdjO": 107.7, "AdjD": 114.3, "AdjT": 72.2, "AdjEM": -5.843358884190895}, "Northern Arizona": {"AdjO": 100.2, "AdjD": 110.7, "AdjT": 67.5, "AdjEM": -9.392535931790524}, "Northern Colorado": {"AdjO": 109.3, "AdjD": 108.2, "AdjT": 71.6, "AdjEM": 0.8769937191721412}, "Northern Illinois": {"AdjO": 96.1, "AdjD": 113.5, "AdjT": 69.7, "AdjEM": -16.16974457572745}, "Northern Iowa": {"AdjO": 104.0, "AdjD": 94.2, "AdjT": 64.4, "AdjEM": 8.326667196394826}, "Northern Kentucky": {"AdjO": 106.0, "AdjD": 107.5, "AdjT": 72.4, "AdjEM": -3.3045768082195788}, "Northwestern": {"AdjO": 115.0, "AdjD": 102.9, "AdjT": 69.4, "AdjEM": 13.273342403035567}, "Northwestern St.": {"AdjO": 103.9, "AdjD": 114.6, "AdjT": 68.6, "AdjEM": -9.701560500315242}, "Notre Dame": {"AdjO": 110.1, "AdjD": 97.8, "AdjT": 67.8, "AdjEM": 11.52600715319951}, "Oakland": {"AdjO": 115.0, "AdjD": 112.5, "AdjT": 74.8, "AdjEM": 0.1529685771794955}, "Ohio": {"AdjO": 104.4, "AdjD": 105.5, "AdjT": 72.4, "AdjEM": -2.511239080563539}, "Ohio St.": {"AdjO": 119.0, "AdjD": 100.3, "AdjT": 69.8, "AdjEM": 18.48574483369512}, "Oklahoma": {"AdjO": 116.5, "AdjD": 103.4, "AdjT": 68.9, "AdjEM": 11.793631358018915}, "Oklahoma St.": {"AdjO": 112.8, "AdjD": 101.2, "AdjT": 77.1, "AdjEM": 11.44908527679577}, "Old Dominion": {"AdjO": 100.4, "AdjD": 108.5, "AdjT": 72.4, "AdjEM": -6.822538002610604}, "Oral Roberts": {"AdjO": 98.7, "AdjD": 109.9, "AdjT": 69.5, "AdjEM": -11.08958389908542}, "Oregon": {"AdjO": 111.1, "AdjD": 101.7, "AdjT": 69.7, "AdjEM": 13.623664010441228}, "Oregon St.": {"AdjO": 106.0, "AdjD": 108.8, "AdjT": 67.1, "AdjEM": -2.151605942580291}, "Pacific": {"AdjO": 107.9, "AdjD": 103.5, "AdjT": 68.3, "AdjEM": 0.5980847508383369}, "Penn": {"AdjO": 107.8, "AdjD": 109.4, "AdjT": 72.0, "AdjEM": -4.622382413415291}, "Penn St.": {"AdjO": 113.7, "AdjD": 105.5, "AdjT": 69.8, "AdjEM": 8.58441951317798}, "Pepperdine": {"AdjO": 97.1, "AdjD": 107.4, "AdjT": 68.9, "AdjEM": -9.503872207125614}, "Pittsburgh": {"AdjO": 111.2, "AdjD": 103.8, "AdjT": 67.5, "AdjEM": 9.18044641693211}, "Portland": {"AdjO": 103.2, "AdjD": 108.0, "AdjT": 71.7, "AdjEM": -7.892852363516359}, "Portland St.": {"AdjO": 106.3, "AdjD": 101.0, "AdjT": 71.7, "AdjEM": 1.1451484781666386}, "Prairie View A&M": {"AdjO": 99.8, "AdjD": 113.7, "AdjT": 75.7, "AdjEM": -15.152189534181588}, "Presbyterian": {"AdjO": 99.3, "AdjD": 112.5, "AdjT": 65.2, "AdjEM": -11.008327892359125}, "Princeton": {"AdjO": 99.9, "AdjD": 104.3, "AdjT": 67.6, "AdjEM": -4.07069664903325}, "Providence": {"AdjO": 117.6, "AdjD": 105.2, "AdjT": 75.9, "AdjEM": 11.698287638956}, "Purdue": {"AdjO": 127.1, "AdjD": 94.0, "AdjT": 68.2, "AdjEM": 30.92788558350349}, "Purdue Fort Wayne": {"AdjO": 102.5, "AdjD": 110.1, "AdjT": 70.5, "AdjEM": -5.970741642137158}, "Queens": {"AdjO": 110.5, "AdjD": 114.5, "AdjT": 72.3, "AdjEM": -4.359864652157171}, "Quinnipiac": {"AdjO": 104.7, "AdjD": 102.2, "AdjT": 72.5, "AdjEM": 0.3083782141580253}, "Radford": {"AdjO": 102.3, "AdjD": 111.1, "AdjT": 76.2, "AdjEM": -5.498188601959359}, "Rhode Island": {"AdjO": 102.9, "AdjD": 100.1, "AdjT": 68.3, "AdjEM": 1.0316373413285551}, "Rice": {"AdjO": 99.4, "AdjD": 108.4, "AdjT": 69.4, "AdjEM": -6.838601932820717}, "Richmond": {"AdjO": 111.3, "AdjD": 104.4, "AdjT": 71.0, "AdjEM": 3.900976145571131}, "Rider": {"AdjO": 91.4, "AdjD": 113.9, "AdjT": 68.0, "AdjEM": -18.322165724666775}, "Robert Morris": {"AdjO": 107.6, "AdjD": 111.1, "AdjT": 67.3, "AdjEM": -3.188035940754035}, "Rutgers": {"AdjO": 105.2, "AdjD": 104.6, "AdjT": 68.1, "AdjEM": 3.912868184684783}, "SIUE": {"AdjO": 95.8, "AdjD": 107.3, "AdjT": 68.1, "AdjEM": -9.626078820885777}, "SMU": {"AdjO": 121.0, "AdjD": 97.5, "AdjT": 72.2, "AdjEM": 20.261112216602005}, "Sacramento St.": {"AdjO": 99.7, "AdjD": 111.7, "AdjT": 76.2, "AdjEM": -11.31618174922622}, "Sacred Heart": {"AdjO": 102.0, "AdjD": 114.6, "AdjT": 70.1, "AdjEM": -11.169742343674626}, "Saint Francis": {"AdjO": 92.8, "AdjD": 116.6, "AdjT": 71.1, "AdjEM": -20.272501734831437}, "Saint Joseph's": {"AdjO": 102.7, "AdjD": 105.8, "AdjT": 69.7, "AdjEM": -0.568824103523748}, "Saint Louis": {"AdjO": 117.9, "AdjD": 96.7, "AdjT": 74.8, "AdjEM": 16.578011973763758}, "Saint Mary's": {"AdjO": 120.7, "AdjD": 98.6, "AdjT": 67.8, "AdjEM": 21.674060694191475}, "Saint Peter's": {"AdjO": 100.0, "AdjD": 106.4, "AdjT": 68.3, "AdjEM": -7.270432222119528}, "Sam Houston St.": {"AdjO": 108.6, "AdjD": 104.4, "AdjT": 75.1, "AdjEM": 0.8541155080209426}, "Samford": {"AdjO": 102.3, "AdjD": 112.6, "AdjT": 69.9, "AdjEM": -7.438645955325988}, "San Diego": {"AdjO": 104.1, "AdjD": 108.1, "AdjT": 72.3, "AdjEM": -3.775746738939814}, "San Diego St.": {"AdjO": 112.0, "AdjD": 98.6, "AdjT": 71.0, "AdjEM": 13.346786496568532}, "San Francisco": {"AdjO": 108.2, "AdjD": 100.8, "AdjT": 68.3, "AdjEM": 6.565514626185469}, "San Jose St.": {"AdjO": 105.5, "AdjD": 112.0, "AdjT": 67.6, "AdjEM": -6.63930177532617}, "Santa Clara": {"AdjO": 115.8, "AdjD": 101.9, "AdjT": 72.7, "AdjEM": 11.016237352654436}, "Seattle": {"AdjO": 101.5, "AdjD": 95.8, "AdjT": 71.8, "AdjEM": 2.858558074056348}, "Seton Hall": {"AdjO": 108.7, "AdjD": 91.0, "AdjT": 68.6, "AdjEM": 13.442497714554818}, "Siena": {"AdjO": 101.9, "AdjD": 104.6, "AdjT": 67.3, "AdjEM": -3.6163742900098743}, "South Alabama": {"AdjO": 102.9, "AdjD": 105.5, "AdjT": 66.8, "AdjEM": -2.0540470041469883}, "South Carolina": {"AdjO": 113.4, "AdjD": 100.4, "AdjT": 67.2, "AdjEM": 11.389922800501086}, "South Carolina St.": {"AdjO": 90.8, "AdjD": 117.8, "AdjT": 71.7, "AdjEM": -22.73785699197262}, "South Dakota": {"AdjO": 103.4, "AdjD": 114.3, "AdjT": 73.4, "AdjEM": -9.898807762764555}, "South Dakota St.": {"AdjO": 107.4, "AdjD": 107.9, "AdjT": 70.7, "AdjEM": -0.6312767575169105}, "South Florida": {"AdjO": 113.8, "AdjD": 99.6, "AdjT": 76.3, "AdjEM": 9.708636973541044}, "Southeast Missouri": {"AdjO": 105.0, "AdjD": 109.3, "AdjT": 71.4, "AdjEM": -4.638706168828412}, "Southeastern Louisiana": {"AdjO": 97.8, "AdjD": 106.1, "AdjT": 67.7, "AdjEM": -7.688083251366322}, "Southern": {"AdjO": 97.8, "AdjD": 112.6, "AdjT": 73.5, "AdjEM": -10.893025020701565}, "Southern Illinois": {"AdjO": 104.9, "AdjD": 99.2, "AdjT": 73.1, "AdjEM": 2.255143487939905}, "Southern Indiana": {"AdjO": 92.1, "AdjD": 110.8, "AdjT": 71.6, "AdjEM": -17.301958760956843}, "Southern Mississippi": {"AdjO": 102.1, "AdjD": 105.0, "AdjT": 70.0, "AdjEM": -1.7831211734085382}, "Southern Utah": {"AdjO": 96.4, "AdjD": 112.7, "AdjT": 72.6, "AdjEM": -15.523895889762104}, "St. Bonaventure": {"AdjO": 111.3, "AdjD": 109.7, "AdjT": 69.7, "AdjEM": -0.6791076501683857}, "St. John's": {"AdjO": 117.7, "AdjD": 93.7, "AdjT": 73.4, "AdjEM": 23.084314750683845}, "St. Thomas": {"AdjO": 112.1, "AdjD": 105.4, "AdjT": 71.3, "AdjEM": 4.166163026412586}, "Stanford": {"AdjO": 112.2, "AdjD": 100.0, "AdjT": 69.2, "AdjEM": 10.563824835617064}, "Stephen F. Austin": {"AdjO": 108.9, "AdjD": 100.0, "AdjT": 68.6, "AdjEM": 4.094853652075995}, "Stetson": {"AdjO": 98.2, "AdjD": 116.1, "AdjT": 70.0, "AdjEM": -16.024696003579184}, "Stonehill": {"AdjO": 93.8, "AdjD": 110.8, "AdjT": 68.5, "AdjEM": -15.251147700583182}, "Stony Brook": {"AdjO": 97.8, "AdjD": 108.4, "AdjT": 66.9, "AdjEM": -12.342424628262028}, "Syracuse": {"AdjO": 109.4, "AdjD": 97.6, "AdjT": 70.7, "AdjEM": 11.853882025853409}, "TCU": {"AdjO": 114.3, "AdjD": 96.1, "AdjT": 70.3, "AdjEM": 16.072877885366143}, "Tarleton St.": {"AdjO": 106.0, "AdjD": 107.2, "AdjT": 73.6, "AdjEM": -4.765663242821042}, "Temple": {"AdjO": 110.5, "AdjD": 108.9, "AdjT": 69.5, "AdjEM": 0.6962099891223013}, "Tennessee": {"AdjO": 116.4, "AdjD": 92.5, "AdjT": 70.1, "AdjEM": 23.247470398931178}, "Tennessee Martin": {"AdjO": 103.3, "AdjD": 105.0, "AdjT": 67.2, "AdjEM": -4.71746192618052}, "Tennessee St.": {"AdjO": 101.3, "AdjD": 107.3, "AdjT": 75.0, "AdjEM": -7.585519777611035}, "Tennessee Tech": {"AdjO": 98.5, "AdjD": 112.9, "AdjT": 70.7, "AdjEM": -13.273000669182572}, "Texas": {"AdjO": 119.2, "AdjD": 104.0, "AdjT": 71.5, "AdjEM": 15.851325210178947}, "Texas A&M": {"AdjO": 116.1, "AdjD": 101.5, "AdjT": 76.3, "AdjEM": 16.560320764492175}, "Texas A&M Corpus Chris": {"AdjO": 100.2, "AdjD": 101.3, "AdjT": 69.6, "AdjEM": -2.6047580152889225}, "Texas Southern": {"AdjO": 94.2, "AdjD": 115.7, "AdjT": 72.2, "AdjEM": -16.177966010062086}, "Texas St.": {"AdjO": 99.3, "AdjD": 109.3, "AdjT": 70.0, "AdjEM": -8.243184301585032}, "Texas Tech": {"AdjO": 119.8, "AdjD": 96.1, "AdjT": 69.8, "AdjEM": 24.138070976044176}, "The Citadel": {"AdjO": 97.3, "AdjD": 121.3, "AdjT": 67.0, "AdjEM": -20.28115179709433}, "Toledo": {"AdjO": 107.1, "AdjD": 109.8, "AdjT": 71.8, "AdjEM": -2.9870504378040983}, "Towson": {"AdjO": 101.2, "AdjD": 104.9, "AdjT": 66.1, "AdjEM": -2.899001216531138}, "Troy": {"AdjO": 109.0, "AdjD": 107.4, "AdjT": 69.5, "AdjEM": 2.0302568734631974}, "Tulane": {"AdjO": 106.1, "AdjD": 105.3, "AdjT": 68.9, "AdjEM": 0.7885944951523476}, "Tulsa": {"AdjO": 118.4, "AdjD": 107.2, "AdjT": 70.5, "AdjEM": 6.419131968115267}, "UAB": {"AdjO": 107.2, "AdjD": 102.4, "AdjT": 73.2, "AdjEM": 5.558065065032052}, "UC Davis": {"AdjO": 108.4, "AdjD": 110.1, "AdjT": 71.5, "AdjEM": -4.5809418896308625}, "UC Irvine": {"AdjO": 103.1, "AdjD": 96.9, "AdjT": 70.4, "AdjEM": 5.497017021204536}, "UC Riverside": {"AdjO": 100.6, "AdjD": 111.8, "AdjT": 70.1, "AdjEM": -9.161775860235654}, "UC San Diego": {"AdjO": 111.0, "AdjD": 104.9, "AdjT": 69.3, "AdjEM": 4.853035027777639}, "UC Santa Barbara": {"AdjO": 108.4, "AdjD": 112.0, "AdjT": 67.6, "AdjEM": -1.1502263509761526}, "UCF": {"AdjO": 117.5, "AdjD": 101.4, "AdjT": 71.6, "AdjEM": 13.52566784786275}, "UCLA": {"AdjO": 114.7, "AdjD": 99.2, "AdjT": 68.9, "AdjEM": 18.717829892251252}, "UMBC": {"AdjO": 102.9, "AdjD": 111.8, "AdjT": 68.4, "AdjEM": -9.054203164839006}, "UMass Lowell": {"AdjO": 102.3, "AdjD": 112.2, "AdjT": 72.1, "AdjEM": -10.284130604382243}, "UNC Asheville": {"AdjO": 104.9, "AdjD": 108.2, "AdjT": 67.1, "AdjEM": -3.712721455585422}, "UNC Greensboro": {"AdjO": 103.2, "AdjD": 117.0, "AdjT": 70.0, "AdjEM": -10.518020484941628}, "UNC Wilmington": {"AdjO": 109.2, "AdjD": 103.0, "AdjT": 67.3, "AdjEM": 5.371209889421958}, "UNLV": {"AdjO": 104.2, "AdjD": 104.8, "AdjT": 74.6, "AdjEM": 1.3653757245044709}, "USC": {"AdjO": 112.0, "AdjD": 100.2, "AdjT": 73.4, "AdjEM": 12.278357812392532}, "USC Upstate": {"AdjO": 96.6, "AdjD": 109.1, "AdjT": 71.2, "AdjEM": -12.093823818756114}, "UT Arlington": {"AdjO": 101.9, "AdjD": 98.6, "AdjT": 68.7, "AdjEM": -0.5305196509691354}, "UT Rio Grande Valley": {"AdjO": 103.1, "AdjD": 104.8, "AdjT": 70.0, "AdjEM": -4.191523459968884}, "UTEP": {"AdjO": 100.2, "AdjD": 110.5, "AdjT": 65.8, "AdjEM": -8.687645745307297}, "UTSA": {"AdjO": 88.6, "AdjD": 110.2, "AdjT": 72.7, "AdjEM": -17.284779082287496}, "Utah": {"AdjO": 112.8, "AdjD": 107.5, "AdjT": 71.7, "AdjEM": 6.021425101345104}, "Utah St.": {"AdjO": 121.3, "AdjD": 95.7, "AdjT": 71.5, "AdjEM": 21.304176013779497}, "Utah Tech": {"AdjO": 107.3, "AdjD": 108.8, "AdjT": 69.2, "AdjEM": -3.762886248469444}, "Utah Valley": {"AdjO": 109.4, "AdjD": 100.4, "AdjT": 73.0, "AdjEM": 5.278202965100203}, "VCU": {"AdjO": 116.0, "AdjD": 101.8, "AdjT": 72.2, "AdjEM": 13.528150756841155}, "VMI": {"AdjO": 96.3, "AdjD": 114.5, "AdjT": 70.0, "AdjEM": -14.529282836746429}, "Valparaiso": {"AdjO": 103.1, "AdjD": 103.6, "AdjT": 69.4, "AdjEM": -3.7080181273368575}, "Vanderbilt": {"AdjO": 122.9, "AdjD": 91.8, "AdjT": 74.1, "AdjEM": 26.744209532367773}, "Vermont": {"AdjO": 109.5, "AdjD": 111.5, "AdjT": 66.9, "AdjEM": -3.084986694723278}, "Villanova": {"AdjO": 118.7, "AdjD": 97.3, "AdjT": 65.9, "AdjEM": 17.313561211870645}, "Virginia": {"AdjO": 119.7, "AdjD": 93.9, "AdjT": 68.7, "AdjEM": 21.532368745330363}, "Virginia Tech": {"AdjO": 113.0, "AdjD": 98.5, "AdjT": 70.8, "AdjEM": 11.960513309476122}, "Wagner": {"AdjO": 101.1, "AdjD": 115.5, "AdjT": 69.6, "AdjEM": -14.596410818430236}, "Wake Forest": {"AdjO": 111.1, "AdjD": 97.7, "AdjT": 72.9, "AdjEM": 13.547534129440177}, "Washington": {"AdjO": 113.8, "AdjD": 98.5, "AdjT": 70.6, "AdjEM": 16.005320438971793}, "Washington St.": {"AdjO": 108.1, "AdjD": 103.7, "AdjT": 70.3, "AdjEM": 2.7813450089039145}, "Weber St.": {"AdjO": 108.0, "AdjD": 106.2, "AdjT": 72.0, "AdjEM": -2.195900580337694}, "West Georgia": {"AdjO": 99.4, "AdjD": 112.1, "AdjT": 71.2, "AdjEM": -12.628215196296392}, "West Virginia": {"AdjO": 111.9, "AdjD": 98.9, "AdjT": 65.4, "AdjEM": 12.925533953657972}, "Western Carolina": {"AdjO": 100.3, "AdjD": 112.9, "AdjT": 71.7, "AdjEM": -11.448039869931318}, "Western Illinois": {"AdjO": 90.5, "AdjD": 114.9, "AdjT": 67.3, "AdjEM": -20.833465879807473}, "Western Kentucky": {"AdjO": 103.3, "AdjD": 102.3, "AdjT": 74.6, "AdjEM": -1.9992191159397208}, "Western Michigan": {"AdjO": 102.8, "AdjD": 110.9, "AdjT": 72.0, "AdjEM": -9.406437317220686}, "Wichita St.": {"AdjO": 111.6, "AdjD": 100.3, "AdjT": 69.0, "AdjEM": 7.558275510078212}, "William & Mary": {"AdjO": 104.9, "AdjD": 101.5, "AdjT": 76.5, "AdjEM": -0.2605586126900121}, "Winthrop": {"AdjO": 109.0, "AdjD": 109.9, "AdjT": 71.4, "AdjEM": -3.14503188712764}, "Wisconsin": {"AdjO": 115.9, "AdjD": 98.1, "AdjT": 72.5, "AdjEM": 19.52200718667092}, "Wofford": {"AdjO": 107.3, "AdjD": 113.0, "AdjT": 71.2, "AdjEM": -5.772956974306269}, "Wright St.": {"AdjO": 108.5, "AdjD": 103.2, "AdjT": 68.5, "AdjEM": 1.385563025963242}, "Wyoming": {"AdjO": 114.8, "AdjD": 103.2, "AdjT": 70.1, "AdjEM": 7.059137488341172}, "Xavier": {"AdjO": 109.1, "AdjD": 101.9, "AdjT": 73.2, "AdjEM": 8.19919459642521}, "Yale": {"AdjO": 116.7, "AdjD": 109.5, "AdjT": 69.1, "AdjEM": 7.115002851329313}, "Youngstown St.": {"AdjO": 101.1, "AdjD": 107.3, "AdjT": 69.2, "AdjEM": -5.626206973003606}};
+        const teams = TEAMS_DATA; // Using TEAMS_DATA defined in teams_data.js
         const teamList = Object.keys(teams).sort();
+        
+        // --- INJECT BUBBLE THRESHOLD ---
+        // build_site.py replaces this with the actual number
+        const BUBBLE_ADJEM = 14.32; 
         
         const AVG_EFF = 106.0;
         const AVG_TEMPO = 68.5;
@@ -156,19 +163,24 @@
             document.getElementById('mobile-menu').classList.toggle('open');
         }
 
+        // --- MATH HELPER: NormCDF for Win Prob ---
+        function normCDF(x) {
+            var t = 1 / (1 + .2316419 * Math.abs(x));
+            var d = .3989423 * Math.exp(-x * x / 2);
+            var prob = d * t * (.3193815 + t * (-.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274))));
+            if (x > 0) prob = 1 - prob;
+            return prob;
+        }
+
         // --- AUTOCOMPLETE LOGIC ---
         function setupAutocomplete(inp, arr, listEl) {
             let currentFocus;
-
             inp.addEventListener("input", function(e) {
                 const val = this.value;
                 closeAllLists();
                 if (!val) return false;
                 currentFocus = -1;
-
                 listEl.classList.remove("hidden");
-                
-                // Filter Logic: Starts with first, then Includes
                 const matches = arr.filter(t => t.toLowerCase().includes(val.toLowerCase())).sort((a, b) => {
                     const aStarts = a.toLowerCase().startsWith(val.toLowerCase());
                     const bStarts = b.toLowerCase().startsWith(val.toLowerCase());
@@ -176,15 +188,10 @@
                     if (!aStarts && bStarts) return 1;
                     return a.localeCompare(b);
                 });
-
-                matches.slice(0, 10).forEach(team => { // Limit to 10 suggestions
+                matches.slice(0, 10).forEach(team => {
                     const item = document.createElement("li");
-                    item.className = "px-4 py-2 cursor-pointer hover:bg-gray-100 text-sm border-b border-gray-100 last:border-0";
-                    
-                    // Highlight matching text
-                    const regex = new RegExp(`(${val})`, "gi");
-                    item.innerHTML = team.replace(regex, "<span class='font-bold text-blue-600'>$1</span>");
-                    
+                    item.className = "px-4 py-3 cursor-pointer hover:bg-slate-50 text-sm border-b border-slate-100 last:border-0 text-slate-800";
+                    item.innerHTML = team.replace(new RegExp(`(${val})`, "gi"), "<span class='font-bold text-blue-600'>$1</span>");
                     item.addEventListener("click", function(e) {
                         inp.value = team;
                         closeAllLists();
@@ -193,85 +200,38 @@
                     listEl.appendChild(item);
                 });
             });
-
             inp.addEventListener("keydown", function(e) {
                 let x = listEl.getElementsByTagName("li");
-                
-                if (e.keyCode == 40) { // DOWN
-                    currentFocus++;
-                    addActive(x);
-                } else if (e.keyCode == 38) { // UP
-                    currentFocus--;
-                    addActive(x);
-                } else if (e.keyCode == 13) { // ENTER
-                    e.preventDefault();
-                    if (currentFocus > -1) {
-                        if (x) x[currentFocus].click();
-                    } else if (x.length > 0) {
-                        // If nothing focused, select top result
-                        x[0].click();
-                    }
-                } else if (e.keyCode == 9) { // TAB
-                    if (!listEl.classList.contains("hidden") && x.length > 0) {
-                        // Autofill the best match
-                        const bestMatch = (currentFocus > -1) ? x[currentFocus].innerText : x[0].innerText;
-                        inp.value = bestMatch;
-                        closeAllLists();
-                        runSim();
-                        // Allow default Tab behavior to move to next field
-                    }
+                if (e.keyCode == 40) { currentFocus++; addActive(x); }
+                else if (e.keyCode == 38) { currentFocus--; addActive(x); }
+                else if (e.keyCode == 13) { e.preventDefault(); if (currentFocus > -1 && x) x[currentFocus].click(); }
+                else if (e.keyCode == 9) { 
+                     if (!listEl.classList.contains("hidden") && x.length > 0) { 
+                         inp.value = (currentFocus > -1) ? x[currentFocus].innerText : x[0].innerText; 
+                         closeAllLists(); 
+                         runSim(); 
+                     } 
                 }
             });
-
-            function addActive(x) {
-                if (!x) return false;
-                removeActive(x);
-                if (currentFocus >= x.length) currentFocus = 0;
-                if (currentFocus < 0) currentFocus = (x.length - 1);
-                x[currentFocus].classList.add("suggestion-active");
-                // Scroll into view
-                x[currentFocus].scrollIntoView({ block: "nearest" });
-            }
-
-            function removeActive(x) {
-                for (var i = 0; i < x.length; i++) {
-                    x[i].classList.remove("suggestion-active");
-                }
-            }
-
-            function closeAllLists(elmnt) {
-                listEl.innerHTML = "";
-                listEl.classList.add("hidden");
-            }
-
-            document.addEventListener("click", function (e) {
-                if(e.target != inp) closeAllLists();
-            });
+            function addActive(x) { if (!x) return false; removeActive(x); if (currentFocus >= x.length) currentFocus = 0; if (currentFocus < 0) currentFocus = (x.length - 1); x[currentFocus].classList.add("suggestion-active"); x[currentFocus].scrollIntoView({ block: "nearest" }); }
+            function removeActive(x) { for (var i = 0; i < x.length; i++) { x[i].classList.remove("suggestion-active"); } }
+            function closeAllLists(elmnt) { listEl.innerHTML = ""; listEl.classList.add("hidden"); }
+            document.addEventListener("click", function (e) { if(e.target != inp) closeAllLists(); });
         }
 
-        // Initialize Autocomplete
         window.onload = function() {
-            setupAutocomplete(document.getElementById("teamA"), teamList, document.getElementById("listA"));
-            setupAutocomplete(document.getElementById("teamB"), teamList, document.getElementById("listB"));
+            if (typeof TEAMS_DATA !== 'undefined') {
+                setupAutocomplete(document.getElementById("teamA"), teamList, document.getElementById("listA"));
+                setupAutocomplete(document.getElementById("teamB"), teamList, document.getElementById("listB"));
+            }
         };
 
-        // --- SIMULATION LOGIC ---
         function setLoc(loc) {
             locState = loc;
-            
-            const baseClass = "flex-1 sm:flex-none px-6 py-3 text-sm font-medium transition-colors border";
-            const activeClass = "text-white bg-blue-600 border-blue-600 hover:bg-blue-700 z-10";
-            const inactiveClass = "text-gray-700 bg-white border-gray-300 hover:bg-gray-50";
-            
+            const btnClassActive = "px-6 py-2 text-sm font-bold text-white bg-slate-900 rounded-lg shadow-sm transition-all";
+            const btnClassInactive = "px-6 py-2 text-sm font-medium text-slate-500 hover:text-slate-900 transition-all";
             ['Home', 'Neutral', 'Away'].forEach(l => {
-                const btn = document.getElementById('btn'+l);
-                let rounded = "";
-                if(l === 'Home') rounded = "rounded-l-lg";
-                else if(l === 'Away') rounded = "rounded-r-lg";
-                else rounded = "border-l-0 border-r-0";
-
-                if(l === loc) btn.className = `${baseClass} ${activeClass} ${rounded}`;
-                else btn.className = `${baseClass} ${inactiveClass} ${rounded}`;
+                document.getElementById('btn'+l).className = (l === loc) ? btnClassActive : btnClassInactive;
             });
             runSim();
         }
@@ -280,35 +240,39 @@
             const nameA = document.getElementById('teamA').value;
             const nameB = document.getElementById('teamB').value;
             
-            // Validate names exist in database
             if(!teams[nameA] || !teams[nameB]) return;
 
             const A = teams[nameA];
             const B = teams[nameB];
 
+            // Display Stats
             document.getElementById('statsA').classList.remove('hidden');
-            document.getElementById('valOA').innerText = A.AdjO.toFixed(1);
-            document.getElementById('valDA').innerText = A.AdjD.toFixed(1);
-            document.getElementById('valTA').innerText = A.AdjT.toFixed(1);
+            document.getElementById('valOA').innerText = A.adjo.toFixed(1);
+            document.getElementById('valDA').innerText = A.adjd.toFixed(1);
+            document.getElementById('valTA').innerText = A.adjt.toFixed(1);
 
             document.getElementById('statsB').classList.remove('hidden');
-            document.getElementById('valOB').innerText = B.AdjO.toFixed(1);
-            document.getElementById('valDB').innerText = B.AdjD.toFixed(1);
-            document.getElementById('valTB').innerText = B.AdjT.toFixed(1);
+            document.getElementById('valOB').innerText = B.adjo.toFixed(1);
+            document.getElementById('valDB').innerText = B.adjd.toFixed(1);
+            document.getElementById('valTB').innerText = B.adjt.toFixed(1);
 
             let hfaAdj = 0;
             if(locState === 'Home') hfaAdj = HFA;
             else if(locState === 'Away') hfaAdj = -HFA;
 
-            const expEffA = A.AdjO + B.AdjD - AVG_EFF + hfaAdj;
-            const expEffB = B.AdjO + A.AdjD - AVG_EFF - hfaAdj;
-            const expTempo = A.AdjT + B.AdjT - AVG_TEMPO;
+            // Score Prediction
+            const expEffA = A.adjo + B.adjd - AVG_EFF + hfaAdj;
+            const expEffB = B.adjo + A.adjd - AVG_EFF - hfaAdj;
+            const expTempo = A.adjt + B.adjt - AVG_TEMPO;
 
             const scoreA = (expEffA * expTempo) / 100;
             const scoreB = (expEffB * expTempo) / 100;
 
             const spreadVal = scoreB - scoreA;
             const totalVal = scoreA + scoreB;
+            
+            const spreadText = Math.abs(spreadVal) < 0.1 ? "Pick" : 
+                               (spreadVal > 0 ? `${nameB} -${Math.abs(spreadVal).toFixed(1)}` : `${nameA} -${Math.abs(spreadVal).toFixed(1)}`);
             
             const x = 11.5;
             const wpA = (Math.pow(scoreA, x)) / (Math.pow(scoreA, x) + Math.pow(scoreB, x));
@@ -318,14 +282,52 @@
             document.getElementById('nameB').innerText = nameB;
             document.getElementById('scoreA').innerText = Math.round(scoreA);
             document.getElementById('scoreB').innerText = Math.round(scoreB);
-            
-            const spreadText = Math.abs(spreadVal) < 0.1 ? "Pick" : 
-                               (spreadVal > 0 ? `${nameB} -${Math.abs(spreadVal).toFixed(1)}` : `${nameA} -${Math.abs(spreadVal).toFixed(1)}`);
-            
             document.getElementById('spread').innerText = spreadText;
             document.getElementById('total').innerText = totalVal.toFixed(1);
             document.getElementById('winProb').innerText = (wpA * 100).toFixed(1) + "%";
-            document.getElementById('pace').innerText = expTempo.toFixed(1);
+
+            // --- WAB IMPACT CALCULATION ---
+            // Calculate how a Win or Loss vs Bubble Team (Avg AdjEM) impacts WAB.
+            // Note: Bubble stats are static, we calculate prob of Bubble Team beating the Opponent.
+            
+            // WAB GAIN = (Actual Win 1.0) - (Prob Bubble Beats Opponent)
+            // WAB LOSS = (Actual Win 0.0) - (Prob Bubble Beats Opponent)
+            
+            if (typeof BUBBLE_ADJEM !== 'undefined') {
+                // Team A vs Bubble Perspective
+                // If Team A plays Bubble Team... no, WAB is "Did A perform better than Bubble would vs B?"
+                // So we simulate Bubble vs B.
+                
+                // Location of Bubble vs B:
+                // If A is Home, Bubble is Home vs B.
+                let hfa_WAB_A = (locState === 'Home') ? HFA : (locState === 'Away' ? -HFA : 0);
+                
+                // Margin = Bubble_AdjEM - Opp_AdjEM + HFA
+                const m_Bub_vs_B = (BUBBLE_ADJEM - B.adjem) + hfa_WAB_A;
+                const prob_Bubble_beats_B = normCDF(m_Bub_vs_B / 11.0);
+                
+                const wab_gain_A = 1.0 - prob_Bubble_beats_B;
+                const wab_loss_A = 0.0 - prob_Bubble_beats_B;
+                
+                // Team B vs Bubble Perspective
+                // B is playing A. Bubble vs A.
+                // If B is Away, Bubble is Away vs A.
+                // If A is Home, B is Away.
+                const hfa_WAB_B = -hfa_WAB_A; // Inverse of A's location
+                const m_Bub_vs_A = (BUBBLE_ADJEM - A.adjem) + hfa_WAB_B;
+                const prob_Bubble_beats_A = normCDF(m_Bub_vs_A / 11.0);
+                
+                const wab_gain_B = 1.0 - prob_Bubble_beats_A;
+                const wab_loss_B = 0.0 - prob_Bubble_beats_A;
+
+                const wabA_el = document.getElementById('wabA');
+                wabA_el.innerHTML = `Win: <span class="text-emerald-400 font-bold">+${wab_gain_A.toFixed(2)}</span> / Lose: <span class="text-rose-400 font-bold">${wab_loss_A.toFixed(2)}</span>`;
+                wabA_el.classList.remove('opacity-0');
+
+                const wabB_el = document.getElementById('wabB');
+                wabB_el.innerHTML = `Win: <span class="text-emerald-400 font-bold">+${wab_gain_B.toFixed(2)}</span> / Lose: <span class="text-rose-400 font-bold">${wab_loss_B.toFixed(2)}</span>`;
+                wabB_el.classList.remove('opacity-0');
+            }
         }
     </script>
 </body>

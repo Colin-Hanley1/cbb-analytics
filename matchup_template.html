@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Matchup Simulator | CBB Analytics</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style> 
-        body { font-family: 'Inter', sans-serif; } 
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; } 
         #mobile-menu { display: none; }
         #mobile-menu.open { display: block; }
         
@@ -21,13 +21,13 @@
         .suggestions-list::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 3px; }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-900 min-h-screen flex flex-col">
+<body class="text-slate-900 min-h-screen flex flex-col">
 
     <!-- NAVBAR -->
-    <nav class="bg-slate-800 text-white shadow-lg sticky top-0 z-50">
+    <nav class="bg-slate-900/95 backdrop-blur-md text-white shadow-lg sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
-                <div class="flex items-center">
+                <div class="flex items-center space-x-4">
                     <span class="font-bold text-xl tracking-tight text-white">CHan Analytics</span>
                     {{NAV_DESKTOP}}
                 </div>
@@ -43,94 +43,94 @@
         {{NAV_MOBILE}}
     </nav>
 
-    <main class="flex-grow max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+    <main class="flex-grow max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
         
-        <div class="mb-6 text-center sm:text-left">
-            <h1 class="text-2xl sm:text-3xl font-bold text-slate-900">Matchup Simulator</h1>
-            <p class="text-sm text-slate-500">Project spreads and totals based on adjusted efficiency.</p>
+        <div class="mb-8 text-center">
+            <h1 class="text-3xl font-bold text-slate-900">Matchup Simulator</h1>
+            <p class="text-slate-500 mt-2">Projected spreads, totals, and WAB implications.</p>
         </div>
 
         <!-- INPUTS GRID -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
             
             <!-- Team A Input -->
-            <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 relative group z-30">
-                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">Home / Team A</label>
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 relative group z-30">
+                <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Home / Team A</label>
                 <div class="relative">
-                    <input type="text" id="teamA" placeholder="Type team name..." autocomplete="off"
-                        class="block w-full p-3 border border-gray-300 bg-gray-50 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-base sm:text-lg font-medium placeholder-gray-400 transition-colors">
-                    <!-- Suggestions Dropdown -->
-                    <ul id="listA" class="suggestions-list absolute z-50 w-full bg-white border border-gray-200 rounded-lg shadow-xl max-h-60 overflow-y-auto mt-1 hidden"></ul>
+                    <input type="text" id="teamA" placeholder="Type Name..." autocomplete="off"
+                        class="w-full p-3 border-b-2 border-slate-200 text-lg font-bold text-slate-900 focus:outline-none focus:border-blue-500 transition-colors bg-transparent">
+                    <ul id="listA" class="suggestions-list absolute z-50 w-full bg-white border border-slate-200 rounded-b-xl shadow-xl max-h-60 overflow-y-auto mt-1 hidden"></ul>
                 </div>
                 
-                <div id="statsA" class="mt-3 flex justify-between text-xs text-gray-500 hidden font-mono">
-                    <span>AdjO: <b id="valOA" class="text-slate-800"></b></span>
-                    <span>AdjD: <b id="valDA" class="text-slate-800"></b></span>
-                    <span>Tmp: <b id="valTA" class="text-slate-800"></b></span>
+                <div id="statsA" class="mt-4 flex justify-between text-xs text-slate-400 font-mono hidden">
+                    <span>AdjO: <b class="text-slate-800" id="valOA"></b></span>
+                    <span>AdjD: <b class="text-slate-800" id="valDA"></b></span>
+                    <span>Tmp: <b class="text-slate-800" id="valTA"></b></span>
                 </div>
             </div>
 
             <!-- Team B Input -->
-            <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 relative z-20">
-                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">Away / Team B</label>
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 relative z-20">
+                <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Away / Team B</label>
                 <div class="relative">
-                    <input type="text" id="teamB" placeholder="Type team name..." autocomplete="off"
-                        class="block w-full p-3 border border-gray-300 bg-gray-50 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-base sm:text-lg font-medium placeholder-gray-400 transition-colors">
-                    <!-- Suggestions Dropdown -->
-                    <ul id="listB" class="suggestions-list absolute z-50 w-full bg-white border border-gray-200 rounded-lg shadow-xl max-h-60 overflow-y-auto mt-1 hidden"></ul>
+                    <input type="text" id="teamB" placeholder="Type Name..." autocomplete="off"
+                        class="w-full p-3 border-b-2 border-slate-200 text-lg font-bold text-slate-900 focus:outline-none focus:border-blue-500 transition-colors bg-transparent">
+                    <ul id="listB" class="suggestions-list absolute z-50 w-full bg-white border border-slate-200 rounded-b-xl shadow-xl max-h-60 overflow-y-auto mt-1 hidden"></ul>
                 </div>
 
-                <div id="statsB" class="mt-3 flex justify-between text-xs text-gray-500 hidden font-mono">
-                    <span>AdjO: <b id="valOB" class="text-slate-800"></b></span>
-                    <span>AdjD: <b id="valDB" class="text-slate-800"></b></span>
-                    <span>Tmp: <b id="valTB" class="text-slate-800"></b></span>
+                <div id="statsB" class="mt-4 flex justify-between text-xs text-slate-400 font-mono hidden">
+                    <span>AdjO: <b class="text-slate-800" id="valOB"></b></span>
+                    <span>AdjD: <b class="text-slate-800" id="valDB"></b></span>
+                    <span>Tmp: <b class="text-slate-800" id="valTB"></b></span>
                 </div>
             </div>
         </div>
 
         <!-- LOCATION BUTTONS -->
         <div class="flex justify-center mb-8">
-            <div class="inline-flex rounded-lg shadow-sm w-full sm:w-auto" role="group">
-                <button type="button" onclick="setLoc('Home')" id="btnHome" class="flex-1 sm:flex-none px-6 py-3 text-sm font-medium text-white bg-blue-600 border border-blue-600 rounded-l-lg hover:bg-blue-700 transition-colors">Home</button>
-                <button type="button" onclick="setLoc('Neutral')" id="btnNeutral" class="flex-1 sm:flex-none px-6 py-3 text-sm font-medium text-gray-700 bg-white border-t border-b border-gray-300 hover:bg-gray-50 transition-colors">Neutral</button>
-                <button type="button" onclick="setLoc('Away')" id="btnAway" class="flex-1 sm:flex-none px-6 py-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-50 transition-colors">Away</button>
+            <div class="inline-flex rounded-xl shadow-sm bg-white p-1 border border-slate-200">
+                <button onclick="setLoc('Home')" id="btnHome" class="px-6 py-2 text-sm font-bold text-white bg-slate-900 rounded-lg shadow-sm transition-all">Home</button>
+                <button onclick="setLoc('Neutral')" id="btnNeutral" class="px-6 py-2 text-sm font-medium text-slate-500 hover:text-slate-900 transition-all">Neutral</button>
+                <button onclick="setLoc('Away')" id="btnAway" class="px-6 py-2 text-sm font-medium text-slate-500 hover:text-slate-900 transition-all">Away</button>
             </div>
         </div>
 
         <!-- SCOREBOARD -->
-        <div id="scoreboard" class="hidden bg-slate-800 text-white rounded-2xl shadow-xl overflow-hidden transform transition-all duration-300">
-            <div class="p-6 sm:p-8 text-center">
-                <div class="text-[10px] font-bold text-blue-400 uppercase tracking-widest mb-4">Projected Result</div>
+        <div id="scoreboard" class="hidden bg-black text-white rounded-3xl shadow-2xl overflow-hidden ring-4 ring-slate-900/10">
+            <div class="p-8 text-center relative">
+                <div class="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-white/10 to-transparent pointer-events-none"></div>
                 
-                <div class="flex justify-center items-center space-x-4 sm:space-x-12 mb-8">
+                <div class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-6">Final Projection</div>
+                
+                <div class="flex justify-center items-center space-x-8 mb-8">
                     <div class="text-center w-1/3">
-                        <div class="text-4xl sm:text-6xl font-bold tracking-tighter" id="scoreA">--</div>
-                        <div class="text-xs sm:text-sm text-slate-400 font-medium mt-1 truncate max-w-[100px] sm:max-w-[150px] mx-auto" id="nameA">Team A</div>
+                        <div class="text-5xl sm:text-7xl font-bold tracking-tighter font-mono" id="scoreA">--</div>
+                        <div class="text-xs sm:text-sm text-slate-400 font-bold uppercase mt-2 truncate" id="nameA">Team A</div>
+                        <!-- NEW: WAB Display -->
+                        <div id="wabA" class="mt-2 text-[10px] font-mono opacity-0 transition-opacity">Win: <span class="text-emerald-400">+0.00</span> / Lose: <span class="text-rose-400">-0.00</span></div>
                     </div>
-                    <div class="text-xl sm:text-3xl text-slate-600 font-light pb-4">-</div>
+                    <div class="text-slate-600 text-3xl font-light">-</div>
                     <div class="text-center w-1/3">
-                        <div class="text-4xl sm:text-6xl font-bold tracking-tighter" id="scoreB">--</div>
-                        <div class="text-xs sm:text-sm text-slate-400 font-medium mt-1 truncate max-w-[100px] sm:max-w-[150px] mx-auto" id="nameB">Team B</div>
+                        <div class="text-5xl sm:text-7xl font-bold tracking-tighter font-mono" id="scoreB">--</div>
+                        <div class="text-xs sm:text-sm text-slate-400 font-bold uppercase mt-2 truncate" id="nameB">Team B</div>
+                         <!-- NEW: WAB Display -->
+                         <div id="wabB" class="mt-2 text-[10px] font-mono opacity-0 transition-opacity">Win: <span class="text-emerald-400">+0.00</span> / Lose: <span class="text-rose-400">-0.00</span></div>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-3 gap-2 sm:gap-6 border-t border-slate-700 pt-6">
-                    <div class="bg-slate-700/30 rounded-lg p-2">
-                        <div class="text-[10px] sm:text-xs text-slate-400 uppercase tracking-wider mb-1">Spread</div>
-                        <div class="text-sm sm:text-xl font-bold text-white" id="spread">--</div>
+                <div class="grid grid-cols-3 gap-4 border-t border-slate-800 pt-6">
+                    <div>
+                        <div class="text-[10px] text-slate-500 uppercase tracking-widest mb-1">Spread</div>
+                        <div class="text-lg font-bold text-blue-400" id="spread">--</div>
                     </div>
-                    <div class="bg-slate-700/30 rounded-lg p-2">
-                        <div class="text-[10px] sm:text-xs text-slate-400 uppercase tracking-wider mb-1">Total</div>
-                        <div class="text-sm sm:text-xl font-bold text-white" id="total">--</div>
+                    <div>
+                        <div class="text-[10px] text-slate-500 uppercase tracking-widest mb-1">Total</div>
+                        <div class="text-lg font-bold text-white" id="total">--</div>
                     </div>
-                    <div class="bg-slate-700/30 rounded-lg p-2">
-                        <div class="text-[10px] sm:text-xs text-slate-400 uppercase tracking-wider mb-1">Win %</div>
-                        <div class="text-sm sm:text-xl font-bold text-green-400" id="winProb">--</div>
+                    <div>
+                        <div class="text-[10px] text-slate-500 uppercase tracking-widest mb-1">Win Prob</div>
+                        <div class="text-lg font-bold text-emerald-400" id="winProb">--</div>
                     </div>
-                </div>
-                
-                <div class="mt-4 text-[10px] text-slate-500">
-                    Est. Possessions: <span id="pace">--</span>
                 </div>
             </div>
         </div>
@@ -143,9 +143,16 @@
         </div>
     </footer>
 
+    <!-- Load Data File -->
+    <script src="teams_data.js"></script>
+
     <script>
-        const teams = {{TEAMS_JSON}};
+        const teams = TEAMS_DATA; // Using TEAMS_DATA defined in teams_data.js
         const teamList = Object.keys(teams).sort();
+        
+        // --- INJECT BUBBLE THRESHOLD ---
+        // build_site.py replaces this with the actual number
+        const BUBBLE_ADJEM = {{BUBBLE_ADJEM}}; 
         
         const AVG_EFF = 106.0;
         const AVG_TEMPO = 68.5;
@@ -156,19 +163,24 @@
             document.getElementById('mobile-menu').classList.toggle('open');
         }
 
+        // --- MATH HELPER: NormCDF for Win Prob ---
+        function normCDF(x) {
+            var t = 1 / (1 + .2316419 * Math.abs(x));
+            var d = .3989423 * Math.exp(-x * x / 2);
+            var prob = d * t * (.3193815 + t * (-.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274))));
+            if (x > 0) prob = 1 - prob;
+            return prob;
+        }
+
         // --- AUTOCOMPLETE LOGIC ---
         function setupAutocomplete(inp, arr, listEl) {
             let currentFocus;
-
             inp.addEventListener("input", function(e) {
                 const val = this.value;
                 closeAllLists();
                 if (!val) return false;
                 currentFocus = -1;
-
                 listEl.classList.remove("hidden");
-                
-                // Filter Logic: Starts with first, then Includes
                 const matches = arr.filter(t => t.toLowerCase().includes(val.toLowerCase())).sort((a, b) => {
                     const aStarts = a.toLowerCase().startsWith(val.toLowerCase());
                     const bStarts = b.toLowerCase().startsWith(val.toLowerCase());
@@ -176,15 +188,10 @@
                     if (!aStarts && bStarts) return 1;
                     return a.localeCompare(b);
                 });
-
-                matches.slice(0, 10).forEach(team => { // Limit to 10 suggestions
+                matches.slice(0, 10).forEach(team => {
                     const item = document.createElement("li");
-                    item.className = "px-4 py-2 cursor-pointer hover:bg-gray-100 text-sm border-b border-gray-100 last:border-0";
-                    
-                    // Highlight matching text
-                    const regex = new RegExp(`(${val})`, "gi");
-                    item.innerHTML = team.replace(regex, "<span class='font-bold text-blue-600'>$1</span>");
-                    
+                    item.className = "px-4 py-3 cursor-pointer hover:bg-slate-50 text-sm border-b border-slate-100 last:border-0 text-slate-800";
+                    item.innerHTML = team.replace(new RegExp(`(${val})`, "gi"), "<span class='font-bold text-blue-600'>$1</span>");
                     item.addEventListener("click", function(e) {
                         inp.value = team;
                         closeAllLists();
@@ -193,85 +200,38 @@
                     listEl.appendChild(item);
                 });
             });
-
             inp.addEventListener("keydown", function(e) {
                 let x = listEl.getElementsByTagName("li");
-                
-                if (e.keyCode == 40) { // DOWN
-                    currentFocus++;
-                    addActive(x);
-                } else if (e.keyCode == 38) { // UP
-                    currentFocus--;
-                    addActive(x);
-                } else if (e.keyCode == 13) { // ENTER
-                    e.preventDefault();
-                    if (currentFocus > -1) {
-                        if (x) x[currentFocus].click();
-                    } else if (x.length > 0) {
-                        // If nothing focused, select top result
-                        x[0].click();
-                    }
-                } else if (e.keyCode == 9) { // TAB
-                    if (!listEl.classList.contains("hidden") && x.length > 0) {
-                        // Autofill the best match
-                        const bestMatch = (currentFocus > -1) ? x[currentFocus].innerText : x[0].innerText;
-                        inp.value = bestMatch;
-                        closeAllLists();
-                        runSim();
-                        // Allow default Tab behavior to move to next field
-                    }
+                if (e.keyCode == 40) { currentFocus++; addActive(x); }
+                else if (e.keyCode == 38) { currentFocus--; addActive(x); }
+                else if (e.keyCode == 13) { e.preventDefault(); if (currentFocus > -1 && x) x[currentFocus].click(); }
+                else if (e.keyCode == 9) { 
+                     if (!listEl.classList.contains("hidden") && x.length > 0) { 
+                         inp.value = (currentFocus > -1) ? x[currentFocus].innerText : x[0].innerText; 
+                         closeAllLists(); 
+                         runSim(); 
+                     } 
                 }
             });
-
-            function addActive(x) {
-                if (!x) return false;
-                removeActive(x);
-                if (currentFocus >= x.length) currentFocus = 0;
-                if (currentFocus < 0) currentFocus = (x.length - 1);
-                x[currentFocus].classList.add("suggestion-active");
-                // Scroll into view
-                x[currentFocus].scrollIntoView({ block: "nearest" });
-            }
-
-            function removeActive(x) {
-                for (var i = 0; i < x.length; i++) {
-                    x[i].classList.remove("suggestion-active");
-                }
-            }
-
-            function closeAllLists(elmnt) {
-                listEl.innerHTML = "";
-                listEl.classList.add("hidden");
-            }
-
-            document.addEventListener("click", function (e) {
-                if(e.target != inp) closeAllLists();
-            });
+            function addActive(x) { if (!x) return false; removeActive(x); if (currentFocus >= x.length) currentFocus = 0; if (currentFocus < 0) currentFocus = (x.length - 1); x[currentFocus].classList.add("suggestion-active"); x[currentFocus].scrollIntoView({ block: "nearest" }); }
+            function removeActive(x) { for (var i = 0; i < x.length; i++) { x[i].classList.remove("suggestion-active"); } }
+            function closeAllLists(elmnt) { listEl.innerHTML = ""; listEl.classList.add("hidden"); }
+            document.addEventListener("click", function (e) { if(e.target != inp) closeAllLists(); });
         }
 
-        // Initialize Autocomplete
         window.onload = function() {
-            setupAutocomplete(document.getElementById("teamA"), teamList, document.getElementById("listA"));
-            setupAutocomplete(document.getElementById("teamB"), teamList, document.getElementById("listB"));
+            if (typeof TEAMS_DATA !== 'undefined') {
+                setupAutocomplete(document.getElementById("teamA"), teamList, document.getElementById("listA"));
+                setupAutocomplete(document.getElementById("teamB"), teamList, document.getElementById("listB"));
+            }
         };
 
-        // --- SIMULATION LOGIC ---
         function setLoc(loc) {
             locState = loc;
-            
-            const baseClass = "flex-1 sm:flex-none px-6 py-3 text-sm font-medium transition-colors border";
-            const activeClass = "text-white bg-blue-600 border-blue-600 hover:bg-blue-700 z-10";
-            const inactiveClass = "text-gray-700 bg-white border-gray-300 hover:bg-gray-50";
-            
+            const btnClassActive = "px-6 py-2 text-sm font-bold text-white bg-slate-900 rounded-lg shadow-sm transition-all";
+            const btnClassInactive = "px-6 py-2 text-sm font-medium text-slate-500 hover:text-slate-900 transition-all";
             ['Home', 'Neutral', 'Away'].forEach(l => {
-                const btn = document.getElementById('btn'+l);
-                let rounded = "";
-                if(l === 'Home') rounded = "rounded-l-lg";
-                else if(l === 'Away') rounded = "rounded-r-lg";
-                else rounded = "border-l-0 border-r-0";
-
-                if(l === loc) btn.className = `${baseClass} ${activeClass} ${rounded}`;
-                else btn.className = `${baseClass} ${inactiveClass} ${rounded}`;
+                document.getElementById('btn'+l).className = (l === loc) ? btnClassActive : btnClassInactive;
             });
             runSim();
         }
@@ -280,35 +240,39 @@
             const nameA = document.getElementById('teamA').value;
             const nameB = document.getElementById('teamB').value;
             
-            // Validate names exist in database
             if(!teams[nameA] || !teams[nameB]) return;
 
             const A = teams[nameA];
             const B = teams[nameB];
 
+            // Display Stats
             document.getElementById('statsA').classList.remove('hidden');
-            document.getElementById('valOA').innerText = A.AdjO.toFixed(1);
-            document.getElementById('valDA').innerText = A.AdjD.toFixed(1);
-            document.getElementById('valTA').innerText = A.AdjT.toFixed(1);
+            document.getElementById('valOA').innerText = A.adjo.toFixed(1);
+            document.getElementById('valDA').innerText = A.adjd.toFixed(1);
+            document.getElementById('valTA').innerText = A.adjt.toFixed(1);
 
             document.getElementById('statsB').classList.remove('hidden');
-            document.getElementById('valOB').innerText = B.AdjO.toFixed(1);
-            document.getElementById('valDB').innerText = B.AdjD.toFixed(1);
-            document.getElementById('valTB').innerText = B.AdjT.toFixed(1);
+            document.getElementById('valOB').innerText = B.adjo.toFixed(1);
+            document.getElementById('valDB').innerText = B.adjd.toFixed(1);
+            document.getElementById('valTB').innerText = B.adjt.toFixed(1);
 
             let hfaAdj = 0;
             if(locState === 'Home') hfaAdj = HFA;
             else if(locState === 'Away') hfaAdj = -HFA;
 
-            const expEffA = A.AdjO + B.AdjD - AVG_EFF + hfaAdj;
-            const expEffB = B.AdjO + A.AdjD - AVG_EFF - hfaAdj;
-            const expTempo = A.AdjT + B.AdjT - AVG_TEMPO;
+            // Score Prediction
+            const expEffA = A.adjo + B.adjd - AVG_EFF + hfaAdj;
+            const expEffB = B.adjo + A.adjd - AVG_EFF - hfaAdj;
+            const expTempo = A.adjt + B.adjt - AVG_TEMPO;
 
             const scoreA = (expEffA * expTempo) / 100;
             const scoreB = (expEffB * expTempo) / 100;
 
             const spreadVal = scoreB - scoreA;
             const totalVal = scoreA + scoreB;
+            
+            const spreadText = Math.abs(spreadVal) < 0.1 ? "Pick" : 
+                               (spreadVal > 0 ? `${nameB} -${Math.abs(spreadVal).toFixed(1)}` : `${nameA} -${Math.abs(spreadVal).toFixed(1)}`);
             
             const x = 11.5;
             const wpA = (Math.pow(scoreA, x)) / (Math.pow(scoreA, x) + Math.pow(scoreB, x));
@@ -318,14 +282,52 @@
             document.getElementById('nameB').innerText = nameB;
             document.getElementById('scoreA').innerText = Math.round(scoreA);
             document.getElementById('scoreB').innerText = Math.round(scoreB);
-            
-            const spreadText = Math.abs(spreadVal) < 0.1 ? "Pick" : 
-                               (spreadVal > 0 ? `${nameB} -${Math.abs(spreadVal).toFixed(1)}` : `${nameA} -${Math.abs(spreadVal).toFixed(1)}`);
-            
             document.getElementById('spread').innerText = spreadText;
             document.getElementById('total').innerText = totalVal.toFixed(1);
             document.getElementById('winProb').innerText = (wpA * 100).toFixed(1) + "%";
-            document.getElementById('pace').innerText = expTempo.toFixed(1);
+
+            // --- WAB IMPACT CALCULATION ---
+            // Calculate how a Win or Loss vs Bubble Team (Avg AdjEM) impacts WAB.
+            // Note: Bubble stats are static, we calculate prob of Bubble Team beating the Opponent.
+            
+            // WAB GAIN = (Actual Win 1.0) - (Prob Bubble Beats Opponent)
+            // WAB LOSS = (Actual Win 0.0) - (Prob Bubble Beats Opponent)
+            
+            if (typeof BUBBLE_ADJEM !== 'undefined') {
+                // Team A vs Bubble Perspective
+                // If Team A plays Bubble Team... no, WAB is "Did A perform better than Bubble would vs B?"
+                // So we simulate Bubble vs B.
+                
+                // Location of Bubble vs B:
+                // If A is Home, Bubble is Home vs B.
+                let hfa_WAB_A = (locState === 'Home') ? HFA : (locState === 'Away' ? -HFA : 0);
+                
+                // Margin = Bubble_AdjEM - Opp_AdjEM + HFA
+                const m_Bub_vs_B = (BUBBLE_ADJEM - B.adjem) + hfa_WAB_A;
+                const prob_Bubble_beats_B = normCDF(m_Bub_vs_B / 11.0);
+                
+                const wab_gain_A = 1.0 - prob_Bubble_beats_B;
+                const wab_loss_A = 0.0 - prob_Bubble_beats_B;
+                
+                // Team B vs Bubble Perspective
+                // B is playing A. Bubble vs A.
+                // If B is Away, Bubble is Away vs A.
+                // If A is Home, B is Away.
+                const hfa_WAB_B = -hfa_WAB_A; // Inverse of A's location
+                const m_Bub_vs_A = (BUBBLE_ADJEM - A.adjem) + hfa_WAB_B;
+                const prob_Bubble_beats_A = normCDF(m_Bub_vs_A / 11.0);
+                
+                const wab_gain_B = 1.0 - prob_Bubble_beats_A;
+                const wab_loss_B = 0.0 - prob_Bubble_beats_A;
+
+                const wabA_el = document.getElementById('wabA');
+                wabA_el.innerHTML = `Win: <span class="text-emerald-400 font-bold">+${wab_gain_A.toFixed(2)}</span> / Lose: <span class="text-rose-400 font-bold">${wab_loss_A.toFixed(2)}</span>`;
+                wabA_el.classList.remove('opacity-0');
+
+                const wabB_el = document.getElementById('wabB');
+                wabB_el.innerHTML = `Win: <span class="text-emerald-400 font-bold">+${wab_gain_B.toFixed(2)}</span> / Lose: <span class="text-rose-400 font-bold">${wab_loss_B.toFixed(2)}</span>`;
+                wabB_el.classList.remove('opacity-0');
+            }
         }
     </script>
 </body>
