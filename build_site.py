@@ -285,6 +285,7 @@ def generate_index(df, df_conf):
     df['Rank_AdjO'] = df['AdjO'].rank(ascending=False, method='min').astype(int)
     df['Rank_AdjD'] = df['AdjD'].rank(ascending=True, method='min').astype(int) 
     df['Rank_AdjT'] = df['AdjT'].rank(ascending=False, method='min').astype(int)
+    df['Rank_Cons'] = df['Consistency'].rank(ascending=False, method='min').astype(int)
     
     if df_conf is not None:
         df = df.merge(df_conf, on='Team', how='left')
@@ -297,7 +298,7 @@ def generate_index(df, df_conf):
     df = df.loc[:, ~df.columns.duplicated()]
 
     cols = ['Rank', 'Team', 'Conference', 'Link', 'AdjEM', 'Pure_AdjEM', 'WAB', 'Consistency', 
-            'Selection_Score', 'AdjO', 'AdjD', 'AdjT', 'Rank_AdjO', 'Rank_AdjD', 'Rank_AdjT']
+            'Selection_Score', 'AdjO', 'AdjD', 'AdjT', 'Rank_AdjO', 'Rank_AdjD', 'Rank_AdjT', 'Rank_Cons']
     cols = [c for c in cols if c in df.columns]
     rankings_json = df[cols].to_json(orient='records')
 
@@ -379,7 +380,7 @@ def generate_schedule():
         print(f"Error generating schedule: {e}")
 
 if __name__ == "__main__":
-    run_script(SCRAPER_SCRIPT)
+    #run_script(SCRAPER_SCRIPT)
     run_script(RATINGS_SCRIPT)
     
     # Run bracket generation first so we can link to it if needed

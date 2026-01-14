@@ -205,52 +205,80 @@ def calculate_resume_stats(ratings_df, scores_df, pts_col):
     return ratings_df
 
 # --- CONSISTENCY CALCULATOR (UPDATED) ---
-def calculate_consistency(ratings_df, scores_df, pts_col, model_hfa):
-    print("Calculating Consistency Scores...")
+# --- CONSISTENCY / VOLATILITY METRIC (NEW) ---
+def calculate_consistency(ratings_df, scores_df, pts_col, model_hfa,
+                          sigma0=11.0,
+                          tau_vol=0.90,
+                          tau_swing=1.20,
+                          alpha=0.40,
+                          shrink_lambda=8,
+                          # ---- FIXED PRIORS (do not change year-to-year) ----
+                          vol_prior_z=1.00,     # typical within-team volatility in z units
+                          swing_prior_z=1.20):  # typical adjacent swing in z units
+    print("Calculating Volatility-Based Consistency Scores...")
+
     stats_map = ratings_df.set_index('Team')[['Blended_AdjEM']].to_dict('index')
-    
+
     opp_scores = scores_df[['date', 'team', pts_col]].rename(columns={'team': 'opponent', pts_col: 'opp_pts'})
     opp_scores = opp_scores.drop_duplicates(subset=['date', 'opponent'])
     games = scores_df.merge(opp_scores, on=['date', 'opponent'], how='left')
-    
-    residuals = {}
-    
+    games = games.sort_values(['team', 'date'])
+
+    team_z = {}
     for _, row in games.iterrows():
-        team = row['team']
-        opp = row['opponent']
-        
-        if team not in stats_map or opp not in stats_map: continue
-            
+        team = row['team']; opp = row['opponent']
+        if team not in stats_map or opp not in stats_map:
+            continue
+
+        poss = row['possessions']; opp_pts = row['opp_pts']
+        if pd.isna(poss) or poss == 0 or pd.isna(opp_pts):
+            continue
+
         pts = row[pts_col]
-        opp_pts = row['opp_pts']
-        poss = row['possessions']
-        if poss == 0 or pd.isna(opp_pts): continue
-        
-        actual_margin = (pts - opp_pts) / poss * 100
-        loc_val = row['location_value']
-        hfa_adj = 0
-        if loc_val == 1: hfa_adj = model_hfa
-        elif loc_val == -1: hfa_adj = -model_hfa
-            
-        exp_margin = stats_map[team]['Blended_AdjEM'] - stats_map[opp]['Blended_AdjEM'] + hfa_adj
-        resid = actual_margin - exp_margin
-        
-        if team not in residuals: residuals[team] = []
-        residuals[team].append(resid)
-        
-    cons_scores = []
+        actual_margin100 = (pts - opp_pts) / poss * 100.0
+
+        loc_val = row.get('location_value', 0)
+        hfa_adj = model_hfa if loc_val == 1 else (-model_hfa if loc_val == -1 else 0.0)
+
+        expected_margin100 = stats_map[team]['Blended_AdjEM'] - stats_map[opp]['Blended_AdjEM'] + hfa_adj
+        resid = actual_margin100 - expected_margin100
+        z = float(resid / sigma0)
+
+        team_z.setdefault(team, []).append(z)
+
+    cons_scores, vol_out, swing_out = [], [], []
+
     for team in ratings_df['Team']:
-        res_list = residuals.get(team, [])
-        if len(res_list) < 3:
-            score = 50.0 
+        zlist = team_z.get(team, [])
+        n = len(zlist)
+
+        if n < 2:
+            vol = vol_prior_z
+            swing = swing_prior_z
         else:
-            mad = np.mean(np.abs(res_list))
-            score = 100 - (mad * 4.0)
-            score = max(0, min(100, score))
-        cons_scores.append(score)
-        
+            zarr = np.array(zlist, dtype=float)
+            vol = float(np.std(zarr - zarr.mean(), ddof=0))
+            swing = float(np.mean(np.abs(np.diff(zarr))))
+
+        # Shrink toward FIXED priors (not season averages)
+        w = n / (n + shrink_lambda) if n > 0 else 0.0
+        vol_s = w * vol + (1.0 - w) * vol_prior_z
+        swing_s = w * swing + (1.0 - w) * swing_prior_z
+
+        vol_score = 100.0 * np.exp(-vol_s / tau_vol)
+        swing_score = 100.0 * np.exp(-swing_s / tau_swing)
+        score = (1.0 - alpha) * vol_score + alpha * swing_score
+
+        cons_scores.append(float(np.clip(score, 0.0, 100.0)))
+        vol_out.append(vol_s)
+        swing_out.append(swing_s)
+
     ratings_df['Consistency'] = cons_scores
+    ratings_df['Volatility_z'] = vol_out
+    ratings_df['Swing_z'] = swing_out
     return ratings_df
+
+
 
 # --- WAB CALCULATOR ---
 def calculate_wab_pythag(ratings_df, scores_df, pts_col):

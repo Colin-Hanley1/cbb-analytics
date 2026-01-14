@@ -19,9 +19,9 @@ SCORING_WEIGHTS = {
     'Q2_W': 5.355022855830827,        # Slight bonus
     'Q2_L': 0.0,       # Slight penalty
     'Q3_W': 0.0,        # Expected win
-    'Q3_L': 0.0,       # Bad loss
+    'Q3_L': 0,       # Bad loss
     'Q4_W': 0.0,        # Expected win
-    'Q4_L': 0.0,       # Catastrophic loss
+    'Q4_L': 0,       # Catastrophic loss
     'T100_W': 9.306541120747148,     # Depth of wins
     'T100_L': 0.0     # Depth of losses
 }
