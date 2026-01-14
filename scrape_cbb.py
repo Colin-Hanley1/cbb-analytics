@@ -516,7 +516,7 @@ if __name__ == "__main__":
     # Sports-Reference updates overnight, so we always want "Yesterday" relative to now.
     today = datetime.now()
     yesterday = today - timedelta(days=1)
-    sd = datetime(2022,1,23)
+    sd = datetime(2022,2,13)
     ed = datetime(2022,3,13)
     yesterday_str = yesterday.strftime('%Y-%m-%d')
     print(f"Checking scrape status for: {yesterday_str}")
