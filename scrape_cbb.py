@@ -510,7 +510,7 @@ class CBBScraper:
 
 if __name__ == "__main__":
     scraper = CBBScraper()
-    output_filename = "cbb_scores2122.csv"
+    output_filename = "cbb_scores.csv"
 
     # 1. Calculate Yesterday's Date
     # Sports-Reference updates overnight, so we always want "Yesterday" relative to now.
