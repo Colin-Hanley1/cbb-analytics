@@ -540,4 +540,4 @@ if __name__ == "__main__":
         print(f" > Data for {yesterday_str} is already present in {output_filename}. Skipping scrape.")
     else:
         print(f" > Data for {yesterday_str} not found. Starting scraper...")
-        scraper.run(sd, ed, output_filename=output_filename)
+        scraper.run(yesterday, yesterday, output_filename=output_filename)

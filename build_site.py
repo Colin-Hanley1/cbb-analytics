@@ -380,7 +380,7 @@ def generate_schedule():
         print(f"Error generating schedule: {e}")
 
 if __name__ == "__main__":
-    #run_script(SCRAPER_SCRIPT)
+    run_script(SCRAPER_SCRIPT)
     run_script(RATINGS_SCRIPT)
     
     # Run bracket generation first so we can link to it if needed
