@@ -299,7 +299,7 @@
                     <td class="px-4 py-3 font-bold ${emColor} text-right bg-blue-50/20 text-xs sm:text-sm">${row.AdjEM.toFixed(2)}</td>
                     <td class="px-4 py-3 font-bold ${pureColor} text-right bg-orange-50/20 text-xs sm:text-sm pure-col" style="${pureDisplay}">${row.Pure_AdjEM.toFixed(2)}</td>
                     <td class="px-4 py-3 font-bold ${wabColor} text-right bg-purple-50/20 text-xs sm:text-sm border-l border-purple-100">${(row.WAB || 0).toFixed(2)}<span class="text-[10px] text-gray-400 ml-1">${row.Rank_WAB || '-'}</span></td>
-                    <td class="px-4 py-3 font-bold text-slate-700 text-right bg-gray-50/50 text-xs sm:text-sm border-l border-gray-100">${scoreVal}</td>
+                    <td class="px-4 py-3 font-bold text-slate-700 text-right bg-gray-50/50 text-xs sm:text-sm border-l border-gray-100">${scoreVal}<span class="text-[10px] text-gray-400 ml-1">${row.Rank_SLS || '-'}</span></td>
 
                     <td class="px-4 py-3 text-gray-600 text-right text-xs sm:text-sm">${row.AdjO.toFixed(1)} <span class="text-[10px] text-gray-400 ml-1">${row.Rank_AdjO || '-'}</span></td>
                     <td class="px-4 py-3 text-gray-600 text-right text-xs sm:text-sm">${row.AdjD.toFixed(1)} <span class="text-[10px] text-gray-400 ml-1">${row.Rank_AdjD || '-'}</span></td>
