@@ -12,18 +12,15 @@ OUTPUT_HTML = "bracketology.html"
 # PASTE THE OUTPUT FROM train_bracket_model.py HERE
 # These are placeholder weights based on typical committee behavior
 SCORING_WEIGHTS = {
-    'ADJEM': 5.5253779546839645,       # Base Power Metric (Mapped from Blended_AdjEM)
-    'WAB': 16.542519618901224,         # Base Resume Metric
-    'Q1_W': 6.528047173692391,       # Bonus for Elite Wins
-    'Q1_L': 0.0,        # No penalty for quality losses
-    'Q2_W': 5.355022855830827,        # Slight bonus
-    'Q2_L': 0.0,       # Slight penalty
-    'Q3_W': 0.0,        # Expected win
-    'Q3_L': 0,       # Bad loss
-    'Q4_W': 0.0,        # Expected win
-    'Q4_L': 0,       # Catastrophic loss
-    'T100_W': 9.306541120747148,     # Depth of wins
-    'T100_L': 0.0     # Depth of losses
+    "ADJEM": 3.1455920563817816,
+    "WAB": 7.501438184436439,
+    "Q1_W": 6.7633764359705095,
+    "Q1_L": -2.2095077635548015,
+    "Q2_W": 4.653701084972598,
+    "Q2_L": -2.423209667527029,
+    "Q3_W": 0.07221419803078077,
+    "Q3_L": -6.999764853540507,
+    "Q4_L": -16.48658423831865
 }
 
 # --- MANUAL AUTO-BIDS ---
