@@ -140,7 +140,7 @@ def generate_bracket():
         # Fallback: Highest Selection Score in conference wins AQ
         conf_teams = df[df['Conference'] == conf]
         if not conf_teams.empty:
-            top_team = conf_teams.sort_values('Selection_Score', ascending=False).iloc[0]['Team']
+            top_team = conf_teams.sort_values('Blended_AdjEM', ascending=False).iloc[0]['Team']
             aq_teams_list.append(top_team)
             
     df.loc[df['Team'].isin(aq_teams_list), 'AQ'] = True
