@@ -68,6 +68,7 @@
                 <select id="confFilter" onchange="filterTable()" class="block w-24 sm:w-32 pl-2 pr-6 py-2 text-xs border-gray-300 rounded-md bg-gray-50 truncate">
                     <option value="">All Conf</option>
                     <option value="One-Bid" class="font-bold text-blue-600 bg-blue-50">One-Bid Leagues</option>
+                    <option value="Power 5" class="font-bold text-red-600 bg-red-50">Power 5</option>
                 </select>
                 <label class="inline-flex items-center cursor-pointer ml-2">
                     <input type="checkbox" id="togglePure" class="form-checkbox h-4 w-4 text-blue-600 rounded" onchange="renderTable()">
@@ -133,6 +134,7 @@
         }
 
         const MULTI_BID_LEAGUES = ["ACC", "B10", "B12", "SEC", "BE", "MWC", "A10", "Amer", "WCC"];
+        const POWER_5_LEAGUES = ["ACC", "B10", "B12", "SEC", "BE"];
 
         let currentData = [...rawData];
         let sortCol = 'AdjEM';
@@ -245,7 +247,11 @@
                     // Check if conference is NOT in the multi-bid list
                     // Normalize checking (case insensitive if needed, but array is exact)
                     matchesConf = !MULTI_BID_LEAGUES.includes(row.Conference);
-                } else {
+                } 
+                else if (conf == "Power 5") {
+                    matchesConf = POWER_5_LEAGUES.includes(row.Conference);
+                }
+                else {
                     matchesConf = conf === "" || row.Conference === conf;
                 }
                 
