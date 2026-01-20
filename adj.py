@@ -280,12 +280,10 @@ def calculate_consistency(ratings_df, scores_df, pts_col, model_hfa,
 
 
 
-# --- WAB CALCULATOR ---
-def calculate_wab_pythag(ratings_df, scores_df, pts_col):
-    """
-    Calculates Wins Above Bubble (WAB) using the Pythagenport prediction logic.
-    """
-    print("Calculating Wins Above Bubble (WAB) using Pythagenport...")
+
+def calculate_rq_pythag(ratings_df, scores_df, pts_col):
+
+    print("Calculating Resume Quality (RQ) using Pythagenport...")
     
     sorted_ratings = ratings_df.sort_values('Blended_AdjEM', ascending=False).reset_index(drop=True)
     
@@ -372,7 +370,7 @@ def calculate_wab_pythag(ratings_df, scores_df, pts_col):
         actual_wins[team] = team_games['is_win'].sum()
 
     # 5. Attach to DataFrame
-    ratings_df['WAB'] = ratings_df['Team'].apply(lambda x: actual_wins.get(x, 0) - expected_wins.get(x, 0))
+    ratings_df['RQ'] = ratings_df['Team'].apply(lambda x: actual_wins.get(x, 0) - expected_wins.get(x, 0))
     
     return ratings_df
 
@@ -499,8 +497,8 @@ def calculate_ratings(
     ratings['Blended_AdjEM'] = (G/(G + w) * ratings['Current_AdjEM'] + w/(G + w) * ratings['Preseason_AdjEM'])
 
     # --- ADVANCED CALCULATIONS ---
-    # 1. WAB
-    ratings = calculate_wab_pythag(ratings, df, pts_col)
+    # 1. RQ
+    ratings = calculate_rq_pythag(ratings, df, pts_col)
     
     # 2. Consistency
     ratings = calculate_consistency(ratings, df, pts_col, model_hfa)
@@ -517,7 +515,7 @@ def calculate_ratings(
 
     print("\nTop 15 Analysis:")
     # Print more columns to verify new stats
-    print(ratings[['Team', 'Blended_AdjEM', 'WAB', 'SOS', 'Q1_W', 'Q1_L', 'T100_W']].head(15).round(2).to_string())
+    print(ratings[['Team', 'Blended_AdjEM','RQ', 'SOS', 'Q1_W', 'Q1_L', 'T100_W']].head(15).round(2).to_string())
     print("\nSaved to cbb_ratings.csv")
 
 if __name__ == "__main__":

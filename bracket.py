@@ -13,7 +13,7 @@ OUTPUT_HTML = "bracketology.html"
 # These are placeholder weights based on typical committee behavior
 SCORING_WEIGHTS = {
     "ADJEM": 3.1455920563817816,
-    "WAB": 7.501438184436439,
+    "RQ": 7.501438184436439,
     "Q1_W": 6.7633764359705095,
     "Q1_L": -2.2095077635548015,
     "Q2_W": 4.653701084972598,
@@ -209,7 +209,7 @@ def generate_html(field_df, l4i, f4o, n4o):
             <td class="px-5 py-4 text-center border-r border-gray-100"><span class="px-2.5 py-1 rounded-full text-xs font-bold {type_class}">{row['Bid_Type']}</span></td>
             <td class="px-5 py-4 text-center text-slate-500 text-sm">{row['Conference']}</td>
             <td class="px-5 py-4 text-right font-mono font-bold text-slate-800 text-sm">{row['Selection_Score']:.2f}</td>
-            <td class="px-5 py-4 text-right font-mono text-purple-600 font-bold text-sm bg-purple-50/30">{row['WAB']:.2f}</td>
+            <td class="px-5 py-4 text-right font-mono text-purple-600 font-bold text-sm bg-purple-50/30">{row['RQ']:.2f}</td>
         </tr>
         """
         
@@ -223,7 +223,7 @@ def generate_html(field_df, l4i, f4o, n4o):
                     <div class="text-xs text-slate-400">{r['Conference']}</div>
                 </div>
                 <div class="text-right">
-                    <div class="text-xs font-mono font-bold text-purple-600">WAB: {r['WAB']:.2f}</div>
+                    <div class="text-xs font-mono font-bold text-purple-600">RQ: {r['RQ']:.2f}</div>
                     <div class="text-[10px] text-slate-400 font-mono">Score: {r['Selection_Score']:.1f}</div>
                 </div>
             </div>
@@ -320,7 +320,7 @@ def generate_html(field_df, l4i, f4o, n4o):
                                 <th class="px-6 py-4 text-center border-r border-gray-200">Bid</th>
                                 <th class="px-6 py-4 text-center border-r border-gray-200">Conf</th>
                                 <th class="px-6 py-4 text-right">Score</th>
-                                <th class="px-6 py-4 text-right text-purple-700">WAB</th>
+                                <th class="px-6 py-4 text-right text-purple-700">RQ</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-100 bg-white text-sm">

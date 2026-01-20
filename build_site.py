@@ -215,7 +215,7 @@ def generate_teams_js(df_ratings, df_scores):
                         'loc': loc_str,
                         'score': f"{int(pts)}-{int(opp_pt)}",
                         'val': round(val_add, 1),
-                        'wab': round(wab_game, 2)
+                        'rq': round(wab_game, 2)
                     })
         
         teams_dict[team] = {
@@ -224,7 +224,7 @@ def generate_teams_js(df_ratings, df_scores):
             'adjo': round(row['AdjO'], 1),
             'adjd': round(row['AdjD'], 1),
             'adjt': round(row['AdjT'], 1),
-            'wab_total': round(row.get('WAB', 0.0), 2),
+            'wab_total': round(row.get('RQ', 0.0), 2),
             'consistency': round(row.get('Consistency', 50.0), 1),
             'games': game_list
         }
@@ -255,7 +255,7 @@ def generate_index(df, df_conf):
         if os.path.exists(WEIGHTS_FILE):
             with open(WEIGHTS_FILE, "r") as f: weights = json.load(f)
         else:
-            weights = {'ADJEM': 1.0, 'WAB': 4.0}
+            weights = {'ADJEM': 1.0, 'RQ': 4.0}
             
         # FIX: Ensure we use the Current (Pure) AdjEM for Selection Score if desired
         # Or check 'ADJEM' in weights vs 'AdjEM' in DF
@@ -286,7 +286,7 @@ def generate_index(df, df_conf):
     df['Rank_AdjD'] = df['AdjD'].rank(ascending=True, method='min').astype(int) 
     df['Rank_AdjT'] = df['AdjT'].rank(ascending=False, method='min').astype(int)
     df['Rank_Cons'] = df['Consistency'].rank(ascending=False, method='min').astype(int)
-    df['Rank_WAB'] = df['WAB'].rank(ascending=False, method='min').astype(int)
+    df['Rank_WAB'] = df['RQ'].rank(ascending=False, method='min').astype(int)
     df['Rank_SLS'] = df['Selection_Score'].rank(ascending=False, method='min').astype(int)
     if df_conf is not None:
         df = df.merge(df_conf, on='Team', how='left')
@@ -298,7 +298,7 @@ def generate_index(df, df_conf):
     conf_json = json.dumps(conf_list)
     df = df.loc[:, ~df.columns.duplicated()]
 
-    cols = ['Rank', 'Team', 'Conference', 'Link', 'AdjEM', 'Pure_AdjEM', 'WAB', 'Consistency', 
+    cols = ['Rank', 'Team', 'Conference', 'Link', 'AdjEM', 'Pure_AdjEM', 'RQ', 'Consistency', 
             'Selection_Score', 'AdjO', 'AdjD', 'AdjT', 'Rank_AdjO', 'Rank_AdjD', 'Rank_AdjT', 'Rank_Cons', 'Rank_WAB', 'Rank_SLS']
     cols = [c for c in cols if c in df.columns]
     rankings_json = df[cols].to_json(orient='records')
