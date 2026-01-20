@@ -34,7 +34,7 @@
                 </div>
                 
                 <div class="flex items-center">
-                    <div class="hidden md:block text-xs text-slate-400 mr-4">Updated: <span class="text-white">2026-01-20 18:49 UTC</span></div>
+                    <div class="hidden md:block text-xs text-slate-400 mr-4">Updated: <span class="text-white">2026-01-20 19:17 UTC</span></div>
                     <div class="-mr-2 flex md:hidden">
                         <button type="button" onclick="toggleMenu()" class="bg-slate-800 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-slate-700 focus:outline-none">
                             <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
@@ -152,15 +152,16 @@
 
         // --- PRELOAD LOGIC ---
         function preloadLogos() {
-            // Start loading all logos immediately in the background
-            rawData.forEach(row => {
-                if (!imageCache[row.Team]) {
-                    const img = new Image(20, 20);
-                    img.src = getLogoPath(row.Team);
-                    imageCache[row.Team] = img;
-                }
-            });
+    // Start loading all logos immediately in the background
+    rawData.forEach(row => {
+        if (!imageCache[row.Team]) {
+            // Remove the (20, 20) arguments here
+            const img = new Image(); 
+            img.src = getLogoPath(row.Team);
+            imageCache[row.Team] = img;
         }
+    });
+}
 
         function setView(view) {
             if(view === 'table') {
@@ -182,62 +183,58 @@
             const loadingEl = document.getElementById('chartLoading');
             const canvasEl = document.querySelector('.chart-wrapper');
 
-            // Show loading state if cache is empty (first load)
             if (Object.keys(imageCache).length === 0) {
                  loadingEl.classList.remove('hidden');
                  canvasEl.classList.add('opacity-50');
             }
-            
             if(chartInstance) chartInstance.destroy();
 
-            // Create a promise for every point to ensure we have an image (or null fallback)
+            // --- 1. DETERMINE SIZE ---
+            const count = currentData.length;
+            let radiusSize = 10;  // Default (Small for full league)
+            if (count < 25) radiusSize = 25;       // Huge for Top 25
+            else if (count < 75) radiusSize = 20;  // Medium for Tournament field
+            else if (count < 150) radiusSize = 15; // Moderate for medium filters
+            // ------------------------
+
             const imagePromises = currentData.map(row => {
                 return new Promise((resolve) => {
-                    // Check cache first
                     let img = imageCache[row.Team];
-                    
                     if (!img) {
-                        img = new Image(20, 20);
+                        img = new Image();
                         img.src = getLogoPath(row.Team);
                         imageCache[row.Team] = img;
                     }
-                    
                     if (img.complete) {
-                        // If loaded successfully, resolve with image. If failed (width 0), resolve null.
                         resolve(img.naturalWidth > 0 ? img : null);
-                        return;
+                    } else {
+                        img.onload = () => resolve(img);
+                        img.onerror = () => resolve(null);
                     }
-                    
-                    // If still loading, wait for it
-                    img.onload = () => resolve(img);
-                    img.onerror = () => {
-                        console.warn(`Missing logo for ${row.Team}`);
-                        imageCache[row.Team] = null; // Don't try again
-                        resolve(null);
-                    };
                 });
             });
 
-            // Wait for all images for the *current view* to be ready
             const loadedImages = await Promise.all(imagePromises);
 
+            // --- 2. FORCE RESIZE IMAGES ---
+            // Chart.js uses the Image object's width/height properties to draw.
+            // We must explicitly set these to match our desired radius * 2.
+            loadedImages.forEach(img => {
+                if (img) {
+                    img.width = radiusSize * 2;
+                    img.height = radiusSize * 2;
+                }
+            });
+
             const points = currentData.map((row, i) => ({
-                x: row.AdjO, 
-                y: row.AdjD, 
-                team: row.Team, 
-                rank: row.Rank, 
-                em: row.AdjEM, 
-                conf: row.Conference, 
-                logo: loadedImages[i] // Use the resolved image (or null)
+                x: row.AdjO, y: row.AdjD, team: row.Team, rank: row.Rank, em: row.AdjEM, conf: row.Conference, 
+                logo: loadedImages[i]
             }));
             
             const avgO = points.reduce((a,b)=>a+b.x,0)/points.length;
             const avgD = points.reduce((a,b)=>a+b.y,0)/points.length;
-            
-            // If logo exists, use it. Otherwise default to 'circle' point style.
             const pointStyles = points.map(p => p.logo ? p.logo : 'circle');
 
-            // Hide loading indicator
             loadingEl.classList.add('hidden');
             canvasEl.classList.remove('opacity-50');
 
@@ -248,8 +245,8 @@
                         label: 'Teams',
                         data: points,
                         pointStyle: pointStyles,
-                        pointRadius: 10, 
-                        hoverRadius: 15,
+                        pointRadius: radiusSize, // Controls hover hit area
+                        hoverRadius: radiusSize + 5,
                         backgroundColor: (ctx) => {
                             const v = ctx.raw?.em || 0;
                             return v > 15 ? 'rgba(22, 163, 74, 0.5)' : 
@@ -261,7 +258,7 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    animation: false, // Disable animation for faster feel
+                    animation: false,
                     plugins: {
                         tooltip: {
                             callbacks: {
@@ -352,7 +349,7 @@
                 const emColor = row.AdjEM > 0 ? 'text-green-600' : 'text-red-600';
                 const pureColor = row.Pure_AdjEM > 0 ? 'text-green-600' : 'text-red-600';
                 const pureDisplay = showPure ? '' : 'display:none;';
-                const wabColor = row.WAB > 0 ? 'text-green-600' : 'text-red-600';
+                const wabColor = row.RQ > 0 ? 'text-green-600' : 'text-red-600';
                 
                 const consVal = row.Consistency || 50.0;
                 const consColor = consVal > 80 ? 'text-emerald-600' : (consVal < 60 ? 'text-rose-600' : 'text-slate-500');
@@ -367,7 +364,7 @@
                     <td class="px-3 py-3 text-gray-500 text-left border-r border-gray-100 hidden sm:table-cell text-xs">${row.Conference || '-'}</td>
                     <td class="px-4 py-3 font-bold ${emColor} text-right bg-blue-50/20 text-xs sm:text-sm">${row.AdjEM.toFixed(2)}</td>
                   <td class="px-4 py-3 font-bold ${pureColor} text-right bg-orange-50/20 text-xs sm:text-sm pure-col" style="${pureDisplay}">${row.Pure_AdjEM.toFixed(2)}</td>
-                    <td class="px-4 py-3 font-bold ${wabColor} text-right bg-purple-50/20 text-xs sm:text-sm border-l border-purple-100">${(row.WAB || 0).toFixed(2)}<span class="text-[10px] text-gray-400 ml-1 font-normal">${row.Rank_WAB || '-'}</span></td>
+                    <td class="px-4 py-3 font-bold ${wabColor} text-right bg-purple-50/20 text-xs sm:text-sm border-l border-purple-100">${(row.RQ || 0).toFixed(2)}<span class="text-[10px] text-gray-400 ml-1 font-normal">${row.Rank_WAB || '-'}</span></td>
                     <td class="px-4 py-3 font-bold text-slate-700 text-right bg-gray-50/50 text-xs sm:text-sm border-l border-gray-100">${scoreVal}<span class="text-[10px] text-gray-400 ml-1 font-normal">${row.Rank_SLS || '-'}</span></td>
 
                     <td class="px-4 py-3 text-gray-600 text-right text-xs sm:text-sm">${row.AdjO.toFixed(1)} <span class="text-[10px] text-gray-400 ml-1 font-normal">${row.Rank_AdjO || '-'}</span></td>
