@@ -77,7 +77,7 @@
                 
                 <div class="flex items-center gap-4">
                     <div class="hidden md:block text-xs font-mono text-slate-400 bg-slate-800 px-3 py-1.5 rounded-full border border-slate-700">
-                        <span class="text-brand-500">●</span> Live Update: <span class="text-slate-200">2026-01-21 21:23 UTC</span>
+                        <span class="text-brand-500">●</span> Live Update: <span class="text-slate-200">2026-01-21 21:24 UTC</span>
                     </div>
 
                     <div class="-mr-2 flex md:hidden">
@@ -414,7 +414,7 @@
                 const emColor = row.AdjEM > 0 ? 'text-emerald-600' : 'text-rose-600';
                 const wabColor = row.RQ > 0 ? 'text-emerald-600' : 'text-rose-600';
                 const consVal = row.Consistency || 50.0;
-                const consColor = consVal > 80 ? 'text-emerald-600' : (consVal < 60 ? 'text-rose-600' : 'text-slate-500');
+                const consColor = 'text-slate-500'
                 const scoreVal = (row.Selection_Score || 0).toFixed(1);
                 const sosVal = row.SOS ? row.SOS.toFixed(2) : '-';
                 

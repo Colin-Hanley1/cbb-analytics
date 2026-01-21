@@ -414,7 +414,7 @@
                 const emColor = row.AdjEM > 0 ? 'text-emerald-600' : 'text-rose-600';
                 const wabColor = row.RQ > 0 ? 'text-emerald-600' : 'text-rose-600';
                 const consVal = row.Consistency || 50.0;
-                const consColor = consVal > 80 ? 'text-emerald-600' : (consVal < 60 ? 'text-rose-600' : 'text-slate-500');
+                const consColor = 'text-slate-500'
                 const scoreVal = (row.Selection_Score || 0).toFixed(1);
                 const sosVal = row.SOS ? row.SOS.toFixed(2) : '-';
                 
