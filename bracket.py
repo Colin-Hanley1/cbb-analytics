@@ -308,10 +308,7 @@ def generate_html(field_df, l4i, f4o, n4o):
         <nav class="bg-slate-900/95 backdrop-blur-md text-white shadow-lg sticky top-0 z-50 border-b border-slate-700/50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between h-16">
-                    <div class="flex items-center gap-3">
-                        <div class="w-8 h-8 bg-brand-500 rounded-lg flex items-center justify-center shadow-lg shadow-brand-500/20">
-                            <span class="font-mono font-bold text-white text-lg">C</span>
-                        </div>
+                    <div class="flex items-center gap-3">            
                         <span class="font-bold text-lg tracking-tight text-white">CHan Analytics</span>
                         
                         <div class="hidden md:flex ml-8 space-x-1">
