@@ -77,7 +77,7 @@
                 
                 <div class="flex items-center gap-4">
                     <div class="hidden md:block text-xs font-mono text-slate-400 bg-slate-800 px-3 py-1.5 rounded-full border border-slate-700">
-                        <span class="text-brand-500">●</span> Live Update: <span class="text-slate-200">2026-01-21 21:16 UTC</span>
+                        <span class="text-brand-500">●</span> Live Update: <span class="text-slate-200">2026-01-21 21:23 UTC</span>
                     </div>
 
                     <div class="-mr-2 flex md:hidden">
@@ -252,7 +252,7 @@
             if(chartInstance) chartInstance.destroy();
 
             const count = currentData.length;
-            let radiusSize = 6;
+            let radiusSize = 10;
             if (count < 25) radiusSize = 25;
             else if (count < 75) radiusSize = 15;
             else if (count < 150) radiusSize = 10;
