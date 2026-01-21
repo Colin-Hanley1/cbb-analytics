@@ -4,39 +4,84 @@
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CBB Analytical Ratings</title>
+    <title>CHan Analytics | CBB Ratings</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1', 
+                            600: '#4f46e5',
+                            900: '#312e81',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
     <style> 
-        body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; } 
-        th.sort-asc::after { content: " \2191"; opacity: 0.8; margin-left: 2px; color: #2563eb; }
-        th.sort-desc::after { content: " \2193"; opacity: 0.8; margin-left: 2px; color: #2563eb; }
-        #mobile-menu { display: none; }
-        #mobile-menu.open { display: block; }
-        .chart-wrapper { position: relative; height: 60vh; width: 100%; }
+        body { -webkit-font-smoothing: antialiased; } 
         
-        .sticky-col-1 { position: sticky; left: 0; z-index: 20; }
-        .sticky-col-2 { position: sticky; left: 3.5rem; z-index: 20; }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        /* Sticky Columns with shadow handling */
+        .sticky-col-1 { position: sticky; left: 0; z-index: 30; }
+        .sticky-col-2 { position: sticky; left: 4rem; z-index: 30; } /* Adjusted for rank width */
+        
         .bg-opaque { background-color: white; }
-        tr:hover .bg-opaque { background-color: #eff6ff; }
+        tr:hover .bg-opaque { background-color: #f8fafc; }
+
+        /* Sort Arrows */
+        th.sort-asc::after { content: " ↑"; color: #4f46e5; }
+        th.sort-desc::after { content: " ↓"; color: #4f46e5; }
+
+        /* Mobile Menu Animation */
+        #mobile-menu { display: none; transition: all 0.3s; }
+        #mobile-menu.open { display: block; }
+        
+        .chart-wrapper { position: relative; height: 65vh; width: 100%; }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-900 min-h-screen flex flex-col">
+<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col selection:bg-brand-500 selection:text-white">
 
     <!-- Navbar -->
-    <nav class="bg-slate-900 text-white shadow-lg sticky top-0 z-50">
+    <nav class="bg-slate-900/95 backdrop-blur-md text-white sticky top-0 z-50 border-b border-slate-700/50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-14 sm:h-16">
-                <div class="flex items-center">
-                    <span class="font-bold text-lg sm:text-xl tracking-tight text-white">CHan Analytics</span>
-                    <div class="hidden md:block"><div class="ml-10 flex items-baseline space-x-4"><a href="index.html" class="bg-slate-900 text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Rankings</a><a href="schedule.html" class="text-gray-300 hover:bg-slate-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Today's Games</a><a href="matchup.html" class="text-gray-300 hover:bg-slate-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Matchup Simulator</a><a href="bracketology.html" class="text-gray-300 hover:bg-slate-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Bracketology</a></div></div>
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-3">
+                    <!-- Brand Icon -->
+                    
+                    <span class="font-bold text-lg tracking-tight text-white">CHan Analytics</span>
+                    
+                    <!-- Desktop Nav -->
+                    <div class="hidden md:flex ml-8 space-x-1">
+                        <div class="hidden md:block"><div class="ml-10 flex items-baseline space-x-4"><a href="index.html" class="bg-slate-900 text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Rankings</a><a href="schedule.html" class="text-gray-300 hover:bg-slate-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Today's Games</a><a href="matchup.html" class="text-gray-300 hover:bg-slate-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Matchup Simulator</a><a href="bracketology.html" class="text-gray-300 hover:bg-slate-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Bracketology</a></div></div>
+                    </div>
                 </div>
                 
-                <div class="flex items-center">
-                    <div class="hidden md:block text-xs text-slate-400 mr-4">Updated: <span class="text-white">2026-01-21 16:44 UTC</span></div>
+                <div class="flex items-center gap-4">
+                    <div class="hidden md:block text-xs font-mono text-slate-400 bg-slate-800 px-3 py-1.5 rounded-full border border-slate-700">
+                        <span class="text-brand-500">●</span> Live Update: <span class="text-slate-200">2026-01-21 21:16 UTC</span>
+                    </div>
+
                     <div class="-mr-2 flex md:hidden">
-                        <button type="button" onclick="toggleMenu()" class="bg-slate-800 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-slate-700 focus:outline-none">
+                        <button type="button" onclick="toggleMenu()" class="text-slate-400 hover:text-white p-2">
                             <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
                         </button>
                     </div>
@@ -46,85 +91,102 @@
         <div class="md:hidden" id="mobile-menu"><div class="px-2 pt-2 pb-3 space-y-1 sm:px-3"><a href="index.html" class="bg-slate-900 text-white block px-3 py-2 rounded-md text-base font-medium">Rankings</a><a href="schedule.html" class="text-gray-300 hover:bg-slate-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Today's Games</a><a href="matchup.html" class="text-gray-300 hover:bg-slate-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Matchup Simulator</a><a href="bracketology.html" class="text-gray-300 hover:bg-slate-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Bracketology</a></div></div>
     </nav>
 
-    <!-- Controls Bar -->
-    <div class="bg-white border-b border-gray-200 sticky top-14 sm:top-16 z-40 shadow-sm px-4 py-3">
-        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            
-            <!-- View Buttons & Links -->
-            <div class="flex space-x-2 w-full sm:w-auto overflow-x-auto">
-                <div class="hidden md:flex bg-slate-100 p-1 rounded-lg">
-                    <button onclick="setView('table')" id="btnTable" class="px-4 py-1.5 text-xs font-bold rounded-md shadow-sm bg-white text-slate-900 transition-all">List</button>
-                    <button onclick="setView('chart')" id="btnChart" class="px-4 py-1.5 text-xs font-medium rounded-md text-slate-500 hover:text-slate-900 transition-all">Chart</button>
-                </div>
+    <!-- Sub-Header & Controls -->
+    <div class="bg-white border-b border-slate-200 sticky top-16 z-40 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 
-            </div>
-
-            <!-- Filters -->
-            <div class="flex flex-1 items-center space-x-3 w-full sm:w-auto">
-                <div class="relative w-full">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><svg class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg></div>
-                    <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Search Team..." class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg bg-gray-50 focus:bg-white focus:ring-1 focus:ring-blue-500 sm:text-sm">
+                <div class="flex items-center gap-2 overflow-x-auto pb-1 md:pb-0 hide-scrollbar">
+                    
+                    <div class="hidden md:flex bg-slate-100 p-1 rounded-lg border border-slate-200">
+                        <button onclick="setView('table')" id="btnTable" class="px-4 py-1.5 text-xs font-bold rounded-md shadow-sm bg-white text-slate-900 transition-all">Table</button>
+                        <button onclick="setView('chart')" id="btnChart" class="px-4 py-1.5 text-xs font-medium rounded-md text-slate-500 hover:text-slate-900 transition-all">Scatter</button>
+                    </div>
+                    
+                    <div class="hidden md:block h-6 w-px bg-slate-200 mx-1"></div>
+                    
+                    
                 </div>
-                <select id="confFilter" onchange="filterTable()" class="block w-24 sm:w-32 pl-2 pr-6 py-2 text-xs border-gray-300 rounded-md bg-gray-50 truncate">
-                    <option value="">All Conf</option>
-                    <option value="One-Bid" class="font-bold text-blue-600 bg-blue-50">One-Bid Leagues</option>
-                    <option value="Power 5" class="font-bold text-red-600 bg-red-50">Power 5</option>
-                </select>
-                <label class="inline-flex items-center cursor-pointer ml-2">
-                    <input type="checkbox" id="togglePure" class="form-checkbox h-4 w-4 text-blue-600 rounded" onchange="renderTable()">
-                    <span class="ml-2 text-xs font-medium text-gray-700 hidden sm:block">Pure</span>
-                </label>
+
+                <div class="flex items-center gap-3 w-full md:w-auto">
+
+                <!-- Right: Filters -->
+                <div class="flex items-center gap-3 w-full md:w-auto">
+                    <div class="relative w-full md:w-64 group">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 group-focus-within:text-brand-500">
+                            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                        </div>
+                        <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Find team..." class="block w-full pl-10 pr-3 py-2 border border-slate-200 rounded-lg bg-slate-50 focus:bg-white focus:ring-2 focus:ring-brand-500 focus:border-brand-500 sm:text-sm transition-all">
+                    </div>
+                    
+                    <select id="confFilter" onchange="filterTable()" class="block w-32 pl-2 pr-8 py-2 text-xs border-slate-200 rounded-lg bg-slate-50 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 text-slate-700 font-medium">
+                        <option value="">All Conf</option>
+                    </select>
+                    
+                    <label class="flex items-center cursor-pointer relative" title="Show Pure Ratings (No Preseason Bias)">
+                        <input type="checkbox" id="togglePure" class="sr-only peer" onchange="renderTable()">
+                        <div class="w-9 h-5 bg-slate-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-brand-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-brand-600"></div>
+                        <span class="ml-2 text-xs font-medium text-slate-600 hidden lg:block">Pure</span>
+                    </label>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- Main Content -->
-    <main class="flex-grow max-w-7xl w-full mx-auto px-0 sm:px-6 lg:px-8 py-4 sm:py-6">
+    <main class="flex-grow max-w-7xl w-full mx-auto px-0 sm:px-6 lg:px-8 py-6">
         
         <!-- TABLE VIEW -->
-        <div id="tableView" class="bg-white sm:shadow-lg sm:rounded-xl overflow-hidden border-t sm:border border-gray-200">
+        <div id="tableView" class="bg-white shadow-xl shadow-slate-200/50 sm:rounded-xl overflow-hidden border border-slate-200">
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse whitespace-nowrap text-sm" id="rankingsTable">
-                    <thead class="bg-slate-100 border-b border-gray-200 text-xs uppercase tracking-wider text-slate-500 font-semibold sticky top-0 z-30 shadow-sm">
+                    <thead class="bg-slate-50 border-b border-slate-200 text-xs uppercase tracking-wider text-slate-500 font-bold sticky top-0 z-30 shadow-sm">
                         <tr>
-                            <th class="sticky-col-1 bg-slate-100 px-4 py-3 text-center border-r shadow-sm cursor-pointer hover:bg-slate-200 w-14 min-w-[3.5rem]" onclick="handleSort('Rank', this)">Rk</th>
-                            <th class="sticky-col-2 bg-slate-100 px-4 py-3 text-left border-r shadow-sm cursor-pointer hover:bg-slate-200" onclick="handleSort('Team', this)">Team</th>
-                            <th class="px-3 py-3 text-left border-r border-gray-200 cursor-pointer hover:bg-slate-100 hidden sm:table-cell" onclick="handleSort('Conference', this)">Conf</th>
-                            <th class="px-4 py-3 text-right bg-blue-50/50 cursor-pointer hover:bg-blue-100" onclick="handleSort('AdjEM', this)">AdjEM</th>
-                            <th class="px-4 py-3 text-right bg-orange-50/50 hidden pure-col cursor-pointer hover:bg-orange-100" onclick="handleSort('Pure_AdjEM', this)">Pure</th>
-                            <th class="px-4 py-3 text-right bg-purple-50/50 text-purple-900 cursor-pointer hover:bg-purple-100 border-l border-purple-100" onclick="handleSort('RQ', this)">RQ</th>
-                            <th class="px-4 py-3 text-right bg-gray-50/50 text-slate-800 cursor-pointer hover:bg-gray-100 border-l border-gray-200" onclick="handleSort('Selection_Score', this)"> Sel. Score</th>
-                            <th class="px-4 py-3 text-right cursor-pointer hover:bg-slate-100" onclick="handleSort('AdjO', this)">AdjO</th>
-                            <th class="px-4 py-3 text-right cursor-pointer hover:bg-slate-100" onclick="handleSort('AdjD', this)">AdjD</th>
-                            <th class="px-4 py-3 text-right cursor-pointer hover:bg-slate-100" onclick="handleSort('AdjT', this)">Tempo</th>
-                            <!-- NEW: Consistency Column -->
-                            <th class="px-4 py-3 text-right cursor-pointer hover:bg-slate-100 border-l border-gray-100" onclick="handleSort('Consistency', this)">Cons</th>
-                            <th class="px-4 py-3 text-right cursor-pointer hover:bg-slate-100 border-l border-gray-100" onclick="handleSort('SOS', this)">SOS</th>
-
-
+                            <th class="sticky-col-1 bg-slate-50 px-4 py-4 text-center border-r border-slate-200 cursor-pointer hover:bg-slate-100 w-16" onclick="handleSort('Rank', this)">Rk</th>
+                            <th class="sticky-col-2 bg-slate-50 px-4 py-4 text-left border-r border-slate-200 cursor-pointer hover:bg-slate-100" onclick="handleSort('Team', this)">Team</th>
+                            <th class="px-4 py-4 text-left border-r border-slate-200 cursor-pointer hover:bg-slate-100 hidden sm:table-cell text-slate-400" onclick="handleSort('Conference', this)">Conf</th>
+                            
+                            <th class="px-4 py-4 text-right bg-brand-50/50 text-brand-900 cursor-pointer hover:bg-brand-100" onclick="handleSort('AdjEM', this)">AdjEM</th>
+                            <th class="px-4 py-4 text-right bg-orange-50/50 text-orange-900 hidden pure-col cursor-pointer hover:bg-orange-100" onclick="handleSort('Pure_AdjEM', this)">Pure</th>
+                            <th class="px-4 py-4 text-right bg-purple-50/50 text-purple-900 cursor-pointer hover:bg-purple-100 border-l border-purple-100" onclick="handleSort('RQ', this)">RQ</th>
+                            <th class="px-4 py-4 text-right bg-purple-50/50 text-slate-900 cursor-pointer hover:bg-purple-100 border-l border-purple-100 border-r border-slate-200" onclick="handleSort('SOS', this)">SOS</th>
+                            <th class="px-4 py-4 text-right bg-slate-100 text-slate-800 cursor-pointer hover:bg-slate-200 border-r border-slate-200" onclick="handleSort('Selection_Score', this)">Sel. Score</th>
+                            
+                            <th class="px-4 py-4 text-right text-slate-500 cursor-pointer hover:bg-slate-100" onclick="handleSort('AdjO', this)">AdjO</th>
+                            <th class="px-4 py-4 text-right text-slate-500 cursor-pointer hover:bg-slate-100" onclick="handleSort('AdjD', this)">AdjD</th>
+                            <th class="px-4 py-4 text-right text-slate-500 cursor-pointer hover:bg-slate-100" onclick="handleSort('AdjT', this)">Tempo</th>
+                            <th class="px-4 py-4 text-right text-slate-500 cursor-pointer hover:bg-slate-100 border-l border-slate-200" onclick="handleSort('Consistency', this)">Cons</th>
                         </tr>
                     </thead>
-                    <tbody class="text-sm divide-y divide-gray-100" id="tableBody"></tbody>
+                    <tbody class="divide-y divide-slate-100" id="tableBody"></tbody>
                 </table>
-                <div id="noDataMsg" class="hidden p-8 text-center text-gray-500">No teams found matching your search.</div>
+                <div id="noDataMsg" class="hidden p-12 text-center text-slate-400">
+                    <p class="text-lg font-medium">No teams found.</p>
+                    <p class="text-sm">Try adjusting your filters.</p>
+                </div>
             </div>
         </div>
 
         <!-- CHART VIEW -->
-        <div id="chartView" class="hidden bg-white sm:shadow-lg sm:rounded-xl p-4 border border-gray-200">
-            <div id="chartLoading" class="hidden flex justify-center items-center h-full text-slate-500 font-medium">
-                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                Loading Logos...
+        <div id="chartView" class="hidden bg-white shadow-xl shadow-slate-200/50 sm:rounded-xl p-6 border border-slate-200">
+            <div id="chartLoading" class="hidden flex justify-center items-center h-full text-slate-500 font-medium animate-pulse">
+                Loading Data...
             </div>
             <div class="chart-wrapper"><canvas id="quadrantChart"></canvas></div>
+            <div class="mt-6 flex justify-center gap-8 text-xs text-slate-400 uppercase tracking-widest font-bold">
+                <span class="flex items-center gap-1"><div class="w-2 h-2 rounded-full bg-emerald-500"></div> Elite</span>
+                <span class="flex items-center gap-1"><div class="w-2 h-2 rounded-full bg-blue-500"></div> Good</span>
+                <span class="flex items-center gap-1"><div class="w-2 h-2 rounded-full bg-rose-500"></div> Poor</span>
+            </div>
         </div>
     </main>
 
-    <footer class="bg-white border-t border-gray-200 mt-auto py-6">
-        <div class="max-w-6xl mx-auto px-4 text-center text-slate-400 text-xs">Automated Analysis System</div>
+    <footer class="mt-auto py-8 text-center border-t border-slate-200 bg-white">
+        <p class="text-slate-400 text-xs font-mono">CHan Analytics &bull; Automated Data System</p>
     </footer>
 
     <script>
+        // ... (Keep existing Data Injection) ...
         let rawData = [];
         let conferences = [];
         try {
@@ -132,7 +194,7 @@
             conferences = ["A10", "ACC", "AE", "ASun", "Amer", "B10", "B12", "BE", "BSky", "BSth", "BW", "CAA", "CUSA", "Horz", "Ivy", "MAAC", "MAC", "MEAC", "MVC", "MWC", "NEC", "OVC", "PL", "SB", "SC", "SEC", "SWAC", "Slnd", "Sum", "WAC", "WCC"];
         } catch (e) {
             console.error("Data Injection Failed", e);
-            document.getElementById('tableBody').innerHTML = '<tr><td colspan="12" class="p-4 text-center text-red-600 font-bold">Error loading data. Run build_site.py</td></tr>';
+            document.getElementById('tableBody').innerHTML = '<tr><td colspan="12" class="p-8 text-center text-rose-600 font-bold bg-rose-50">System Error: Data not loaded.</td></tr>';
         }
 
         const MULTI_BID_LEAGUES = ["ACC", "B10", "B12", "SEC", "BE", "MWC", "A10", "Amer", "WCC"];
@@ -145,41 +207,39 @@
         const imageCache = {};
 
         function toggleMenu() { document.getElementById('mobile-menu').classList.toggle('open'); }
-        
-        // Helper to match Python filename logic
-        function getLogoPath(teamName) { 
-            // Replace non-alphanumeric characters with underscores
-            return `logos/${teamName}.png`; 
-        }
+        function getLogoPath(teamName) { return `logos/${teamName}.png`; }
 
-        // --- PRELOAD LOGIC ---
         function preloadLogos() {
-    // Start loading all logos immediately in the background
-    rawData.forEach(row => {
-        if (!imageCache[row.Team]) {
-            // Remove the (20, 20) arguments here
-            const img = new Image(); 
-            img.src = getLogoPath(row.Team);
-            imageCache[row.Team] = img;
+            rawData.forEach(row => {
+                if (!imageCache[row.Team]) {
+                    const img = new Image(); 
+                    img.src = getLogoPath(row.Team);
+                    imageCache[row.Team] = img;
+                }
+            });
         }
-    });
-}
 
         function setView(view) {
+            const t = document.getElementById('tableView');
+            const c = document.getElementById('chartView');
+            const bt = document.getElementById('btnTable');
+            const bc = document.getElementById('btnChart');
+
+            // Toggle Styles
+            const activeStyle = "px-4 py-1.5 text-xs font-bold rounded-md shadow-sm bg-white text-slate-900 transition-all ring-1 ring-black/5";
+            const inactiveStyle = "px-4 py-1.5 text-xs font-medium rounded-md text-slate-500 hover:text-slate-900 transition-all";
+
             if(view === 'table') {
-                document.getElementById('tableView').classList.remove('hidden');
-                document.getElementById('chartView').classList.add('hidden');
-                document.getElementById('btnTable').className = "px-4 py-1.5 text-xs font-bold rounded-md shadow-sm bg-white text-slate-900 transition-all";
-                document.getElementById('btnChart').className = "px-4 py-1.5 text-xs font-medium rounded-md text-slate-500 hover:text-slate-900 transition-all";
+                t.classList.remove('hidden'); c.classList.add('hidden');
+                bt.className = activeStyle; bc.className = inactiveStyle;
             } else {
-                document.getElementById('tableView').classList.add('hidden');
-                document.getElementById('chartView').classList.remove('hidden');
-                document.getElementById('btnChart').className = "px-4 py-1.5 text-xs font-bold rounded-md shadow-sm bg-white text-slate-900 transition-all";
-                document.getElementById('btnTable').className = "px-4 py-1.5 text-xs font-medium rounded-md text-slate-500 hover:text-slate-900 transition-all";
+                t.classList.add('hidden'); c.classList.remove('hidden');
+                bc.className = activeStyle; bt.className = inactiveStyle;
                 initChart();
             }
         }
 
+        // ... (Keep existing initChart logic) ...
         async function initChart() {
             const ctx = document.getElementById('quadrantChart').getContext('2d');
             const loadingEl = document.getElementById('chartLoading');
@@ -191,13 +251,11 @@
             }
             if(chartInstance) chartInstance.destroy();
 
-            // --- 1. DETERMINE SIZE ---
             const count = currentData.length;
-            let radiusSize = 10;  // Default (Small for full league)
-            if (count < 25) radiusSize = 25;       // Huge for Top 25
-            else if (count < 75) radiusSize = 20;  // Medium for Tournament field
-            else if (count < 150) radiusSize = 15; // Moderate for medium filters
-            // ------------------------
+            let radiusSize = 6;
+            if (count < 25) radiusSize = 25;
+            else if (count < 75) radiusSize = 15;
+            else if (count < 150) radiusSize = 10;
 
             const imagePromises = currentData.map(row => {
                 return new Promise((resolve) => {
@@ -218,9 +276,6 @@
 
             const loadedImages = await Promise.all(imagePromises);
 
-            // --- 2. FORCE RESIZE IMAGES ---
-            // Chart.js uses the Image object's width/height properties to draw.
-            // We must explicitly set these to match our desired radius * 2.
             loadedImages.forEach(img => {
                 if (img) {
                     img.width = radiusSize * 2;
@@ -247,13 +302,13 @@
                         label: 'Teams',
                         data: points,
                         pointStyle: pointStyles,
-                        pointRadius: radiusSize, // Controls hover hit area
+                        pointRadius: radiusSize, 
                         hoverRadius: radiusSize + 5,
                         backgroundColor: (ctx) => {
                             const v = ctx.raw?.em || 0;
-                            return v > 15 ? 'rgba(22, 163, 74, 0.5)' : 
-                                   v > 0 ? 'rgba(59, 130, 246, 0.5)' : 
-                                   'rgba(239, 68, 68, 0.5)';
+                            return v > 15 ? 'rgba(16, 185, 129, 0.6)' : 
+                                   v > 0 ? 'rgba(99, 102, 241, 0.6)' : 
+                                   'rgba(244, 63, 94, 0.6)';
                         }
                     }]
                 },
@@ -265,19 +320,25 @@
                         tooltip: {
                             callbacks: {
                                 label: (ctx) => `#${ctx.raw.rank} ${ctx.raw.team} (${ctx.raw.conf})`
-                            }
+                            },
+                            backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                            titleFont: { family: 'Inter', size: 13 },
+                            bodyFont: { family: 'Inter', size: 12 },
+                            padding: 10,
+                            cornerRadius: 8,
+                            displayColors: false
                         },
                         legend: { display: false }
                     },
                     scales: {
                         x: { 
-                            title: { display: true, text: 'Adjusted Offense' },
-                            grid: { color: (ctx) => Math.abs(ctx.tick.value - avgO) < 1 ? '#000' : '#e2e8f0' }
+                            title: { display: true, text: 'Adjusted Offense', color: '#64748b', font: { family: 'Inter', weight: 'bold' } },
+                            grid: { color: (ctx) => Math.abs(ctx.tick.value - avgO) < 1 ? '#94a3b8' : '#f1f5f9', lineWidth: (ctx) => Math.abs(ctx.tick.value - avgO) < 1 ? 2 : 1 }
                         },
                         y: { 
-                            title: { display: true, text: 'Adjusted Defense' },
+                            title: { display: true, text: 'Adjusted Defense', color: '#64748b', font: { family: 'Inter', weight: 'bold' } },
                             reverse: true,
-                            grid: { color: (ctx) => Math.abs(ctx.tick.value - avgD) < 1 ? '#000' : '#e2e8f0' }
+                            grid: { color: (ctx) => Math.abs(ctx.tick.value - avgD) < 1 ? '#94a3b8' : '#f1f5f9', lineWidth: (ctx) => Math.abs(ctx.tick.value - avgD) < 1 ? 2 : 1 }
                         }
                     }
                 }
@@ -285,9 +346,7 @@
         }
 
         window.onload = function() {
-            // Trigger preload immediately
             preloadLogos();
-
             const sel = document.getElementById('confFilter');
             if(conferences) {
                 conferences.forEach(c => {
@@ -298,6 +357,7 @@
             renderTable();
         };
 
+        // ... (Keep sort/filter logic same as before, just updated visually) ...
         function handleSort(col, el) {
             if (sortCol === col) sortAsc = !sortAsc;
             else {
@@ -310,15 +370,12 @@
         function filterTable() {
             const query = document.getElementById('searchInput').value.toLowerCase();
             const conf = document.getElementById('confFilter').value;
-
             currentData = rawData.filter(row => {
                 const matchesName = row.Team.toLowerCase().includes(query);
                 let matchesConf = false;
-                
                 if (conf === "One-Bid") matchesConf = !MULTI_BID_LEAGUES.includes(row.Conference);
                 else if (conf === "Power 5") matchesConf = POWER_5_LEAGUES.includes(row.Conference);
                 else matchesConf = conf === "" || row.Conference === conf;
-                
                 return matchesName && matchesConf;
             });
             renderTable();
@@ -336,57 +393,101 @@
             else { noData.classList.add('hidden'); }
 
             currentData.sort((a, b) => {
-                let valA = a[sortCol];
-                let valB = b[sortCol];
-
-                // Handle null/undefined
-                if (valA === null || valA === undefined) return 1;
-                if (valB === null || valB === undefined) return -1;
-
-                // If it's a string (Team name or Conference), use localeCompare
-                if (typeof valA === 'string') {
-                    return sortAsc ? valA.localeCompare(valB) : valB.localeCompare(valA);
-                }
-
-                // Otherwise, treat as numbers (SOS, AdjEM, etc.)
+                let valA = a[sortCol] || "", valB = b[sortCol] || "";
+                if (typeof valA === 'string') return sortAsc ? valA.localeCompare(valB) : valB.localeCompare(valA);
                 return sortAsc ? valA - valB : valB - valA;
             });
 
             document.querySelectorAll('th').forEach(th => {
-                th.classList.remove('sort-asc', 'sort-desc');
-                if (th.getAttribute('onclick').includes(`'${sortCol}'`)) th.classList.add(sortAsc ? 'sort-asc' : 'sort-desc');
+                th.classList.remove('text-brand-600', 'bg-slate-100'); // Clean old sorts
+                if (th.getAttribute('onclick').includes(`'${sortCol}'`)) {
+                    th.classList.add('text-brand-600', 'bg-slate-100'); // Add active color
+                }
             });
+
+            // Calculate colors based on rank
+            const totalRows = rawData.length || 362;
 
             let html = '';
             currentData.forEach(row => {
-                const emColor = row.AdjEM > 0 ? 'text-green-600' : 'text-red-600';
-                const pureColor = row.Pure_AdjEM > 0 ? 'text-green-600' : 'text-red-600';
-                const pureDisplay = showPure ? '' : 'display:none;';
-                const wabColor = row.RQ > 0 ? 'text-green-600' : 'text-red-600';
-                
+                // Color Logic
+                const emColor = row.AdjEM > 0 ? 'text-emerald-600' : 'text-rose-600';
+                const wabColor = row.RQ > 0 ? 'text-emerald-600' : 'text-rose-600';
                 const consVal = row.Consistency || 50.0;
                 const consColor = consVal > 80 ? 'text-emerald-600' : (consVal < 60 ? 'text-rose-600' : 'text-slate-500');
                 const scoreVal = (row.Selection_Score || 0).toFixed(1);
-                const sosColor = row.SOS < 0 ? 'text-red-600' : 'text-green-600';
+                const sosVal = row.SOS ? row.SOS.toFixed(2) : '-';
+                
+                // Rank Color Gradient (Subtle background tint for Rank column)
+                // Green (Top) -> Yellow (Mid) -> Red (Bottom)
+                const rankRatio = (row.Rank - 1) / (totalRows - 1);
+                const hue = Math.pow(1 - rankRatio,3) * 120; 
+                const rankBg = `background-color: hsla(${hue}, 80%, 96%, 1);`;
+                const adjEmStyle = `color: hsla(${hue}, 100%, 35%, 1);`;                
+                
+                const rqratio =(row.Rank_RQ -1) / (totalRows -1);
+                const rqhue = Math.pow(1 - rqratio,3) * 120;
+                const rqStyle = `color: hsla(${rqhue}, 100%, 35%, 1);`;
+                
+                const sosratio =(row.Rank_SOS -1) / (totalRows -1);
+                const soshue = Math.pow(1 - sosratio,3) * 120;
+                const sosStyle = `color: hsla(${soshue}, 100%, 35%, 1);`;
 
+                const adjoratio =(row.Rank_AdjO -1) / (totalRows -1);
+                const adjorhue = Math.pow(1 - adjoratio,3) * 120;
+                const adjOStyle = `color: hsla(${adjorhue}, 100%, 35%, 1);`;
+
+                const adjdratio =(row.Rank_AdjD -1) / (totalRows -1);
+                const adjdhue = Math.pow(1 - adjdratio,3) * 120;
+                const adjDStyle = `color: hsla(${adjdhue}, 100%, 35%, 1);`;
                 html += `
-                <tr class="hover:bg-blue-50/50 transition-colors group">
-                    <td class="sticky-col-1 bg-opaque px-4 py-3 font-bold text-gray-500 text-center border-r border-gray-100 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] text-xs sm:text-sm">${row.Rank}</td>
-                    <td class="sticky-col-2 bg-opaque px-4 py-3 text-gray-900 font-medium border-r border-gray-100 whitespace-nowrap shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] text-xs sm:text-sm">
-                        <a href="${row.Link}" class="text-blue-600 hover:text-blue-800 hover:underline block w-full">${row.Team}</a>
-                    </td>
-                    <td class="px-3 py-3 text-gray-500 text-left border-r border-gray-100 hidden sm:table-cell text-xs">${row.Conference || '-'}</td>
-                    <td class="px-4 py-3 font-bold ${emColor} text-right bg-blue-50/20 text-xs sm:text-sm">${row.AdjEM.toFixed(2)}</td>
-                  <td class="px-4 py-3 font-bold ${pureColor} text-right bg-orange-50/20 text-xs sm:text-sm pure-col" style="${pureDisplay}">${row.Pure_AdjEM.toFixed(2)}</td>
-                    <td class="px-4 py-3 font-bold ${wabColor} text-right bg-purple-50/20 text-xs sm:text-sm border-l border-purple-100">${(row.RQ || 0).toFixed(2)}<span class="text-[10px] text-gray-400 ml-1 font-normal">${row.Rank_RQ || '-'}</span></td>
-                    <td class="px-4 py-3 font-bold text-slate-700 text-right bg-gray-50/50 text-xs sm:text-sm border-l border-gray-100">${scoreVal}<span class="text-[10px] text-gray-400 ml-1 font-normal">${row.Rank_SLS || '-'}</span></td>
-
-                    <td class="px-4 py-3 text-gray-600 text-right text-xs sm:text-sm">${row.AdjO.toFixed(1)} <span class="text-[10px] text-gray-400 ml-1 font-normal">${row.Rank_AdjO || '-'}</span></td>
-                    <td class="px-4 py-3 text-gray-600 text-right text-xs sm:text-sm">${row.AdjD.toFixed(1)} <span class="text-[10px] text-gray-400 ml-1 font-normal">${row.Rank_AdjD || '-'}</span></td>
-                    <td class="px-4 py-3 text-gray-600 text-right text-xs sm:text-sm">${row.AdjT.toFixed(1)} <span class="text-[10px] text-gray-400 ml-1 font-normal">${row.Rank_AdjT || '-'}</span></td>
+                <tr class="hover:bg-slate-50 transition-colors group border-b border-slate-50">
                     
-                    <td class="px-4 py-3 font-bold  text-gray-600 text-right text-xs sm:text-sm border-l border-gray-100">${consVal.toFixed(1)}<span class="text-[10px] text-gray-400 ml-1 font-normal">${row.Rank_Consistency || '-'}</span></td>
-                    <td class="px-4 py-3 font-bold ${sosColor} text-right text-xs sm:text-sm">${row.SOS.toFixed(2)} <span class="text-[10px] text-gray-400 ml-1 font-normal">${row.Rank_SOS || '-'}</span></td>
+                    <!-- RANK (Colored Badge) -->
+                    <td class="sticky-col-1 bg-opaque px-4 py-3 text-center border-r border-slate-100 shadow-sm">
+                        <span class="inline-block w-8 py-0.5 rounded text-xs font-bold border border-black/5" style="${rankBg} color: hsla(${hue}, 100%, 25%, 1);">${row.Rank}</span>
+                    </td>
+                    
+                    <!-- TEAM (Logo + Name) -->
+                    <td class="sticky-col-2 bg-opaque px-4 py-3 font-medium text-slate-900 border-r border-slate-100 shadow-sm text-sm">
+                        <a href="${row.Link}" class="flex items-center gap-3 hover:text-brand-600 transition-colors block w-full">
+                            <img src="${getLogoPath(row.Team)}" class="w-6 h-6 object-contain" alt="" onerror="this.style.display='none'">
+                            <span class="truncate">${row.Team}</span>
+                        </a>
+                    </td>
+                    
+                    <td class="px-4 py-3 text-slate-500 text-left border-r border-slate-100 hidden sm:table-cell text-xs font-mono tracking-tight">${row.Conference || '-'}</td>
+                    
+                    <td class="px-4 py-3 font-bold text-right bg-blue-50/20 text-xs sm:text-sm font-mono" style="${adjEmStyle}">
+                        ${row.AdjEM.toFixed(2)}
+                    </td>                    
+                    <td class="px-4 py-3 font-bold text-orange-600 text-right bg-orange-50/20 text-sm font-mono pure-col" style="${showPure ? '' : 'display:none'}">${row.Pure_AdjEM.toFixed(2)}</td>
+                    
+                    <td class="px-4 py-3 font-bold text-right bg-blue-50/20 text-xs sm:text-sm font-mono " style="${rqStyle}">
+                        ${row.RQ.toFixed(2)}
+                        <span class="text-[10px] text-slate-400 ml-1 font-mono">${row.Rank_RQ || '-'}</span>
+                    </td>  
+                    
+                    <td class="px-4 py-3 font-bold text-right bg-blue-50/20 text-xs sm:text-sm font-mono" style="${sosStyle}">
+                        ${row.SOS.toFixed(2)}
+                        <span class="text-[10px] text-slate-400 ml-1 font-mono">${row.Rank_SOS || '-'}</span>
+                    </td> 
+                    <!-- SOS -->
+                    <!-- Selection Score -->
+                    <td class="px-4 py-3 font-bold text-slate-800 text-right bg-slate-100/50 text-sm font-mono border-l border-slate-200">${scoreVal}<span class="text-[10px] text-slate-400 ml-0.5">${row.Rank_SLS || '-'}</span></td>
+                    
+
+                    <td class="px-4 py-3  text-right bg-blue-50/20 text-xs sm:text-sm font-mono" style="${adjOStyle}">
+                        ${row.AdjO.toFixed(2)}
+                        <span class="text-[10px] text-slate-400 ml-1 font-mono">${row.Rank_AdjO || '-'}</span>
+                    </td> 
+                    <td class="px-4 py-3  text-right bg-blue-50/20 text-xs sm:text-sm font-mono" style="${adjDStyle}">
+                        ${row.AdjD.toFixed(2)}
+                        <span class="text-[10px] text-slate-400 ml-1 font-mono">${row.Rank_AdjD || '-'}</span>
+                    </td> 
+                    <td class="px-4 py-3 text-slate-600 text-right text-sm font-mono">${row.AdjT.toFixed(1)} <span class="text-[10px] text-slate-400 ml-0.5">${row.Rank_AdjT || '-'}</span></td>
+                    
+                    <td class="px-4 py-3 font-bold ${consColor} text-right text-sm font-mono border-l border-slate-100">${consVal.toFixed(1)}<span class="text-[10px] text-slate-400 ml-0.5">${row.Rank_Consistency || '-'}</span></td>
                 </tr>`;
             });
             tbody.innerHTML = html;

@@ -141,6 +141,12 @@ def generate_teams_js(df_ratings, df_scores):
     print("Generating Team Data JS (SPA)...")
     teams_dict = {}
     
+    if df_conf is not None:
+        df_ratings = df_ratings.merge(df_conf, on='Team', how='left')
+        df_ratings['Conference'] = df_ratings['Conference'].fillna('Unknown')
+    else:
+        df_ratings['Conference'] = '-'
+    
     em_col = 'AdjEM' if 'AdjEM' in df_ratings.columns else 'Blended_AdjEM'
     ratings_map = df_ratings.set_index('Team')[em_col].to_dict()
     

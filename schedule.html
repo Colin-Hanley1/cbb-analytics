@@ -3,31 +3,57 @@
 <head>
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Today's Predictions | CHan Analytics</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Today's Games | CHan Analytics</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        brand: { 500: '#6366f1', 600: '#4f46e5', 900: '#312e81' }
+                    }
+                }
+            }
+        }
+    </script>
     <style> 
-        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; }
-        .font-mono { font-family: 'Roboto Mono', monospace; }
-        #mobile-menu { display: none; }
+        body { -webkit-font-smoothing: antialiased; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        #mobile-menu { display: none; transition: all 0.3s; }
         #mobile-menu.open { display: block; }
     </style>
 </head>
-<body class="text-slate-900 min-h-screen flex flex-col">
+<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col selection:bg-brand-500 selection:text-white">
 
     <!-- Navbar -->
-    <nav class="bg-slate-900/95 backdrop-blur-md text-white shadow-lg sticky top-0 z-50">
+    <nav class="bg-slate-900/95 backdrop-blur-md text-white shadow-lg sticky top-0 z-50 border-b border-slate-700/50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
-                <div class="flex items-center space-x-4">
-                    <span class="font-bold text-xl tracking-tight text-white">CHan Analytics</span>
-                    <div class="hidden md:block"><div class="ml-10 flex items-baseline space-x-4"><a href="index.html" class="text-gray-300 hover:bg-slate-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Rankings</a><a href="schedule.html" class="bg-slate-900 text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Today's Games</a><a href="matchup.html" class="text-gray-300 hover:bg-slate-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Matchup Simulator</a><a href="bracketology.html" class="text-gray-300 hover:bg-slate-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Bracketology</a></div></div>
+                <div class="flex items-center gap-3">
+                    <span class="font-bold text-lg tracking-tight text-white">CHan Analytics</span>
+                    <div class="hidden md:flex ml-8 space-x-1">
+                        <div class="hidden md:block"><div class="ml-10 flex items-baseline space-x-4"><a href="index.html" class="text-gray-300 hover:bg-slate-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Rankings</a><a href="schedule.html" class="bg-slate-900 text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Today's Games</a><a href="matchup.html" class="text-gray-300 hover:bg-slate-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Matchup Simulator</a><a href="bracketology.html" class="text-gray-300 hover:bg-slate-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Bracketology</a></div></div>
+                    </div>
                 </div>
-                <div class="-mr-2 flex md:hidden">
-                    <button type="button" onclick="toggleMenu()" class="bg-slate-800 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-slate-700 focus:outline-none">
-                        <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
-                    </button>
+                
+                <div class="flex items-center gap-4">
+                    <div class="hidden md:block text-xs font-mono text-slate-400 bg-slate-800 px-3 py-1.5 rounded-full border border-slate-700">
+                        <span class="text-brand-500">●</span> Updated: <span class="text-slate-200">2026-01-21 21:16 UTC</span>
+                    </div>
+                    <div class="-mr-2 flex md:hidden">
+                        <button type="button" onclick="toggleMenu()" class="text-slate-400 hover:text-white p-2">
+                            <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -39,29 +65,29 @@
         <!-- Header & Search -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
             <div>
-                <h1 class="text-2xl font-bold text-slate-900">Today's Projections</h1>
-                <p class="text-sm text-slate-500 mt-1">Projected scores and spreads for today's slate.</p>
+                <h1 class="text-3xl font-bold text-slate-900 tracking-tight">Today's Slate</h1>
+                <p class="text-sm text-slate-500 mt-1">Projected scores, spreads, and win probabilities.</p>
             </div>
             
-            <div class="relative w-full sm:w-72">
-                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <svg class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div class="relative w-full sm:w-72 group">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 group-focus-within:text-brand-500">
+                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                 </div>
-                <input type="text" id="scheduleSearch" onkeyup="filterSchedule()" placeholder="Search teams..." 
-                    class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm shadow-sm transition duration-150 ease-in-out">
+                <input type="text" id="scheduleSearch" onkeyup="filterSchedule()" placeholder="Find a game..." 
+                    class="block w-full pl-10 pr-3 py-2 border border-slate-200 rounded-lg bg-white focus:ring-2 focus:ring-brand-500 focus:border-brand-500 sm:text-sm shadow-sm transition-all">
             </div>
         </div>
 
         <!-- Table Card -->
-        <div class="bg-white shadow-xl rounded-xl overflow-hidden border border-gray-200">
+        <div class="bg-white shadow-xl shadow-slate-200/50 rounded-2xl overflow-hidden border border-slate-200">
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse whitespace-nowrap text-sm" id="scheduleTable">
-                    <thead class="bg-slate-50 border-b border-gray-200 text-xs uppercase tracking-wider text-slate-500 font-bold">
+                    <thead class="bg-slate-50 border-b border-slate-200 text-xs uppercase tracking-wider text-slate-500 font-bold">
                         <tr>
                             <th class="px-6 py-4">Home Team</th>
-                            <th class="px-6 py-4 text-center">v</th>
+                            <th class="px-2 py-4 text-center text-slate-300 font-light">vs</th>
                             <th class="px-6 py-4">Away Team</th>
                             <th class="px-6 py-4 text-right">Home Score</th>
                             <th class="px-6 py-4 text-right">Away Score</th>
@@ -69,23 +95,22 @@
                             <th class="px-6 py-4 text-right">Win Prob</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-gray-100 bg-white" id="scheduleBody">
+                    <tbody class="divide-y divide-slate-100 bg-white" id="scheduleBody">
                         <!-- Rows injected by JS -->
                     </tbody>
                 </table>
                 
                 <!-- Empty State -->
-                <div id="noGamesMsg" class="hidden p-12 text-center text-gray-500">
-                    <p class="font-medium">No games found.</p>
+                <div id="noGamesMsg" class="hidden p-12 text-center text-slate-400">
+                    <p class="font-medium text-lg">No games found.</p>
+                    <p class="text-sm">Check back later or adjust your search.</p>
                 </div>
             </div>
         </div>
     </main>
 
-    <footer class="bg-white border-t border-gray-200 mt-auto py-6">
-        <div class="max-w-6xl mx-auto px-4 text-center text-slate-400 text-xs">
-            Automated Analysis System
-        </div>
+    <footer class="mt-auto py-8 text-center border-t border-slate-200 bg-white">
+        <p class="text-slate-400 text-xs font-mono">CHan Analytics &bull; Automated Data System</p>
     </footer>
 
     <!-- Load Ratings Data -->
@@ -93,7 +118,12 @@
 
     <script>
         // --- FIX IS HERE: Double Braces ---
-        const games = [{"away": "Cincinnati", "home": "Arizona"}, {"away": "Washington", "home": "Nebraska"}, {"away": "Pepperdine", "home": "Gonzaga"}, {"away": "Maryland", "home": "Illinois"}, {"away": "Notre Dame", "home": "North Carolina"}, {"away": "Colgate", "home": "American"}, {"away": "Pittsburgh", "home": "Boston College"}, {"away": "Lafayette", "home": "Boston University"}, {"away": "Army", "home": "Bucknell"}, {"away": "Gardner Webb", "home": "Longwood"}, {"away": "Western Carolina", "home": "Mercer"}, {"away": "IU Indy", "home": "Oakland"}, {"away": "Charleston Southern", "home": "Presbyterian"}, {"away": "Rhode Island", "home": "Richmond"}, {"away": "Virginia Tech", "home": "Syracuse"}, {"away": "Georgetown", "home": "Villanova"}, {"away": "UNC Greensboro", "home": "VMI"}, {"away": "Samford", "home": "Wofford"}, {"away": "Indiana St.", "home": "Bradley"}, {"away": "Murray St.", "home": "Drake"}, {"away": "Northern Iowa", "home": "Illinois St."}, {"away": "Temple", "home": "Rice"}, {"away": "Kennesaw St.", "home": "Sam Houston St."}, {"away": "Tarleton St.", "home": "UT Arlington"}, {"away": "Southern Illinois", "home": "Valparaiso"}, {"away": "East Carolina", "home": "Wichita St."}, {"away": "West Virginia", "home": "Arizona St."}, {"away": "Washington St.", "home": "San Diego"}, {"away": "Northwestern", "home": "USC"}, {"away": "Dayton", "home": "La Salle"}, {"away": "Radford", "home": "Winthrop"}, {"away": "East Tennessee St.", "home": "Chattanooga"}, {"away": "Furman", "home": "The Citadel"}, {"away": "Xavier", "home": "Creighton"}, {"away": "Fordham", "home": "Davidson"}, {"away": "Purdue Fort Wayne", "home": "Detroit Mercy"}, {"away": "Tulane", "home": "Florida Atlantic"}, {"away": "Texas", "home": "Kentucky"}, {"away": "Holy Cross", "home": "Navy"}, {"away": "Troy", "home": "Old Dominion"}, {"away": "North Alabama", "home": "Queens"}, {"away": "UNC Asheville", "home": "USC Upstate"}, {"away": "Liberty", "home": "Western Kentucky"}, {"away": "Cleveland St.", "home": "Wright St."}, {"away": "South Dakota", "home": "Nebraska Omaha"}, {"away": "UTSA", "home": "North Texas"}, {"away": "Utah Valley", "home": "Southern Utah"}, {"away": "Memphis", "home": "Tulsa"}, {"away": "Fresno St.", "home": "New Mexico"}, {"away": "Mississippi St.", "home": "Texas A&M"}, {"away": "Utah Tech", "home": "Cal Baptist"}, {"away": "Loyola Marymount", "home": "Seattle"}, {"away": "San Diego St.", "home": "Grand Canyon"}, {"away": "Oregon St.", "home": "Saint Mary's"}];
+        let games = [];
+        try {
+            games = [{"away": "Cincinnati", "home": "Arizona"}, {"away": "Washington", "home": "Nebraska"}, {"away": "Pepperdine", "home": "Gonzaga"}, {"away": "Maryland", "home": "Illinois"}, {"away": "Notre Dame", "home": "North Carolina"}, {"away": "Colgate", "home": "American"}, {"away": "Pittsburgh", "home": "Boston College"}, {"away": "Lafayette", "home": "Boston University"}, {"away": "Army", "home": "Bucknell"}, {"away": "Gardner Webb", "home": "Longwood"}, {"away": "Western Carolina", "home": "Mercer"}, {"away": "IU Indy", "home": "Oakland"}, {"away": "Charleston Southern", "home": "Presbyterian"}, {"away": "Rhode Island", "home": "Richmond"}, {"away": "Virginia Tech", "home": "Syracuse"}, {"away": "Georgetown", "home": "Villanova"}, {"away": "UNC Greensboro", "home": "VMI"}, {"away": "Samford", "home": "Wofford"}, {"away": "Indiana St.", "home": "Bradley"}, {"away": "Murray St.", "home": "Drake"}, {"away": "Northern Iowa", "home": "Illinois St."}, {"away": "Temple", "home": "Rice"}, {"away": "Kennesaw St.", "home": "Sam Houston St."}, {"away": "Tarleton St.", "home": "UT Arlington"}, {"away": "Southern Illinois", "home": "Valparaiso"}, {"away": "East Carolina", "home": "Wichita St."}, {"away": "West Virginia", "home": "Arizona St."}, {"away": "Washington St.", "home": "San Diego"}, {"away": "Northwestern", "home": "USC"}, {"away": "Dayton", "home": "La Salle"}, {"away": "Radford", "home": "Winthrop"}, {"away": "East Tennessee St.", "home": "Chattanooga"}, {"away": "Furman", "home": "The Citadel"}, {"away": "Xavier", "home": "Creighton"}, {"away": "Fordham", "home": "Davidson"}, {"away": "Purdue Fort Wayne", "home": "Detroit Mercy"}, {"away": "Tulane", "home": "Florida Atlantic"}, {"away": "Texas", "home": "Kentucky"}, {"away": "Holy Cross", "home": "Navy"}, {"away": "Troy", "home": "Old Dominion"}, {"away": "North Alabama", "home": "Queens"}, {"away": "UNC Asheville", "home": "USC Upstate"}, {"away": "Liberty", "home": "Western Kentucky"}, {"away": "Cleveland St.", "home": "Wright St."}, {"away": "South Dakota", "home": "Nebraska Omaha"}, {"away": "UTSA", "home": "North Texas"}, {"away": "Utah Valley", "home": "Southern Utah"}, {"away": "Memphis", "home": "Tulsa"}, {"away": "Fresno St.", "home": "New Mexico"}, {"away": "Mississippi St.", "home": "Texas A&M"}, {"away": "Utah Tech", "home": "Cal Baptist"}, {"away": "Loyola Marymount", "home": "Seattle"}, {"away": "San Diego St.", "home": "Grand Canyon"}, {"away": "Oregon St.", "home": "Saint Mary's"}];
+        } catch (e) {
+            console.error("Games JSON failed to load", e);
+        }
         
         const tbody = document.getElementById('scheduleBody');
         const noGamesMsg = document.getElementById('noGamesMsg');
@@ -119,7 +149,7 @@
 
             // Safety check for TEAMS_DATA
             if (typeof TEAMS_DATA === 'undefined') {
-                noGamesMsg.innerHTML = "<p class='text-red-600'>Error: Team Ratings data not loaded.</p>";
+                noGamesMsg.innerHTML = "<p class='text-rose-600 font-bold'>Error: Team Ratings data not loaded.</p>";
                 noGamesMsg.classList.remove('hidden');
                 return;
             }
@@ -159,36 +189,45 @@
                 const wpAway = 1 - wpHome;
                 
                 const winnerProb = margin > 0 ? wpHome : wpAway;
-                const probDisplay = (winnerProb * 100).toFixed(2) + "%";
+                const probDisplay = (winnerProb * 100).toFixed(1) + "%";
                 const winnerName = margin > 0 ? homeTeam : awayTeam;
                 
-                const homeNameClass = margin > 0 ? "text-emerald-700 font-bold" : "text-rose-700 font-medium";
-                const awayNameClass = margin < 0 ? "text-emerald-700 font-bold" : "text-rose-700 font-medium";
+                // --- STYLING LOGIC ---
+                const homeNameClass = margin > 0 ? "text-emerald-600 font-bold" : "text-red-600 font-medium";
+                const awayNameClass = margin < 0 ? "text-emerald-600 font-bold" : "text-red-600 font-medium";
                 
-                const spreadColor = "text-blue-600"; 
+                // Scores: Winner gets color, Loser gets gray
+                const homeScoreClass = margin > 0 ? "text-emerald-600 font-bold" : "text-red-600";
+                const awayScoreClass = margin < 0 ? "text-emerald-600 font-bold" : "text-red-600";
+                
+                const spreadColor = "text-brand-600"; 
                 const probColor = "text-slate-700";
 
                 rows += `
-                <tr class="hover:bg-slate-50 transition-colors group">
-                    <td class="px-6 py-4 border-r border-transparent group-hover:border-slate-100">
-                        <a href="team.html?q=${encodeURIComponent(homeTeam)}" class="hover:text-blue-600 hover:underline decoration-2 underline-offset-2 ${homeNameClass}">${homeTeam}</a>
-                        <span class="text-xs text-slate-400 ml-1 font-mono">#${home.rank}</span>
+                <tr class="hover:bg-slate-50 transition-colors group border-b border-slate-50">
+                    <!-- Home Team -->
+                    <td class="px-6 py-4 border-r border-slate-100/50">
+                        <a href="team.html?q=${encodeURIComponent(homeTeam)}" class="hover:text-brand-600 hover:underline decoration-2 underline-offset-2 ${homeNameClass} block">${homeTeam}</a>
+                        <span class="text-[10px] text-slate-400 font-mono tracking-wide">#${home.rank}</span>
                     </td>
                     
-                    <td class="px-2 py-4 text-center text-xs text-slate-300">vs</td>
+                    <td class="px-2 py-4 text-center text-xs text-slate-300 font-bold">vs</td>
                     
-                    <td class="px-6 py-4 border-r border-transparent group-hover:border-slate-100">
-                        <a href="team.html?q=${encodeURIComponent(awayTeam)}" class="hover:text-blue-600 hover:underline decoration-2 underline-offset-2 ${awayNameClass}">${awayTeam}</a>
-                        <span class="text-xs text-slate-400 ml-1 font-mono">#${away.rank}</span>
+                    <!-- Away Team -->
+                    <td class="px-6 py-4 border-l border-slate-100/50">
+                        <a href="team.html?q=${encodeURIComponent(awayTeam)}" class="hover:text-brand-600 hover:underline decoration-2 underline-offset-2 ${awayNameClass} block">${awayTeam}</a>
+                        <span class="text-[10px] text-slate-400 font-mono tracking-wide">#${away.rank}</span>
                     </td>
 
-                    <td class="px-6 py-4 text-right font-mono text-base text-slate-700">${scoreHome}</td>
-                    <td class="px-6 py-4 text-right font-mono text-base text-slate-700">${scoreAway}</td>
+                    <!-- Scores -->
+                    <td class="px-6 py-4 text-right font-mono text-base ${homeScoreClass} border-l border-slate-100/50">${scoreHome}</td>
+                    <td class="px-6 py-4 text-right font-mono text-base ${awayScoreClass}">${scoreAway}</td>
                     
-                    <td class="px-6 py-4 text-right font-bold ${spreadColor} text-sm">${spreadDisplay}</td>
-                    <td class="px-6 py-4 text-right font-mono ${probColor} font-bold">
-                        ${probDisplay} 
-                        <span class="text-[10px] text-slate-400 font-sans font-medium uppercase ml-1">${winnerName}</span>
+                    <!-- Stats -->
+                    <td class="px-6 py-4 text-right font-bold ${spreadColor} text-sm font-mono border-l border-slate-100">${spreadDisplay}</td>
+                    <td class="px-6 py-4 text-right">
+                        <div class="font-mono ${probColor} font-bold">${probDisplay}</div>
+                        <div class="text-[10px] text-slate-400 font-medium uppercase tracking-wide">${winnerName}</div>
                     </td>
                 </tr>
                 `;
@@ -196,7 +235,7 @@
             
             if (!gamesFound) {
                  tbody.innerHTML = "";
-                 noGamesMsg.innerText = "Schedule loaded, but team ratings not found.";
+                 noGamesMsg.innerText = "Schedule loaded, but matched team ratings not found.";
                  noGamesMsg.classList.remove('hidden');
             } else {
                  tbody.innerHTML = rows;
