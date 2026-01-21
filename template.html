@@ -99,6 +99,8 @@
                             <th class="px-4 py-3 text-right cursor-pointer hover:bg-slate-100" onclick="handleSort('AdjT', this)">Tempo</th>
                             <!-- NEW: Consistency Column -->
                             <th class="px-4 py-3 text-right cursor-pointer hover:bg-slate-100 border-l border-gray-100" onclick="handleSort('Consistency', this)">Cons</th>
+                            <th class="px-4 py-3 text-right cursor-pointer hover:bg-slate-100 border-l border-gray-100" onclick="handleSort('SOS', this)">SOS</th>
+
 
                         </tr>
                     </thead>
@@ -300,7 +302,7 @@
             if (sortCol === col) sortAsc = !sortAsc;
             else {
                 sortCol = col;
-                sortAsc = (col === 'Rank' || col === 'Team' || col === 'AdjD' || col === 'Conference');
+                sortAsc = (col === 'Rank' || col === 'Team' || col === 'AdjD' || col === 'Conference' || col == 'SOS');
             }
             renderTable();
         }
@@ -334,8 +336,19 @@
             else { noData.classList.add('hidden'); }
 
             currentData.sort((a, b) => {
-                let valA = a[sortCol] || "", valB = b[sortCol] || "";
-                if (typeof valA === 'string') return sortAsc ? valA.localeCompare(valB) : valB.localeCompare(valA);
+                let valA = a[sortCol];
+                let valB = b[sortCol];
+
+                // Handle null/undefined
+                if (valA === null || valA === undefined) return 1;
+                if (valB === null || valB === undefined) return -1;
+
+                // If it's a string (Team name or Conference), use localeCompare
+                if (typeof valA === 'string') {
+                    return sortAsc ? valA.localeCompare(valB) : valB.localeCompare(valA);
+                }
+
+                // Otherwise, treat as numbers (SOS, AdjEM, etc.)
                 return sortAsc ? valA - valB : valB - valA;
             });
 
@@ -364,7 +377,7 @@
                     <td class="px-3 py-3 text-gray-500 text-left border-r border-gray-100 hidden sm:table-cell text-xs">${row.Conference || '-'}</td>
                     <td class="px-4 py-3 font-bold ${emColor} text-right bg-blue-50/20 text-xs sm:text-sm">${row.AdjEM.toFixed(2)}</td>
                   <td class="px-4 py-3 font-bold ${pureColor} text-right bg-orange-50/20 text-xs sm:text-sm pure-col" style="${pureDisplay}">${row.Pure_AdjEM.toFixed(2)}</td>
-                    <td class="px-4 py-3 font-bold ${wabColor} text-right bg-purple-50/20 text-xs sm:text-sm border-l border-purple-100">${(row.RQ || 0).toFixed(2)}<span class="text-[10px] text-gray-400 ml-1 font-normal">${row.Rank_WAB || '-'}</span></td>
+                    <td class="px-4 py-3 font-bold ${wabColor} text-right bg-purple-50/20 text-xs sm:text-sm border-l border-purple-100">${(row.RQ || 0).toFixed(2)}<span class="text-[10px] text-gray-400 ml-1 font-normal">${row.Rank_RQ || '-'}</span></td>
                     <td class="px-4 py-3 font-bold text-slate-700 text-right bg-gray-50/50 text-xs sm:text-sm border-l border-gray-100">${scoreVal}<span class="text-[10px] text-gray-400 ml-1 font-normal">${row.Rank_SLS || '-'}</span></td>
 
                     <td class="px-4 py-3 text-gray-600 text-right text-xs sm:text-sm">${row.AdjO.toFixed(1)} <span class="text-[10px] text-gray-400 ml-1 font-normal">${row.Rank_AdjO || '-'}</span></td>
@@ -372,6 +385,7 @@
                     <td class="px-4 py-3 text-gray-600 text-right text-xs sm:text-sm">${row.AdjT.toFixed(1)} <span class="text-[10px] text-gray-400 ml-1 font-normal">${row.Rank_AdjT || '-'}</span></td>
                     
                     <td class="px-4 py-3 font-bold ${consColor} text-right text-xs sm:text-sm border-l border-gray-100">${consVal.toFixed(1)}<span class="text-[10px] text-gray-400 ml-1 font-normal">${row.Rank_Cons || '-'}</span></td>
+                    <td class="px-4 py-3 text-gray-600 text-right text-xs sm:text-sm">${row.SOS.toFixed(2)} <span class="text-[10px] text-gray-400 ml-1 font-normal">${row.Rank_SOS || '-'}</span></td>
                 </tr>`;
             });
             tbody.innerHTML = html;

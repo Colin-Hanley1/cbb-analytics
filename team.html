@@ -25,15 +25,20 @@
         </div>
     </nav>
 
-    <main class="flex-grow max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+    <main class="flex-grow max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
         
         <!-- Header -->
         <div class="mb-8">
             <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-6">
-                <h1 class="text-3xl sm:text-5xl font-bold text-slate-900 tracking-tight" id="teamName">Loading...</h1>
-                <div class="flex items-center space-x-2 mt-2 sm:mt-0">
-                    <span class="text-sm text-slate-400 uppercase font-bold tracking-widest">Rank</span>
-                    <span class="text-4xl font-bold text-slate-800 font-mono" id="teamRank">--</span>
+                <div>
+                    <h1 class="text-3xl sm:text-5xl font-bold text-slate-900 tracking-tight" id="teamName">Loading...</h1>
+                    <p class="text-slate-500 font-medium mt-1" id="teamConf">--</p>
+                </div>
+                <div class="flex items-center space-x-4 mt-2 sm:mt-0">
+                    <div class="text-right">
+                        <span class="text-xs text-slate-400 uppercase font-bold tracking-widest block">Rank</span>
+                        <span class="text-4xl font-bold text-slate-800 font-mono" id="teamRank">--</span>
+                    </div>
                 </div>
             </div>
             
@@ -63,6 +68,42 @@
                     <div class="text-[10px] text-slate-400 uppercase tracking-widest font-bold mb-1">Tempo</div>
                     <div class="text-xl font-bold text-slate-700 font-mono" id="teamT">--</div>
                     <div class="absolute top-0 left-0 w-full h-1 bg-slate-300"></div>
+                </div>
+            </div>
+
+            <!-- Resume Metrics Grid -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2 mb-6">
+                <!-- Consistency -->
+                <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 text-center">
+                    <div class="text-[9px] text-slate-400 uppercase font-bold">Consist</div>
+                    <div class="text-lg font-bold font-mono" id="teamCons">--</div>
+                </div>
+                <!-- SOS -->
+                <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 text-center">
+                    <div class="text-[9px] text-slate-400 uppercase font-bold">SOS</div>
+                    <div class="text-lg font-bold font-mono text-slate-700" id="teamSOS">--</div>
+                </div>
+                <!-- Top 100 -->
+                <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 text-center col-span-2 sm:col-span-2">
+                    <div class="text-[9px] text-slate-400 uppercase font-bold">vs Top 100</div>
+                    <div class="text-lg font-bold font-mono text-slate-700" id="teamT100">--</div>
+                </div>
+                <!-- Quadrants -->
+                <div class="bg-emerald-50 p-3 rounded-lg border border-emerald-100 text-center">
+                    <div class="text-[9px] text-emerald-600 uppercase font-bold">Q1</div>
+                    <div class="text-lg font-bold font-mono text-emerald-800" id="teamQ1">--</div>
+                </div>
+                <div class="bg-blue-50 p-3 rounded-lg border border-blue-100 text-center">
+                    <div class="text-[9px] text-blue-600 uppercase font-bold">Q2</div>
+                    <div class="text-lg font-bold font-mono text-blue-800" id="teamQ2">--</div>
+                </div>
+                <div class="bg-orange-50 p-3 rounded-lg border border-orange-100 text-center">
+                    <div class="text-[9px] text-orange-600 uppercase font-bold">Q3</div>
+                    <div class="text-lg font-bold font-mono text-orange-800" id="teamQ3">--</div>
+                </div>
+                <div class="bg-rose-50 p-3 rounded-lg border border-rose-100 text-center">
+                    <div class="text-[9px] text-rose-600 uppercase font-bold">Q4</div>
+                    <div class="text-lg font-bold font-mono text-rose-800" id="teamQ4">--</div>
                 </div>
             </div>
         </div>
@@ -112,7 +153,9 @@
             document.title = `${teamName} | CHan Analytics`;
             document.getElementById('teamName').innerText = teamName;
             document.getElementById('teamRank').innerText = "#" + t.rank;
-            
+            document.getElementById('teamConf').innerText = t.conf || "";
+
+            // Power Metrics
             const emEl = document.getElementById('teamEM');
             emEl.innerText = t.adjem.toFixed(2);
             emEl.className = `text-3xl font-bold font-mono ${t.adjem > 0 ? 'text-emerald-600' : 'text-rose-600'}`;
@@ -126,28 +169,78 @@
             document.getElementById('teamD').innerText = t.adjd.toFixed(1);
             document.getElementById('teamT').innerText = t.adjt.toFixed(1);
 
+            // Resume Metrics
+            const cons = t.consistency || 50.0;
+            const consEl = document.getElementById('teamCons');
+            consEl.innerText = cons.toFixed(1);
+            consEl.className = `text-lg font-bold font-mono ${cons > 80 ? 'text-emerald-600' : (cons < 60 ? 'text-rose-600' : 'text-slate-700')}`;
+
+            document.getElementById('teamSOS').innerText = (t.sos || 0).toFixed(2);
+            document.getElementById('teamT100').innerText = `${t.t100_w}-${t.t100_l}`;
+            document.getElementById('teamQ1').innerText = `${t.q1_w}-${t.q1_l}`;
+            document.getElementById('teamQ2').innerText = `${t.q2_w}-${t.q2_l}`;
+            document.getElementById('teamQ3').innerText = `${t.q3_w}-${t.q3_l}`;
+            document.getElementById('teamQ4').innerText = `${t.q4_w}-${t.q4_l}`;
+
+            // --- CHART LOGIC WITH MOVING AVERAGE ---
             const chartGames = [...t.games].reverse();
+            
+            // Calculate 5-Game Rolling Average
+            const rollingAvg = chartGames.map((g, i, arr) => {
+                const start = Math.max(0, i - 4);
+                const subset = arr.slice(start, i + 1);
+                const sum = subset.reduce((a, b) => a + b.val, 0);
+                return sum / subset.length;
+            });
+
             new Chart(document.getElementById('trendChart'), {
                 type: 'bar',
                 data: {
                     labels: chartGames.map(g => g.opp.substring(0,10)),
-                    datasets: [{
-                        label: 'Value Add',
-                        data: chartGames.map(g => g.val),
-                        backgroundColor: chartGames.map(g => g.val > 0 ? '#10b981' : '#f43f5e'),
-                        borderRadius: 4
-                    }]
+                    datasets: [
+                        {
+                            type: 'line',
+                            label: '5-Game Trend',
+                            data: rollingAvg,
+                            borderColor: '#1e293b', // Dark Slate
+                            borderWidth: 2,
+                            pointRadius: 0,
+                            tension: 0.4,
+                            order: 1 // Draw on top
+                        },
+                        {
+                            type: 'bar',
+                            label: 'Value Add',
+                            data: chartGames.map(g => g.val),
+                            backgroundColor: chartGames.map(g => g.val > 0 ? '#10b981' : '#f43f5e'),
+                            borderRadius: 4,
+                            order: 2
+                        }
+                    ]
                 },
                 options: {
-                    responsive: true, maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { 
+                        legend: { display: true, position: 'bottom', labels: { usePointStyle: true, boxWidth: 8 } },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                        }
+                    },
                     scales: {
                         y: { grid: { color: '#f1f5f9' }, beginAtZero: true },
                         x: { grid: { display: false } }
+                    },
+                    interaction: {
+                        mode: 'nearest',
+                        axis: 'x',
+                        intersect: false
                     }
                 }
             });
 
+            // Table
             const tbody = document.getElementById('gameTable');
             let rows = "";
             t.games.forEach(g => {
