@@ -34,7 +34,7 @@
                 </div>
                 
                 <div class="flex items-center">
-                    <div class="hidden md:block text-xs text-slate-400 mr-4">Updated: <span class="text-white">2026-01-21 16:12 UTC</span></div>
+                    <div class="hidden md:block text-xs text-slate-400 mr-4">Updated: <span class="text-white">2026-01-21 16:44 UTC</span></div>
                     <div class="-mr-2 flex md:hidden">
                         <button type="button" onclick="toggleMenu()" class="bg-slate-800 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-slate-700 focus:outline-none">
                             <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
@@ -367,6 +367,7 @@
                 const consVal = row.Consistency || 50.0;
                 const consColor = consVal > 80 ? 'text-emerald-600' : (consVal < 60 ? 'text-rose-600' : 'text-slate-500');
                 const scoreVal = (row.Selection_Score || 0).toFixed(1);
+                const sosColor = row.SOS < 0 ? 'text-red-600' : 'text-green-600';
 
                 html += `
                 <tr class="hover:bg-blue-50/50 transition-colors group">
@@ -384,8 +385,8 @@
                     <td class="px-4 py-3 text-gray-600 text-right text-xs sm:text-sm">${row.AdjD.toFixed(1)} <span class="text-[10px] text-gray-400 ml-1 font-normal">${row.Rank_AdjD || '-'}</span></td>
                     <td class="px-4 py-3 text-gray-600 text-right text-xs sm:text-sm">${row.AdjT.toFixed(1)} <span class="text-[10px] text-gray-400 ml-1 font-normal">${row.Rank_AdjT || '-'}</span></td>
                     
-                    <td class="px-4 py-3 font-bold ${consColor} text-right text-xs sm:text-sm border-l border-gray-100">${consVal.toFixed(1)}<span class="text-[10px] text-gray-400 ml-1 font-normal">${row.Rank_Consistency || '-'}</span></td>
-                    <td class="px-4 py-3 text-gray-600 text-right text-xs sm:text-sm">${row.SOS.toFixed(2)} <span class="text-[10px] text-gray-400 ml-1 font-normal">${row.Rank_SOS || '-'}</span></td>
+                    <td class="px-4 py-3 font-bold  text-gray-600 text-right text-xs sm:text-sm border-l border-gray-100">${consVal.toFixed(1)}<span class="text-[10px] text-gray-400 ml-1 font-normal">${row.Rank_Consistency || '-'}</span></td>
+                    <td class="px-4 py-3 font-bold ${sosColor} text-right text-xs sm:text-sm">${row.SOS.toFixed(2)} <span class="text-[10px] text-gray-400 ml-1 font-normal">${row.Rank_SOS || '-'}</span></td>
                 </tr>`;
             });
             tbody.innerHTML = html;
