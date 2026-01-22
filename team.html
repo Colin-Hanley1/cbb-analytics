@@ -221,9 +221,9 @@
             // --- CHART LOGIC ---
             const chartGames = [...t.games].reverse();
             
-            // Calculate 5-Game Rolling Average
+            // Calculate 3-Game Rolling Average
             const rollingAvg = chartGames.map((g, i, arr) => {
-                const start = Math.max(0, i - 4);
+                const start = Math.max(0, i - 2);
                 const subset = arr.slice(start, i + 1);
                 const sum = subset.reduce((a, b) => a + b.val, 0);
                 return sum / subset.length;
@@ -236,7 +236,7 @@
                     datasets: [
                         {
                             type: 'line',
-                            label: '5-Game Trend',
+                            label: '3-Game Trend',
                             data: rollingAvg,
                             borderColor: '#334155', // Slate-700
                             borderWidth: 2,
