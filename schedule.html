@@ -30,16 +30,27 @@
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
         #mobile-menu { display: none; transition: all 0.3s; }
         #mobile-menu.open { display: block; }
+
+        /* Enables smooth scrolling for hash navigation too */
+        html { scroll-behavior: smooth; }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col selection:bg-brand-500 selection:text-white">
 
     <!-- Navbar -->
-    <nav class="bg-slate-900/95 backdrop-blur-md text-white shadow-lg sticky top-0 z-50 border-b border-slate-700/50">
+    <nav class="bg-slate-900/95 backdrop-blur-md text-white shadow-lg sticky top-0 z-50 border-b border-slate-700/50" id="siteNav">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <div class="flex items-center gap-3">
-                    <span class="font-bold text-lg tracking-tight text-white">CHan Analytics</span>
+                    <!-- Use href="#topTableAnchor" for accessibility, but we handle offset in JS -->
+                    <a href="#topTableAnchor" onclick="scrollToTableTop(event)" class="flex items-center">
+                        <img
+                          src="wlogo.png"
+                          alt="CHan Analytics"
+                          class="h-6 sm:h-7 w-auto object-contain select-none"
+                          style="max-height: 28px"
+                        />
+                      </a>
                     <div class="hidden md:flex ml-8 space-x-1">
                         <div class="hidden md:block"><div class="ml-10 flex items-baseline space-x-4"><a href="index.html" class="text-gray-300 hover:bg-slate-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Rankings</a><a href="schedule.html" class="bg-slate-900 text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Today's Games</a><a href="matchup.html" class="text-gray-300 hover:bg-slate-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Matchup Simulator</a><a href="bracketology.html" class="text-gray-300 hover:bg-slate-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Bracketology</a></div></div>
                     </div>
@@ -47,7 +58,7 @@
                 
                 <div class="flex items-center gap-4">
                     <div class="hidden md:block text-xs font-mono text-slate-400 bg-slate-800 px-3 py-1.5 rounded-full border border-slate-700">
-                        <span class="text-brand-500">●</span> Updated: <span class="text-slate-200">2026-01-22 18:59 UTC</span>
+                        <span class="text-brand-500">●</span> Updated: <span class="text-slate-200">2026-01-22 21:09 UTC</span>
                     </div>
                     <div class="-mr-2 flex md:hidden">
                         <button type="button" onclick="toggleMenu()" class="text-slate-400 hover:text-white p-2">
@@ -61,7 +72,9 @@
     </nav>
 
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        
+        <!-- Give the anchor a little scroll margin so it doesn't sit under the sticky nav -->
+        <div id="topTableAnchor" style="scroll-margin-top: 88px;"></div>
+
         <!-- Header & Search -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
             <div>
@@ -109,12 +122,39 @@
         </div>
     </main>
 
-    
-
     <!-- Load Ratings Data -->
     <script src="teams_data.js"></script>
 
     <script>
+        // --- Smooth scroll with sticky-nav offset ---
+        function scrollToTableTop(e) {
+            if (e) e.preventDefault();
+
+            const anchor = document.getElementById('topTableAnchor');
+            if (!anchor) return;
+
+            const nav = document.getElementById('siteNav');
+            const navH = nav ? nav.getBoundingClientRect().height : 0;
+
+            // Extra padding so the header doesn’t feel glued to the nav
+            const pad = 12;
+
+            const y = anchor.getBoundingClientRect().top + window.pageYOffset - navH - pad;
+
+            window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+
+            // Keep URL clean (optional); if you want the hash, remove this line.
+            history.replaceState(null, '', window.location.pathname);
+        }
+
+        // If the page loads with #topTableAnchor in the URL, apply offset scroll once.
+        window.addEventListener('load', () => {
+            if (window.location.hash === '#topTableAnchor') {
+                // Defer to ensure layout is stable
+                setTimeout(() => scrollToTableTop(), 0);
+            }
+        });
+
         // --- FIX IS HERE: Double Braces ---
         let games = [];
         try {

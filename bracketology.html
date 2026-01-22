@@ -8,6 +8,7 @@
         <title>Bracketology | CHan Analytics</title>
         <script src="https://cdn.tailwindcss.com"></script>
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
         <script>
             tailwind.config = {
                 theme: {
@@ -21,23 +22,64 @@
                         }
                     }
                 }
-            }
+            };
         </script>
+
         <style> 
             body { -webkit-font-smoothing: antialiased; } 
             #mobile-menu { display: none; transition: all 0.3s; }
             #mobile-menu.open { display: block; }
+
+            /* Smooth scroll for normal anchor navigation */
+            html { scroll-behavior: smooth; }
         </style>
+
+        <script>
+            // Sticky-navbar-aware smooth scroll to #topTableAnchor
+            function scrollToTableTop(e) {
+                if (e) e.preventDefault();
+
+                const anchor = document.getElementById('topTableAnchor');
+                if (!anchor) return;
+
+                const nav = document.getElementById('siteNav');
+                const navH = nav ? nav.getBoundingClientRect().height : 0;
+
+                // Extra spacing so content isn't glued to the nav
+                const pad = 12;
+
+                const y = anchor.getBoundingClientRect().top + window.pageYOffset - navH - pad;
+                window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+
+                // Optional: keep URL clean (remove hash)
+                history.replaceState(null, '', window.location.pathname);
+            }
+
+            // If user loads with #topTableAnchor, apply offset-correct scroll once
+            window.addEventListener('load', () => {
+                if (window.location.hash === '#topTableAnchor') {
+                    setTimeout(() => scrollToTableTop(), 0);
+                }
+            });
+        </script>
     </head>
+
     <body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col selection:bg-brand-500 selection:text-white">
-        
+
         <!-- Navbar -->
-        <nav class="bg-slate-900/95 backdrop-blur-md text-white shadow-lg sticky top-0 z-50 border-b border-slate-700/50">
+        <nav id="siteNav" class="bg-slate-900/95 backdrop-blur-md text-white shadow-lg sticky top-0 z-50 border-b border-slate-700/50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between h-16">
-                    <div class="flex items-center gap-3">            
-                        <span class="font-bold text-lg tracking-tight text-white">CHan Analytics</span>
-                        
+                    <div class="flex items-center gap-3">
+                        <a href="#topTableAnchor" onclick="scrollToTableTop(event)" class="flex items-center">
+                            <img
+                              src="wlogo.png"
+                              alt="CHan Analytics"
+                              class="h-6 sm:h-7 w-auto object-contain select-none"
+                              style="max-height: 28px"
+                            />
+                        </a>
+
                         <div class="hidden md:flex ml-8 space-x-1">
                             <a href="index.html" class="text-slate-300 hover:text-white hover:bg-slate-800 px-3 py-2 rounded-md text-sm font-medium transition-colors">Rankings</a>
                             <a href="schedule.html" class="text-slate-300 hover:text-white hover:bg-slate-800 px-3 py-2 rounded-md text-sm font-medium transition-colors">Today's Games</a>
@@ -45,10 +87,10 @@
                             <a href="bracketology.html" class="bg-slate-800 text-white px-3 py-2 rounded-md text-sm font-medium transition-colors border border-slate-700">Bracketology</a>
                         </div>
                     </div>
-                    
+
                     <div class="flex items-center gap-4">
                         <div class="hidden md:block text-xs font-mono text-slate-400 bg-slate-800 px-3 py-1.5 rounded-full border border-slate-700">
-                            <span class="text-brand-500">●</span> Updated: <span class="text-slate-200">2026-01-22 12:59 UTC</span>
+                            <span class="text-brand-500">●</span> Updated: <span class="text-slate-200">2026-01-22 15:09 UTC</span>
                         </div>
                         <div class="-mr-2 flex md:hidden">
                             <button type="button" onclick="document.getElementById('mobile-menu').classList.toggle('open')" class="text-slate-400 hover:text-white p-2">
@@ -58,7 +100,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="md:hidden" id="mobile-menu">
                 <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-slate-900 border-t border-slate-800">
                     <a href="index.html" class="text-slate-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Rankings</a>
@@ -70,7 +112,8 @@
         </nav>
 
         <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            
+            <div id="topTableAnchor" style="scroll-margin-top: 88px;"></div>
+
             <div class="mb-8 text-center sm:text-left border-b border-slate-200 pb-6">
                 <h1 class="text-3xl font-bold text-slate-900 tracking-tight">Bracketology</h1>
                 <p class="mt-2 text-slate-500 max-w-2xl text-sm">
@@ -295,7 +338,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-900 font-extrabold">1</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -306,17 +349,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-100">Auto</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 232.2
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -330,7 +373,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-900 font-extrabold">1</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -341,17 +384,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-100">Auto</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 225.5
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -365,7 +408,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-900 font-extrabold">1</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -376,17 +419,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-100">Auto</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 220.6
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -400,7 +443,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-900 font-extrabold">1</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -411,17 +454,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-100">Auto</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 205.3
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -435,7 +478,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-900 font-extrabold">2</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -446,17 +489,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-50 border border-brand-100">At-Large</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 204.0
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -470,7 +513,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-900 font-extrabold">2</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -481,17 +524,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-50 border border-brand-100">At-Large</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 193.1
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -505,7 +548,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-900 font-extrabold">2</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -516,17 +559,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-100">Auto</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 183.3
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -540,7 +583,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-900 font-extrabold">2</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -551,17 +594,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-50 border border-brand-100">At-Large</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 182.2
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -575,7 +618,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-900 font-extrabold">3</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -586,17 +629,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-50 border border-brand-100">At-Large</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 177.8
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -610,7 +653,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-900 font-extrabold">3</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -621,17 +664,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-50 border border-brand-100">At-Large</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 172.4
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -645,7 +688,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-900 font-extrabold">3</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -656,17 +699,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-50 border border-brand-100">At-Large</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 172.3
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -680,7 +723,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-900 font-extrabold">3</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -691,17 +734,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-50 border border-brand-100">At-Large</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 162.4
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -715,7 +758,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-900 font-extrabold">4</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -726,17 +769,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-100">Auto</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 160.5
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -750,7 +793,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-900 font-extrabold">4</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -761,17 +804,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-50 border border-brand-100">At-Large</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 154.9
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -785,7 +828,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-900 font-extrabold">4</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -796,17 +839,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-50 border border-brand-100">At-Large</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 153.2
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -820,7 +863,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-900 font-extrabold">4</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -831,17 +874,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-50 border border-brand-100">At-Large</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 147.3
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -855,7 +898,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">5</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -866,17 +909,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-50 border border-brand-100">At-Large</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 144.0
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -890,7 +933,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">5</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -901,17 +944,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-50 border border-brand-100">At-Large</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 131.2
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -925,7 +968,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">5</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -936,17 +979,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-50 border border-brand-100">At-Large</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 127.0
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -960,7 +1003,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">5</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -971,17 +1014,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-50 border border-brand-100">At-Large</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 126.6
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -995,7 +1038,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">6</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -1006,17 +1049,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-50 border border-brand-100">At-Large</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 119.8
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -1030,7 +1073,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">6</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -1041,17 +1084,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-50 border border-brand-100">At-Large</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 117.1
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -1065,7 +1108,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">6</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -1076,17 +1119,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-50 border border-brand-100">At-Large</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 116.6
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -1100,7 +1143,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">6</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -1111,17 +1154,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-50 border border-brand-100">At-Large</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 108.3
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -1135,7 +1178,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">7</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -1146,17 +1189,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-50 border border-brand-100">At-Large</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 108.0
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -1170,7 +1213,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">7</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -1181,17 +1224,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-50 border border-brand-100">At-Large</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 99.9
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -1205,7 +1248,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">7</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -1216,17 +1259,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-100">Auto</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 96.8
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -1240,7 +1283,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">7</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -1251,17 +1294,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-50 border border-brand-100">At-Large</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 96.7
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -1275,7 +1318,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">8</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -1286,17 +1329,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-50 border border-brand-100">At-Large</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 93.0
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -1310,7 +1353,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">8</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -1321,17 +1364,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-50 border border-brand-100">At-Large</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 92.5
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -1345,7 +1388,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">8</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -1356,17 +1399,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-50 border border-brand-100">At-Large</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 91.8
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -1380,7 +1423,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">8</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -1391,17 +1434,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-50 border border-brand-100">At-Large</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 89.7
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -1415,7 +1458,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">9</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -1426,17 +1469,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-50 border border-brand-100">At-Large</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 89.2
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -1450,7 +1493,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">9</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -1461,17 +1504,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-100">Auto</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 85.8
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -1485,7 +1528,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">9</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -1496,17 +1539,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-50 border border-brand-100">At-Large</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 84.7
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -1520,7 +1563,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">9</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -1531,17 +1574,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-50 border border-brand-100">At-Large</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 83.5
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -1555,7 +1598,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">10</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -1566,17 +1609,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-50 border border-brand-100">At-Large</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 82.0
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -1590,7 +1633,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">10</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -1601,17 +1644,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-50 border border-brand-100">At-Large</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 81.8
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -1625,7 +1668,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">10</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -1636,17 +1679,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-50 border border-brand-100">At-Large</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 79.3
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -1660,7 +1703,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">10</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -1671,17 +1714,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-50 border border-brand-100">At-Large</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 78.7
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -1695,7 +1738,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">11</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -1706,17 +1749,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-50 border border-brand-100">At-Large</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 76.0
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -1730,7 +1773,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">11</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -1741,17 +1784,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-50 border border-brand-100">At-Large</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 69.9
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -1765,7 +1808,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">11</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -1776,17 +1819,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-50 border border-brand-100">At-Large</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 68.5
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -1800,7 +1843,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">11</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -1811,17 +1854,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-50 border border-brand-100">At-Large</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 67.0
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -1835,7 +1878,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">11</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -1846,17 +1889,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-50 border border-brand-100">At-Large</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 66.1
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -1870,7 +1913,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">11</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -1881,17 +1924,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-100">Auto</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 59.7
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -1905,7 +1948,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">12</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -1916,17 +1959,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-100">Auto</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 41.6
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -1940,7 +1983,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">12</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -1951,17 +1994,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-100">Auto</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 39.5
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -1975,7 +2018,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">12</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -1986,17 +2029,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-100">Auto</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 30.6
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -2010,7 +2053,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">12</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -2021,17 +2064,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-100">Auto</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 27.2
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -2045,7 +2088,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">13</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -2056,17 +2099,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-100">Auto</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 23.8
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -2080,7 +2123,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">13</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -2091,17 +2134,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-100">Auto</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 -6.5
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -2115,7 +2158,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">13</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -2126,17 +2169,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-100">Auto</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 -7.9
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -2150,7 +2193,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">13</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -2161,17 +2204,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-100">Auto</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 -13.7
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -2185,7 +2228,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">14</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -2196,17 +2239,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-100">Auto</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 -20.3
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -2220,7 +2263,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">14</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -2231,17 +2274,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-100">Auto</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 -27.5
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -2255,7 +2298,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">14</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -2266,17 +2309,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-100">Auto</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 -35.0
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -2290,7 +2333,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">14</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -2301,17 +2344,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-100">Auto</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 -36.8
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -2325,7 +2368,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">15</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -2336,17 +2379,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-100">Auto</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 -38.7
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -2360,7 +2403,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">15</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -2371,17 +2414,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-100">Auto</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 -48.0
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -2395,7 +2438,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">15</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -2406,17 +2449,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-100">Auto</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 -62.8
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -2430,7 +2473,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">15</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -2441,17 +2484,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-100">Auto</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 -67.4
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -2465,7 +2508,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">16</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -2476,17 +2519,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-100">Auto</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 -67.9
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -2500,7 +2543,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">16</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -2511,17 +2554,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-100">Auto</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 -77.9
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -2535,7 +2578,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">16</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -2546,17 +2589,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-100">Auto</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 -87.0
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -2570,7 +2613,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">16</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -2581,17 +2624,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-100">Auto</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 -123.1
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -2605,7 +2648,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">16</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -2616,17 +2659,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-100">Auto</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 -130.9
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -2640,7 +2683,7 @@
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg text-slate-500 font-bold">16</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -2651,17 +2694,17 @@
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-100">Auto</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 -142.8
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -2675,7 +2718,7 @@
                 </div>
             </div>
         </main>
-        
+
         <footer class="mt-auto py-8 text-center border-t border-slate-200 bg-white">
             <p class="text-slate-400 text-xs font-mono">CHan Analytics &bull; Automated Data System</p>
         </footer>

@@ -68,8 +68,15 @@
             <div class="flex items-center justify-between h-16">
                 <div class="flex items-center gap-3">
                     <!-- Brand Icon -->
-                    
-                    <span class="font-bold text-lg tracking-tight text-white">CHan Analytics</span>
+                    <a href="#topTableAnchor" onclick="scrollToTableTop(event)" class="flex items-center">
+                        <img
+                          src="wlogo.png"
+                          alt="CHan Analytics"
+                          class="h-6 sm:h-7 w-auto object-contain select-none"
+                          style="max-height: 28px"
+                        />
+                      </a>
+                      
                     
                     <!-- Desktop Nav -->
                     <div class="hidden md:flex ml-8 space-x-1">
@@ -79,7 +86,7 @@
                 
                 <div class="flex items-center gap-4">
                     <div class="hidden md:block text-xs font-mono text-slate-400 bg-slate-800 px-3 py-1.5 rounded-full border border-slate-700">
-                        <span class="text-brand-500">●</span> Live Update: <span class="text-slate-200">2026-01-22 18:59 UTC</span>
+                        <span class="text-brand-500">●</span> Live Update: <span class="text-slate-200">2026-01-22 21:09 UTC</span>
                     </div>
 
                     <div class="-mr-2 flex md:hidden">
@@ -92,6 +99,7 @@
         </div>
         <div class="md:hidden" id="mobile-menu"><div class="px-2 pt-2 pb-3 space-y-1 sm:px-3"><a href="index.html" class="bg-slate-900 text-white block px-3 py-2 rounded-md text-base font-medium">Rankings</a><a href="schedule.html" class="text-gray-300 hover:bg-slate-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Today's Games</a><a href="matchup.html" class="text-gray-300 hover:bg-slate-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Matchup Simulator</a><a href="bracketology.html" class="text-gray-300 hover:bg-slate-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Bracketology</a></div></div>
     </nav>
+    <div id = "topTableAnchor" class="relative -top-28"> </div>
 
     <!-- Sub-Header & Controls -->
     <div class="bg-white border-b border-slate-200 sticky top-16 z-40 shadow-sm">
@@ -140,7 +148,6 @@
 
     <!-- Main Content -->
     <main class="flex-grow max-w-7xl w-full mx-auto px-0 sm:px-6 lg:px-8 py-6">
-        
         <!-- TABLE VIEW -->
         <div id="tableView" class="bg-white shadow-xl shadow-slate-200/50 sm:rounded-xl overflow-hidden border border-slate-200">
             <div class="overflow-x-auto">
@@ -254,10 +261,7 @@
             if(chartInstance) chartInstance.destroy();
 
             const count = currentData.length;
-            let radiusSize = 10;
-            if (count < 25) radiusSize = 25;
-            else if (count < 75) radiusSize = 15;
-            else if (count < 150) radiusSize = 10;
+            let radiusSize = 1/(count**.43)
 
             const imagePromises = currentData.map(row => {
                 return new Promise((resolve) => {
@@ -346,6 +350,15 @@
                 }
             });
         }
+        function scrollToTableTop(e) {
+    e.preventDefault();
+    const el = document.getElementById('topTableAnchor');
+    if (!el) return;
+
+    // Smooth scroll to the table top anchor
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
 
         window.onload = function() {
             preloadLogos();

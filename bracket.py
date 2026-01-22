@@ -104,78 +104,81 @@ def generate_bracket():
     df['Conference'] = df['Conference'].fillna('Unknown')
 
     # 3. CALCULATE SELECTION SCORE (New Model)
-    # Map the CSV column 'Blended_AdjEM' to the model feature 'ADJEM'
-    # Use Current_AdjEM (Pure) if available as per user pref, or Blended if that was intention
+    # Use Current_AdjEM (Pure) if available, else fallback to AdjEM
     if 'Current_AdjEM' in df.columns:
         df['ADJEM'] = df['Current_AdjEM']
     else:
-        df['ADJEM'] = df['AdjEM'] # Fallback
-        
+        df['ADJEM'] = df['AdjEM']  # Fallback
+
     # Initialize score
     df['Selection_Score'] = 0.0
-    
+
     # Apply weights
     for feature, weight in SCORING_WEIGHTS.items():
         if feature in df.columns:
             df['Selection_Score'] += df[feature] * weight
-         # Missing feature treated as 0
-    
+        # Missing feature treated as 0
+
     # 4. Determine Automatic Qualifiers (AQs)
     df['AQ'] = False
     conferences = df['Conference'].dropna().unique()
     aq_teams_list = []
-    
+
     for conf in conferences:
-        if conf == 'Unknown': continue
+        if conf == 'Unknown':
+            continue
+
         if conf in MANUAL_AQS:
             forced_team = MANUAL_AQS[conf]
             if forced_team in df['Team'].values:
                 aq_teams_list.append(forced_team)
                 continue
-        
+
         # Fallback: Highest Selection Score in conference wins AQ
         conf_teams = df[df['Conference'] == conf]
         if not conf_teams.empty:
             top_team = conf_teams.sort_values('Selection_Score', ascending=False).iloc[0]['Team']
             aq_teams_list.append(top_team)
-            
+
     df.loc[df['Team'].isin(aq_teams_list), 'AQ'] = True
-    
+
     # 5. Select the Field (68 Teams)
     field = []
-    
+
     # A. Automatic Bids
     auto_bids = df[df['AQ'] == True].copy()
     for _, row in auto_bids.iterrows():
         row['Bid_Type'] = 'Auto'
         field.append(row)
-        
+
     # B. At-Large Bids
     at_large_pool = df[df['AQ'] == False].sort_values('Selection_Score', ascending=False)
     num_at_large = 68 - len(auto_bids)
     at_large_bids = at_large_pool.head(num_at_large).copy()
-    
+
     # Bubble Teams
     first_4_out = at_large_pool.iloc[num_at_large:num_at_large+4]
     next_4_out = at_large_pool.iloc[num_at_large+4:num_at_large+8]
-    
+
     for _, row in at_large_bids.iterrows():
         row['Bid_Type'] = 'At-Large'
         field.append(row)
-        
+
     last_4_in = at_large_bids.tail(4)
 
     # 6. Seed the Field (Custom 68-team logic)
     field_df = pd.DataFrame(field)
     field_df = field_df.sort_values('Selection_Score', ascending=False).reset_index(drop=True)
     field_df['Overall_Rank'] = field_df.index + 1
-    
+
     seeds = []
-    for s in range(1, 11): seeds.extend([s] * 4) 
-    seeds.extend([11] * 6) 
-    for s in range(12, 16): seeds.extend([s] * 4) 
-    seeds.extend([16] * 6) 
-    
+    for s in range(1, 11):
+        seeds.extend([s] * 4)
+    seeds.extend([11] * 6)
+    for s in range(12, 16):
+        seeds.extend([s] * 4)
+    seeds.extend([16] * 6)
+
     if len(field_df) <= len(seeds):
         field_df['Seed'] = seeds[:len(field_df)]
     else:
@@ -184,34 +187,36 @@ def generate_bracket():
 
     # 7. Generate HTML
     html = generate_html(field_df, last_4_in, first_4_out, next_4_out)
-    
+
     with open(OUTPUT_HTML, "w") as f:
         f.write(html)
-        
+
     print(f"Bracketology generated: {OUTPUT_HTML}")
 
 def generate_html(field_df, l4i, f4o, n4o):
     now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M UTC")
-    
+
     rows = ""
     for _, row in field_df.iterrows():
-        # Clean team name for logo
-        clean_name = ''.join([c if c.isalnum() else '' for c in row['Team']])
         logo_path = f"logos/{row['Team']}.png"
-        
+
         # Styles
-        type_class = "text-emerald-700 bg-emerald-50 border border-emerald-100" if row['Bid_Type'] == 'Auto' else "text-blue-700 bg-blue-50 border border-brand-100"
-        
+        type_class = (
+            "text-emerald-700 bg-emerald-50 border border-emerald-100"
+            if row['Bid_Type'] == 'Auto'
+            else "text-blue-700 bg-blue-50 border border-brand-100"
+        )
+
         # Seed Color
         seed_style = "text-slate-900 font-extrabold" if row['Seed'] <= 4 else "text-slate-500 font-bold"
-        
+
         rows += f"""
         <tr class="hover:bg-slate-50 transition-colors group border-b border-slate-50">
             <!-- SEED -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50 w-16">
                 <span class="text-lg {seed_style}">{int(row['Seed'])}</span>
             </td>
-            
+
             <!-- TEAM (With Logo) -->
             <td class="px-6 py-4 border-r border-slate-100/50">
                 <div class="flex items-center gap-3">
@@ -222,17 +227,17 @@ def generate_html(field_df, l4i, f4o, n4o):
                     </div>
                 </div>
             </td>
-            
+
             <!-- BID TYPE -->
             <td class="px-6 py-4 text-center border-r border-slate-100/50">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider {type_class}">{row['Bid_Type']}</span>
             </td>
-            
+
             <!-- SCORE -->
             <td class="px-6 py-4 text-right font-mono font-bold text-slate-800 text-base border-r border-slate-100/50">
                 {row['Selection_Score']:.1f}
             </td>
-            
+
             <!-- RQ/WAB -->
             <td class="px-6 py-4 text-right">
                 <span class="font-mono text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md border border-purple-100">
@@ -241,20 +246,19 @@ def generate_html(field_df, l4i, f4o, n4o):
             </td>
         </tr>
         """
-        
+
     def make_bubble_list(df, color_theme):
-        # Map color names to Tailwind classes
         colors = {
             "emerald": {"text": "text-emerald-700", "bg": "bg-emerald-500"},
             "orange": {"text": "text-orange-700", "bg": "bg-orange-500"},
             "red": {"text": "text-rose-700", "bg": "bg-rose-500"}
         }
         c = colors[color_theme]
-        
+
         h = ""
         for _, r in df.iterrows():
             logo = f"logos/{r['Team']}.png"
-            
+
             h += f"""
             <div class="flex items-center justify-between py-3 border-b border-slate-100 last:border-0 hover:bg-slate-50 px-3 rounded-lg transition-all group">
                 <div class="flex items-center gap-3">
@@ -282,6 +286,7 @@ def generate_html(field_df, l4i, f4o, n4o):
         <title>Bracketology | CHan Analytics</title>
         <script src="https://cdn.tailwindcss.com"></script>
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
         <script>
             tailwind.config = {{
                 theme: {{
@@ -295,23 +300,64 @@ def generate_html(field_df, l4i, f4o, n4o):
                         }}
                     }}
                 }}
-            }}
+            }};
         </script>
+
         <style> 
             body {{ -webkit-font-smoothing: antialiased; }} 
             #mobile-menu {{ display: none; transition: all 0.3s; }}
             #mobile-menu.open {{ display: block; }}
+
+            /* Smooth scroll for normal anchor navigation */
+            html {{ scroll-behavior: smooth; }}
         </style>
+
+        <script>
+            // Sticky-navbar-aware smooth scroll to #topTableAnchor
+            function scrollToTableTop(e) {{
+                if (e) e.preventDefault();
+
+                const anchor = document.getElementById('topTableAnchor');
+                if (!anchor) return;
+
+                const nav = document.getElementById('siteNav');
+                const navH = nav ? nav.getBoundingClientRect().height : 0;
+
+                // Extra spacing so content isn't glued to the nav
+                const pad = 12;
+
+                const y = anchor.getBoundingClientRect().top + window.pageYOffset - navH - pad;
+                window.scrollTo({{ top: Math.max(0, y), behavior: 'smooth' }});
+
+                // Optional: keep URL clean (remove hash)
+                history.replaceState(null, '', window.location.pathname);
+            }}
+
+            // If user loads with #topTableAnchor, apply offset-correct scroll once
+            window.addEventListener('load', () => {{
+                if (window.location.hash === '#topTableAnchor') {{
+                    setTimeout(() => scrollToTableTop(), 0);
+                }}
+            }});
+        </script>
     </head>
+
     <body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col selection:bg-brand-500 selection:text-white">
-        
+
         <!-- Navbar -->
-        <nav class="bg-slate-900/95 backdrop-blur-md text-white shadow-lg sticky top-0 z-50 border-b border-slate-700/50">
+        <nav id="siteNav" class="bg-slate-900/95 backdrop-blur-md text-white shadow-lg sticky top-0 z-50 border-b border-slate-700/50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between h-16">
-                    <div class="flex items-center gap-3">            
-                        <span class="font-bold text-lg tracking-tight text-white">CHan Analytics</span>
-                        
+                    <div class="flex items-center gap-3">
+                        <a href="#topTableAnchor" onclick="scrollToTableTop(event)" class="flex items-center">
+                            <img
+                              src="wlogo.png"
+                              alt="CHan Analytics"
+                              class="h-6 sm:h-7 w-auto object-contain select-none"
+                              style="max-height: 28px"
+                            />
+                        </a>
+
                         <div class="hidden md:flex ml-8 space-x-1">
                             <a href="index.html" class="text-slate-300 hover:text-white hover:bg-slate-800 px-3 py-2 rounded-md text-sm font-medium transition-colors">Rankings</a>
                             <a href="schedule.html" class="text-slate-300 hover:text-white hover:bg-slate-800 px-3 py-2 rounded-md text-sm font-medium transition-colors">Today's Games</a>
@@ -319,7 +365,7 @@ def generate_html(field_df, l4i, f4o, n4o):
                             <a href="bracketology.html" class="bg-slate-800 text-white px-3 py-2 rounded-md text-sm font-medium transition-colors border border-slate-700">Bracketology</a>
                         </div>
                     </div>
-                    
+
                     <div class="flex items-center gap-4">
                         <div class="hidden md:block text-xs font-mono text-slate-400 bg-slate-800 px-3 py-1.5 rounded-full border border-slate-700">
                             <span class="text-brand-500">●</span> Updated: <span class="text-slate-200">{now}</span>
@@ -332,7 +378,7 @@ def generate_html(field_df, l4i, f4o, n4o):
                     </div>
                 </div>
             </div>
-            
+
             <div class="md:hidden" id="mobile-menu">
                 <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-slate-900 border-t border-slate-800">
                     <a href="index.html" class="text-slate-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Rankings</a>
@@ -344,7 +390,8 @@ def generate_html(field_df, l4i, f4o, n4o):
         </nav>
 
         <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            
+            <div id="topTableAnchor" style="scroll-margin-top: 88px;"></div>
+
             <div class="mb-8 text-center sm:text-left border-b border-slate-200 pb-6">
                 <h1 class="text-3xl font-bold text-slate-900 tracking-tight">Bracketology</h1>
                 <p class="mt-2 text-slate-500 max-w-2xl text-sm">
@@ -401,7 +448,7 @@ def generate_html(field_df, l4i, f4o, n4o):
                 </div>
             </div>
         </main>
-        
+
         <footer class="mt-auto py-8 text-center border-t border-slate-200 bg-white">
             <p class="text-slate-400 text-xs font-mono">CHan Analytics &bull; Automated Data System</p>
         </footer>

@@ -45,8 +45,13 @@
             <div class="flex items-center justify-between h-16">
                 <div class="flex items-center gap-3">
                     
-                    <span class="font-bold text-lg tracking-tight text-white">CHan Analytics</span>
-                    <div class="hidden md:flex ml-8 space-x-1">
+                        <img
+                          src="wlogo.png"
+                          alt="CHan Analytics"
+                          class="h-6 sm:h-7 w-auto object-contain select-none"
+                          style="max-height: 28px"
+                        />
+                       <div class="hidden md:flex ml-8 space-x-1">
                         <div class="hidden md:block"><div class="ml-10 flex items-baseline space-x-4"><a href="index.html" class="text-gray-300 hover:bg-slate-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Rankings</a><a href="schedule.html" class="text-gray-300 hover:bg-slate-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Today's Games</a><a href="matchup.html" class="bg-slate-900 text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Matchup Simulator</a><a href="bracketology.html" class="text-gray-300 hover:bg-slate-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Bracketology</a></div></div>
                     </div>
                 </div>
@@ -172,6 +177,14 @@
     <script src="teams_data.js"></script>
 
     <script>
+        function scrollToTableTop(e) {
+    e.preventDefault();
+    const el = document.getElementById('topTableAnchor');
+    if (!el) return;
+
+    // Smooth scroll to the table top anchor
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
         const teams = TEAMS_DATA; // Using TEAMS_DATA defined in teams_data.js
         const teamList = Object.keys(teams).sort();
         
