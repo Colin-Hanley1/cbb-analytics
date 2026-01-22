@@ -123,6 +123,7 @@
                         <option value="">All Conf</option>
                         <option value="One-Bid">One-Bid</option>
                         <option value="Power 5">Power 5</option>
+                        <option value="Mid-Major">Mid-Major</option>
                     </select>
                     
                     <label class="flex items-center cursor-pointer relative" title="Show Pure Ratings (No Preseason Bias)">
@@ -377,6 +378,7 @@
                 let matchesConf = false;
                 if (conf === "One-Bid") matchesConf = !MULTI_BID_LEAGUES.includes(row.Conference);
                 else if (conf === "Power 5") matchesConf = POWER_5_LEAGUES.includes(row.Conference);
+                else if (conf == "Mid-Major") matchesConf = !POWER_5_LEAGUES.includes(row.Conference);
                 else matchesConf = conf === "" || row.Conference === conf;
                 return matchesName && matchesConf;
             });
