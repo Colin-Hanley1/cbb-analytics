@@ -153,7 +153,7 @@
                             <th class="px-4 py-4 text-right bg-orange-50/50 text-orange-900 hidden pure-col cursor-pointer hover:bg-orange-100" onclick="handleSort('Pure_AdjEM', this)">Pure</th>
                             <th class="px-4 py-4 text-right bg-purple-50/50 text-purple-900 cursor-pointer hover:bg-purple-100 border-l border-purple-100" onclick="handleSort('RQ', this)">RQ</th>
                             <th class="px-4 py-4 text-right bg-purple-50/50 text-slate-900 cursor-pointer hover:bg-purple-100 border-l border-purple-100 border-r border-slate-200" onclick="handleSort('SOS', this)">SOS</th>
-                            <th class="px-4 py-4 text-right text-slate-500 cursor-pointer hover:bg-slate-100 border-l border-slate-200" onclick="handleSort('StrengthAdjust', this)">Str Adj</th>
+                            <th class="px-4 py-4 text-right text-slate-500 cursor-pointer hover:bg-slate-100 border-l border-slate-200" onclick="handleSort('StrengthAdjust', this)">SDiff</th>
                             <th class="px-4 py-4 text-right bg-slate-100 text-slate-800 cursor-pointer hover:bg-slate-200 border-r border-slate-200" onclick="handleSort('Selection_Score', this)">Sel. Score</th>
                             
                             <th class="px-4 py-4 text-right text-slate-500 cursor-pointer hover:bg-slate-100" onclick="handleSort('AdjO', this)">AdjO</th>
@@ -178,17 +178,11 @@
                 Loading Data...
             </div>
             <div class="chart-wrapper"><canvas id="quadrantChart"></canvas></div>
-            <div class="mt-6 flex justify-center gap-8 text-xs text-slate-400 uppercase tracking-widest font-bold">
-                <span class="flex items-center gap-1"><div class="w-2 h-2 rounded-full bg-emerald-500"></div> Elite</span>
-                <span class="flex items-center gap-1"><div class="w-2 h-2 rounded-full bg-blue-500"></div> Good</span>
-                <span class="flex items-center gap-1"><div class="w-2 h-2 rounded-full bg-rose-500"></div> Poor</span>
-            </div>
+            
         </div>
     </main>
 
-    <footer class="mt-auto py-8 text-center border-t border-slate-200 bg-white">
-        <p class="text-slate-400 text-xs font-mono">CHan Analytics &bull; Automated Data System</p>
-    </footer>
+    
 
     <script>
         // ... (Keep existing Data Injection) ...
