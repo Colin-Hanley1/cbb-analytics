@@ -12,6 +12,7 @@ import scrape_cbb
 
 # --- CONFIGURATION ---
 SCRAPER_SCRIPT = "scrape_cbb.py" 
+BRACKET_SCRIPT = "bracket.py"
 RATINGS_SCRIPT = "adj.py"
 OUTPUT_INDEX = "index.html"
 OUTPUT_MATCHUP = "matchup.html"
@@ -241,6 +242,8 @@ def generate_teams_js(df_ratings, df_scores):
             'q4_w': int(row.get('Q4_W', 0)), 'q4_l': int(row.get('Q4_L', 0)),
             't100_w': int(row.get('T100_W', 0)), 't100_l': int(row.get('T100_L', 0)),
             'conf': row.get('Conference', ''),
+            'rkEM': int(row.get('Rank', 0)),
+            'rkRQ': int(row.get('Rank_RQ', 0)),
             'games': game_list
         }
     
@@ -394,10 +397,7 @@ def generate_schedule():
 if __name__ == "__main__":
     run_script(SCRAPER_SCRIPT)
     run_script(RATINGS_SCRIPT)
-    
-    try: generate_bracket.generate_bracket()
-    except Exception as e: print(f"Bracket gen failed: {e}")
-
+    run_script(BRACKET_SCRIPT)
     df_ratings, df_scores, df_conf = get_data()
 
     if df_ratings is not None:
