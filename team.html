@@ -68,7 +68,7 @@
             </div>
             
             <!-- Power Metrics Grid -->
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-4">
+            <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3 mb-4">
                 <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 text-center relative overflow-hidden group hover:shadow-md transition-all">
                     <div class="text-[10px] text-slate-400 uppercase tracking-widest font-bold mb-1">AdjEM</div>
                     <div class="text-3xl font-bold font-mono tracking-tight" id="teamEM">--</div>
@@ -94,6 +94,11 @@
                     <div class="text-[10px] text-slate-400 uppercase tracking-widest font-bold mb-1">Tempo</div>
                     <div class="text-xl font-bold text-slate-700 font-mono" id="teamT">--</div>
                     <div class="absolute top-0 left-0 w-full h-1 bg-slate-300"></div>
+                </div>
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 text-center relative overflow-hidden group hover:shadow-md transition-all">
+                    <div class="text-[10px] text-slate-400 uppercase font-bold mb-1">Str Adj</div>
+                    <div class="text-xl font-bold font-mono" id="teamSA">--</div>
+                    <div class="absolute top-0 left-0 w-full h-1 bg-indigo-500"></div>
                 </div>
             </div>
 
@@ -177,7 +182,7 @@
         const params = new URLSearchParams(window.location.search);
         const teamName = decodeURIComponent(params.get('q'));
         
-        function getLogoPath(name) { return `logos/${name.replace(/[^a-zA-Z0-9]/g, '_')}.png`; }
+        function getLogoPath(name) { return `logos/${name}.png`; }
 
         if (teamName && typeof TEAMS_DATA !== 'undefined' && TEAMS_DATA[teamName]) {
             const t = TEAMS_DATA[teamName];
@@ -201,8 +206,7 @@
             document.getElementById('teamO').innerText = t.adjo.toFixed(1);
             document.getElementById('teamD').innerText = t.adjd.toFixed(1);
             document.getElementById('teamT').innerText = t.adjt.toFixed(1);
-
-            // Resume Metrics
+            document.getElementById('teamSA').innerText = t.sa.toFixed(2)
             const cons = t.consistency || 50.0;
             const consEl = document.getElementById('teamCons');
             consEl.innerText = cons.toFixed(1);

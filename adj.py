@@ -87,6 +87,144 @@ def cap_efficiency_margin(raw_diff, cap=25.0):
 def prior_collapse_factor(z):
     return 1 / (1 + np.exp(SURPRISE_STEEPNESS * (np.abs(z) - SURPRISE_CUTOFF)))
 
+# --- STRENGTH ADJUST (NEW) ---
+def calculate_strength_adjust(
+    ratings_df,
+    scores_df,
+    pts_col,
+    model_hfa,
+    sigma0=11.0,
+    opp_weight_power=2.0,   # higher -> focuses more on truly elite/bottom opponents
+    shrink_lambda=8,        # shrink toward 0 with small samples
+    non_d1_adjem=-10.0      # fallback if opponent missing
+):
+    """
+    StrengthAdjust:
+      - Rewards overperformance vs strong opponents (TopPerf)
+      - Penalizes "beating up on bad teams" (BadBeat)
+      - StrengthAdjust = TopPerf - BadBeat
+
+    residual margin/100 possessions:
+      resid = actual_margin100 - expected_margin100
+
+    Opponent strength weights are based on opponent Blended_AdjEM percentile (0..1):
+      w_top = (strength_pct)^p
+      w_bad = (1 - strength_pct)^p
+    """
+
+    print("Calculating Strength Adjust (performance vs strong opponents vs weak opponents)...")
+
+    if 'Blended_AdjEM' not in ratings_df.columns:
+        raise ValueError("Blended_AdjEM must be computed before calculate_strength_adjust().")
+
+    # --- Build opponent lookup based on Blended_AdjEM ---
+    tmp = ratings_df[['Team', 'Blended_AdjEM']].copy()
+    tmp = tmp.sort_values('Blended_AdjEM', ascending=False).reset_index(drop=True)
+    tmp['strength_pct'] = 1.0 - (tmp.index / max(1, (len(tmp) - 1)))  # best ~1.0, worst ~0.0
+
+    strength_pct_map = tmp.set_index('Team')['strength_pct'].to_dict()
+
+    # Team strength for expected margin
+    team_adjem = ratings_df.set_index('Team')['Blended_AdjEM'].to_dict()
+
+    # --- Pair each row with opponent score on same date/opponent ---
+    opp_scores = scores_df[['date', 'team', pts_col]].rename(
+        columns={'team': 'opponent', pts_col: 'opp_pts'}
+    )
+    opp_scores = opp_scores.drop_duplicates(subset=['date', 'opponent'])
+    games = scores_df.merge(opp_scores, on=['date', 'opponent'], how='left')
+
+    # Ensure sorted for stability
+    games = games.sort_values(['team', 'date'])
+
+    out = []
+    for team in ratings_df['Team']:
+        team_games = games[games['team'] == team].copy()
+        if team_games.empty:
+            out.append({
+                'Team': team,
+                'StrengthAdjust': 0.0,
+                'TopPerf': 0.0,
+                'BadBeat': 0.0,
+                'StrengthAdjust_z': 0.0,
+                'StrengthAdjust_n': 0
+            })
+            continue
+
+        top_num = 0.0
+        top_den = 0.0
+        bad_num = 0.0
+        bad_den = 0.0
+
+        n_used = 0
+
+        for _, row in team_games.iterrows():
+            opp = row['opponent']
+            poss = row.get('possessions', np.nan)
+            opp_pts = row.get('opp_pts', np.nan)
+            pts = row.get(pts_col, np.nan)
+
+            if pd.isna(poss) or poss == 0 or pd.isna(opp_pts) or pd.isna(pts):
+                continue
+            if team not in team_adjem:
+                continue
+
+            # Actual margin per 100 possessions
+            actual_margin100 = (pts - opp_pts) / poss * 100.0
+
+            # Expected margin per 100 possessions from Blended AdjEM + HFA
+            loc_val = row.get('location_value', 0)
+            hfa_adj = model_hfa if loc_val == 1 else (-model_hfa if loc_val == -1 else 0.0)
+
+            opp_em = team_adjem.get(opp, non_d1_adjem)
+            expected_margin100 = team_adjem[team] - opp_em + hfa_adj
+
+            resid = actual_margin100 - expected_margin100
+
+            # Opponent strength percentile (0..1)
+            s = strength_pct_map.get(opp, 0.0)
+            s = float(np.clip(s, 0.0, 1.0))
+
+            w_top = (s ** opp_weight_power)
+            w_bad = ((1.0 - s) ** opp_weight_power)
+
+            top_num += w_top * resid
+            top_den += w_top
+
+            bad_num += w_bad * resid
+            bad_den += w_bad
+
+            n_used += 1
+
+        top_perf = (top_num / top_den) if top_den > 0 else 0.0
+        bad_beat = (bad_num / bad_den) if bad_den > 0 else 0.0
+
+        # Contrast metric: good vs top minus padding vs bad
+        strength_adjust = top_perf - bad_beat
+
+        # Optional: z-scale for comparability
+        strength_adjust_z = strength_adjust / sigma0 if sigma0 else 0.0
+
+        # Shrink toward 0 for small sample sizes
+        w_sh = n_used / (n_used + shrink_lambda) if n_used > 0 else 0.0
+        strength_adjust = w_sh * strength_adjust
+        top_perf = w_sh * top_perf
+        bad_beat = w_sh * bad_beat
+        strength_adjust_z = w_sh * strength_adjust_z
+
+        out.append({
+            'Team': team,
+            'StrengthAdjust': float(strength_adjust),
+            'TopPerf': float(top_perf),
+            'BadBeat': float(bad_beat),
+            'StrengthAdjust_z': float(strength_adjust_z),
+            'StrengthAdjust_n': int(n_used)
+        })
+
+    out_df = pd.DataFrame(out)
+    ratings_df = ratings_df.merge(out_df, on='Team', how='left')
+    return ratings_df
+
 # --- RESUME CALCULATOR (NEW) ---
 def calculate_resume_stats(ratings_df, scores_df, pts_col):
     """
@@ -204,7 +342,6 @@ def calculate_resume_stats(ratings_df, scores_df, pts_col):
     ratings_df = ratings_df.merge(resume_df, on='Team', how='left')
     return ratings_df
 
-# --- CONSISTENCY CALCULATOR (UPDATED) ---
 # --- CONSISTENCY / VOLATILITY METRIC (NEW) ---
 def calculate_consistency(ratings_df, scores_df, pts_col, model_hfa,
                           sigma0=11.0,
@@ -277,9 +414,6 @@ def calculate_consistency(ratings_df, scores_df, pts_col, model_hfa,
     ratings_df['Volatility_z'] = vol_out
     ratings_df['Swing_z'] = swing_out
     return ratings_df
-
-
-
 
 def calculate_rq_pythag(ratings_df, scores_df, pts_col):
 
@@ -412,7 +546,9 @@ def calculate_ratings(
     weights = df['possessions'] * (decay_rate ** df['days_ago'])
     global_pace = df['pace_40'].mean()
     
-    if np.isnan(global_pace) or np.isnan(global_ppp): return
+    if np.isnan(global_pace) or np.isnan(global_ppp): 
+        print("Error: global_pace or global_ppp is NaN.")
+        return
 
     # ---------- MATRICES ----------
     teams = sorted(set(df['team']) | set(df['opponent']))
@@ -436,7 +572,9 @@ def calculate_ratings(
     y_eff = cap_efficiency_margin(raw_diff)
     y_pace = df['pace_40'].values - global_pace
     
-    if np.isnan(y_eff).any() or np.isnan(y_pace).any(): return
+    if np.isnan(y_eff).any() or np.isnan(y_pace).any(): 
+        print("Error: NaNs detected in targets.")
+        return
 
     # ---------- FIT ----------
     clf_eff = RidgeCV(
@@ -503,8 +641,11 @@ def calculate_ratings(
     # 2. Consistency
     ratings = calculate_consistency(ratings, df, pts_col, model_hfa)
     
-    # 3. Resume Stats (Quadrants, SOS, Top 100) -> NEW
+    # 3. Resume Stats (Quadrants, SOS, Top 100)
     ratings = calculate_resume_stats(ratings, df, pts_col)
+
+    # 4. Strength Adjust (NEW)
+    ratings = calculate_strength_adjust(ratings, df, pts_col, model_hfa)
 
     # ---------- RANK ----------
     ratings = ratings.sort_values('Blended_AdjEM', ascending=False).reset_index(drop=True)
@@ -514,8 +655,12 @@ def calculate_ratings(
     ratings.to_csv('cbb_ratings.csv')
 
     print("\nTop 15 Analysis:")
-    # Print more columns to verify new stats
-    print(ratings[['Team', 'Blended_AdjEM','RQ', 'SOS', 'Q1_W', 'Q1_L', 'T100_W']].head(15).round(2).to_string())
+    print(
+        ratings[
+            ['Team', 'Blended_AdjEM', 'RQ', 'StrengthAdjust', 'TopPerf', 'BadBeat',
+             'SOS', 'Q1_W', 'Q1_L', 'T100_W']
+        ].head(15).round(2).to_string()
+    )
     print("\nSaved to cbb_ratings.csv")
 
 if __name__ == "__main__":

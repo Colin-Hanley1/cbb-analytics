@@ -233,7 +233,7 @@ def generate_teams_js(df_ratings, df_scores):
             'wab_total': round(row.get('RQ', 0.0), 2),
             'consistency': round(row.get('Consistency', 50.0), 1),
             'sel_score': round(row.get('Selection_Score', 0.0), 1), 
-            # Add new metrics
+            'sa': round(row.get('StrengthAdjust', 0.0), 2),
             'sos': round(row.get('SOS', 0.0), 2),
             'q1_w': int(row.get('Q1_W', 0)), 'q1_l': int(row.get('Q1_L', 0)),
             'q2_w': int(row.get('Q2_W', 0)), 'q2_l': int(row.get('Q2_L', 0)),
@@ -296,7 +296,7 @@ def generate_index(df, df_conf):
     df['Rank_RQ'] = df['RQ'].rank(ascending=False, method='min').astype(int)
     df['Rank_SLS'] = df['Selection_Score'].rank(ascending=False, method='min').astype(int)
     df['Rank_SOS'] = df['SOS'].rank(ascending=False, method='min').astype(int) if 'SOS' in df.columns else 0
-
+    df['Rank_SA'] = df['StrengthAdjust'].rank(ascending=False, method='min').astype(int) if 'StrengthAdjust' in df.columns else 0
     if df_conf is not None:
         df = df.merge(df_conf, on='Team', how='left')
         df['Conference'] = df['Conference'].fillna('Unknown')
@@ -310,7 +310,7 @@ def generate_index(df, df_conf):
     df = df.loc[:, ~df.columns.duplicated()]
 
     cols = ['Rank', 'Team', 'Conference', 'Link', 'AdjEM', 'Pure_AdjEM', 'RQ', 'Consistency', 
-            'Selection_Score', 'AdjO', 'AdjD', 'AdjT', 
+            'Selection_Score', 'AdjO', 'AdjD', 'AdjT', 'StrengthAdjust', 'Rank_SA',
             'Rank_AdjO', 'Rank_AdjD', 'Rank_AdjT', 'Rank_RQ', 'Rank_SLS', 'Rank_Consistency',
             'SOS', 'Q1_W', 'T100_W', 'Rank_SOS'] # Added extra metrics if available
             

@@ -153,12 +153,14 @@
                             <th class="px-4 py-4 text-right bg-orange-50/50 text-orange-900 hidden pure-col cursor-pointer hover:bg-orange-100" onclick="handleSort('Pure_AdjEM', this)">Pure</th>
                             <th class="px-4 py-4 text-right bg-purple-50/50 text-purple-900 cursor-pointer hover:bg-purple-100 border-l border-purple-100" onclick="handleSort('RQ', this)">RQ</th>
                             <th class="px-4 py-4 text-right bg-purple-50/50 text-slate-900 cursor-pointer hover:bg-purple-100 border-l border-purple-100 border-r border-slate-200" onclick="handleSort('SOS', this)">SOS</th>
+                            <th class="px-4 py-4 text-right text-slate-500 cursor-pointer hover:bg-slate-100 border-l border-slate-200" onclick="handleSort('StrengthAdjust', this)">Str Adj</th>
                             <th class="px-4 py-4 text-right bg-slate-100 text-slate-800 cursor-pointer hover:bg-slate-200 border-r border-slate-200" onclick="handleSort('Selection_Score', this)">Sel. Score</th>
                             
                             <th class="px-4 py-4 text-right text-slate-500 cursor-pointer hover:bg-slate-100" onclick="handleSort('AdjO', this)">AdjO</th>
                             <th class="px-4 py-4 text-right text-slate-500 cursor-pointer hover:bg-slate-100" onclick="handleSort('AdjD', this)">AdjD</th>
                             <th class="px-4 py-4 text-right text-slate-500 cursor-pointer hover:bg-slate-100" onclick="handleSort('AdjT', this)">Tempo</th>
                             <th class="px-4 py-4 text-right text-slate-500 cursor-pointer hover:bg-slate-100 border-l border-slate-200" onclick="handleSort('Consistency', this)">Cons</th>
+
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100" id="tableBody"></tbody>
@@ -445,6 +447,10 @@
                 const adjdratio =(row.Rank_AdjD -1) / (totalRows -1);
                 const adjdhue = Math.pow(1 - adjdratio,3) * 120;
                 const adjDStyle = `color: hsla(${adjdhue}, 100%, 35%, 1);`;
+
+                const strAdjratio = (row.Rank_SA -1) / (totalRows -1);
+                const strAdjhue = Math.pow(1 - strAdjratio,3) * 120;
+                const strAdjStyle = `color: hsla(${strAdjhue}, 100%, 35%, 1);`;
                 html += `
                 <tr class="hover:bg-slate-50 transition-colors group border-b border-slate-50">
                     
@@ -481,6 +487,10 @@
                         ${row.SOS.toFixed(2)}
                         <span class="text-[10px] text-slate-400 ml-1 font-mono">${row.Rank_SOS || '-'}</span>
                     </td> 
+                    <td class="px-4 py-3  text-right bg-blue-50/20 text-xs sm:text-sm font-mono font-bold" style="${strAdjStyle}">
+                        ${row.StrengthAdjust.toFixed(2)}
+                        <span class="text-[10px] text-slate-400 ml-1 font-mono">${row.Rank_SA || '-'}</span>
+                    </td> 
                     <!-- SOS -->
                     <!-- Selection Score -->
                     <td class="px-4 py-3 font-bold text-slate-800 text-right bg-slate-100/50 text-sm font-mono border-l border-slate-200">${scoreVal}<span class="text-[10px] text-slate-400 ml-0.5">${row.Rank_SLS || '-'}</span></td>
@@ -497,7 +507,9 @@
                     <td class="px-4 py-3 text-slate-600 text-right text-sm font-mono">${row.AdjT.toFixed(1)} <span class="text-[10px] text-slate-400 ml-0.5">${row.Rank_AdjT || '-'}</span></td>
                     
                     <td class="px-4 py-3 font-bold ${consColor} text-right text-sm font-mono border-l border-slate-100">${consVal.toFixed(1)}<span class="text-[10px] text-slate-400 ml-0.5">${row.Rank_Consistency || '-'}</span></td>
-                </tr>`;
+                    
+                
+                    </tr>`;
             });
             tbody.innerHTML = html;
         }
