@@ -86,7 +86,7 @@
                 
                 <div class="flex items-center gap-4">
                     <div class="hidden md:block text-xs font-mono text-slate-400 bg-slate-800 px-3 py-1.5 rounded-full border border-slate-700">
-                        <span class="text-brand-500">●</span> Live Update: <span class="text-slate-200">2026-01-23 16:05 UTC</span>
+                        <span class="text-brand-500">●</span> Live Update: <span class="text-slate-200">2026-01-23 20:40 UTC</span>
                     </div>
 
                     <div class="-mr-2 flex md:hidden">
@@ -261,7 +261,10 @@
             if(chartInstance) chartInstance.destroy();
 
             const count = currentData.length;
-            let radiusSize = 1/(count**.43)
+            let radiusSize = 10
+            if (count < 25) radiusSize = 16;
+            else if (count < 50) radiusSize = 14;
+            else if (count < 100) radiusSize = 12;
 
             const imagePromises = currentData.map(row => {
                 return new Promise((resolve) => {
@@ -377,7 +380,7 @@
             if (sortCol === col) sortAsc = !sortAsc;
             else {
                 sortCol = col;
-                sortAsc = (col === 'Rank' || col === 'Team' || col === 'AdjD' || col === 'Conference');
+                sortAsc = (col === 'Rank' || col === 'Team' || col === 'AdjD' || col === 'Conference' || col === 'Avg LQ');
             }
             renderTable();
         }
@@ -409,10 +412,29 @@
             else { noData.classList.add('hidden'); }
 
             currentData.sort((a, b) => {
-                let valA = a[sortCol] || "", valB = b[sortCol] || "";
-                if (typeof valA === 'string') return sortAsc ? valA.localeCompare(valB) : valB.localeCompare(valA);
-                return sortAsc ? valA - valB : valB - valA;
-            });
+  const vA = a?.[sortCol];
+  const vB = b?.[sortCol];
+
+  // Handle null / undefined explicitly
+  if (vA == null && vB == null) return 0;
+  if (vA == null) return sortAsc ? 1 : -1;
+  if (vB == null) return sortAsc ? -1 : 1;
+
+  // Try numeric comparison first
+  const nA = Number(vA);
+  const nB = Number(vB);
+
+  if (Number.isFinite(nA) && Number.isFinite(nB)) {
+    return sortAsc ? (nA - nB) : (nB - nA);
+  }
+
+  // Fallback: safe string comparison
+  const sA = String(vA).toLowerCase();
+  const sB = String(vB).toLowerCase();
+
+  return sortAsc ? sA.localeCompare(sB) : sB.localeCompare(sA);
+});
+
 
             document.querySelectorAll('th').forEach(th => {
                 th.classList.remove('text-brand-600', 'bg-slate-100'); // Clean old sorts
@@ -515,6 +537,8 @@
                     </td> 
                     <td class="px-4 py-3 text-slate-600 text-right text-sm font-mono">${row.AdjT.toFixed(1)} <span class="text-[10px] text-slate-400 ml-0.5">${row.Rank_AdjT || '-'}</span></td>
                     
+
+
                     <td class="px-4 py-3 font-bold ${consColor} text-right text-sm font-mono border-l border-slate-100">${consVal.toFixed(1)}<span class="text-[10px] text-slate-400 ml-0.5">${row.Rank_Consistency || '-'}</span></td>
                     
                 
