@@ -416,97 +416,145 @@ def calculate_consistency(ratings_df, scores_df, pts_col, model_hfa,
     return ratings_df
 
 def calculate_rq_pythag(ratings_df, scores_df, pts_col):
+    """
+    Robust Resume Quality (RQ) vs bubble team using Pythagenport probabilities.
 
-    print("Calculating Resume Quality (RQ) using Pythagenport...")
-    
+    Fixes duplicate-game inflation by:
+      - creating canonical game_id (date-normalized + sorted team names)
+      - collapsing to exactly one row per (team, game_id)
+
+    Adds:
+      - RQ_Win_Avg, RQ_Loss_Avg
+      - RQ_Wins_N, RQ_Losses_N
+    """
+
+    print("Calculating Resume Quality (RQ) using Pythagenport (robust game-level)...")
+
+    # --- Bubble profile ---
     sorted_ratings = ratings_df.sort_values('Blended_AdjEM', ascending=False).reset_index(drop=True)
-    
-    start_idx = 44
-    end_idx = 50
+    start_idx, end_idx = 44, 50
     if len(sorted_ratings) < 50:
         start_idx = max(0, len(sorted_ratings) - 6)
         end_idx = len(sorted_ratings)
-        
+
     bubble_subset = sorted_ratings.iloc[start_idx:end_idx]
-    
     bubble_stats = {
-        'AdjO': bubble_subset['AdjO'].mean(),
-        'AdjD': bubble_subset['AdjD'].mean(),
-        'AdjT': bubble_subset['AdjT'].mean()
+        'AdjO': float(bubble_subset['AdjO'].mean()),
+        'AdjD': float(bubble_subset['AdjD'].mean()),
+        'AdjT': float(bubble_subset['AdjT'].mean())
     }
     print(f"  Bubble Profile: AdjO {bubble_stats['AdjO']:.1f} | AdjD {bubble_stats['AdjD']:.1f} | Tempo {bubble_stats['AdjT']:.1f}")
 
+    # Opponent stats map (fallback handled below)
     stats_map = ratings_df.set_index('Team')[['AdjO', 'AdjD', 'AdjT']].to_dict('index')
 
-    opp_scores = scores_df[['date', 'team', pts_col]].rename(columns={'team': 'opponent', pts_col: 'opp_pts'})
-    opp_scores = opp_scores.drop_duplicates(subset=['date', 'opponent'])
-    
-    games = scores_df.merge(opp_scores, on=['date', 'opponent'], how='left')
-    games['is_win'] = (games[pts_col] > games['opp_pts']).astype(float)
-    
-    expected_wins = {}
-    actual_wins = {}
-    
-    for team in ratings_df['Team']:
-        team_games = games[games['team'] == team].copy()
-        
-        if team_games.empty:
-            expected_wins[team] = 0.0
-            actual_wins[team] = 0.0
-            continue
-            
-        bubble_win_probs = []
-        
-        for _, row in team_games.iterrows():
-            opp_name = row['opponent']
-            location = row['location_value'] # 1=Home, -1=Away, 0=Neutral
-            
-            # Get Opponent Stats (Default to a "Bad D1" profile if missing)
-            if opp_name in stats_map:
-                opp = stats_map[opp_name]
-            else:
-                # Default for Non-D1: Bad Offense, Bad Defense, Avg Tempo
-                opp = {'AdjO': 95.0, 'AdjD': 115.0, 'AdjT': 68.5}
-            
-            # --- PYTHAGENPORT PREDICTION LOGIC ---
-            # Bubble Team (A) vs Opponent (B)
-            
-            # 1. Adjust for Location (From Bubble Team's perspective)
-            # If original team played Home (1), Bubble Team plays Home
-            hfa_adj = 0
-            if location == 1: hfa_adj = HFA_VAL
-            elif location == -1: hfa_adj = -HFA_VAL
-                
-            # 2. Expected Efficiency
-            # Bubble Offense vs Opp Defense
-            exp_eff_bubble = bubble_stats['AdjO'] + opp['AdjD'] - AVG_EFF + hfa_adj
-            # Opp Offense vs Bubble Defense
-            exp_eff_opp = opp['AdjO'] + bubble_stats['AdjD'] - AVG_EFF - hfa_adj
-            
-            # 3. Expected Tempo
-            exp_tempo = bubble_stats['AdjT'] + opp['AdjT'] - AVG_TEMPO
-            
-            # 4. Projected Score
-            score_bubble = (exp_eff_bubble * exp_tempo) / 100
-            score_opp = (exp_eff_opp * exp_tempo) / 100
-            
-            # 5. Win Probability
-            # Avoid divide by zero if scores are weirdly 0
-            if score_bubble <= 0 or score_opp <= 0:
-                prob = 0.0 if score_opp > score_bubble else 1.0
-            else:
-                prob = (score_bubble ** PYTH_EXP) / ((score_bubble ** PYTH_EXP) + (score_opp ** PYTH_EXP))
-            
-            bubble_win_probs.append(prob)
-            
-        # Sum probabilities to get expected wins against this schedule
-        expected_wins[team] = sum(bubble_win_probs)
-        actual_wins[team] = team_games['is_win'].sum()
+    # --- Build game table with opponent points ---
+    games = scores_df.copy()
+    games = games.dropna(subset=['date', 'team', 'opponent'])
 
-    # 5. Attach to DataFrame
-    ratings_df['RQ'] = ratings_df['Team'].apply(lambda x: actual_wins.get(x, 0) - expected_wins.get(x, 0))
-    
+    # Normalize date to day (kills timestamp duplicates)
+    games['date_day'] = pd.to_datetime(games['date']).dt.normalize()
+
+    # Create canonical (order-invariant) game id
+    def _pair_key(r):
+        a, b = str(r['team']), str(r['opponent'])
+        x, y = (a, b) if a <= b else (b, a)
+        return f"{x}__{y}"
+
+    games['pair_key'] = games.apply(_pair_key, axis=1)
+    games['game_id'] = games['date_day'].astype(str) + "__" + games['pair_key']
+
+    # Attach opponent points by matching opponent's row in same game_id
+    opp_pts_df = games[['game_id', 'team', pts_col]].rename(columns={'team': 'opponent', pts_col: 'opp_pts'})
+    # if opponent has duplicates too, reduce before merge
+    opp_pts_df = opp_pts_df.groupby(['game_id', 'opponent'], as_index=False).first()
+
+    games = games.merge(opp_pts_df, on=['game_id', 'opponent'], how='left')
+
+    # Determine win/loss for THIS team vs opponent
+    games['is_win'] = (games[pts_col] > games['opp_pts']).astype(int)
+
+    # Collapse to ONE row per (team, game_id)
+    # Sort preference: keep row with non-null opp_pts, then most recent original date if you had timestamps
+    games = games.sort_values(['team', 'game_id'])
+    games = games.groupby(['team', 'game_id'], as_index=False).first()
+
+    # --- Per-team accumulation ---
+    rq_total_map = {}
+    rq_win_avg_map = {}
+    rq_loss_avg_map = {}
+    rq_wins_n_map = {}
+    rq_losses_n_map = {}
+
+    for team in ratings_df['Team']:
+        tg = games[games['team'] == team].copy()
+        if tg.empty:
+            rq_total_map[team] = 0.0
+            rq_win_avg_map[team] = 0.0
+            rq_loss_avg_map[team] = 0.0
+            rq_wins_n_map[team] = 0
+            rq_losses_n_map[team] = 0
+            continue
+
+        win_resids = []
+        loss_resids = []
+        expected_wins_sum = 0.0
+        actual_wins_sum = 0.0
+
+        for _, row in tg.iterrows():
+            opp_name = row['opponent']
+            location = row.get('location_value', 0)  # 1=Home, -1=Away, 0=Neutral
+
+            # Opponent profile
+            opp = stats_map.get(opp_name, {'AdjO': 95.0, 'AdjD': 115.0, 'AdjT': AVG_TEMPO})
+
+            # Location adjustment from bubble perspective
+            hfa_adj = HFA_VAL if location == 1 else (-HFA_VAL if location == -1 else 0.0)
+
+            # Expected efficiencies
+            exp_eff_bubble = bubble_stats['AdjO'] + opp['AdjD'] - AVG_EFF + hfa_adj
+            exp_eff_opp    = opp['AdjO'] + bubble_stats['AdjD'] - AVG_EFF - hfa_adj
+
+            # Expected tempo
+            exp_tempo = bubble_stats['AdjT'] + opp['AdjT'] - AVG_TEMPO
+
+            # Projected scores
+            score_bubble = (exp_eff_bubble * exp_tempo) / 100.0
+            score_opp    = (exp_eff_opp * exp_tempo) / 100.0
+
+            # Win probability
+            if score_bubble <= 0 or score_opp <= 0:
+                p = 0.0 if score_opp > score_bubble else 1.0
+            else:
+                p = (score_bubble ** PYTH_EXP) / ((score_bubble ** PYTH_EXP) + (score_opp ** PYTH_EXP))
+
+            expected_wins_sum += p
+
+            is_win = int(row['is_win'])
+            actual_wins_sum += is_win
+
+            resid = is_win - p
+            if is_win == 1:
+                win_resids.append(resid)     # 1 - p
+            else:
+                loss_resids.append(resid)    # -p
+
+        rq_total = actual_wins_sum - expected_wins_sum
+
+        rq_total_map[team] = float(rq_total)
+        rq_win_avg_map[team] = float(np.mean(win_resids)) if win_resids else 0.0
+        rq_loss_avg_map[team] = float(np.mean(loss_resids)) if loss_resids else 0.0
+        rq_wins_n_map[team] = int(len(win_resids))
+        rq_losses_n_map[team] = int(len(loss_resids))
+
+    ratings_df['RQ'] = ratings_df['Team'].map(rq_total_map).fillna(0.0)
+    ratings_df['RQ_Win_Avg'] = ratings_df['Team'].map(rq_win_avg_map).fillna(0.0)
+    ratings_df['RQ_Loss_Avg'] = ratings_df['Team'].map(rq_loss_avg_map).fillna(0.0)
+    ratings_df['RQ_Wins_N'] = ratings_df['Team'].map(rq_wins_n_map).fillna(0).astype(int)
+    ratings_df['RQ_Losses_N'] = ratings_df['Team'].map(rq_losses_n_map).fillna(0).astype(int)
+
     return ratings_df
+
 
 # --- MAIN ENGINE ---
 def calculate_ratings(

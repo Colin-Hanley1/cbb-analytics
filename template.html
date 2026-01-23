@@ -160,14 +160,18 @@
                             
                             <th class="px-4 py-4 text-right bg-brand-50/50 text-brand-900 cursor-pointer hover:bg-brand-100" onclick="handleSort('AdjEM', this)">AdjEM</th>
                             <th class="px-4 py-4 text-right bg-orange-50/50 text-orange-900 hidden pure-col cursor-pointer hover:bg-orange-100" onclick="handleSort('Pure_AdjEM', this)">Pure</th>
-                            <th class="px-4 py-4 text-right bg-purple-50/50 text-purple-900 cursor-pointer hover:bg-purple-100 border-l border-purple-100" onclick="handleSort('RQ', this)">RQ</th>
-                            <th class="px-4 py-4 text-right bg-purple-50/50 text-slate-900 cursor-pointer hover:bg-purple-100 border-l border-purple-100 border-r border-slate-200" onclick="handleSort('SOS', this)">SOS</th>
-                            <th class="px-4 py-4 text-right text-slate-500 cursor-pointer hover:bg-slate-100 border-l border-slate-200" onclick="handleSort('StrengthAdjust', this)">SDiff</th>
-                            <th class="px-4 py-4 text-right bg-slate-100 text-slate-800 cursor-pointer hover:bg-slate-200 border-r border-slate-200" onclick="handleSort('Selection_Score', this)">Sel. Score</th>
-                            
                             <th class="px-4 py-4 text-right text-slate-500 cursor-pointer hover:bg-slate-100" onclick="handleSort('AdjO', this)">AdjO</th>
                             <th class="px-4 py-4 text-right text-slate-500 cursor-pointer hover:bg-slate-100" onclick="handleSort('AdjD', this)">AdjD</th>
                             <th class="px-4 py-4 text-right text-slate-500 cursor-pointer hover:bg-slate-100" onclick="handleSort('AdjT', this)">Tempo</th>
+                            <th class="px-4 py-4 text-right bg-purple-50/50 text-slate-900 cursor-pointer hover:bg-purple-100 border-l border-purple-100 border-r border-slate-200" onclick="handleSort('SOS', this)">SOS</th>
+                            <th class="px-4 py-4 text-right text-slate-500 cursor-pointer hover:bg-slate-100 border-l border-slate-200" onclick="handleSort('StrengthAdjust', this)">SDiff</th>
+                            <th class="px-4 py-4 text-right bg-slate-100 text-slate-800 cursor-pointer hover:bg-slate-200 border-r border-slate-200" onclick="handleSort('Selection_Score', this)">Sel. Score</th>
+                            <th class="px-4 py-4 text-right bg-purple-50/50 text-purple-900 cursor-pointer hover:bg-purple-100 border-l border-purple-100" onclick="handleSort('RQ', this)">RQ</th>
+                            <th class="px-4 py-4 text-right bg-purple-50/50 text-purple-900 cursor-pointer hover:bg-purple-100 border-l border-purple-100" onclick="handleSort('RQ_Win_Avg', this)">Avg WQ</th>
+                            <th class="px-4 py-4 text-right bg-purple-50/50 text-purple-900 cursor-pointer hover:bg-purple-100 border-l border-purple-100" onclick="handleSort('RQ_Loss_Avg', this)">Avg LQ</th>
+
+
+
                             <th class="px-4 py-4 text-right text-slate-500 cursor-pointer hover:bg-slate-100 border-l border-slate-200" onclick="handleSort('Consistency', this)">Cons</th>
 
                         </tr>
@@ -482,6 +486,15 @@
                 const strAdjratio = (row.Rank_SA -1) / (totalRows -1);
                 const strAdjhue = Math.pow(1 - strAdjratio,3) * 120;
                 const strAdjStyle = `color: hsla(${strAdjhue}, 100%, 35%, 1);`;
+
+                const wqratio = (row.Rank_awq -1) / (totalRows -1);
+                const wqhue = Math.pow(1 - wqratio,3) * 120;
+                const wqStyle = `color: hsla(${wqhue}, 100%, 35%, 1);`;
+
+                const lqratio = (row.Rank_alq -1) / (totalRows -1);
+                const lqhue = Math.pow(1 - lqratio,3) * 120;
+                const lqStyle = `color: hsla(${lqhue}, 100%, 35%, 1);`;
+
                 html += `
                 <tr class="hover:bg-slate-50 transition-colors group border-b border-slate-50">
                     
@@ -508,11 +521,17 @@
                         ${row.AdjEM.toFixed(2)}
                     </td>                    
                     <td class="px-4 py-3 font-bold text-orange-600 text-right bg-orange-50/20 text-sm font-mono pure-col" style="${showPure ? '' : 'display:none'}">${row.Pure_AdjEM.toFixed(2)}</td>
+                    <td class="px-4 py-3  text-right bg-blue-50/20 text-xs sm:text-sm font-mono" style="${adjOStyle}">
+                        ${row.AdjO.toFixed(2)}
+                        <span class="text-[10px] text-slate-400 ml-1 font-mono">${row.Rank_AdjO || '-'}</span>
+                    </td> 
+                    <td class="px-4 py-3  text-right bg-blue-50/20 text-xs sm:text-sm font-mono" style="${adjDStyle}">
+                        ${row.AdjD.toFixed(2)}
+                        <span class="text-[10px] text-slate-400 ml-1 font-mono">${row.Rank_AdjD || '-'}</span>
+                    </td> 
+                    <td class="px-4 py-3 text-slate-600 text-right text-sm font-mono">${row.AdjT.toFixed(1)} <span class="text-[10px] text-slate-400 ml-0.5">${row.Rank_AdjT || '-'}</span></td>
                     
-                    <td class="px-4 py-3 font-bold text-right bg-blue-50/20 text-xs sm:text-sm font-mono " style="${rqStyle}">
-                        ${row.RQ.toFixed(2)}
-                        <span class="text-[10px] text-slate-400 ml-1 font-mono">${row.Rank_RQ || '-'}</span>
-                    </td>  
+                    
                     
                     <td class="px-4 py-3 font-bold text-right bg-blue-50/20 text-xs sm:text-sm font-mono" style="${sosStyle}">
                         ${row.SOS.toFixed(2)}
@@ -525,17 +544,20 @@
                     <!-- SOS -->
                     <!-- Selection Score -->
                     <td class="px-4 py-3 font-bold text-slate-800 text-right bg-slate-100/50 text-sm font-mono border-l border-slate-200">${scoreVal}<span class="text-[10px] text-slate-400 ml-0.5">${row.Rank_SLS || '-'}</span></td>
+                    <td class="px-4 py-3 font-bold text-right bg-blue-50/20 text-xs sm:text-sm font-mono " style="${rqStyle}">
+                        ${row.RQ.toFixed(2)}
+                        <span class="text-[10px] text-slate-400 ml-1 font-mono">${row.Rank_RQ || '-'}</span>
+                    </td>  
+                    <td class="px-4 py-3 font-bold text-right bg-blue-50/20 text-xs sm:text-sm font-mono " style="${wqStyle}">
+                        ${row.RQ_Win_Avg.toFixed(2)}
+                        <span class="text-[10px] text-slate-400 ml-1 font-mono">${row.Rank_awq || '-'}</span>
+                    </td>  
+                    <td class="px-4 py-3 font-bold text-right bg-blue-50/20 text-xs sm:text-sm font-mono " style="${lqStyle}">
+                        ${row.RQ_Loss_Avg.toFixed(2)}
+                        <span class="text-[10px] text-slate-400 ml-1 font-mono">${row.Rank_alq || '-'}</span>
+                    </td>  
                     
 
-                    <td class="px-4 py-3  text-right bg-blue-50/20 text-xs sm:text-sm font-mono" style="${adjOStyle}">
-                        ${row.AdjO.toFixed(2)}
-                        <span class="text-[10px] text-slate-400 ml-1 font-mono">${row.Rank_AdjO || '-'}</span>
-                    </td> 
-                    <td class="px-4 py-3  text-right bg-blue-50/20 text-xs sm:text-sm font-mono" style="${adjDStyle}">
-                        ${row.AdjD.toFixed(2)}
-                        <span class="text-[10px] text-slate-400 ml-1 font-mono">${row.Rank_AdjD || '-'}</span>
-                    </td> 
-                    <td class="px-4 py-3 text-slate-600 text-right text-sm font-mono">${row.AdjT.toFixed(1)} <span class="text-[10px] text-slate-400 ml-0.5">${row.Rank_AdjT || '-'}</span></td>
                     
 
 

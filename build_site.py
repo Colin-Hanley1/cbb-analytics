@@ -4,14 +4,14 @@ import datetime
 import os
 import json
 import urllib.parse
-from scipy.stats import norm
+from scipy.stats import norm  # (kept, though no longer needed for RQ-consistent WAB)
 
 # --- CRITICAL IMPORTS ---
-import scrape_cbb          
+import scrape_cbb
 # ------------------------
 
 # --- CONFIGURATION ---
-SCRAPER_SCRIPT = "scrape_cbb.py" 
+SCRAPER_SCRIPT = "scrape_cbb.py"
 BRACKET_SCRIPT = "bracket.py"
 RATINGS_SCRIPT = "adj.py"
 OUTPUT_INDEX = "index.html"
@@ -20,6 +20,12 @@ OUTPUT_SCHEDULE = "schedule.html"
 OUTPUT_TEAM_DATA = "teams_data.js"
 CONFERENCE_FILE = "cbb_conferences.csv"
 WEIGHTS_FILE = "model_weights.json"
+
+# --- RQ / WAB CONSTANTS (MATCH adj.py) ---
+AVG_EFF = 106.0
+AVG_TEMPO = 68.5
+HFA_VAL = 3.2
+PYTH_EXP = 11.5
 
 # --- NAME MAPPING ---
 NAME_MAPPING = {
@@ -99,13 +105,13 @@ def get_data():
     except FileNotFoundError:
         print("Error: cbb_scores.csv not found.")
         return df_rat, None, None
-    
+
     # Optional: Load Pure Ratings if available
     try:
         df_pure = pd.read_csv("kenpom_pure.csv")
         pure_map = df_pure.set_index('Team')['AdjEM'].to_dict()
         df_rat['Pure_AdjEM'] = df_rat['Team'].map(pure_map).fillna(0.0)
-    except:
+    except Exception:
         df_rat['Pure_AdjEM'] = 0.0
 
     try:
@@ -118,124 +124,190 @@ def get_data():
 
 def get_nav_html(active_page):
     links = [("index.html", "Rankings"), ("schedule.html", "Today's Games"), ("matchup.html", "Matchup Simulator"), ("bracketology.html", "Bracketology")]
-    
+
     desktop_html = '<div class="hidden md:block"><div class="ml-10 flex items-baseline space-x-4">'
     mobile_html = '<div class="md:hidden" id="mobile-menu"><div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">'
-    
+
     for url, label in links:
         is_active = (active_page == 'index' and url == 'index.html') or \
                     (active_page == 'matchup' and url == 'matchup.html') or \
                     (active_page == 'schedule' and url == 'schedule.html')
-        
+
         d_cls = "bg-slate-900 text-white" if is_active else "text-gray-300 hover:bg-slate-700 hover:text-white"
         desktop_html += f'<a href="{url}" class="{d_cls} px-3 py-2 rounded-md text-sm font-medium transition-colors">{label}</a>'
-        
+
         m_cls = "bg-slate-900 text-white" if is_active else "text-gray-300 hover:bg-slate-700 hover:text-white"
         mobile_html += f'<a href="{url}" class="{m_cls} block px-3 py-2 rounded-md text-base font-medium">{label}</a>'
-        
+
     desktop_html += '</div></div>'
     mobile_html += '</div></div>'
-    
+
     return desktop_html, mobile_html
 
-def generate_teams_js(df_ratings, df_scores):
+def generate_teams_js(df_ratings, df_scores, df_conf):
     print("Generating Team Data JS (SPA)...")
     teams_dict = {}
-    
+
+    # Attach conference if provided
     if df_conf is not None:
         df_ratings = df_ratings.merge(df_conf, on='Team', how='left')
         df_ratings['Conference'] = df_ratings['Conference'].fillna('Unknown')
     else:
         df_ratings['Conference'] = '-'
-    
+
     em_col = 'AdjEM' if 'AdjEM' in df_ratings.columns else 'Blended_AdjEM'
-    ratings_map = df_ratings.set_index('Team')[em_col].to_dict()
-    
-    # Calculate Bubble Threshold
+
+    # --- Bubble Team Profile (MATCH adj.py RQ LOGIC) ---
     sorted_df = df_ratings.sort_values(em_col, ascending=False).reset_index(drop=True)
     start_idx = 44 if len(sorted_df) > 50 else max(0, len(sorted_df) - 6)
     end_idx = 50 if len(sorted_df) > 50 else len(sorted_df)
-    bubble_adjem = sorted_df.iloc[start_idx:end_idx][em_col].mean()
-    print(f"Bubble AdjEM Threshold: {bubble_adjem:.2f}")
-    
+    bubble_subset = sorted_df.iloc[start_idx:end_idx]
+
+    bubble_profile = {
+        "AdjO": float(bubble_subset["AdjO"].mean()),
+        "AdjD": float(bubble_subset["AdjD"].mean()),
+        "AdjT": float(bubble_subset["AdjT"].mean()),
+        "AdjEM": float(bubble_subset[em_col].mean())
+    }
+    print(
+        f"Bubble Profile: AdjO {bubble_profile['AdjO']:.1f} | "
+        f"AdjD {bubble_profile['AdjD']:.1f} | Tempo {bubble_profile['AdjT']:.1f} | "
+        f"AdjEM {bubble_profile['AdjEM']:.2f}"
+    )
+
+    # For expected margin display (val_add), keep your old em-based model:
+    ratings_map = df_ratings.set_index('Team')[em_col].to_dict()
+
+    # For RQ-consistent per-game win prob, we need opponent AdjO/AdjD/AdjT:
+    opp_stats_map = df_ratings.set_index("Team")[["AdjO", "AdjD", "AdjT"]].to_dict("index")
+
+    # --- Prepare full scores with opponent points merged ---
     if df_scores is not None and not df_scores.empty:
         pts_col = 'pts' if 'pts' in df_scores.columns else 'points'
-        
+
         if 'date' in df_scores.columns:
-             df_scores['dt_temp'] = pd.to_datetime(df_scores['date'])
-             df_scores = df_scores.sort_values('dt_temp', ascending=False)
-             df_scores = df_scores.drop(columns=['dt_temp'])
-        
+            df_scores['dt_temp'] = pd.to_datetime(df_scores['date'])
+            df_scores = df_scores.sort_values('dt_temp', ascending=False)
+            df_scores = df_scores.drop(columns=['dt_temp'])
+
+        # De-dupe obvious duplicates
         df_scores = df_scores.drop_duplicates(subset=['date', 'team', 'opponent'], keep='first')
+
         opp_df = df_scores[['date', 'team', pts_col]].rename(columns={'team': 'opponent', pts_col: 'opp_pts'})
         opp_df = opp_df.drop_duplicates(subset=['date', 'opponent'], keep='first')
         full_scores = df_scores.merge(opp_df, on=['date', 'opponent'], how='left')
-        
+
         if 'date' in full_scores.columns:
             full_scores['date'] = pd.to_datetime(full_scores['date'])
+
+        # --- Recommended: canonicalize to avoid double-counting (team-by-team view) ---
+        # game_id = date + sorted(team/opponent)
+        full_scores['game_id'] = (
+            full_scores['date'].dt.normalize().astype(str) + "_" +
+            full_scores.apply(lambda r: "_".join(sorted([str(r['team']), str(r['opponent'])])), axis=1)
+        )
+        # keep first row per (team, game_id) after sorting newest-first above
+        full_scores = full_scores.sort_values(['team', 'game_id']).groupby(['team', 'game_id'], as_index=False).first()
     else:
+        pts_col = 'pts'
         full_scores = pd.DataFrame()
 
+    # --- Build team objects ---
     for _, row in df_ratings.iterrows():
         team = row['Team']
-        
+
         game_list = []
         if not full_scores.empty:
             games = full_scores[full_scores['team'] == team].copy()
             if not games.empty:
                 games = games.sort_values('date', ascending=False)
-                
+
                 for _, g in games.iterrows():
                     opp = g['opponent']
-                    opp_pt = g['opp_pts']
-                    if pd.isna(opp_pt): continue
-                    
+                    opp_pt = g.get('opp_pts', None)
+                    if pd.isna(opp_pt):
+                        continue
+
                     loc_val = g.get('location_value', 0)
                     loc_str = "H" if loc_val == 1 else ("A" if loc_val == -1 else "N")
-                    
+
                     pts = g[pts_col]
                     margin = pts - opp_pt
                     res = "W" if margin > 0 else "L"
-                    
+
+                    # --- Your existing "val" computation (margin/100 poss vs EM expectation) ---
                     opp_rating = ratings_map.get(opp, 0.0)
-                    hfa_adj = 3.2 if loc_val == 1 else (-3.2 if loc_val == -1 else 0)
-                    exp_margin = (row[em_col] - opp_rating) + hfa_adj
-                    
+                    hfa_adj_em = HFA_VAL if loc_val == 1 else (-HFA_VAL if loc_val == -1 else 0.0)
+                    exp_margin_em = (row[em_col] - opp_rating) + hfa_adj_em
+
                     poss = g.get('possessions', 70)
-                    if poss == 0: poss = 70
-                    act_eff = (margin / poss) * 100
-                    val_add = act_eff - exp_margin
-                    
-                    bubble_margin = (bubble_adjem - opp_rating) + hfa_adj
                     try:
-                        exp_win_bubble = norm.cdf(bubble_margin / 11.0)
-                    except:
-                        exp_win_bubble = 1 / (1 + 10 ** (-bubble_margin * 0.027))
+                        poss = float(poss)
+                    except Exception:
+                        poss = 70.0
+                    if poss == 0:
+                        poss = 70.0
+
+                    act_eff = (margin / poss) * 100.0
+                    val_add = act_eff - exp_margin_em
+
+                    # --- FIXED: RQ-consistent per-game residual (actual_win - p_bubble) ---
+                    opp_stats = opp_stats_map.get(opp, {"AdjO": 95.0, "AdjD": 115.0, "AdjT": AVG_TEMPO})
+
+                    # HFA from bubble perspective (matches adj.py)
+                    if loc_val == 1:
+                        hfa = HFA_VAL
+                    elif loc_val == -1:
+                        hfa = -HFA_VAL
+                    else:
+                        hfa = 0.0
+
+                    exp_eff_bubble = bubble_profile["AdjO"] + opp_stats["AdjD"] - AVG_EFF + hfa
+                    exp_eff_opp    = opp_stats["AdjO"] + bubble_profile["AdjD"] - AVG_EFF - hfa
+
+                    exp_tempo = bubble_profile["AdjT"] + opp_stats["AdjT"] - AVG_TEMPO
+
+                    score_bubble = (exp_eff_bubble * exp_tempo) / 100.0
+                    score_opp    = (exp_eff_opp * exp_tempo) / 100.0
+
+                    if score_bubble <= 0 or score_opp <= 0:
+                        p_bubble = 0.0 if score_opp > score_bubble else 1.0
+                    else:
+                        p_bubble = (score_bubble ** PYTH_EXP) / ((score_bubble ** PYTH_EXP) + (score_opp ** PYTH_EXP))
 
                     actual_win = 1.0 if res == "W" else 0.0
-                    wab_game = actual_win - exp_win_bubble
-                    
+                    wab_game = actual_win - p_bubble
+
+                    # date formatting guard
+                    if isinstance(g.get('date', None), pd.Timestamp):
+                        date_str = g['date'].strftime('%m/%d')
+                    else:
+                        try:
+                            date_str = pd.to_datetime(g['date']).strftime('%m/%d')
+                        except Exception:
+                            date_str = str(g.get('date', ''))
+
                     game_list.append({
-                        'date': g['date'].strftime('%m/%d'),
+                        'date': date_str,
                         'opp': opp,
                         'res': res,
                         'loc': loc_str,
                         'score': f"{int(pts)}-{int(opp_pt)}",
-                        'val': round(val_add, 1),
-                        'rq': round(wab_game, 2)
+                        'val': round(float(val_add), 1),
+                        'rq': round(float(wab_game), 2)
                     })
-        
+
         teams_dict[team] = {
-            'rank': int(row['Rank']),
-            'adjem': round(row[em_col], 2),
-            'adjo': round(row['AdjO'], 1),
-            'adjd': round(row['AdjD'], 1),
-            'adjt': round(row['AdjT'], 1),
-            'wab_total': round(row.get('RQ', 0.0), 2),
-            'consistency': round(row.get('Consistency', 50.0), 1),
-            'sel_score': round(row.get('Selection_Score', 0.0), 1), 
-            'sa': round(row.get('StrengthAdjust', 0.0), 2),
-            'sos': round(row.get('SOS', 0.0), 2),
+            'rank': int(row['Rank']) if 'Rank' in row else int(row.get('rank', 0)),
+            'adjem': round(float(row[em_col]), 2),
+            'adjo': round(float(row['AdjO']), 1),
+            'adjd': round(float(row['AdjD']), 1),
+            'adjt': round(float(row['AdjT']), 1),
+            'wab_total': round(float(row.get('RQ', 0.0)), 2),
+            'consistency': round(float(row.get('Consistency', 50.0)), 1),
+            'sel_score': round(float(row.get('Selection_Score', 0.0)), 1),
+            'sa': round(float(row.get('StrengthAdjust', 0.0)), 2),
+            'sos': round(float(row.get('SOS', 0.0)), 2),
             'q1_w': int(row.get('Q1_W', 0)), 'q1_l': int(row.get('Q1_L', 0)),
             'q2_w': int(row.get('Q2_W', 0)), 'q2_l': int(row.get('Q2_L', 0)),
             'q3_w': int(row.get('Q3_W', 0)), 'q3_l': int(row.get('Q3_L', 0)),
@@ -246,7 +318,7 @@ def generate_teams_js(df_ratings, df_scores):
             'rkRQ': int(row.get('Rank_RQ', 0)),
             'games': game_list
         }
-    
+
     js_content = f"const TEAMS_DATA = {json.dumps(teams_dict)};"
     with open(OUTPUT_TEAM_DATA, "w") as f:
         f.write(js_content)
@@ -265,10 +337,12 @@ def generate_index(df, df_conf):
     nav_d, nav_m = get_nav_html('index')
 
     df['Link'] = df['Team'].apply(lambda x: f"team.html?q={urllib.parse.quote(x)}")
-    
+
     # 1. Rename columns
-    if 'Blended_AdjEM' in df.columns: df = df.rename(columns={'Blended_AdjEM': 'AdjEM'})
-    if 'Current_AdjEM' in df.columns: df = df.rename(columns={'Current_AdjEM': 'Pure_AdjEM'})
+    if 'Blended_AdjEM' in df.columns:
+        df = df.rename(columns={'Blended_AdjEM': 'AdjEM'})
+    if 'Current_AdjEM' in df.columns:
+        df = df.rename(columns={'Current_AdjEM': 'Pure_AdjEM'})
 
     # 2. FIX: Deduplicate columns immediately to prevent errors
     df = df.loc[:, ~df.columns.duplicated()]
@@ -276,12 +350,13 @@ def generate_index(df, df_conf):
     # --- CALCULATE SELECTION SCORE ---
     try:
         if os.path.exists(WEIGHTS_FILE):
-            with open(WEIGHTS_FILE, "r") as f: weights = json.load(f)
+            with open(WEIGHTS_FILE, "r") as f:
+                weights = json.load(f)
         else:
             weights = {'ADJEM': 1.0, 'RQ': 4.0}
-            
-        df['ADJEM'] = df['Pure_AdjEM'] 
-        
+
+        df['ADJEM'] = df['Pure_AdjEM']
+
         df['Selection_Score'] = 0.0
         for feat, w in weights.items():
             if feat in df.columns:
@@ -291,32 +366,37 @@ def generate_index(df, df_conf):
         df['Selection_Score'] = 0.0
 
     df['Rank_AdjO'] = df['AdjO'].rank(ascending=False, method='min').astype(int)
-    df['Rank_AdjD'] = df['AdjD'].rank(ascending=True, method='min').astype(int) 
+    df['Rank_AdjD'] = df['AdjD'].rank(ascending=True, method='min').astype(int)
     df['Rank_AdjT'] = df['AdjT'].rank(ascending=False, method='min').astype(int)
-    
-    if 'Consistency' not in df.columns: df['Consistency'] = 50.0
+
+    if 'Consistency' not in df.columns:
+        df['Consistency'] = 50.0
     df['Rank_Consistency'] = df['Consistency'].rank(ascending=False, method='min').astype(int)
     df['Rank_RQ'] = df['RQ'].rank(ascending=False, method='min').astype(int)
     df['Rank_SLS'] = df['Selection_Score'].rank(ascending=False, method='min').astype(int)
     df['Rank_SOS'] = df['SOS'].rank(ascending=False, method='min').astype(int) if 'SOS' in df.columns else 0
     df['Rank_SA'] = df['StrengthAdjust'].rank(ascending=False, method='min').astype(int) if 'StrengthAdjust' in df.columns else 0
+    df['Rank_awq'] = df['RQ_Win_Avg'].rank(ascending=False, method='min').astype(int) if 'RQ_Win_Avg' in df.columns else 0
+    df['Rank_alq'] = df['RQ_Loss_Avg'].rank(ascending=False, method='min').astype(int) if 'RQ_Loss_Avg' in df.columns else 0
+
     if df_conf is not None:
         df = df.merge(df_conf, on='Team', how='left')
         df['Conference'] = df['Conference'].fillna('Unknown')
     else:
         df['Conference'] = '-'
-        
+
     conf_list = sorted([c for c in df['Conference'].unique() if c and c != 'Unknown' and c != '-'])
     conf_json = json.dumps(conf_list)
-    
+
     # 3. Final Deduplication before export
     df = df.loc[:, ~df.columns.duplicated()]
 
-    cols = ['Rank', 'Team', 'Conference', 'Link', 'AdjEM', 'Pure_AdjEM', 'RQ', 'Consistency', 
-            'Selection_Score', 'AdjO', 'AdjD', 'AdjT', 'StrengthAdjust', 'Rank_SA',
-            'Rank_AdjO', 'Rank_AdjD', 'Rank_AdjT', 'Rank_RQ', 'Rank_SLS', 'Rank_Consistency',
-            'SOS', 'Q1_W', 'T100_W', 'Rank_SOS'] # Added extra metrics if available
-            
+    cols = [
+        'Rank', 'Team', 'Conference', 'Link', 'AdjEM', 'Pure_AdjEM', 'RQ', 'RQ_Win_Avg', 'RQ_Loss_Avg', 'Rank_awq', 'Rank_alq', 'Consistency',
+        'Selection_Score', 'AdjO', 'AdjD', 'AdjT', 'StrengthAdjust', 'Rank_SA',
+        'Rank_AdjO', 'Rank_AdjD', 'Rank_AdjT', 'Rank_RQ', 'Rank_SLS', 'Rank_Consistency',
+        'SOS', 'Q1_W', 'T100_W', 'Rank_SOS'
+    ]
     cols = [c for c in cols if c in df.columns]
     rankings_json = df[cols].to_json(orient='records')
 
@@ -325,7 +405,7 @@ def generate_index(df, df_conf):
     html = html.replace("{{LAST_UPDATED}}", now)
     html = html.replace("{{NAV_DESKTOP}}", nav_d)
     html = html.replace("{{NAV_MOBILE}}", nav_m)
-    
+
     with open(OUTPUT_INDEX, "w") as f:
         f.write(html)
     print(f"Generated {OUTPUT_INDEX}")
@@ -334,7 +414,7 @@ def generate_matchup(df):
     print("Generating Matchup...")
     teams_data = {}
     em_col = 'Blended_AdjEM' if 'Blended_AdjEM' in df.columns else 'AdjEM'
-    
+
     # Bubble Threshold for Matchup JS
     sorted_df = df.sort_values(em_col, ascending=False).reset_index(drop=True)
     start_idx = 44 if len(sorted_df) > 50 else max(0, len(sorted_df) - 6)
@@ -350,7 +430,7 @@ def generate_matchup(df):
     try:
         with open("matchup_template.html", "r") as f:
             template = f.read()
-            
+
         nav_d, nav_m = get_nav_html('matchup')
         now = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
 
@@ -368,18 +448,18 @@ def generate_matchup(df):
 
 def generate_schedule():
     print("Generating Schedule Page...")
-    
+
     # 1. Instantiate Scraper (Fixed)
     my_scraper = scrape_cbb.CBBScraper()
     games_list = my_scraper.get_todays_schedule()
-    
+
     # 2. Serialize to JSON
     games_json = json.dumps(games_list)
-    
+
     try:
         with open("schedule_template.html", "r") as f:
             template = f.read()
-            
+
         now = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
         nav_d, nav_m = get_nav_html('schedule')
 
@@ -398,10 +478,11 @@ if __name__ == "__main__":
     run_script(SCRAPER_SCRIPT)
     run_script(RATINGS_SCRIPT)
     run_script(BRACKET_SCRIPT)
+
     df_ratings, df_scores, df_conf = get_data()
 
     if df_ratings is not None:
-        generate_teams_js(df_ratings, df_scores)
+        generate_teams_js(df_ratings, df_scores, df_conf)
         generate_index(df_ratings, df_conf)
         generate_matchup(df_ratings)
         generate_schedule()
