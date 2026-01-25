@@ -378,7 +378,7 @@ def generate_index(df, df_conf):
     df['Rank_SA'] = df['StrengthAdjust'].rank(ascending=False, method='min').astype(int) if 'StrengthAdjust' in df.columns else 0
     df['Rank_awq'] = df['RQ_Win_Avg'].rank(ascending=False, method='min').astype(int) if 'RQ_Win_Avg' in df.columns else 0
     df['Rank_alq'] = df['RQ_Loss_Avg'].rank(ascending=False, method='min').astype(int) if 'RQ_Loss_Avg' in df.columns else 0
-
+    df['Rank_rdadj'] = df['Venue_AdjEM_AN_minus_Home'].rank(ascending=False, method='min').astype(int) if 'Venue_AdjEM_AN_minus_Home' in df.columns else 0
     if df_conf is not None:
         df = df.merge(df_conf, on='Team', how='left')
         df['Conference'] = df['Conference'].fillna('Unknown')
@@ -395,7 +395,7 @@ def generate_index(df, df_conf):
         'Rank', 'Team', 'Conference', 'Link', 'AdjEM', 'Pure_AdjEM', 'RQ', 'RQ_Win_Avg', 'RQ_Loss_Avg', 'Rank_awq', 'Rank_alq', 'Consistency',
         'Selection_Score', 'AdjO', 'AdjD', 'AdjT', 'StrengthAdjust', 'Rank_SA',
         'Rank_AdjO', 'Rank_AdjD', 'Rank_AdjT', 'Rank_RQ', 'Rank_SLS', 'Rank_Consistency',
-        'SOS', 'Q1_W', 'T100_W', 'Rank_SOS'
+        'SOS', 'Q1_W', 'T100_W', 'Rank_SOS', 'Venue_AdjEM_AN_minus_Home', 'Rank_rdadj'
     ]
     cols = [c for c in cols if c in df.columns]
     rankings_json = df[cols].to_json(orient='records')

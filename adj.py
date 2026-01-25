@@ -7,12 +7,12 @@ from datetime import datetime
 
 # ================= CONFIG =================
 BASE_PRESEASON_GAMES = 4     # baseline preseason strength
-SURPRISE_SCALE = 8            # AdjEM std dev
-SURPRISE_CUTOFF = 1.75            # z-score where collapse accelerates
-SURPRISE_STEEPNESS = 1.5          # how sharp the cutoff is
+SURPRISE_SCALE = 8           # AdjEM std dev
+SURPRISE_CUTOFF = 1.75       # z-score where collapse accelerates
+SURPRISE_STEEPNESS = 1.5     # how sharp the cutoff is
 
 # Prediction Constants
-AVG_EFF = 106.0 
+AVG_EFF = 106.0
 AVG_TEMPO = 68.5
 HFA_VAL = 3.2
 PYTH_EXP = 11.5
@@ -87,75 +87,185 @@ def cap_efficiency_margin(raw_diff, cap=25.0):
 def prior_collapse_factor(z):
     return 1 / (1 + np.exp(SURPRISE_STEEPNESS * (np.abs(z) - SURPRISE_CUTOFF)))
 
-# --- STRENGTH ADJUST (NEW) ---
+# ============================================================
+# Venue +/- (AdjEM-based)  <<< FULLY INTEGRATED CHANGE >>>
+# ============================================================
+def calculate_venue_adjem_split(
+    ratings_df: pd.DataFrame,
+    scores_df: pd.DataFrame,
+    pts_col: str,
+    model_hfa: float,
+    shrink_lambda: int = 8,
+    non_d1_adjem: float = -10.0,
+):
+    """
+    Computes an AdjEM-style venue split using per-100-possession residuals vs expectation.
+
+      actual_margin100   = (pts - opp_pts) / poss * 100
+      expected_margin100 = team_EM - opp_EM + hfa_adj
+      resid              = actual_margin100 - expected_margin100
+
+    Aggregates resid by:
+      - Home           (location_value == 1)
+      - Away/Neutral   (location_value != 1)
+
+    Adds columns:
+      Venue_AdjEM_Home
+      Venue_AdjEM_AwayNeutral
+      Venue_AdjEM_AN_minus_Home
+      Venue_AdjEM_Home_N
+      Venue_AdjEM_AwayNeutral_N
+
+    Notes:
+      - Uses robust game_id logic (like your RQ function) to avoid duplicate-game inflation.
+      - Uses Blended_AdjEM for expectation (consistent with your other resume features).
+    """
+
+    print("Calculating Venue +/- (AdjEM-based): Away/Neutral vs Home...")
+
+    if 'Blended_AdjEM' not in ratings_df.columns:
+        raise ValueError("Blended_AdjEM must be computed before calculate_venue_adjem_split().")
+
+    games = scores_df.copy()
+    games = games.dropna(subset=['date', 'team', 'opponent'])
+
+    # Normalize date to day (kills timestamp duplicates)
+    games['date_day'] = pd.to_datetime(games['date']).dt.normalize()
+
+    # Canonical (order-invariant) game id
+    def _pair_key(r):
+        a, b = str(r['team']), str(r['opponent'])
+        x, y = (a, b) if a <= b else (b, a)
+        return f"{x}__{y}"
+
+    games['pair_key'] = games.apply(_pair_key, axis=1)
+    games['game_id'] = games['date_day'].astype(str) + "__" + games['pair_key']
+
+    # Attach opponent points
+    opp_pts_df = games[['game_id', 'team', pts_col]].rename(columns={'team': 'opponent', pts_col: 'opp_pts'})
+    opp_pts_df = opp_pts_df.groupby(['game_id', 'opponent'], as_index=False).first()
+    games = games.merge(opp_pts_df, on=['game_id', 'opponent'], how='left')
+
+    # Collapse to ONE row per (team, game_id) to avoid duplicates inflating venue stats
+    games = games.sort_values(['team', 'game_id'])
+    games = games.groupby(['team', 'game_id'], as_index=False).first()
+
+    # EM lookup for expectation
+    em_map = ratings_df.set_index('Team')['Blended_AdjEM'].to_dict()
+
+    out_rows = []
+    for team in ratings_df['Team']:
+        tg = games[games['team'] == team].copy()
+        if tg.empty:
+            out_rows.append({
+                'Team': team,
+                'Venue_AdjEM_Home': 0.0,
+                'Venue_AdjEM_AwayNeutral': 0.0,
+                'Venue_AdjEM_AN_minus_Home': 0.0,
+                'Venue_AdjEM_Home_N': 0,
+                'Venue_AdjEM_AwayNeutral_N': 0,
+            })
+            continue
+
+        home_resids = []
+        an_resids = []
+
+        team_em = em_map.get(team, 0.0)
+
+        for _, row in tg.iterrows():
+            opp = row['opponent']
+            poss = row.get('possessions', np.nan)
+            pts = row.get(pts_col, np.nan)
+            opp_pts = row.get('opp_pts', np.nan)
+
+            if pd.isna(poss) or poss == 0 or pd.isna(pts) or pd.isna(opp_pts):
+                continue
+
+            # actual margin per 100
+            actual_margin100 = (pts - opp_pts) / poss * 100.0
+
+            # expected margin per 100
+            loc_val = row.get('location_value', 0)
+            hfa_adj = model_hfa if loc_val == 1 else (-model_hfa if loc_val == -1 else 0.0)
+
+            opp_em = em_map.get(opp, non_d1_adjem)
+            expected_margin100 = team_em - opp_em + hfa_adj
+
+            resid = float(actual_margin100 - expected_margin100)
+
+            if loc_val == 1:
+                home_resids.append(resid)
+            else:
+                an_resids.append(resid)
+
+        home_n = len(home_resids)
+        an_n = len(an_resids)
+
+        home_mean = float(np.mean(home_resids)) if home_n > 0 else 0.0
+        an_mean = float(np.mean(an_resids)) if an_n > 0 else 0.0
+
+        # Shrink each split toward 0 independently
+        w_home = home_n / (home_n + shrink_lambda) if home_n > 0 else 0.0
+        w_an = an_n / (an_n + shrink_lambda) if an_n > 0 else 0.0
+        home_mean_s = w_home * home_mean
+        an_mean_s = w_an * an_mean
+
+        # Diff uses min(home, away/neutral) for conservative effective sample size
+        n_eff = min(home_n, an_n)
+        w_diff = n_eff / (n_eff + shrink_lambda) if n_eff > 0 else 0.0
+        diff_s = w_diff * (an_mean - home_mean)
+
+        out_rows.append({
+            'Team': team,
+            'Venue_AdjEM_Home': float(home_mean_s),
+            'Venue_AdjEM_AwayNeutral': float(an_mean_s),
+            'Venue_AdjEM_AN_minus_Home': float(diff_s),
+            'Venue_AdjEM_Home_N': int(home_n),
+            'Venue_AdjEM_AwayNeutral_N': int(an_n),
+        })
+
+    out_df = pd.DataFrame(out_rows)
+    ratings_df = ratings_df.merge(out_df, on='Team', how='left')
+    return ratings_df
+
+
+# --- STRENGTH ADJUST ---
 def calculate_strength_adjust(
     ratings_df,
     scores_df,
     pts_col,
     model_hfa,
     sigma0=11.0,
-    opp_weight_power=2.0,   # higher -> focuses more on truly elite/bottom opponents
-    shrink_lambda=8,        # shrink toward 0 with small samples
-    non_d1_adjem=-10.0      # fallback if opponent missing
+    opp_weight_power=2.0,
+    shrink_lambda=8,
+    non_d1_adjem=-10.0
 ):
-    """
-    StrengthAdjust:
-      - Rewards overperformance vs strong opponents (TopPerf)
-      - Penalizes "beating up on bad teams" (BadBeat)
-      - StrengthAdjust = TopPerf - BadBeat
-
-    residual margin/100 possessions:
-      resid = actual_margin100 - expected_margin100
-
-    Opponent strength weights are based on opponent Blended_AdjEM percentile (0..1):
-      w_top = (strength_pct)^p
-      w_bad = (1 - strength_pct)^p
-    """
-
     print("Calculating Strength Adjust (performance vs strong opponents vs weak opponents)...")
 
     if 'Blended_AdjEM' not in ratings_df.columns:
         raise ValueError("Blended_AdjEM must be computed before calculate_strength_adjust().")
 
-    # --- Build opponent lookup based on Blended_AdjEM ---
     tmp = ratings_df[['Team', 'Blended_AdjEM']].copy()
     tmp = tmp.sort_values('Blended_AdjEM', ascending=False).reset_index(drop=True)
-    tmp['strength_pct'] = 1.0 - (tmp.index / max(1, (len(tmp) - 1)))  # best ~1.0, worst ~0.0
+    tmp['strength_pct'] = 1.0 - (tmp.index / max(1, (len(tmp) - 1)))
 
     strength_pct_map = tmp.set_index('Team')['strength_pct'].to_dict()
-
-    # Team strength for expected margin
     team_adjem = ratings_df.set_index('Team')['Blended_AdjEM'].to_dict()
 
-    # --- Pair each row with opponent score on same date/opponent ---
-    opp_scores = scores_df[['date', 'team', pts_col]].rename(
-        columns={'team': 'opponent', pts_col: 'opp_pts'}
-    )
+    opp_scores = scores_df[['date', 'team', pts_col]].rename(columns={'team': 'opponent', pts_col: 'opp_pts'})
     opp_scores = opp_scores.drop_duplicates(subset=['date', 'opponent'])
     games = scores_df.merge(opp_scores, on=['date', 'opponent'], how='left')
-
-    # Ensure sorted for stability
     games = games.sort_values(['team', 'date'])
 
     out = []
     for team in ratings_df['Team']:
         team_games = games[games['team'] == team].copy()
         if team_games.empty:
-            out.append({
-                'Team': team,
-                'StrengthAdjust': 0.0,
-                'TopPerf': 0.0,
-                'BadBeat': 0.0,
-                'StrengthAdjust_z': 0.0,
-                'StrengthAdjust_n': 0
-            })
+            out.append({'Team': team, 'StrengthAdjust': 0.0, 'TopPerf': 0.0, 'BadBeat': 0.0,
+                        'StrengthAdjust_z': 0.0, 'StrengthAdjust_n': 0})
             continue
 
-        top_num = 0.0
-        top_den = 0.0
-        bad_num = 0.0
-        bad_den = 0.0
-
+        top_num = top_den = bad_num = bad_den = 0.0
         n_used = 0
 
         for _, row in team_games.iterrows():
@@ -169,48 +279,36 @@ def calculate_strength_adjust(
             if team not in team_adjem:
                 continue
 
-            # Actual margin per 100 possessions
             actual_margin100 = (pts - opp_pts) / poss * 100.0
 
-            # Expected margin per 100 possessions from Blended AdjEM + HFA
             loc_val = row.get('location_value', 0)
             hfa_adj = model_hfa if loc_val == 1 else (-model_hfa if loc_val == -1 else 0.0)
 
             opp_em = team_adjem.get(opp, non_d1_adjem)
             expected_margin100 = team_adjem[team] - opp_em + hfa_adj
-
             resid = actual_margin100 - expected_margin100
 
-            # Opponent strength percentile (0..1)
-            s = strength_pct_map.get(opp, 0.0)
-            s = float(np.clip(s, 0.0, 1.0))
-
+            s = float(np.clip(strength_pct_map.get(opp, 0.0), 0.0, 1.0))
             w_top = (s ** opp_weight_power)
             w_bad = ((1.0 - s) ** opp_weight_power)
 
             top_num += w_top * resid
             top_den += w_top
-
             bad_num += w_bad * resid
             bad_den += w_bad
-
             n_used += 1
 
         top_perf = (top_num / top_den) if top_den > 0 else 0.0
         bad_beat = (bad_num / bad_den) if bad_den > 0 else 0.0
 
-        # Contrast metric: good vs top minus padding vs bad
         strength_adjust = top_perf - bad_beat
-
-        # Optional: z-scale for comparability
         strength_adjust_z = strength_adjust / sigma0 if sigma0 else 0.0
 
-        # Shrink toward 0 for small sample sizes
         w_sh = n_used / (n_used + shrink_lambda) if n_used > 0 else 0.0
-        strength_adjust = w_sh * strength_adjust
-        top_perf = w_sh * top_perf
-        bad_beat = w_sh * bad_beat
-        strength_adjust_z = w_sh * strength_adjust_z
+        strength_adjust *= w_sh
+        top_perf *= w_sh
+        bad_beat *= w_sh
+        strength_adjust_z *= w_sh
 
         out.append({
             'Team': team,
@@ -225,29 +323,22 @@ def calculate_strength_adjust(
     ratings_df = ratings_df.merge(out_df, on='Team', how='left')
     return ratings_df
 
-# --- RESUME CALCULATOR (NEW) ---
+
+# --- RESUME CALCULATOR ---
 def calculate_resume_stats(ratings_df, scores_df, pts_col):
-    """
-    Calculates detailed resume metrics: Quadrant Records, SOS, Top 100 Record, Road Performance.
-    """
     print("Calculating Resume Metrics (Quadrants, SOS, Road Record)...")
-    
-    # 1. Setup Lookups
-    # Rank map based on Blended AdjEM
+
     ratings_df = ratings_df.sort_values('Blended_AdjEM', ascending=False).reset_index(drop=True)
     ratings_df['Rank'] = ratings_df.index + 1
-    
+
     rank_map = ratings_df.set_index('Team')['Rank'].to_dict()
     adjem_map = ratings_df.set_index('Team')['Blended_AdjEM'].to_dict()
-    
-    # 2. Prepare Game Data
+
     opp_scores = scores_df[['date', 'team', pts_col]].rename(columns={'team': 'opponent', pts_col: 'opp_pts'})
     opp_scores = opp_scores.drop_duplicates(subset=['date', 'opponent'])
     games = scores_df.merge(opp_scores, on=['date', 'opponent'], how='left')
-    
-    # 3. Helper for Quadrant Logic (NCAA NET Definition)
+
     def get_quadrant(opp_rank, location_val):
-        # 1=Home, 0=Neutral, -1=Away
         if location_val == 1:   # Home
             if opp_rank <= 30: return 1
             if opp_rank <= 75: return 2
@@ -265,46 +356,33 @@ def calculate_resume_stats(ratings_df, scores_df, pts_col):
             return 4
 
     resume_data = []
-
     for team in ratings_df['Team']:
         team_games = games[games['team'] == team].copy()
-        
-        # Quadrant Counters
-        q1_w, q1_l = 0, 0
-        q2_w, q2_l = 0, 0
-        q3_w, q3_l = 0, 0
-        q4_w, q4_l = 0, 0
-        
-        top100_w, top100_l = 0, 0
-        
-        # New Variables Containers
-        sos_list = []
-        road_wins = 0
-        road_games = 0
-        
+
+        q1_w=q1_l=q2_w=q2_l=q3_w=q3_l=q4_w=q4_l=0
+        top100_w=top100_l=0
+        sos_list=[]
+        road_wins=road_games=0
+
         for _, row in team_games.iterrows():
             opp = row['opponent']
-            if opp not in rank_map: continue 
-            
+            if opp not in rank_map:
+                continue
+
             opp_rank = rank_map[opp]
             opp_adjem = adjem_map[opp]
-            
-            # 1. Accumulate SOS (Average Opponent AdjEM)
             sos_list.append(opp_adjem)
-            
-            # Determine Win/Loss
+
             is_win = row[pts_col] > row['opp_pts']
-            
-            # 2. Accumulate Road/Neutral Record
-            # location_value: 1 (Home), 0 (Neutral), -1 (Away)
-            if row['location_value'] != 1:
+
+            if row.get('location_value', 0) != 1:
                 road_games += 1
-                if is_win: road_wins += 1
-            
-            # Quadrants
-            quad = get_quadrant(opp_rank, row['location_value'])
-            
+                if is_win:
+                    road_wins += 1
+
+            quad = get_quadrant(opp_rank, row.get('location_value', 0))
             if quad == 1:
+                (q1_w if is_win else q1_l)
                 if is_win: q1_w += 1
                 else: q1_l += 1
             elif quad == 2:
@@ -313,20 +391,17 @@ def calculate_resume_stats(ratings_df, scores_df, pts_col):
             elif quad == 3:
                 if is_win: q3_w += 1
                 else: q3_l += 1
-            else: # Quad 4
+            else:
                 if is_win: q4_w += 1
                 else: q4_l += 1
-            
+
             if opp_rank <= 100:
                 if is_win: top100_w += 1
                 else: top100_l += 1
-        
-        # Final Calculations
+
         avg_sos = sum(sos_list) / len(sos_list) if sos_list else -10.0
-        
-        # Road Win % (Protect against divide by zero)
         road_pct = (road_wins / road_games) if road_games > 0 else 0.0
-        
+
         resume_data.append({
             'Team': team,
             'SOS': round(avg_sos, 2),
@@ -342,16 +417,16 @@ def calculate_resume_stats(ratings_df, scores_df, pts_col):
     ratings_df = ratings_df.merge(resume_df, on='Team', how='left')
     return ratings_df
 
-# --- CONSISTENCY / VOLATILITY METRIC (NEW) ---
+
+# --- CONSISTENCY / VOLATILITY METRIC ---
 def calculate_consistency(ratings_df, scores_df, pts_col, model_hfa,
                           sigma0=11.0,
                           tau_vol=0.90,
                           tau_swing=1.20,
                           alpha=0.40,
                           shrink_lambda=8,
-                          # ---- FIXED PRIORS (do not change year-to-year) ----
-                          vol_prior_z=1.00,     # typical within-team volatility in z units
-                          swing_prior_z=1.20):  # typical adjacent swing in z units
+                          vol_prior_z=1.00,
+                          swing_prior_z=1.20):
     print("Calculating Volatility-Based Consistency Scores...")
 
     stats_map = ratings_df.set_index('Team')[['Blended_AdjEM']].to_dict('index')
@@ -384,7 +459,6 @@ def calculate_consistency(ratings_df, scores_df, pts_col, model_hfa,
         team_z.setdefault(team, []).append(z)
 
     cons_scores, vol_out, swing_out = [], [], []
-
     for team in ratings_df['Team']:
         zlist = team_z.get(team, [])
         n = len(zlist)
@@ -397,7 +471,6 @@ def calculate_consistency(ratings_df, scores_df, pts_col, model_hfa,
             vol = float(np.std(zarr - zarr.mean(), ddof=0))
             swing = float(np.mean(np.abs(np.diff(zarr))))
 
-        # Shrink toward FIXED priors (not season averages)
         w = n / (n + shrink_lambda) if n > 0 else 0.0
         vol_s = w * vol + (1.0 - w) * vol_prior_z
         swing_s = w * swing + (1.0 - w) * swing_prior_z
@@ -415,22 +488,10 @@ def calculate_consistency(ratings_df, scores_df, pts_col, model_hfa,
     ratings_df['Swing_z'] = swing_out
     return ratings_df
 
+
 def calculate_rq_pythag(ratings_df, scores_df, pts_col):
-    """
-    Robust Resume Quality (RQ) vs bubble team using Pythagenport probabilities.
-
-    Fixes duplicate-game inflation by:
-      - creating canonical game_id (date-normalized + sorted team names)
-      - collapsing to exactly one row per (team, game_id)
-
-    Adds:
-      - RQ_Win_Avg, RQ_Loss_Avg
-      - RQ_Wins_N, RQ_Losses_N
-    """
-
     print("Calculating Resume Quality (RQ) using Pythagenport (robust game-level)...")
 
-    # --- Bubble profile ---
     sorted_ratings = ratings_df.sort_values('Blended_AdjEM', ascending=False).reset_index(drop=True)
     start_idx, end_idx = 44, 50
     if len(sorted_ratings) < 50:
@@ -445,17 +506,13 @@ def calculate_rq_pythag(ratings_df, scores_df, pts_col):
     }
     print(f"  Bubble Profile: AdjO {bubble_stats['AdjO']:.1f} | AdjD {bubble_stats['AdjD']:.1f} | Tempo {bubble_stats['AdjT']:.1f}")
 
-    # Opponent stats map (fallback handled below)
     stats_map = ratings_df.set_index('Team')[['AdjO', 'AdjD', 'AdjT']].to_dict('index')
 
-    # --- Build game table with opponent points ---
     games = scores_df.copy()
     games = games.dropna(subset=['date', 'team', 'opponent'])
 
-    # Normalize date to day (kills timestamp duplicates)
     games['date_day'] = pd.to_datetime(games['date']).dt.normalize()
 
-    # Create canonical (order-invariant) game id
     def _pair_key(r):
         a, b = str(r['team']), str(r['opponent'])
         x, y = (a, b) if a <= b else (b, a)
@@ -464,27 +521,17 @@ def calculate_rq_pythag(ratings_df, scores_df, pts_col):
     games['pair_key'] = games.apply(_pair_key, axis=1)
     games['game_id'] = games['date_day'].astype(str) + "__" + games['pair_key']
 
-    # Attach opponent points by matching opponent's row in same game_id
     opp_pts_df = games[['game_id', 'team', pts_col]].rename(columns={'team': 'opponent', pts_col: 'opp_pts'})
-    # if opponent has duplicates too, reduce before merge
     opp_pts_df = opp_pts_df.groupby(['game_id', 'opponent'], as_index=False).first()
 
     games = games.merge(opp_pts_df, on=['game_id', 'opponent'], how='left')
-
-    # Determine win/loss for THIS team vs opponent
     games['is_win'] = (games[pts_col] > games['opp_pts']).astype(int)
 
-    # Collapse to ONE row per (team, game_id)
-    # Sort preference: keep row with non-null opp_pts, then most recent original date if you had timestamps
     games = games.sort_values(['team', 'game_id'])
     games = games.groupby(['team', 'game_id'], as_index=False).first()
 
-    # --- Per-team accumulation ---
-    rq_total_map = {}
-    rq_win_avg_map = {}
-    rq_loss_avg_map = {}
-    rq_wins_n_map = {}
-    rq_losses_n_map = {}
+    rq_total_map, rq_win_avg_map, rq_loss_avg_map = {}, {}, {}
+    rq_wins_n_map, rq_losses_n_map = {}, {}
 
     for team in ratings_df['Team']:
         tg = games[games['team'] == team].copy()
@@ -496,51 +543,40 @@ def calculate_rq_pythag(ratings_df, scores_df, pts_col):
             rq_losses_n_map[team] = 0
             continue
 
-        win_resids = []
-        loss_resids = []
+        win_resids, loss_resids = [], []
         expected_wins_sum = 0.0
         actual_wins_sum = 0.0
 
         for _, row in tg.iterrows():
             opp_name = row['opponent']
-            location = row.get('location_value', 0)  # 1=Home, -1=Away, 0=Neutral
+            location = row.get('location_value', 0)
 
-            # Opponent profile
             opp = stats_map.get(opp_name, {'AdjO': 95.0, 'AdjD': 115.0, 'AdjT': AVG_TEMPO})
-
-            # Location adjustment from bubble perspective
             hfa_adj = HFA_VAL if location == 1 else (-HFA_VAL if location == -1 else 0.0)
 
-            # Expected efficiencies
             exp_eff_bubble = bubble_stats['AdjO'] + opp['AdjD'] - AVG_EFF + hfa_adj
             exp_eff_opp    = opp['AdjO'] + bubble_stats['AdjD'] - AVG_EFF - hfa_adj
-
-            # Expected tempo
             exp_tempo = bubble_stats['AdjT'] + opp['AdjT'] - AVG_TEMPO
 
-            # Projected scores
             score_bubble = (exp_eff_bubble * exp_tempo) / 100.0
             score_opp    = (exp_eff_opp * exp_tempo) / 100.0
 
-            # Win probability
             if score_bubble <= 0 or score_opp <= 0:
                 p = 0.0 if score_opp > score_bubble else 1.0
             else:
                 p = (score_bubble ** PYTH_EXP) / ((score_bubble ** PYTH_EXP) + (score_opp ** PYTH_EXP))
 
             expected_wins_sum += p
-
             is_win = int(row['is_win'])
             actual_wins_sum += is_win
 
             resid = is_win - p
             if is_win == 1:
-                win_resids.append(resid)     # 1 - p
+                win_resids.append(resid)
             else:
-                loss_resids.append(resid)    # -p
+                loss_resids.append(resid)
 
         rq_total = actual_wins_sum - expected_wins_sum
-
         rq_total_map[team] = float(rq_total)
         rq_win_avg_map[team] = float(np.mean(win_resids)) if win_resids else 0.0
         rq_loss_avg_map[team] = float(np.mean(loss_resids)) if loss_resids else 0.0
@@ -557,10 +593,7 @@ def calculate_rq_pythag(ratings_df, scores_df, pts_col):
 
 
 # --- MAIN ENGINE ---
-def calculate_ratings(
-    input_file='cbb_scores.csv',
-    preseason_file='pseason.csv'
-):
+def calculate_ratings(input_file='cbb_scores.csv', preseason_file='pseason.csv'):
     print(f"Loading {input_file}...")
     try:
         df = pd.read_csv(input_file)
@@ -577,24 +610,27 @@ def calculate_ratings(
     df['possessions'] = pd.to_numeric(df['possessions'], errors='coerce')
     df = df.dropna(subset=['possessions'])
     df = df[df['possessions'] > 0].copy()
-    if 'mp' not in df.columns: df['mp'] = 200
+
+    if 'mp' not in df.columns:
+        df['mp'] = 200
     df['mp'] = pd.to_numeric(df['mp'], errors='coerce').fillna(200).replace(0, 200)
 
     df['date'] = pd.to_datetime(df['date'])
     most_recent = df['date'].max()
     df['days_ago'] = (most_recent - df['date']).dt.days
     decay_rate = 0.99
-
     weights = df['possessions'] * (decay_rate ** df['days_ago'])
 
     # ---------- BASELINES ----------
-    global_ppp = (df[pts_col].sum() / df['possessions'].sum()) * 100
-    df['pace_40'] = (df['possessions'] / df['mp']) * 200
+    global_ppp = (df[pts_col].sum() / df['possessions'].sum()) * 100.0
+    df['pace_40'] = (df['possessions'] / df['mp']) * 200.0
+
+    # raw_off_eff must exist in your file; keep your original assumption
     df = df.replace([np.inf, -np.inf], np.nan).dropna(subset=['pace_40', 'raw_off_eff'])
     weights = df['possessions'] * (decay_rate ** df['days_ago'])
     global_pace = df['pace_40'].mean()
-    
-    if np.isnan(global_pace) or np.isnan(global_ppp): 
+
+    if np.isnan(global_pace) or np.isnan(global_ppp):
         print("Error: global_pace or global_ppp is NaN.")
         return
 
@@ -603,7 +639,7 @@ def calculate_ratings(
     n = len(teams)
     t2i = {t: i for i, t in enumerate(teams)}
 
-    X_eff = lil_matrix((len(df), 2*n + 1))
+    X_eff = lil_matrix((len(df), 2 * n + 1))
     X_pace = lil_matrix((len(df), n))
 
     for i, row in df.reset_index(drop=True).iterrows():
@@ -611,7 +647,7 @@ def calculate_ratings(
         o = t2i[row['opponent']]
         X_eff[i, t] = 1
         X_eff[i, n + o] = -1
-        X_eff[i, 2*n] = row['location_value']
+        X_eff[i, 2 * n] = row.get('location_value', 0)
         X_pace[i, t] = 1
         X_pace[i, o] = 1
 
@@ -619,25 +655,22 @@ def calculate_ratings(
     raw_diff = df['raw_off_eff'].values - global_ppp
     y_eff = cap_efficiency_margin(raw_diff)
     y_pace = df['pace_40'].values - global_pace
-    
-    if np.isnan(y_eff).any() or np.isnan(y_pace).any(): 
+
+    if np.isnan(y_eff).any() or np.isnan(y_pace).any():
         print("Error: NaNs detected in targets.")
         return
 
     # ---------- FIT ----------
-    clf_eff = RidgeCV(
-        alphas=[0.1, 1, 5, 10, 25],
-        fit_intercept=False
-    ).fit(X_eff, y_eff, sample_weight=weights.values)
-
-    clf_pace = RidgeCV(
-        alphas=[0.1, 1, 5, 10],
-        fit_intercept=False
-    ).fit(X_pace, y_pace, sample_weight=weights.values)
+    clf_eff = RidgeCV(alphas=[0.1, 1, 5, 10, 25], fit_intercept=False).fit(
+        X_eff, y_eff, sample_weight=weights.values
+    )
+    clf_pace = RidgeCV(alphas=[0.1, 1, 5, 10], fit_intercept=False).fit(
+        X_pace, y_pace, sample_weight=weights.values
+    )
 
     coefs = clf_eff.coef_
     pace_coefs = clf_pace.coef_
-    model_hfa = coefs[-1]
+    model_hfa = float(coefs[-1])
 
     # ---------- CURRENT RATINGS ----------
     current = []
@@ -649,16 +682,18 @@ def calculate_ratings(
         adj_t = global_pace + pace_coefs[i]
         current.append({
             "Team": team,
-            "Current_AdjEM": adj_em,
-            "AdjO": round(adj_o, 1),
-            "AdjD": round(adj_d, 1),
-            "AdjT": round(adj_t, 1)
+            "Current_AdjEM": float(adj_em),
+            "AdjO": round(float(adj_o), 1),
+            "AdjD": round(float(adj_d), 1),
+            "AdjT": round(float(adj_t), 1),
         })
 
     ratings = pd.DataFrame(current)
 
     # ---------- GAMES PLAYED ----------
-    games_played = df.groupby('team').size().rename("Games").reset_index().rename(columns={"team": "Team"})
+    games_played = (
+        df.groupby('team').size().rename("Games").reset_index().rename(columns={"team": "Team"})
+    )
     ratings = ratings.merge(games_played, on="Team", how="left")
 
     # ---------- PRESEASON ----------
@@ -678,37 +713,35 @@ def calculate_ratings(
     ratings['FinalPreseasonWeight'] = BASE_PRESEASON_GAMES * ratings['CollapseFactor']
 
     # ---------- BLENDED RATING ----------
-    G = ratings['Games']
-    w = ratings['FinalPreseasonWeight']
-    ratings['Blended_AdjEM'] = (G/(G + w) * ratings['Current_AdjEM'] + w/(G + w) * ratings['Preseason_AdjEM'])
+    G = ratings['Games'].astype(float)
+    w = ratings['FinalPreseasonWeight'].astype(float)
+    ratings['Blended_AdjEM'] = (G / (G + w) * ratings['Current_AdjEM'] + w / (G + w) * ratings['Preseason_AdjEM'])
 
     # --- ADVANCED CALCULATIONS ---
-    # 1. RQ
     ratings = calculate_rq_pythag(ratings, df, pts_col)
-    
-    # 2. Consistency
     ratings = calculate_consistency(ratings, df, pts_col, model_hfa)
-    
-    # 3. Resume Stats (Quadrants, SOS, Top 100)
     ratings = calculate_resume_stats(ratings, df, pts_col)
-
-    # 4. Strength Adjust (NEW)
     ratings = calculate_strength_adjust(ratings, df, pts_col, model_hfa)
+
+    # >>> INTEGRATED VENUE +/- HERE <<<
+    ratings = calculate_venue_adjem_split(ratings, df, pts_col, model_hfa)
 
     # ---------- RANK ----------
     ratings = ratings.sort_values('Blended_AdjEM', ascending=False).reset_index(drop=True)
     ratings.index += 1
     ratings.index.name = 'Rank'
 
-    ratings.to_csv('cbb_ratings.csv')
+    ratings.to_csv('cbb_ratings.csv', index=True)
 
     print("\nTop 15 Analysis:")
-    print(
-        ratings[
-            ['Team', 'Blended_AdjEM', 'RQ', 'StrengthAdjust', 'TopPerf', 'BadBeat',
-             'SOS', 'Q1_W', 'Q1_L', 'T100_W']
-        ].head(15).round(2).to_string()
-    )
+    show_cols = [
+        'Team', 'Blended_AdjEM', 'RQ', 'Venue_AdjEM_AN_minus_Home',
+        'Venue_AdjEM_Home', 'Venue_AdjEM_AwayNeutral',
+        'StrengthAdjust', 'TopPerf', 'BadBeat', 'SOS', 'Q1_W', 'Q1_L', 'T100_W'
+    ]
+    show_cols = [c for c in show_cols if c in ratings.columns]
+    print(ratings[show_cols].head(15).round(2).to_string())
+
     print("\nSaved to cbb_ratings.csv")
 
 if __name__ == "__main__":
