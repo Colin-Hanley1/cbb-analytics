@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Conferences | CHan Analytics</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter','sans-serif'], mono: ['JetBrains Mono','monospace'] },
+          colors: { brand: { 500:'#6366f1', 600:'#4f46e5', 900:'#312e81' } }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body { -webkit-font-smoothing: antialiased; }
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+  </style>
+</head>
+
+<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col selection:bg-brand-500 selection:text-white">
+
+  <!-- NAV -->
+  <nav class="bg-slate-900/95 backdrop-blur-md text-white shadow-lg sticky top-0 z-50 border-b border-slate-700/50" id="siteNav">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+            <div class="flex items-center gap-3">
+                <!-- Use href="#topTableAnchor" for accessibility, but we handle offset in JS -->
+                <a href="#topTableAnchor" onclick="scrollToTableTop(event)" class="flex items-center">
+                    <img
+                      src="wlogo.png"
+                      alt="CHan Analytics"
+                      class="h-6 sm:h-7 w-auto object-contain select-none"
+                      style="max-height: 28px"
+                    />
+                  </a>
+                <div class="hidden md:flex ml-8 space-x-1">
+                    <div class="hidden md:block"><div class="ml-10 flex items-baseline space-x-4"><a href="index.html" class="text-gray-300 hover:bg-slate-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Rankings</a><a href="schedule.html" class="text-gray-300 hover:bg-slate-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Today's Games</a><a href="matchup.html" class="text-gray-300 hover:bg-slate-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Matchup Simulator</a><a href="bracketology.html" class="text-gray-300 hover:bg-slate-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Bracketology</a><a href="conferences.html" class="text-gray-300 hover:bg-slate-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Conferences</a></div></div>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-4">
+                <div class="hidden md:block text-xs font-mono text-slate-400 bg-slate-800 px-3 py-1.5 rounded-full border border-slate-700">
+                    <span class="text-brand-500">●</span> Updated: <span class="text-slate-200">2026-01-26 03:40 UTC</span>
+                </div>
+                <div class="-mr-2 flex md:hidden">
+                    <button type="button" onclick="toggleMenu()" class="text-slate-400 hover:text-white p-2">
+                        <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="md:hidden" id="mobile-menu"><div class="px-2 pt-2 pb-3 space-y-1 sm:px-3"><a href="index.html" class="text-gray-300 hover:bg-slate-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Rankings</a><a href="schedule.html" class="text-gray-300 hover:bg-slate-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Today's Games</a><a href="matchup.html" class="text-gray-300 hover:bg-slate-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Matchup Simulator</a><a href="bracketology.html" class="text-gray-300 hover:bg-slate-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Bracketology</a><a href="conferences.html" class="text-gray-300 hover:bg-slate-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Conferences</a></div></div>
+</nav>
+
+  <main class="flex-grow max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+
+    <!-- Header -->
+    <div class="mb-8">
+      <h1 class="text-3xl sm:text-5xl font-bold tracking-tight leading-none">Conferences</h1>
+      <p class="text-sm text-slate-500 mt-2">
+        Conference strength summary and projected standings (conference games only).
+      </p>
+    </div>
+
+    <!-- Overview: Conference Strength (NOT SORTABLE) -->
+    <div class="bg-white shadow-xl shadow-slate-200/50 rounded-2xl overflow-hidden border border-slate-200 mb-8">
+      <div class="px-5 py-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+        <div>
+          <div class="text-xs font-bold text-slate-400 uppercase tracking-widest">Overview</div>
+          <div class="text-sm font-semibold text-slate-800">Conference strength</div>
+        </div>
+        <div class="text-[10px] font-mono text-slate-400 hidden sm:block">
+          Avg AdjEM, best/worst team
+        </div>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse whitespace-nowrap text-sm">
+          <thead class="bg-slate-50 border-b border-slate-200 text-xs uppercase tracking-wider text-slate-500 font-bold">
+            <tr>
+              <th class="px-5 py-4">Conference</th>
+              <th class="px-5 py-4 text-right">Teams</th>
+              <th class="px-5 py-4 text-right">Avg AdjEM</th>
+              <th class="px-5 py-4">Highest</th>
+              <th class="px-5 py-4 text-right">AdjEM</th>
+              <th class="px-5 py-4">Lowest</th>
+              <th class="px-5 py-4 text-right">AdjEM</th>
+            </tr>
+          </thead>
+          <tbody id="confSummary" class="divide-y divide-slate-100 bg-white"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Projected Standings (SEARCHABLE + SORTABLE) -->
+    <div class="bg-white shadow-xl shadow-slate-200/50 rounded-2xl overflow-hidden border border-slate-200">
+      <div class="px-5 py-4 bg-slate-50 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div>
+          <div class="text-xs font-bold text-slate-400 uppercase tracking-widest">Standings</div>
+          <div class="text-sm font-semibold text-slate-800">Projected conference standings</div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-2 sm:items-center w-full sm:w-auto">
+          <input id="standingsSearch" type="text" placeholder="Search team or conference..."
+                 class="px-3 py-2 rounded-lg border border-slate-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 w-full sm:w-72"/>
+          <select id="standingsConfSelect"
+                  class="px-3 py-2 rounded-lg border border-slate-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 w-full sm:w-56">
+            <option value="">All conferences</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse whitespace-nowrap text-sm">
+          <thead class="bg-slate-50 border-b border-slate-200 text-xs uppercase tracking-wider text-slate-500 font-bold">
+            <tr>
+              <th class="px-5 py-4 text-right cursor-pointer select-none" data-standings-sort="rank">
+                # <span class="ml-1 text-slate-300" id="sortIcon_rank">↕</span>
+              </th>
+              <th class="px-5 py-4 cursor-pointer select-none" data-standings-sort="team">
+                Team <span class="ml-1 text-slate-300" id="sortIcon_team">↕</span>
+              </th>
+              <th class="px-5 py-4 text-right cursor-pointer select-none" data-standings-sort="adjem">
+                AdjEM <span class="ml-1 text-slate-300" id="sortIcon_adjem">↕</span>
+              </th>
+              <th class="px-5 py-4 cursor-pointer select-none" data-standings-sort="conf">
+                Conf <span class="ml-1 text-slate-300" id="sortIcon_conf">↕</span>
+              </th>
+              <th class="px-5 py-4 text-right cursor-pointer select-none" data-standings-sort="actual_wpct">
+                    Current <span class="ml-1 text-slate-300" id="sortIcon_actual_wpct">↕</span>
+              </th>
+              <th class="px-5 py-4 text-right cursor-pointer select-none" data-standings-sort="rem_conf_games">
+                Remaining <span class="ml-1 text-slate-300" id="sortIcon_rem_conf_games">↕</span>
+              </th>
+              <th class="px-5 py-4 text-right cursor-pointer select-none" data-standings-sort="exp_conf_wins_remaining">
+                Expected (rem) <span class="ml-1 text-slate-300" id="sortIcon_exp_conf_wins_remaining">↕</span>
+              </th>
+              <th class="px-5 py-4 text-right cursor-pointer select-none" data-standings-sort="proj_wpct">
+                Projected <span class="ml-1 text-slate-300" id="sortIcon_proj_wpct">↕</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody id="confStandings" class="divide-y divide-slate-100 bg-white"></tbody>
+        </table>
+      </div>
+
+      <div class="px-5 py-3 bg-white border-t border-slate-100 text-[11px] text-slate-400">
+        Search filters standings only. Click a standings column header to sort. Default: projected conference win%.
+      </div>
+    </div>
+
+  </main>
+
+  <script src="conferences_data.js"></script>
+  <script>
+    // -----------------------
+    // Nav mobile collapse fix
+    // -----------------------
+    (function initMobileNav(){
+      const btn = document.getElementById("mobileMenuBtn");
+      const menu = document.getElementById("mobile-menu"); // comes from NAV_MOBILE
+      const iconOpen = document.getElementById("iconOpen");
+      const iconClose = document.getElementById("iconClose");
+
+      if (!btn || !menu) return;
+
+      // Ensure initial state is hidden
+      menu.classList.add("hidden");
+      btn.setAttribute("aria-expanded", "false");
+      iconOpen.classList.remove("hidden");
+      iconClose.classList.add("hidden");
+
+      btn.addEventListener("click", () => {
+        const isHidden = menu.classList.contains("hidden");
+        if (isHidden) {
+          menu.classList.remove("hidden");
+          btn.setAttribute("aria-expanded", "true");
+          iconOpen.classList.add("hidden");
+          iconClose.classList.remove("hidden");
+        } else {
+          menu.classList.add("hidden");
+          btn.setAttribute("aria-expanded", "false");
+          iconOpen.classList.remove("hidden");
+          iconClose.classList.add("hidden");
+        }
+      });
+
+      // Close on resize to desktop
+      window.addEventListener("resize", () => {
+        if (window.innerWidth >= 768) {
+          menu.classList.add("hidden");
+          btn.setAttribute("aria-expanded", "false");
+          iconOpen.classList.remove("hidden");
+          iconClose.classList.add("hidden");
+        }
+      });
+    })();
+
+    // -----------------------
+    // Helpers
+    // -----------------------
+    function safeNum(x, fb=0){ const v = Number(x); return Number.isFinite(v) ? v : fb; }
+    function getLogoPath(name){ return `logos/${name}.png`; }
+
+    function cmp(a, b){
+      if (a === b) return 0;
+      if (a === null || a === undefined) return -1;
+      if (b === null || b === undefined) return 1;
+      if (typeof a === "number" && typeof b === "number") return a < b ? -1 : 1;
+      return String(a).localeCompare(String(b));
+    }
+
+    // -----------------------
+    // Summary (NOT SORTABLE)
+    // -----------------------
+    function renderSummary(data){
+      const tbody = document.getElementById("confSummary");
+      if (!tbody) return;
+
+      const rows = (data.summary || []).slice();
+
+      tbody.innerHTML = rows.map(r => `
+        <tr class="hover:bg-slate-50 transition-colors">
+          <td class="px-5 py-4 font-semibold text-slate-900">${r.conference || ""}</td>
+          <td class="px-5 py-4 text-right font-mono text-slate-600">${safeNum(r.team_count,0)}</td>
+          <td class="px-5 py-4 text-right font-mono font-bold text-slate-900">${safeNum(r.avg_adjem,0).toFixed(2)}</td>
+
+          <td class="px-5 py-4">
+            <div class="flex items-center gap-3">
+              <img src="${getLogoPath(r.highest_team || "")}" class="w-6 h-6 object-contain" onerror="this.style.display='none'">
+              <a class="font-medium text-slate-900 hover:text-brand-600 hover:underline decoration-2 underline-offset-2 transition-colors"
+                 href="team.html?q=${encodeURIComponent(r.highest_team || "")}">
+                ${r.highest_team || ""}
+              </a>
+            </div>
+          </td>
+          <td class="px-5 py-4 text-right font-mono text-slate-600">${safeNum(r.highest_adjem,0).toFixed(2)}</td>
+
+          <td class="px-5 py-4">
+            <div class="flex items-center gap-3">
+              <img src="${getLogoPath(r.lowest_team || "")}" class="w-6 h-6 object-contain" onerror="this.style.display='none'">
+              <a class="font-medium text-slate-900 hover:text-brand-600 hover:underline decoration-2 underline-offset-2 transition-colors"
+                 href="team.html?q=${encodeURIComponent(r.lowest_team || "")}">
+                ${r.lowest_team || ""}
+              </a>
+            </div>
+          </td>
+          <td class="px-5 py-4 text-right font-mono text-slate-600">${safeNum(r.lowest_adjem,0).toFixed(2)}</td>
+        </tr>
+      `).join("") || `
+        <tr><td colspan="7" class="px-5 py-10 text-center text-slate-400">No results.</td></tr>
+      `;
+    }
+
+    // -----------------------
+    // Standings (SEARCHABLE + SORTABLE)
+    // -----------------------
+    let STATE = {
+      confFilter: "",
+      search: "",
+      sort: { key: "proj_wpct", dir: "desc" } // standings-only sort
+    };
+
+    function setStandingsSortIcon(key, dir){
+      document.querySelectorAll(`[id^="sortIcon_"]`).forEach(el => el.textContent = "↕");
+      const el = document.getElementById(`sortIcon_${key}`);
+      if (!el) return;
+      el.textContent = (dir === "asc") ? "↑" : "↓";
+      el.classList.remove("text-slate-300");
+      el.classList.add("text-slate-400");
+    }
+
+    function flattenStandings(data){
+      const standings = data.standings || {};
+      const list = [];
+
+      Object.keys(standings).forEach(conf => {
+        (standings[conf] || []).forEach((r, idx) => {
+          const w = safeNum(r.conf_w, 0);
+          const l = safeNum(r.conf_l, 0);
+          const g = w + l;
+          const actual_wpct = g > 0 ? (w / g) : 0;
+
+          const pw = safeNum(r.proj_conf_wins, 0);
+          const pl = safeNum(r.proj_conf_losses, 0);
+          const pg = pw + pl;
+          const proj_wpct = pg > 0 ? (pw / pg) : 0;
+
+          list.push({
+            orig_rank: idx + 1,
+            team: r.team || "",
+            conf,
+            adjem: safeNum(r.adjem, 0),
+            conf_w: w,
+            conf_l: l,
+            rem_conf_games: safeNum(r.rem_conf_games, 0),
+            exp_conf_wins_remaining: safeNum(r.exp_conf_wins_remaining, 0),
+            proj_conf_wins: pw,
+            proj_conf_losses: pl,
+            actual_wpct,
+            proj_wpct
+          });
+        });
+      });
+
+      return list;
+    }
+
+    function renderStandings(data){
+      const tbody = document.getElementById("confStandings");
+      if (!tbody) return;
+
+      const q = (STATE.search || "").trim().toLowerCase();
+      const confFilter = STATE.confFilter || "";
+
+      let rows = flattenStandings(data).filter(r => {
+        if (confFilter && r.conf !== confFilter) return false;
+        if (!q) return true;
+        return r.team.toLowerCase().includes(q) || r.conf.toLowerCase().includes(q);
+      });
+
+      // sort (standings-only)
+      const {key, dir} = STATE.sort;
+      rows.sort((a, b) => {
+        const c = cmp(a[key], b[key]);
+        return dir === "asc" ? c : -c;
+      });
+
+      setStandingsSortIcon(key, dir);
+
+      tbody.innerHTML = rows.map((r, i) => {
+        const actualStr = `${r.conf_w}-${r.conf_l}`;
+        const projStr = `${r.proj_conf_wins.toFixed(2)}-${r.proj_conf_losses.toFixed(2)}`;
+
+        const projCls = r.proj_wpct >= 0.65 ? "text-emerald-600"
+                      : r.proj_wpct <= 0.35 ? "text-rose-600"
+                      : "text-slate-700";
+
+        const actualCls = r.actual_wpct >= 0.65 ? "text-emerald-600"
+                        : r.actual_wpct <= 0.35 ? "text-rose-600"
+                        : "text-slate-700";
+
+        return `
+          <tr class="hover:bg-slate-50 transition-colors group">
+            <td class="px-5 py-4 text-right font-mono text-slate-400">${i + 1}</td>
+
+            <td class="px-5 py-4">
+              <div class="flex items-center gap-3">
+                <img src="${getLogoPath(r.team)}" class="w-6 h-6 object-contain" onerror="this.style.display='none'">
+                <div>
+                  <a class="font-medium text-slate-900 hover:text-brand-600 hover:underline decoration-2 underline-offset-2 transition-colors"
+                     href="team.html?q=${encodeURIComponent(r.team)}">${r.team}</a>
+                  <div class="text-[11px] text-slate-400">${r.conf}</div>
+                </div>
+              </div>
+            </td>
+
+            <td class="px-5 py-4 text-right font-mono font-bold text-slate-900">${r.adjem.toFixed(2)}</td>
+            <td class="px-5 py-4 font-mono text-slate-600">${r.conf}</td>
+            <td class="px-5 py-4 text-right font-mono ${actualCls} font-bold">${actualStr}</td>
+            <td class="px-5 py-4 text-right font-mono text-slate-600">${r.rem_conf_games}</td>
+            <td class="px-5 py-4 text-right font-mono text-slate-600">${r.exp_conf_wins_remaining.toFixed(2)}</td>
+            <td class="px-5 py-4 text-right font-mono font-bold ${projCls}">${projStr}</td>
+          </tr>
+        `;
+      }).join("") || `
+        <tr><td colspan="8" class="px-5 py-10 text-center text-slate-400">No results.</td></tr>
+      `;
+    }
+
+    function buildStandingsConfOptions(data){
+      const confs = Object.keys(data.standings || {}).sort();
+      const sel = document.getElementById("standingsConfSelect");
+      confs.forEach(c => {
+        const opt = document.createElement("option");
+        opt.value = c;
+        opt.textContent = c;
+        sel.appendChild(opt);
+      });
+    }
+
+    function toggleStandingsSort(key){
+      if (STATE.sort.key === key) {
+        STATE.sort.dir = (STATE.sort.dir === "asc") ? "desc" : "asc";
+      } else {
+        STATE.sort.key = key;
+        const preferDesc = new Set([
+          "adjem","proj_wpct","actual_wpct","rem_conf_games","exp_conf_wins_remaining","rank"
+        ]);
+        STATE.sort.dir = preferDesc.has(key) ? "desc" : "asc";
+      }
+      renderStandings(CONFERENCES_DATA);
+    }
+
+    function attachStandingsSortHandlers(){
+      document.querySelectorAll("th[data-standings-sort]").forEach(th => {
+        th.addEventListener("click", () => toggleStandingsSort(th.getAttribute("data-standings-sort")));
+      });
+    }
+
+    // -----------------------
+    // Init
+    // -----------------------
+    if (typeof CONFERENCES_DATA !== "undefined") {
+      renderSummary(CONFERENCES_DATA);
+      buildStandingsConfOptions(CONFERENCES_DATA);
+      attachStandingsSortHandlers();
+
+      const sSel = document.getElementById("standingsConfSelect");
+      const sInp = document.getElementById("standingsSearch");
+
+      function refreshStandings(){
+        STATE.confFilter = sSel.value || "";
+        STATE.search = sInp.value || "";
+        renderStandings(CONFERENCES_DATA);
+      }
+
+      sSel.addEventListener("change", refreshStandings);
+      sInp.addEventListener("input", refreshStandings);
+
+      // initial render
+      renderStandings(CONFERENCES_DATA);
+    } else {
+      document.querySelector("main").innerHTML =
+        `<div class="text-center mt-20 text-slate-400">
+            conferences_data.js not found.
+            <div class="mt-2"><a class="text-brand-600 hover:underline" href="index.html">Back to Rankings</a></div>
+         </div>`;
+    }
+  </script>
+</body>
+</html>

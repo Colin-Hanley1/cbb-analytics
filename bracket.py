@@ -6,6 +6,8 @@ import numpy as np
 # --- CONFIGURATION ---
 RATINGS_FILE = "cbb_ratings.csv"
 CONFERENCE_FILE = "cbb_conferences.csv"
+SCORES_FILE = "cbb_scores.csv"          # <-- NEW (for actual conf record)
+SCHEDULE_CSV = "schedule.csv"           # <-- NEW (for remaining conf games)
 OUTPUT_HTML = "bracketology.html"
 
 # --- MODEL COEFFICIENTS (Keep your weights here) ---
@@ -23,6 +25,12 @@ SCORING_WEIGHTS = {
 
 # --- MANUAL AUTO-BIDS ---
 MANUAL_AQS = {}
+
+# --- RQ / WAB CONSTANTS (MATCH your site model) ---
+AVG_EFF = 106.0
+AVG_TEMPO = 68.5
+HFA_VAL = 3.2
+PYTH_EXP = 11.5
 
 # --- NAME MAPPING ---
 NAME_MAPPING = {
@@ -82,6 +90,178 @@ NAME_MAPPING = {
    "Mississippi Valley State": "Mississippi Valley St."
 }
 
+# -------------------------
+# Schedule + prediction helpers
+# -------------------------
+def load_schedule_csv(schedule_csv: str) -> pd.DataFrame:
+    if not os.path.exists(schedule_csv):
+        return pd.DataFrame()
+
+    sch = pd.read_csv(schedule_csv)
+    if sch.empty:
+        return sch
+
+    for c in ["team", "opponent"]:
+        if c in sch.columns:
+            sch[c] = sch[c].replace(NAME_MAPPING)
+
+    sch["date"] = pd.to_datetime(sch["date"], errors="coerce")
+    sch = sch.dropna(subset=["date", "team", "opponent"])
+
+    if "location_value" not in sch.columns:
+        sch["location_value"] = 0
+    sch["location_value"] = pd.to_numeric(sch["location_value"], errors="coerce").fillna(0).astype(int)
+
+    return sch
+
+def predict_win_prob_team_vs_opp(team: str, opp: str, loc_val: int, stats_map: dict) -> float:
+    """
+    Returns p(win) from TEAM perspective using AdjO/AdjD/AdjT + Pythag.
+    """
+    if team not in stats_map or opp not in stats_map:
+        return np.nan
+
+    t = stats_map[team]
+    o = stats_map[opp]
+
+    hfa_adj = HFA_VAL if loc_val == 1 else (-HFA_VAL if loc_val == -1 else 0.0)
+
+    exp_eff_team = t["AdjO"] + o["AdjD"] - AVG_EFF + hfa_adj
+    exp_eff_opp  = o["AdjO"] + t["AdjD"] - AVG_EFF - hfa_adj
+    exp_tempo = t["AdjT"] + o["AdjT"] - AVG_TEMPO
+
+    team_pts = (exp_eff_team * exp_tempo) / 100.0
+    opp_pts  = (exp_eff_opp  * exp_tempo) / 100.0
+
+    if team_pts <= 0 or opp_pts <= 0:
+        return 1.0 if team_pts > opp_pts else 0.0
+
+    return float((team_pts ** PYTH_EXP) / ((team_pts ** PYTH_EXP) + (opp_pts ** PYTH_EXP)))
+
+def compute_projected_conf_wins(df: pd.DataFrame, df_conf: pd.DataFrame) -> pd.DataFrame:
+    """
+    Adds:
+      conf_w, conf_l, proj_conf_wins, proj_conf_losses
+    Where projected = actual conf record + expected remaining conf wins from schedule.csv.
+    """
+
+    # Map team -> conference
+    team_to_conf = df_conf.set_index("Team")["Conference"].to_dict()
+
+    # Stats needed for win probs
+    needed = {"AdjO", "AdjD", "AdjT"}
+    if not needed.issubset(df.columns):
+        # fall back: if missing, just set projected to actual (or 0) so AQ logic still runs
+        df["conf_w"] = 0
+        df["conf_l"] = 0
+        df["proj_conf_wins"] = 0.0
+        df["proj_conf_losses"] = 0.0
+        return df
+
+    stats_map = df.set_index("Team")[["AdjO","AdjD","AdjT"]].to_dict("index")
+
+    # -------------------------
+    # (A) Actual conf record from cbb_scores.csv (if available)
+    # -------------------------
+    conf_w = {t: 0 for t in df["Team"].tolist()}
+    conf_l = {t: 0 for t in df["Team"].tolist()}
+
+    if os.path.exists(SCORES_FILE):
+        sco = pd.read_csv(SCORES_FILE)
+        if not sco.empty:
+            # normalize naming
+            for c in ["team","opponent"]:
+                if c in sco.columns:
+                    sco[c] = sco[c].replace(NAME_MAPPING)
+
+            # Determine winners if pts present
+            pts_col = "pts" if "pts" in sco.columns else ("points" if "points" in sco.columns else None)
+            opp_pts_col = "opp_pts" if "opp_pts" in sco.columns else None
+
+            # If opp_pts not present, try to reconstruct from duplicated rows pattern (common in your pipeline)
+            if opp_pts_col is None and pts_col is not None:
+                # Build opponent points by (date, opponent) join when possible
+                if "date" in sco.columns:
+                    tmp = sco.copy()
+                    tmp["date"] = pd.to_datetime(tmp["date"], errors="coerce")
+                    tmp = tmp.dropna(subset=["date","team","opponent"])
+                    opp_df = tmp[["date","team",pts_col]].rename(columns={"team":"opponent", pts_col:"opp_pts"})
+                    opp_df = opp_df.drop_duplicates(subset=["date","opponent"], keep="first")
+                    tmp = tmp.merge(opp_df, on=["date","opponent"], how="left")
+                    sco = tmp
+                    opp_pts_col = "opp_pts"
+
+            # Identify conference games:
+            # - If your scores file already has is_conf_game, use it.
+            # - Else: conference game if both teams share same conference and conference != Unknown.
+            if "is_conf_game" in sco.columns:
+                sco["is_conf_game"] = sco["is_conf_game"].astype(bool)
+                conf_games = sco[sco["is_conf_game"]].copy()
+            else:
+                sco["team_conf"] = sco["team"].map(team_to_conf)
+                sco["opp_conf"] = sco["opponent"].map(team_to_conf)
+                conf_games = sco[(sco["team_conf"].notna()) &
+                                 (sco["opp_conf"].notna()) &
+                                 (sco["team_conf"] == sco["opp_conf"]) &
+                                 (sco["team_conf"] != "Unknown")].copy()
+
+            if not conf_games.empty and pts_col is not None and opp_pts_col is not None:
+                # Only count once per team-game row; assume each team's row exists, which is fine for per-team record.
+                conf_games = conf_games.dropna(subset=[pts_col, opp_pts_col])
+                conf_games["win"] = (conf_games[pts_col] > conf_games[opp_pts_col]).astype(int)
+
+                for _, r in conf_games.iterrows():
+                    t = str(r["team"])
+                    if t not in conf_w:
+                        continue
+                    if int(r["win"]) == 1:
+                        conf_w[t] += 1
+                    else:
+                        conf_l[t] += 1
+
+    # -------------------------
+    # (B) Expected remaining conf wins from schedule.csv
+    # -------------------------
+    exp_rem_w = {t: 0.0 for t in df["Team"].tolist()}
+    exp_rem_l = {t: 0.0 for t in df["Team"].tolist()}
+
+    sch = load_schedule_csv(SCHEDULE_CSV)
+    if not sch.empty:
+        today = pd.Timestamp(datetime.datetime.now().date())
+        sch = sch[sch["date"] >= today].copy()
+
+        # conference filter: remaining conference games only
+        sch["team_conf"] = sch["team"].map(team_to_conf)
+        sch["opp_conf"] = sch["opponent"].map(team_to_conf)
+        sch = sch[(sch["team_conf"].notna()) &
+                 (sch["opp_conf"].notna()) &
+                 (sch["team_conf"] == sch["opp_conf"]) &
+                 (sch["team_conf"] != "Unknown")].copy()
+
+        for _, r in sch.iterrows():
+            team = str(r["team"])
+            opp = str(r["opponent"])
+            loc_val = int(r.get("location_value", 0))
+
+            p = predict_win_prob_team_vs_opp(team, opp, loc_val, stats_map)
+            if not np.isfinite(p):
+                continue
+
+            if team in exp_rem_w:
+                exp_rem_w[team] += p
+                exp_rem_l[team] += (1.0 - p)
+
+    # Attach to df
+    df["conf_w"] = df["Team"].map(conf_w).fillna(0).astype(int)
+    df["conf_l"] = df["Team"].map(conf_l).fillna(0).astype(int)
+    df["proj_conf_wins"] = df["conf_w"].astype(float) + df["Team"].map(exp_rem_w).fillna(0.0).astype(float)
+    df["proj_conf_losses"] = df["conf_l"].astype(float) + df["Team"].map(exp_rem_l).fillna(0.0).astype(float)
+
+    return df
+
+# -------------------------
+# Main
+# -------------------------
 def generate_bracket():
     print("Generating Bracketology...")
 
@@ -104,22 +284,20 @@ def generate_bracket():
     df['Conference'] = df['Conference'].fillna('Unknown')
 
     # 3. CALCULATE SELECTION SCORE (New Model)
-    # Use Current_AdjEM (Pure) if available, else fallback to AdjEM
     if 'Current_AdjEM' in df.columns:
         df['ADJEM'] = df['Current_AdjEM']
     else:
-        df['ADJEM'] = df['AdjEM']  # Fallback
+        df['ADJEM'] = df['AdjEM']
 
-    # Initialize score
     df['Selection_Score'] = 0.0
-
-    # Apply weights
     for feature, weight in SCORING_WEIGHTS.items():
         if feature in df.columns:
             df['Selection_Score'] += df[feature] * weight
-        # Missing feature treated as 0
 
-    # 4. Determine Automatic Qualifiers (AQs)
+    # 3.5 Projected conference wins/losses (NEW)
+    df = compute_projected_conf_wins(df, df_conf)
+
+    # 4. Determine Automatic Qualifiers (AQs) by projected conf win total (NEW)
     df['AQ'] = False
     conferences = df['Conference'].dropna().unique()
     aq_teams_list = []
@@ -128,17 +306,32 @@ def generate_bracket():
         if conf == 'Unknown':
             continue
 
+        # manual override still wins
         if conf in MANUAL_AQS:
             forced_team = MANUAL_AQS[conf]
             if forced_team in df['Team'].values:
                 aq_teams_list.append(forced_team)
                 continue
 
-        # Fallback: Highest Selection Score in conference wins AQ
-        conf_teams = df[df['Conference'] == conf]
-        if not conf_teams.empty:
-            top_team = conf_teams.sort_values('Selection_Score', ascending=False).iloc[0]['Team']
-            aq_teams_list.append(top_team)
+        conf_teams = df[df['Conference'] == conf].copy()
+        if conf_teams.empty:
+            continue
+
+        # tie-breakers:
+        # 1) highest projected conf wins
+        # 2) highest projected conf win% (wins / (wins+losses))
+        # 3) highest Selection_Score
+        # 4) highest ADJEM (pure, already set)
+        denom = (conf_teams["proj_conf_wins"] + conf_teams["proj_conf_losses"]).replace(0, np.nan)
+        conf_teams["proj_conf_wpct"] = (conf_teams["proj_conf_wins"] / denom).fillna(0.0)
+
+        conf_teams = conf_teams.sort_values(
+            ["proj_conf_wins", "proj_conf_wpct", "Selection_Score", "ADJEM"],
+            ascending=[False, False, False, False]
+        )
+
+        top_team = conf_teams.iloc[0]["Team"]
+        aq_teams_list.append(top_team)
 
     df.loc[df['Team'].isin(aq_teams_list), 'AQ'] = True
 
@@ -158,7 +351,7 @@ def generate_bracket():
 
     # Bubble Teams
     first_4_out = at_large_pool.iloc[num_at_large:num_at_large+4]
-    next_4_out = at_large_pool.iloc[num_at_large+4:num_at_large+8]
+    next_4_out  = at_large_pool.iloc[num_at_large+4:num_at_large+8]
 
     for _, row in at_large_bids.iterrows():
         row['Bid_Type'] = 'At-Large'
@@ -166,7 +359,7 @@ def generate_bracket():
 
     last_4_in = at_large_bids.tail(4)
 
-    # 6. Seed the Field (Custom 68-team logic)
+    # 6. Seed the Field
     field_df = pd.DataFrame(field)
     field_df = field_df.sort_values('Selection_Score', ascending=False).reset_index(drop=True)
     field_df['Overall_Rank'] = field_df.index + 1
@@ -192,6 +385,7 @@ def generate_bracket():
         f.write(html)
 
     print(f"Bracketology generated: {OUTPUT_HTML}")
+
 
 def generate_html(field_df, l4i, f4o, n4o):
     now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M UTC")
@@ -362,7 +556,9 @@ def generate_html(field_df, l4i, f4o, n4o):
                             <a href="index.html" class="text-slate-300 hover:text-white hover:bg-slate-800 px-3 py-2 rounded-md text-sm font-medium transition-colors">Rankings</a>
                             <a href="schedule.html" class="text-slate-300 hover:text-white hover:bg-slate-800 px-3 py-2 rounded-md text-sm font-medium transition-colors">Today's Games</a>
                             <a href="matchup.html" class="text-slate-300 hover:text-white hover:bg-slate-800 px-3 py-2 rounded-md text-sm font-medium transition-colors">Matchup Simulator</a>
+                            <a href="conferences.html" class="text-slate-300 hover:text-white hover:bg-slate-800 px-3 py-2 rounded-md text-sm font-medium transition-colors">Conferences</a>
                             <a href="bracketology.html" class="bg-slate-800 text-white px-3 py-2 rounded-md text-sm font-medium transition-colors border border-slate-700">Bracketology</a>
+
                         </div>
                     </div>
 

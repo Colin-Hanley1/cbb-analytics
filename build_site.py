@@ -24,6 +24,11 @@ CONFERENCE_FILE = "cbb_conferences.csv"
 WEIGHTS_FILE = "model_weights.json"
 SCHEDULE_CSV = "schedule.csv"  # season schedule file
 
+OUTPUT_CONFERENCES = "conferences.html"
+OUTPUT_CONF_DATA = "conferences_data.js"
+CONFERENCES_TEMPLATE = "conferences_template.html"
+
+
 # --- RQ / WAB CONSTANTS (MATCH adj.py) ---
 AVG_EFF = 106.0
 AVG_TEMPO = 68.5
@@ -137,7 +142,8 @@ def get_nav_html(active_page: str):
         ("index.html", "Rankings"),
         ("schedule.html", "Today's Games"),
         ("matchup.html", "Matchup Simulator"),
-        ("bracketology.html", "Bracketology")
+        ("bracketology.html", "Bracketology"),
+        ("conferences.html", "Conferences")
     ]
 
     desktop_html = '<div class="hidden md:block"><div class="ml-10 flex items-baseline space-x-4">'
@@ -587,6 +593,210 @@ def generate_index(df: pd.DataFrame, df_conf: pd.DataFrame):
         f.write(html)
     print(f"Generated {OUTPUT_INDEX}")
 
+def build_conference_pages(df_ratings: pd.DataFrame, df_scores: pd.DataFrame, df_conf: pd.DataFrame):
+    """
+    Creates:
+      1) conferences_data.js  (conference summary + projected standings)
+      2) conferences.html     (rendered page from template)
+    """
+    if df_conf is None or df_conf.empty:
+        print("Warning: cbb_conferences.csv missing; cannot generate conferences page.")
+        return
+
+    # Normalize team names
+    df_conf = df_conf.copy()
+    df_conf["Team"] = df_conf["Team"].replace(NAME_MAPPING)
+
+    df = df_ratings.copy()
+    df["Team"] = df["Team"].replace(NAME_MAPPING)
+
+    # Attach conference
+    df = df.merge(df_conf[["Team", "Conference"]], on="Team", how="left")
+    df["Conference"] = df["Conference"].fillna("Unknown")
+
+    em_col = "AdjEM" if "AdjEM" in df.columns else "Blended_AdjEM"
+    if em_col not in df.columns:
+        print("Warning: No AdjEM/Blended_AdjEM column found; cannot generate conferences page.")
+        return
+
+    # Build maps
+    team_conf = df.set_index("Team")["Conference"].to_dict()
+    stats_map = df.set_index("Team")[["AdjO", "AdjD", "AdjT"]].to_dict("index")
+    adjem_map = df.set_index("Team")[em_col].to_dict()
+
+    # ----------------------------
+    # (A) Conference Summary Table
+    # ----------------------------
+    summary = []
+    for conf, g in df[df["Conference"] != "Unknown"].groupby("Conference"):
+        g2 = g.dropna(subset=[em_col])
+        if g2.empty:
+            continue
+        avg_em = float(g2[em_col].mean())
+        hi = g2.sort_values(em_col, ascending=False).iloc[0]
+        lo = g2.sort_values(em_col, ascending=True).iloc[0]
+        summary.append({
+            "conference": conf,
+            "team_count": int(len(g2)),
+            "avg_adjem": round(avg_em, 2),
+            "highest_team": str(hi["Team"]),
+            "highest_adjem": round(float(hi[em_col]), 2),
+            "lowest_team": str(lo["Team"]),
+            "lowest_adjem": round(float(lo[em_col]), 2),
+        })
+
+    # sort by avg strength
+    summary = sorted(summary, key=lambda x: x["avg_adjem"], reverse=True)
+
+    # ----------------------------
+    # (B) Projected Conference Standings
+    # ----------------------------
+    # helper: determine if a team/opponent is a conference game
+    def is_conf_game(team, opp):
+        return team_conf.get(team) == team_conf.get(opp) and team_conf.get(team) not in (None, "Unknown")
+
+    # Completed conference record from df_scores (actual)
+    # df_scores format: date, team, opponent, pts, opp_pts merged earlier in your teams build
+    actual_rec = {}  # (team) -> {"w": int, "l": int}
+    if df_scores is not None and not df_scores.empty:
+        sco = df_scores.copy()
+        # normalize
+        sco["team"] = sco["team"].replace(NAME_MAPPING)
+        sco["opponent"] = sco["opponent"].replace(NAME_MAPPING)
+
+        # Need opponent points to know W/L; in your pipeline you sometimes merge opp_pts elsewhere.
+        # Here we handle both:
+        pts_col = "pts" if "pts" in sco.columns else ("points" if "points" in sco.columns else None)
+        opp_pts_col = "opp_pts" if "opp_pts" in sco.columns else None
+
+        # If opp_pts missing, do a quick merge similar to generate_teams_js
+        if pts_col and opp_pts_col is None:
+            tmp = sco[["date", "team", pts_col]].rename(columns={"team": "opponent", pts_col: "opp_pts"})
+            tmp = tmp.drop_duplicates(subset=["date", "opponent"], keep="first")
+            sco = sco.merge(tmp, on=["date", "opponent"], how="left")
+            opp_pts_col = "opp_pts"
+
+        if pts_col and opp_pts_col in sco.columns:
+            # date parse
+            if "date" in sco.columns:
+                sco["date"] = pd.to_datetime(sco["date"], errors="coerce")
+
+            # de-dupe team/opponent/date rows
+            sco = sco.drop_duplicates(subset=["date", "team", "opponent"], keep="first")
+
+            for _, r in sco.iterrows():
+                team = str(r["team"])
+                opp = str(r["opponent"])
+                if not is_conf_game(team, opp):
+                    continue
+
+                pts = r.get(pts_col, None)
+                opp_pts = r.get(opp_pts_col, None)
+                if pd.isna(pts) or pd.isna(opp_pts):
+                    continue
+
+                w = 1 if float(pts) > float(opp_pts) else 0
+                actual_rec.setdefault(team, {"w": 0, "l": 0})
+                if w == 1:
+                    actual_rec[team]["w"] += 1
+                else:
+                    actual_rec[team]["l"] += 1
+
+    # Remaining conference expected wins from schedule.csv
+    sch = load_schedule_csv(SCHEDULE_CSV)
+    exp_remain = {}  # team -> expected remaining conf wins
+    rem_games = {}   # team -> number of remaining conf games
+
+    if not sch.empty:
+        today = pd.Timestamp(datetime.datetime.now().date())
+        sch = sch[sch["date"] >= today].copy()
+        sch["team"] = sch["team"].replace(NAME_MAPPING)
+        sch["opponent"] = sch["opponent"].replace(NAME_MAPPING)
+
+        for _, r in sch.iterrows():
+            team = str(r["team"])
+            opp = str(r["opponent"])
+            if not is_conf_game(team, opp):
+                continue
+
+            loc_val = int(r.get("location_value", 0))
+            pred = _predict_game_from_team_perspective(team, opp, loc_val, stats_map)
+            if pred is None:
+                continue
+
+            p = float(pred["p_win"])
+            exp_remain[team] = exp_remain.get(team, 0.0) + p
+            rem_games[team] = rem_games.get(team, 0) + 1
+
+    # Build standings structure per conference
+    standings_by_conf = {}
+    teams = df[df["Conference"] != "Unknown"][["Team", "Conference"]].drop_duplicates()
+
+    for _, tr in teams.iterrows():
+        team = str(tr["Team"])
+        conf = str(tr["Conference"])
+
+        w_a = actual_rec.get(team, {}).get("w", 0)
+        l_a = actual_rec.get(team, {}).get("l", 0)
+        w_exp = float(exp_remain.get(team, 0.0))
+        g_rem = int(rem_games.get(team, 0))
+        w_proj = w_a + w_exp
+
+        standings_by_conf.setdefault(conf, []).append({
+            "team": team,
+            "adjem": round(float(adjem_map.get(team, 0.0)), 2),
+            "conf_w": int(w_a),
+            "conf_l": int(l_a),
+            "rem_conf_games": g_rem,
+            "exp_conf_wins_remaining": round(w_exp, 2),
+            "proj_conf_wins": round(w_proj, 2),
+            "proj_conf_losses": round((l_a + g_rem) - w_exp, 2)  # expected losses remaining = games - expected wins
+        })
+
+    # Sort each conference standings:
+    # 1) projected conf wins desc
+    # 2) AdjEM desc
+    # 3) team name asc
+    for conf, arr in standings_by_conf.items():
+        standings_by_conf[conf] = sorted(
+            arr,
+            key=lambda x: (-x["proj_conf_wins"], -x["adjem"], x["team"])
+        )
+
+    # ----------------------------
+    # Export conferences_data.js
+    # ----------------------------
+    payload = {
+        "summary": summary,
+        "standings": standings_by_conf
+    }
+
+    with open(OUTPUT_CONF_DATA, "w") as f:
+        f.write("const CONFERENCES_DATA = " + json.dumps(payload) + ";")
+    print(f"Generated {OUTPUT_CONF_DATA}")
+
+    # ----------------------------
+    # Render conferences.html
+    # ----------------------------
+    try:
+        with open(CONFERENCES_TEMPLATE, "r") as f:
+            template = f.read()
+    except FileNotFoundError:
+        print(f"Warning: {CONFERENCES_TEMPLATE} not found; only generated {OUTPUT_CONF_DATA}.")
+        return
+
+    now = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    nav_d, nav_m = get_nav_html("conferences")
+
+    html = template.replace("{{LAST_UPDATED}}", now)
+    html = html.replace("{{NAV_DESKTOP}}", nav_d)
+    html = html.replace("{{NAV_MOBILE}}", nav_m)
+
+    with open(OUTPUT_CONFERENCES, "w") as f:
+        f.write(html)
+    print(f"Generated {OUTPUT_CONFERENCES}")
+
+
 def generate_matchup(df: pd.DataFrame):
     print("Generating Matchup...")
     teams_data = {}
@@ -670,3 +880,4 @@ if __name__ == "__main__":
         generate_index(df_ratings, df_conf)
         generate_matchup(df_ratings)
         generate_schedule()
+        build_conference_pages(df_ratings, df_scores, df_conf)  # <-- NEW
