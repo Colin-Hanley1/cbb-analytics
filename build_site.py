@@ -1,10 +1,10 @@
 import pandas as pd
+import numpy as np
 import subprocess
 import datetime
 import os
 import json
 import urllib.parse
-from scipy.stats import norm  # (kept, though no longer needed for RQ-consistent WAB)
 
 # --- CRITICAL IMPORTS ---
 import scrape_cbb
@@ -14,12 +14,15 @@ import scrape_cbb
 SCRAPER_SCRIPT = "scrape_cbb.py"
 BRACKET_SCRIPT = "bracket.py"
 RATINGS_SCRIPT = "adj.py"
+
 OUTPUT_INDEX = "index.html"
 OUTPUT_MATCHUP = "matchup.html"
 OUTPUT_SCHEDULE = "schedule.html"
 OUTPUT_TEAM_DATA = "teams_data.js"
+
 CONFERENCE_FILE = "cbb_conferences.csv"
 WEIGHTS_FILE = "model_weights.json"
+SCHEDULE_CSV = "schedule.csv"  # season schedule file
 
 # --- RQ / WAB CONSTANTS (MATCH adj.py) ---
 AVG_EFF = 106.0
@@ -85,7 +88,10 @@ NAME_MAPPING = {
    "Mississippi Valley State": "Mississippi Valley St."
 }
 
-def run_script(script_name):
+# =========================
+# Helpers: scripts + data
+# =========================
+def run_script(script_name: str) -> None:
     print(f"--- Running {script_name} ---")
     try:
         subprocess.run(["python3", script_name], check=True)
@@ -117,16 +123,25 @@ def get_data():
     try:
         df_conf = pd.read_csv(CONFERENCE_FILE)
         df_conf['Team'] = df_conf['Team'].replace(NAME_MAPPING)
+        # Expect columns: Team, Conference
+        if "Conference" not in df_conf.columns:
+            print("Warning: cbb_conferences.csv missing 'Conference' column.")
+            df_conf = None
     except FileNotFoundError:
         df_conf = None
 
     return df_rat, df_sco, df_conf
 
-def get_nav_html(active_page):
-    links = [("index.html", "Rankings"), ("schedule.html", "Today's Games"), ("matchup.html", "Matchup Simulator"), ("bracketology.html", "Bracketology")]
+def get_nav_html(active_page: str):
+    links = [
+        ("index.html", "Rankings"),
+        ("schedule.html", "Today's Games"),
+        ("matchup.html", "Matchup Simulator"),
+        ("bracketology.html", "Bracketology")
+    ]
 
     desktop_html = '<div class="hidden md:block"><div class="ml-10 flex items-baseline space-x-4">'
-    mobile_html = '<div class="md:hidden" id="mobile-menu"><div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">'
+    mobile_html  = '<div class="md:hidden" id="mobile-menu"><div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">'
 
     for url, label in links:
         is_active = (active_page == 'index' and url == 'index.html') or \
@@ -140,20 +155,167 @@ def get_nav_html(active_page):
         mobile_html += f'<a href="{url}" class="{m_cls} block px-3 py-2 rounded-md text-base font-medium">{label}</a>'
 
     desktop_html += '</div></div>'
-    mobile_html += '</div></div>'
+    mobile_html  += '</div></div>'
 
     return desktop_html, mobile_html
 
-def generate_teams_js(df_ratings, df_scores, df_conf):
+# ==========================================
+# schedule.csv -> future predictions (+ conf)
+# ==========================================
+def load_schedule_csv(schedule_csv: str = SCHEDULE_CSV) -> pd.DataFrame:
+    """
+    Expected schedule.csv columns (minimum):
+      - date (YYYY-MM-DD or parseable)
+      - team
+      - opponent
+      - location_value   (1=home, -1=away, 0=neutral)
+
+    Returns a cleaned DataFrame (or empty DF if missing).
+    """
+    if not os.path.exists(schedule_csv):
+        print(f"Warning: {schedule_csv} not found. No future schedules will be attached.")
+        return pd.DataFrame()
+
+    try:
+        sch = pd.read_csv(schedule_csv)
+    except Exception as e:
+        print(f"Warning: Could not read {schedule_csv} ({e}).")
+        return pd.DataFrame()
+
+    if sch.empty:
+        return sch
+
+    # Validate required columns
+    req = {"date", "team", "opponent"}
+    missing = req - set(sch.columns)
+    if missing:
+        print(f"Warning: {schedule_csv} missing columns: {sorted(list(missing))}.")
+        return pd.DataFrame()
+
+    # Normalize names to match site convention
+    for c in ["team", "opponent"]:
+        sch[c] = sch[c].replace(NAME_MAPPING)
+
+    # Parse dates
+    sch["date"] = pd.to_datetime(sch["date"], errors="coerce")
+    sch = sch.dropna(subset=["date", "team", "opponent"])
+
+    # Ensure location_value exists
+    if "location_value" not in sch.columns:
+        sch["location_value"] = 0
+
+    sch["location_value"] = pd.to_numeric(sch["location_value"], errors="coerce").fillna(0).astype(int)
+    sch["location_value"] = sch["location_value"].clip(-1, 1)
+
+    return sch
+
+def _predict_game_from_team_perspective(team: str, opp: str, loc_val: int, stats_map: dict):
+    """
+    stats_map: dict Team -> {AdjO, AdjD, AdjT}
+    loc_val: 1 home, -1 away, 0 neutral
+    """
+    if team not in stats_map or opp not in stats_map:
+        return None
+
+    t = stats_map[team]
+    o = stats_map[opp]
+
+    hfa_adj = HFA_VAL if loc_val == 1 else (-HFA_VAL if loc_val == -1 else 0.0)
+
+    exp_eff_team = t["AdjO"] + o["AdjD"] - AVG_EFF + hfa_adj
+    exp_eff_opp  = o["AdjO"] + t["AdjD"] - AVG_EFF - hfa_adj
+    exp_tempo = t["AdjT"] + o["AdjT"] - AVG_TEMPO
+
+    team_pts = (exp_eff_team * exp_tempo) / 100.0
+    opp_pts  = (exp_eff_opp  * exp_tempo) / 100.0
+
+    if team_pts <= 0 or opp_pts <= 0:
+        p = 1.0 if team_pts > opp_pts else 0.0
+    else:
+        p = (team_pts ** PYTH_EXP) / ((team_pts ** PYTH_EXP) + (opp_pts ** PYTH_EXP))
+
+    loc_str = "H" if loc_val == 1 else ("A" if loc_val == -1 else "N")
+
+    return {
+        "opp": opp,
+        "loc": loc_str,
+        "p_win": round(float(p), 3),
+        "proj_for": round(float(team_pts), 1),
+        "proj_against": round(float(opp_pts), 1),
+        "proj": f"{team_pts:.1f}-{opp_pts:.1f}",
+        "spread": round(float(team_pts - opp_pts), 1),
+    }
+
+def build_future_schedule_map(
+    df_ratings: pd.DataFrame,
+    conf_map: dict,
+    schedule_csv: str = SCHEDULE_CSV
+) -> dict:
+    """
+    Returns: future_map: dict team -> list[dict]
+    Each entry includes:
+      date (MM/DD), opp, loc, p_win, proj, spread, proj_for, proj_against,
+      opp_conf, is_conf
+    """
+    sch = load_schedule_csv(schedule_csv)
+    if sch.empty:
+        return {}
+
+    # Future games from today's local date
+    today = pd.Timestamp(datetime.datetime.now().date())
+    sch = sch[sch["date"] >= today].copy()
+    if sch.empty:
+        return {}
+
+    needed = {"AdjO", "AdjD", "AdjT"}
+    if not needed.issubset(set(df_ratings.columns)):
+        print("Warning: Ratings missing AdjO/AdjD/AdjT; cannot build future predictions.")
+        return {}
+
+    stats_map = df_ratings.set_index("Team")[["AdjO", "AdjD", "AdjT"]].to_dict("index")
+
+    future_map = {}
+    sch = sch.sort_values(["team", "date", "opponent"])
+
+    for _, r in sch.iterrows():
+        team = str(r["team"])
+        opp = str(r["opponent"])
+        loc_val = int(r["location_value"])
+
+        pred = _predict_game_from_team_perspective(team, opp, loc_val, stats_map)
+        if pred is None:
+            continue
+
+        team_conf = conf_map.get(team, "Unknown")
+        opp_conf = conf_map.get(opp, "Unknown")
+        is_conf = (team_conf != "Unknown") and (team_conf == opp_conf)
+
+        pred["date"] = r["date"].strftime("%m/%d")
+        pred["opp_conf"] = opp_conf
+        pred["is_conf"] = bool(is_conf)
+
+        future_map.setdefault(team, []).append(pred)
+
+    return future_map
+
+# ==========================================
+# Site generation
+# ==========================================
+def generate_teams_js(df_ratings: pd.DataFrame, df_scores: pd.DataFrame, df_conf: pd.DataFrame):
     print("Generating Team Data JS (SPA)...")
     teams_dict = {}
 
     # Attach conference if provided
-    if df_conf is not None:
-        df_ratings = df_ratings.merge(df_conf, on='Team', how='left')
-        df_ratings['Conference'] = df_ratings['Conference'].fillna('Unknown')
+    if df_conf is not None and not df_conf.empty:
+        # protect against accidental duplicate merges if caller passes an already-merged df
+        if "Conference" not in df_ratings.columns:
+            df_ratings = df_ratings.merge(df_conf[["Team", "Conference"]], on="Team", how="left")
+        df_ratings["Conference"] = df_ratings["Conference"].fillna("Unknown")
     else:
-        df_ratings['Conference'] = '-'
+        if "Conference" not in df_ratings.columns:
+            df_ratings["Conference"] = "Unknown"
+
+    conf_map = df_ratings.set_index("Team")["Conference"].to_dict()
 
     em_col = 'AdjEM' if 'AdjEM' in df_ratings.columns else 'Blended_AdjEM'
 
@@ -175,19 +337,22 @@ def generate_teams_js(df_ratings, df_scores, df_conf):
         f"AdjEM {bubble_profile['AdjEM']:.2f}"
     )
 
-    # For expected margin display (val_add), keep your old em-based model:
+    # For expected margin display (val_add)
     ratings_map = df_ratings.set_index('Team')[em_col].to_dict()
 
-    # For RQ-consistent per-game win prob, we need opponent AdjO/AdjD/AdjT:
+    # For RQ-consistent per-game win prob
     opp_stats_map = df_ratings.set_index("Team")[["AdjO", "AdjD", "AdjT"]].to_dict("index")
+
+    # --- NEW: future schedule predictions from schedule.csv (+ conference flags) ---
+    future_map = build_future_schedule_map(df_ratings, conf_map=conf_map, schedule_csv=SCHEDULE_CSV)
 
     # --- Prepare full scores with opponent points merged ---
     if df_scores is not None and not df_scores.empty:
         pts_col = 'pts' if 'pts' in df_scores.columns else 'points'
 
         if 'date' in df_scores.columns:
-            df_scores['dt_temp'] = pd.to_datetime(df_scores['date'])
-            df_scores = df_scores.sort_values('dt_temp', ascending=False)
+            df_scores['dt_temp'] = pd.to_datetime(df_scores['date'], errors="coerce")
+            df_scores = df_scores.dropna(subset=["dt_temp"]).sort_values('dt_temp', ascending=False)
             df_scores = df_scores.drop(columns=['dt_temp'])
 
         # De-dupe obvious duplicates
@@ -197,17 +362,19 @@ def generate_teams_js(df_ratings, df_scores, df_conf):
         opp_df = opp_df.drop_duplicates(subset=['date', 'opponent'], keep='first')
         full_scores = df_scores.merge(opp_df, on=['date', 'opponent'], how='left')
 
-        if 'date' in full_scores.columns:
-            full_scores['date'] = pd.to_datetime(full_scores['date'])
+        full_scores['date'] = pd.to_datetime(full_scores['date'], errors="coerce")
+        full_scores = full_scores.dropna(subset=["date"])
 
-        # --- Recommended: canonicalize to avoid double-counting (team-by-team view) ---
-        # game_id = date + sorted(team/opponent)
+        # Canonicalize to avoid double-counting (team-by-team view)
         full_scores['game_id'] = (
             full_scores['date'].dt.normalize().astype(str) + "_" +
             full_scores.apply(lambda r: "_".join(sorted([str(r['team']), str(r['opponent'])])), axis=1)
         )
-        # keep first row per (team, game_id) after sorting newest-first above
-        full_scores = full_scores.sort_values(['team', 'game_id']).groupby(['team', 'game_id'], as_index=False).first()
+        full_scores = (
+            full_scores.sort_values(['team', 'game_id'])
+            .groupby(['team', 'game_id'], as_index=False)
+            .first()
+        )
     else:
         pts_col = 'pts'
         full_scores = pd.DataFrame()
@@ -215,6 +382,7 @@ def generate_teams_js(df_ratings, df_scores, df_conf):
     # --- Build team objects ---
     for _, row in df_ratings.iterrows():
         team = row['Team']
+        team_conf = conf_map.get(team, "Unknown")
 
         game_list = []
         if not full_scores.empty:
@@ -228,17 +396,17 @@ def generate_teams_js(df_ratings, df_scores, df_conf):
                     if pd.isna(opp_pt):
                         continue
 
-                    loc_val = g.get('location_value', 0)
+                    loc_val = int(g.get('location_value', 0))
                     loc_str = "H" if loc_val == 1 else ("A" if loc_val == -1 else "N")
 
-                    pts = g[pts_col]
-                    margin = pts - opp_pt
+                    pts = float(g[pts_col])
+                    margin = pts - float(opp_pt)
                     res = "W" if margin > 0 else "L"
 
-                    # --- Your existing "val" computation (margin/100 poss vs EM expectation) ---
-                    opp_rating = ratings_map.get(opp, 0.0)
+                    # Existing "val" computation (margin/100 poss vs EM expectation)
+                    opp_rating = float(ratings_map.get(opp, 0.0))
                     hfa_adj_em = HFA_VAL if loc_val == 1 else (-HFA_VAL if loc_val == -1 else 0.0)
-                    exp_margin_em = (row[em_col] - opp_rating) + hfa_adj_em
+                    exp_margin_em = (float(row[em_col]) - opp_rating) + hfa_adj_em
 
                     poss = g.get('possessions', 70)
                     try:
@@ -251,10 +419,9 @@ def generate_teams_js(df_ratings, df_scores, df_conf):
                     act_eff = (margin / poss) * 100.0
                     val_add = act_eff - exp_margin_em
 
-                    # --- FIXED: RQ-consistent per-game residual (actual_win - p_bubble) ---
+                    # RQ-consistent per-game residual (actual_win - p_bubble)
                     opp_stats = opp_stats_map.get(opp, {"AdjO": 95.0, "AdjD": 115.0, "AdjT": AVG_TEMPO})
 
-                    # HFA from bubble perspective (matches adj.py)
                     if loc_val == 1:
                         hfa = HFA_VAL
                     elif loc_val == -1:
@@ -264,7 +431,6 @@ def generate_teams_js(df_ratings, df_scores, df_conf):
 
                     exp_eff_bubble = bubble_profile["AdjO"] + opp_stats["AdjD"] - AVG_EFF + hfa
                     exp_eff_opp    = opp_stats["AdjO"] + bubble_profile["AdjD"] - AVG_EFF - hfa
-
                     exp_tempo = bubble_profile["AdjT"] + opp_stats["AdjT"] - AVG_TEMPO
 
                     score_bubble = (exp_eff_bubble * exp_tempo) / 100.0
@@ -277,6 +443,10 @@ def generate_teams_js(df_ratings, df_scores, df_conf):
 
                     actual_win = 1.0 if res == "W" else 0.0
                     wab_game = actual_win - p_bubble
+
+                    # Past-game conference tagging
+                    opp_conf = conf_map.get(opp, "Unknown")
+                    is_conf = (team_conf != "Unknown") and (team_conf == opp_conf)
 
                     # date formatting guard
                     if isinstance(g.get('date', None), pd.Timestamp):
@@ -292,9 +462,11 @@ def generate_teams_js(df_ratings, df_scores, df_conf):
                         'opp': opp,
                         'res': res,
                         'loc': loc_str,
-                        'score': f"{int(pts)}-{int(opp_pt)}",
+                        'score': f"{int(pts)}-{int(float(opp_pt))}",
                         'val': round(float(val_add), 1),
-                        'rq': round(float(wab_game), 2)
+                        'rq': round(float(wab_game), 2),
+                        'opp_conf': opp_conf,
+                        'is_conf': bool(is_conf),
                     })
 
         teams_dict[team] = {
@@ -313,10 +485,11 @@ def generate_teams_js(df_ratings, df_scores, df_conf):
             'q3_w': int(row.get('Q3_W', 0)), 'q3_l': int(row.get('Q3_L', 0)),
             'q4_w': int(row.get('Q4_W', 0)), 'q4_l': int(row.get('Q4_L', 0)),
             't100_w': int(row.get('T100_W', 0)), 't100_l': int(row.get('T100_L', 0)),
-            'conf': row.get('Conference', ''),
+            'conf': team_conf,
             'rkEM': int(row.get('Rank', 0)),
             'rkRQ': int(row.get('Rank_RQ', 0)),
-            'games': game_list
+            'games': game_list,
+            'future': future_map.get(team, [])  # future schedule + predictions (+ is_conf)
         }
 
     js_content = f"const TEAMS_DATA = {json.dumps(teams_dict)};"
@@ -324,7 +497,7 @@ def generate_teams_js(df_ratings, df_scores, df_conf):
         f.write(js_content)
     print(f"Generated {OUTPUT_TEAM_DATA}")
 
-def generate_index(df, df_conf):
+def generate_index(df: pd.DataFrame, df_conf: pd.DataFrame):
     print("Generating Index...")
     try:
         with open("template.html", "r") as f:
@@ -338,16 +511,16 @@ def generate_index(df, df_conf):
 
     df['Link'] = df['Team'].apply(lambda x: f"team.html?q={urllib.parse.quote(x)}")
 
-    # 1. Rename columns
+    # Rename columns (so index page expects AdjEM/Pure_AdjEM)
     if 'Blended_AdjEM' in df.columns:
         df = df.rename(columns={'Blended_AdjEM': 'AdjEM'})
     if 'Current_AdjEM' in df.columns:
         df = df.rename(columns={'Current_AdjEM': 'Pure_AdjEM'})
 
-    # 2. FIX: Deduplicate columns immediately to prevent errors
+    # Deduplicate columns
     df = df.loc[:, ~df.columns.duplicated()]
 
-    # --- CALCULATE SELECTION SCORE ---
+    # Selection Score
     try:
         if os.path.exists(WEIGHTS_FILE):
             with open(WEIGHTS_FILE, "r") as f:
@@ -355,7 +528,7 @@ def generate_index(df, df_conf):
         else:
             weights = {'ADJEM': 1.0, 'RQ': 4.0}
 
-        df['ADJEM'] = df['Pure_AdjEM']
+        df['ADJEM'] = df['Pure_AdjEM'] if 'Pure_AdjEM' in df.columns else df.get('AdjEM', 0.0)
 
         df['Selection_Score'] = 0.0
         for feat, w in weights.items():
@@ -371,31 +544,35 @@ def generate_index(df, df_conf):
 
     if 'Consistency' not in df.columns:
         df['Consistency'] = 50.0
+
     df['Rank_Consistency'] = df['Consistency'].rank(ascending=False, method='min').astype(int)
-    df['Rank_RQ'] = df['RQ'].rank(ascending=False, method='min').astype(int)
+    df['Rank_RQ'] = df['RQ'].rank(ascending=False, method='min').astype(int) if 'RQ' in df.columns else 0
     df['Rank_SLS'] = df['Selection_Score'].rank(ascending=False, method='min').astype(int)
     df['Rank_SOS'] = df['SOS'].rank(ascending=False, method='min').astype(int) if 'SOS' in df.columns else 0
     df['Rank_SA'] = df['StrengthAdjust'].rank(ascending=False, method='min').astype(int) if 'StrengthAdjust' in df.columns else 0
     df['Rank_awq'] = df['RQ_Win_Avg'].rank(ascending=False, method='min').astype(int) if 'RQ_Win_Avg' in df.columns else 0
     df['Rank_alq'] = df['RQ_Loss_Avg'].rank(ascending=False, method='min').astype(int) if 'RQ_Loss_Avg' in df.columns else 0
     df['Rank_rdadj'] = df['Venue_AdjEM_AN_minus_Home'].rank(ascending=False, method='min').astype(int) if 'Venue_AdjEM_AN_minus_Home' in df.columns else 0
-    if df_conf is not None:
-        df = df.merge(df_conf, on='Team', how='left')
+
+    if df_conf is not None and not df_conf.empty:
+        if "Conference" not in df.columns:
+            df = df.merge(df_conf[["Team", "Conference"]], on='Team', how='left')
         df['Conference'] = df['Conference'].fillna('Unknown')
     else:
-        df['Conference'] = '-'
+        if "Conference" not in df.columns:
+            df['Conference'] = '-'
 
     conf_list = sorted([c for c in df['Conference'].unique() if c and c != 'Unknown' and c != '-'])
     conf_json = json.dumps(conf_list)
 
-    # 3. Final Deduplication before export
     df = df.loc[:, ~df.columns.duplicated()]
 
     cols = [
-        'Rank', 'Team', 'Conference', 'Link', 'AdjEM', 'Pure_AdjEM', 'RQ', 'RQ_Win_Avg', 'RQ_Loss_Avg', 'Rank_awq', 'Rank_alq', 'Consistency',
-        'Selection_Score', 'AdjO', 'AdjD', 'AdjT', 'StrengthAdjust', 'Rank_SA',
-        'Rank_AdjO', 'Rank_AdjD', 'Rank_AdjT', 'Rank_RQ', 'Rank_SLS', 'Rank_Consistency',
-        'SOS', 'Q1_W', 'T100_W', 'Rank_SOS', 'Venue_AdjEM_AN_minus_Home', 'Rank_rdadj'
+        'Rank', 'Team', 'Conference', 'Link', 'AdjEM', 'Pure_AdjEM', 'RQ', 'RQ_Win_Avg', 'RQ_Loss_Avg',
+        'Rank_awq', 'Rank_alq', 'Consistency', 'Selection_Score', 'AdjO', 'AdjD', 'AdjT',
+        'StrengthAdjust', 'Rank_SA', 'Rank_AdjO', 'Rank_AdjD', 'Rank_AdjT', 'Rank_RQ', 'Rank_SLS',
+        'Rank_Consistency', 'SOS', 'Q1_W', 'T100_W', 'Rank_SOS',
+        'Venue_AdjEM_AN_minus_Home', 'Rank_rdadj'
     ]
     cols = [c for c in cols if c in df.columns]
     rankings_json = df[cols].to_json(orient='records')
@@ -410,20 +587,26 @@ def generate_index(df, df_conf):
         f.write(html)
     print(f"Generated {OUTPUT_INDEX}")
 
-def generate_matchup(df):
+def generate_matchup(df: pd.DataFrame):
     print("Generating Matchup...")
     teams_data = {}
-    em_col = 'Blended_AdjEM' if 'Blended_AdjEM' in df.columns else 'AdjEM'
+    em_col = 'Blended_AdjEM' if 'Blended_AdjEM' in df.columns else ('AdjEM' if 'AdjEM' in df.columns else None)
+    if em_col is None:
+        print("Warning: No AdjEM column found for matchup page.")
+        return
 
     # Bubble Threshold for Matchup JS
     sorted_df = df.sort_values(em_col, ascending=False).reset_index(drop=True)
     start_idx = 44 if len(sorted_df) > 50 else max(0, len(sorted_df) - 6)
     end_idx = 50 if len(sorted_df) > 50 else len(sorted_df)
-    bubble_adjem = sorted_df.iloc[start_idx:end_idx][em_col].mean()
+    bubble_adjem = float(sorted_df.iloc[start_idx:end_idx][em_col].mean())
 
     for _, row in df.sort_values('Team').iterrows():
         teams_data[row['Team']] = {
-            'AdjO': row['AdjO'], 'AdjD': row['AdjD'], 'AdjT': row['AdjT'], 'AdjEM': row[em_col]
+            'AdjO': float(row['AdjO']),
+            'AdjD': float(row['AdjD']),
+            'AdjT': float(row['AdjT']),
+            'AdjEM': float(row[em_col])
         }
     teams_json = json.dumps(teams_data)
 
@@ -447,13 +630,14 @@ def generate_matchup(df):
         print("Warning: matchup_template.html not found.")
 
 def generate_schedule():
+    """
+    schedule.html shows TODAY's games based on Sports-Reference.
+    (Separate from schedule.csv, which is used for per-team future schedules on team.html via teams_data.js.)
+    """
     print("Generating Schedule Page...")
 
-    # 1. Instantiate Scraper (Fixed)
     my_scraper = scrape_cbb.CBBScraper()
     games_list = my_scraper.get_todays_schedule()
-
-    # 2. Serialize to JSON
     games_json = json.dumps(games_list)
 
     try:

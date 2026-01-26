@@ -7,7 +7,7 @@
     <title>Team Analytics | CHan Analytics</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
@@ -16,14 +16,12 @@
                         sans: ['Inter', 'sans-serif'],
                         mono: ['JetBrains Mono', 'monospace'],
                     },
-                    colors: {
-                        brand: { 500: '#6366f1', 600: '#4f46e5', 900: '#312e81' }
-                    }
+                    colors: { brand: { 500: '#6366f1', 600: '#4f46e5', 900: '#312e81' } }
                 }
             }
         }
     </script>
-    <style> 
+    <style>
         body { -webkit-font-smoothing: antialiased; }
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: #f1f5f9; }
@@ -48,7 +46,7 @@
     </nav>
 
     <main class="flex-grow max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
-        
+
         <!-- Header -->
         <div class="mb-8">
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
@@ -66,11 +64,10 @@
                     <span class="text-5xl font-bold text-slate-900 font-mono tracking-tighter" id="teamRank">--</span>
                 </div>
             </div>
-            
+
             <!-- Power Metrics Grid -->
             <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3 mb-4">
                 <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 text-center relative overflow-hidden group hover:shadow-md transition-all">
-                    
                     <div class="text-[10px] text-slate-400 uppercase tracking-widest font-bold mb-1">AdjEM</div>
                     <div class="text-3xl font-bold font-mono tracking-tight" id="teamEM">--</div>
                     <div class="absolute top-0 left-0 w-full h-1 bg-gray-200 transition-colors duration-500" id="borderEM"></div>
@@ -80,7 +77,6 @@
                     <div class="text-2xl font-bold font-mono text-purple-600" id="teamWAB">--</div>
                     <div class="absolute top-0 left-0 w-full h-1 bg-purple-500"></div>
                 </div>
-                
                 <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 text-center relative overflow-hidden group hover:shadow-md transition-all">
                     <div class="text-[10px] text-slate-400 uppercase tracking-widest font-bold mb-1">AdjO</div>
                     <div class="text-xl font-bold text-slate-700 font-mono" id="teamO">--</div>
@@ -105,22 +101,18 @@
 
             <!-- Resume Metrics Grid -->
             <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2 mb-6">
-                <!-- Consistency -->
                 <div class="bg-white p-3 rounded-lg border border-slate-200 text-center shadow-sm">
                     <div class="text-[9px] text-slate-400 uppercase font-bold">Consistency</div>
                     <div class="text-lg font-bold font-mono" id="teamCons">--</div>
                 </div>
-                <!-- SOS -->
                 <div class="bg-white p-3 rounded-lg border border-slate-200 text-center shadow-sm">
                     <div class="text-[9px] text-slate-400 uppercase font-bold">SOS</div>
                     <div class="text-lg font-bold font-mono text-slate-700" id="teamSOS">--</div>
                 </div>
-                <!-- Top 100 -->
                 <div class="bg-white p-3 rounded-lg border border-slate-200 text-center col-span-2 sm:col-span-2 shadow-sm">
                     <div class="text-[9px] text-slate-400 uppercase font-bold">vs Top 100</div>
                     <div class="text-lg font-bold font-mono text-slate-700" id="teamT100">--</div>
                 </div>
-                <!-- Quadrants -->
                 <div class="bg-emerald-50/50 p-3 rounded-lg border border-emerald-100 text-center">
                     <div class="text-[9px] text-emerald-600 uppercase font-bold">Q1</div>
                     <div class="text-lg font-bold font-mono text-emerald-700" id="teamQ1">--</div>
@@ -148,8 +140,16 @@
             </div>
         </div>
 
-        <!-- Table -->
+        <!-- Past Games -->
         <div class="bg-white shadow-xl shadow-slate-200/50 rounded-2xl overflow-hidden border border-slate-200">
+            <div class="px-5 py-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+                <div>
+                    <div class="text-xs font-bold text-slate-400 uppercase tracking-widest">Game Log</div>
+                    <div class="text-sm font-semibold text-slate-800">Completed Games</div>
+                </div>
+                <div class="text-[10px] font-mono text-slate-400">RQ = Win vs Expected Bubble Team Win %</div>
+            </div>
+
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse whitespace-nowrap text-sm">
                     <thead class="bg-slate-50 border-b border-slate-200 text-xs uppercase tracking-wider text-slate-500 font-bold">
@@ -168,24 +168,108 @@
             </div>
         </div>
 
-        <div class="mt-6 mb-8 text-center text-xs font-mono text-slate-400">
-            RQ = Win vs Expected Bubble Team Win %
+        <!-- Future Schedule -->
+        <div class="mt-8 bg-white shadow-xl shadow-slate-200/50 rounded-2xl overflow-hidden border border-slate-200">
+            <div class="px-5 py-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+                <div>
+                    <div class="text-xs font-bold text-slate-400 uppercase tracking-widest">Schedule</div>
+                    <div class="text-sm font-semibold text-slate-800">Upcoming Games</div>
+                </div>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse whitespace-nowrap text-sm">
+                    <thead class="bg-slate-50 border-b border-slate-200 text-xs uppercase tracking-wider text-slate-500 font-bold">
+                        <tr>
+                            <th class="px-5 py-4">Date</th>
+                            <th class="px-5 py-4 w-full">Opponent</th>
+                            <th class="px-5 py-4 text-center">Loc</th>
+                            <th class="px-5 py-4 text-right">Win%</th>
+                            <th class="px-5 py-4 text-right">Proj</th>
+                            <th class="px-5 py-4 text-right">Spread</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100 bg-white" id="futureTable"></tbody>
+                </table>
+            </div>
+
+            <div class="px-5 py-3 bg-white border-t border-slate-100 text-[11px] text-slate-400">
+                Note: projections are deterministic from current ratings; they will shift daily as ratings update
+            </div>
+        </div>
+
+        <!-- Projected Record -->
+        <div class="mt-8 bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+            <div class="px-6 py-5 bg-slate-50 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                <div>
+                    <div class="text-xs font-bold text-slate-400 uppercase tracking-widest">Projection</div>
+                    <div class="text-sm font-semibold text-slate-800">Projected Final Record</div>
+                </div>
+            </div>
+
+            <div class="px-4 py-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="rounded-xl border border-slate-200 bg-white p-4">
+                        <div class="text-[10px] text-slate-400 uppercase tracking-widest font-bold mb-1">Current Record</div>
+                        <div class="text-3xl font-bold font-mono tracking-tight" id="curRec">--</div>
+                        <div class="text-xs text-slate-400 mt-1" id="curGames">--</div>
+                    </div>
+
+                    <div class="rounded-xl border border-slate-200 bg-white p-4">
+                        <div class="text-[10px] text-slate-400 uppercase tracking-widest font-bold mb-1">Expected Finish</div>
+                        <div class="text-3xl font-bold font-mono tracking-tight" id="expRec">--</div>
+                        <div class="text-xs text-slate-400 mt-1" id="expDetail">--</div>
+                    </div>
+
+                    <div class="rounded-xl border border-slate-200 bg-white p-4">
+                        <div class="text-[10px] text-slate-400 uppercase tracking-widest font-bold mb-1">Current Conf Record</div>
+                        <div class="text-3xl font-bold font-mono tracking-tight" id="curConfRec">--</div>
+                        <div class="text-xs text-slate-400 mt-1" id="curConfGames">--</div>
+                    </div>
+
+                    <div class="rounded-xl border border-slate-200 bg-white p-4">
+                        <div class="text-[10px] text-slate-400 uppercase tracking-widest font-bold mb-1">Expected Conf Finish</div>
+                        <div class="text-3xl font-bold font-mono tracking-tight" id="expConfRec">--</div>
+                        <div class="text-xs text-slate-400 mt-1" id="expConfDetail">--</div>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </main>
-    
-    
-    
+
     <script src="teams_data.js"></script>
     <script>
         const params = new URLSearchParams(window.location.search);
         const teamName = decodeURIComponent(params.get('q'));
-        
+
         function getLogoPath(name) { return `logos/${name}.png`; }
+
+        function safeNum(x, fallback=0) {
+            const v = Number(x);
+            return Number.isFinite(v) ? v : fallback;
+        }
+
+        function fmtPct(p) {
+            const v = safeNum(p, 0);
+            return (v * 100).toFixed(1) + "%";
+        }
+
+        function spreadClass(sp) {
+            const s = safeNum(sp, 0);
+            if (s > 0.5) return "text-emerald-600";
+            if (s < -0.5) return "text-rose-600";
+            return "text-slate-600";
+        }
+
+        function clamp(x, lo, hi) {
+            const v = safeNum(x, lo);
+            return Math.max(lo, Math.min(hi, v));
+        }
 
         if (teamName && typeof TEAMS_DATA !== 'undefined' && TEAMS_DATA[teamName]) {
             const t = TEAMS_DATA[teamName];
-            
+
             document.title = `${teamName} | CHan Analytics`;
             document.getElementById('teamName').innerText = teamName;
             document.getElementById('teamRank').innerText = "#" + t.rank;
@@ -194,51 +278,52 @@
 
             // Power Metrics
             const emEl = document.getElementById('teamEM');
-            emEl.innerText = t.adjem.toFixed(2);
-            emEl.className = `text-4xl font-bold font-mono tracking-tighter ${t.adjem > 0 ? 'text-emerald-600' : 'text-rose-600'}`;
-            document.getElementById('borderEM').className = `absolute top-0 left-0 w-full h-1 ${t.adjem > 0 ? 'bg-emerald-500' : 'bg-rose-500'}`;
+            emEl.innerText = safeNum(t.adjem, 0).toFixed(2);
+            emEl.className = `text-4xl font-bold font-mono tracking-tighter ${safeNum(t.adjem, 0) > 0 ? 'text-emerald-600' : 'text-rose-600'}`;
+            document.getElementById('borderEM').className = `absolute top-0 left-0 w-full h-1 ${safeNum(t.adjem, 0) > 0 ? 'bg-emerald-500' : 'bg-rose-500'}`;
 
-            const wabTotal = t.wab_total !== undefined ? t.wab_total : 0.0;
-            document.getElementById('teamWAB').innerText = (wabTotal > 0 ? "+" : "") + wabTotal.toFixed(2);
-            document.getElementById('teamWAB').className = `text-2xl font-bold font-mono ${wabTotal > 0 ? 'text-purple-600' : 'text-slate-500'}`;
+            const wabTotal = t.wab_total !== undefined ? safeNum(t.wab_total, 0.0) : 0.0;
+            const wabEl = document.getElementById('teamWAB');
+            wabEl.innerText = (wabTotal > 0 ? "+" : "") + wabTotal.toFixed(2);
+            wabEl.className = `text-2xl font-bold font-mono ${wabTotal > 0 ? 'text-purple-600' : 'text-slate-500'}`;
 
-            document.getElementById('teamO').innerText = t.adjo.toFixed(1);
-            document.getElementById('teamD').innerText = t.adjd.toFixed(1);
-            document.getElementById('teamT').innerText = t.adjt.toFixed(1);
-            document.getElementById('teamSA').innerText = t.sa.toFixed(2)
-            const cons = t.consistency || 50.0;
+            document.getElementById('teamO').innerText = safeNum(t.adjo, 0).toFixed(1);
+            document.getElementById('teamD').innerText = safeNum(t.adjd, 0).toFixed(1);
+            document.getElementById('teamT').innerText = safeNum(t.adjt, 0).toFixed(1);
+            document.getElementById('teamSA').innerText = safeNum(t.sa, 0).toFixed(2);
+
+            const cons = safeNum(t.consistency, 50.0);
             const consEl = document.getElementById('teamCons');
             consEl.innerText = cons.toFixed(1);
             consEl.className = `text-lg font-bold font-mono ${cons > 80 ? 'text-emerald-600' : (cons < 60 ? 'text-rose-600' : 'text-slate-700')}`;
 
-            document.getElementById('teamSOS').innerText = (t.sos || 0).toFixed(2);
-            document.getElementById('teamT100').innerText = `${t.t100_w}-${t.t100_l}`;
-            document.getElementById('teamQ1').innerText = `${t.q1_w}-${t.q1_l}`;
-            document.getElementById('teamQ2').innerText = `${t.q2_w}-${t.q2_l}`;
-            document.getElementById('teamQ3').innerText = `${t.q3_w}-${t.q3_l}`;
-            document.getElementById('teamQ4').innerText = `${t.q4_w}-${t.q4_l}`;
+            document.getElementById('teamSOS').innerText = safeNum(t.sos, 0).toFixed(2);
+            document.getElementById('teamT100').innerText = `${safeNum(t.t100_w,0)}-${safeNum(t.t100_l,0)}`;
+            document.getElementById('teamQ1').innerText = `${safeNum(t.q1_w,0)}-${safeNum(t.q1_l,0)}`;
+            document.getElementById('teamQ2').innerText = `${safeNum(t.q2_w,0)}-${safeNum(t.q2_l,0)}`;
+            document.getElementById('teamQ3').innerText = `${safeNum(t.q3_w,0)}-${safeNum(t.q3_l,0)}`;
+            document.getElementById('teamQ4').innerText = `${safeNum(t.q4_w,0)}-${safeNum(t.q4_l,0)}`;
 
             // --- CHART LOGIC ---
-            const chartGames = [...t.games].reverse();
-            
-            // Calculate 3-Game Rolling Average
+            const chartGames = Array.isArray(t.games) ? [...t.games].reverse() : [];
+
             const rollingAvg = chartGames.map((g, i, arr) => {
                 const start = Math.max(0, i - 2);
                 const subset = arr.slice(start, i + 1);
-                const sum = subset.reduce((a, b) => a + b.val, 0);
+                const sum = subset.reduce((a, b) => a + safeNum(b.val,0), 0);
                 return sum / subset.length;
             });
 
             new Chart(document.getElementById('trendChart'), {
                 type: 'bar',
                 data: {
-                    labels: chartGames.map(g => g.opp.substring(0,10)),
+                    labels: chartGames.map(g => (g.opp || "").substring(0,10)),
                     datasets: [
                         {
                             type: 'line',
                             label: '3-Game Trend',
                             data: rollingAvg,
-                            borderColor: '#334155', // Slate-700
+                            borderColor: '#334155',
                             borderWidth: 2,
                             pointRadius: 0,
                             tension: 0.4,
@@ -247,8 +332,8 @@
                         {
                             type: 'bar',
                             label: 'P-Score',
-                            data: chartGames.map(g => g.val),
-                            backgroundColor: chartGames.map(g => g.val > 0 ? '#10b981' : '#f43f5e'),
+                            data: chartGames.map(g => safeNum(g.val,0)),
+                            backgroundColor: chartGames.map(g => safeNum(g.val,0) > 0 ? '#10b981' : '#f43f5e'),
                             borderRadius: 4,
                             order: 2
                         }
@@ -257,7 +342,7 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: { 
+                    plugins: {
                         legend: { display: true, position: 'bottom', labels: { usePointStyle: true, boxWidth: 6, font: {family: 'Inter', size: 10} } },
                         tooltip: {
                             mode: 'index',
@@ -268,10 +353,14 @@
                             padding: 10,
                             cornerRadius: 8,
                             callbacks: {
-                                title: (ctx) => `${chartGames[ctx[0].dataIndex].date} vs ${chartGames[ctx[0].dataIndex].opp}`,
+                                title: (ctx) => {
+                                    const i = ctx[0].dataIndex;
+                                    const g = chartGames[i] || {};
+                                    return `${g.date || ''} vs ${g.opp || ''}`;
+                                },
                                 label: (ctx) => {
-                                    const val = ctx.raw.toFixed(1);
-                                    const sign = val > 0 ? '+' : '';
+                                    const val = safeNum(ctx.raw,0).toFixed(1);
+                                    const sign = Number(val) > 0 ? '+' : '';
                                     return `${ctx.dataset.label}: ${sign}${val}`;
                                 }
                             }
@@ -285,33 +374,136 @@
                 }
             });
 
-            // Table Logic
+            // --- Past Games Table + current record ---
             const tbody = document.getElementById('gameTable');
             let rows = "";
-            t.games.forEach(g => {
-                const resColor = g.res === 'W' ? 'text-emerald-700 bg-emerald-50 border border-emerald-100' : 'text-rose-700 bg-rose-50 border border-rose-100';
-                const valColor = g.val > 0 ? 'text-emerald-600' : 'text-rose-600';
-                const valSign = g.val > 0 ? '+' : '';
-                const rqColor = g.rq > 0 ? 'text-purple-600 font-bold' : 'text-slate-400';
-                const rqSign = g.rq > 0 ? '+' : '';
+            const pastGames = Array.isArray(t.games) ? t.games : [];
+
+            let curW = 0, curL = 0;
+            let curConfW = 0, curConfL = 0;
+
+            pastGames.forEach(g => {
+                if (!g) return;
+                if (g.res === 'W') curW += 1;
+                else if (g.res === 'L') curL += 1;
+
+                if (g.is_conf === true) {
+                    if (g.res === 'W') curConfW += 1;
+                    else if (g.res === 'L') curConfL += 1;
+                }
+            });
+
+            pastGames.forEach(g => {
+                const resColor = g.res === 'W'
+                    ? 'text-emerald-700 bg-emerald-50 border border-emerald-100'
+                    : 'text-rose-700 bg-rose-50 border border-rose-100';
+
+                const v = safeNum(g.val, 0);
+                const valColor = v > 0 ? 'text-emerald-600' : 'text-rose-600';
+                const valSign = v > 0 ? '+' : '';
+
+                const rq = safeNum(g.rq, 0);
+                const rqColor = rq > 0 ? 'text-purple-600 font-bold' : 'text-slate-400';
+                const rqSign = rq > 0 ? '+' : '';
 
                 rows += `
                 <tr class="hover:bg-slate-50 transition-colors group">
-                    <td class="px-5 py-4 text-slate-400 text-xs font-mono border-b border-slate-100">${g.date}</td>
+                    <td class="px-5 py-4 text-slate-400 text-xs font-mono border-b border-slate-100">${g.date || ''}</td>
                     <td class="px-5 py-4 font-medium text-slate-900 border-b border-slate-100">
-                        <a href="team.html?q=${encodeURIComponent(g.opp)}" class="hover:text-brand-600 hover:underline decoration-2 underline-offset-2 transition-colors">${g.opp}</a>
+                        <a href="team.html?q=${encodeURIComponent(g.opp || '')}" class="hover:text-brand-600 hover:underline decoration-2 underline-offset-2 transition-colors">${g.opp || ''}</a>
                     </td>
-                    <td class="px-5 py-4 text-center text-xs text-slate-400 font-bold border-b border-slate-100">${g.loc}</td>
-                    <td class="px-5 py-4 text-center border-b border-slate-100"><span class="px-2.5 py-1 rounded-md text-xs font-bold ${resColor}">${g.res}</span></td>
-                    <td class="px-5 py-4 text-right text-slate-600 font-mono text-sm border-b border-slate-100">${g.score}</td>
-                    <td class="px-5 py-4 text-right font-bold font-mono ${valColor} text-sm border-b border-slate-100">${valSign}${g.val.toFixed(1)}</td>
-                    <td class="px-5 py-4 text-right font-mono ${rqColor} text-sm border-b border-slate-100">${rqSign}${g.rq.toFixed(2)}</td>
+                    <td class="px-5 py-4 text-center text-xs text-slate-400 font-bold border-b border-slate-100">${g.loc || ''}</td>
+                    <td class="px-5 py-4 text-center border-b border-slate-100">
+                        <span class="px-2.5 py-1 rounded-md text-xs font-bold ${resColor}">${g.res || ''}</span>
+                    </td>
+                    <td class="px-5 py-4 text-right text-slate-600 font-mono text-sm border-b border-slate-100">${g.score || ''}</td>
+                    <td class="px-5 py-4 text-right font-bold font-mono ${valColor} text-sm border-b border-slate-100">${valSign}${v.toFixed(1)}</td>
+                    <td class="px-5 py-4 text-right font-mono ${rqColor} text-sm border-b border-slate-100">${rqSign}${rq.toFixed(2)}</td>
                 </tr>`;
             });
             tbody.innerHTML = rows;
-            
+
+            // --- Future Schedule Table + expected remaining wins (overall + conf) ---
+            const fbody = document.getElementById('futureTable');
+            const future = Array.isArray(t.future) ? t.future : [];
+
+            let expRemainW = 0.0;
+            let nRemain = 0;
+
+            let expRemainConfW = 0.0;
+            let nRemainConf = 0;
+
+            if (future.length === 0) {
+                fbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="px-5 py-8 text-center text-slate-400">
+                            No upcoming games found (schedule.csv missing, or no future rows for this team).
+                        </td>
+                    </tr>`;
+            } else {
+                let frows = "";
+                future.forEach(g => {
+                    const p = clamp(g.p_win, 0, 1);
+                    const spread = safeNum(g.spread, 0);
+
+                    expRemainW += p;
+                    nRemain += 1;
+
+                    if (g.is_conf === true) {
+                        expRemainConfW += p;
+                        nRemainConf += 1;
+                    }
+
+                    const pctCls = (p >= 0.5)
+                        ? "text-emerald-600 font-bold"
+                        : "text-rose-600 font-bold";
+
+                    const sprCls = spreadClass(spread);
+                    const sprSign = spread > 0 ? "+" : "";
+
+                    frows += `
+                    <tr class="hover:bg-slate-50 transition-colors group">
+                        <td class="px-5 py-4 text-slate-400 text-xs font-mono border-b border-slate-100">${g.date || ''}</td>
+                        <td class="px-5 py-4 font-medium text-slate-900 border-b border-slate-100">
+                            <a href="team.html?q=${encodeURIComponent(g.opp || '')}" class="hover:text-brand-600 hover:underline decoration-2 underline-offset-2 transition-colors">${g.opp || ''}</a>
+                        </td>
+                        <td class="px-5 py-4 text-center text-xs text-slate-400 font-bold border-b border-slate-100">${g.loc || ''}</td>
+                        <td class="px-5 py-4 text-right font-mono ${pctCls} text-sm border-b border-slate-100">${fmtPct(p)}</td>
+                        <td class="px-5 py-4 text-right text-slate-600 font-mono text-sm border-b border-slate-100">${g.proj || ''}</td>
+                        <td class="px-5 py-4 text-right font-mono ${sprCls} text-sm border-b border-slate-100">${sprSign}${spread.toFixed(1)}</td>
+                    </tr>`;
+                });
+                fbody.innerHTML = frows;
+            }
+
+            // --- Projected Record Panel ---
+            const expTotalW = curW + expRemainW;
+            const totalGames = (curW + curL) + nRemain;
+            const expTotalL = totalGames - expTotalW;
+
+            const expConfTotalW = curConfW + expRemainConfW;
+            const totalConfGames = (curConfW + curConfL) + nRemainConf;
+            const expConfTotalL = totalConfGames - expConfTotalW;
+
+            document.getElementById('curRec').innerText = `${curW}-${curL}`;
+            document.getElementById('curGames').innerText = `${curW + curL} games played`;
+
+            document.getElementById('expRec').innerText = `${expTotalW.toFixed(2)}-${expTotalL.toFixed(2)}`;
+            document.getElementById('expDetail').innerText = `${nRemain} remaining • expected remaining wins: ${expRemainW.toFixed(2)}`;
+
+            document.getElementById('curConfRec').innerText = `${curConfW}-${curConfL}`;
+            document.getElementById('curConfGames').innerText = `${curConfW + curConfL} conf games played`;
+
+            // If you don't have is_conf flags yet, this will naturally show 0-0 with 0 games.
+            document.getElementById('expConfRec').innerText = `${expConfTotalW.toFixed(2)}-${expConfTotalL.toFixed(2)}`;
+            document.getElementById('expConfDetail').innerText = `${nRemainConf} conf remaining • expected conf wins: ${expRemainConfW.toFixed(2)}`;
+
         } else {
-             document.querySelector('main').innerHTML = `<div class="text-center mt-20 text-slate-400">Team not found. <a href="index.html" class="text-brand-600 hover:underline">Back to Rankings</a></div>`;
+            document.querySelector('main').innerHTML =
+                `<div class="text-center mt-20 text-slate-400">
+                    Team not found.
+                    <a href="index.html" class="text-brand-600 hover:underline">Back to Rankings</a>
+                 </div>`;
         }
     </script>
 </body>
