@@ -558,7 +558,7 @@ def generate_html(field_df, l4i, f4o, n4o):
                             <a href="matchup.html" class="text-slate-300 hover:text-white hover:bg-slate-800 px-3 py-2 rounded-md text-sm font-medium transition-colors">Matchup Simulator</a>
                             <a href="conferences.html" class="text-slate-300 hover:text-white hover:bg-slate-800 px-3 py-2 rounded-md text-sm font-medium transition-colors">Conferences</a>
                             <a href="bracketology.html" class="bg-slate-800 text-white px-3 py-2 rounded-md text-sm font-medium transition-colors border border-slate-700">Bracketology</a>
-
+                            
                         </div>
                     </div>
 
@@ -580,6 +580,8 @@ def generate_html(field_df, l4i, f4o, n4o):
                     <a href="index.html" class="text-slate-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Rankings</a>
                     <a href="schedule.html" class="text-slate-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Today's Games</a>
                     <a href="matchup.html" class="text-slate-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Matchup Simulator</a>
+                    <a href="conferences.html" class="text-slate-300 hover:text-white hover:bg-slate-800 px-3 py-2 rounded-md text-sm font-medium transition-colors">Conferences</a>
+                    
                     <a href="bracketology.html" class="bg-slate-900 text-white block px-3 py-2 rounded-md text-base font-medium">Bracketology</a>
                 </div>
             </div>

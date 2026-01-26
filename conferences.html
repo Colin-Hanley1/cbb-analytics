@@ -26,46 +26,89 @@
     ::-webkit-scrollbar-track { background: #f1f5f9; }
     ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
     ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+    /* EXACT same navbar logic as Matchup Simulator */
+    #mobile-menu { display: none; transition: all 0.3s; }
+    #mobile-menu.open { display: block; }
+
+    /* Smooth scroll for anchors */
+    html { scroll-behavior: smooth; }
   </style>
 </head>
 
 <body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col selection:bg-brand-500 selection:text-white">
 
-  <!-- NAV -->
-  <nav class="bg-slate-900/95 backdrop-blur-md text-white shadow-lg sticky top-0 z-50 border-b border-slate-700/50" id="siteNav">
+  <!-- NAV (fully implemented, no placeholders) -->
+  <nav id="siteNav" class="bg-slate-900/95 backdrop-blur-md text-white shadow-lg sticky top-0 z-50 border-b border-slate-700/50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between h-16">
-            <div class="flex items-center gap-3">
-                <!-- Use href="#topTableAnchor" for accessibility, but we handle offset in JS -->
-                <a href="#topTableAnchor" onclick="scrollToTableTop(event)" class="flex items-center">
-                    <img
-                      src="wlogo.png"
-                      alt="CHan Analytics"
-                      class="h-6 sm:h-7 w-auto object-contain select-none"
-                      style="max-height: 28px"
-                    />
-                  </a>
-                <div class="hidden md:flex ml-8 space-x-1">
-                    <div class="hidden md:block"><div class="ml-10 flex items-baseline space-x-4"><a href="index.html" class="text-gray-300 hover:bg-slate-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Rankings</a><a href="schedule.html" class="text-gray-300 hover:bg-slate-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Today's Games</a><a href="matchup.html" class="text-gray-300 hover:bg-slate-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Matchup Simulator</a><a href="bracketology.html" class="text-gray-300 hover:bg-slate-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Bracketology</a><a href="conferences.html" class="text-gray-300 hover:bg-slate-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Conferences</a></div></div>
-                </div>
-            </div>
-            
-            <div class="flex items-center gap-4">
-                <div class="hidden md:block text-xs font-mono text-slate-400 bg-slate-800 px-3 py-1.5 rounded-full border border-slate-700">
-                    <span class="text-brand-500">●</span> Updated: <span class="text-slate-200">2026-01-26 03:52 UTC</span>
-                </div>
-                <div class="-mr-2 flex md:hidden">
-                    <button type="button" onclick="toggleMenu()" class="text-slate-400 hover:text-white p-2">
-                        <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
-                    </button>
-                </div>
-            </div>
+      <div class="flex items-center justify-between h-16">
+        <div class="flex items-center gap-3">
+          <a href="#topTableAnchor" onclick="scrollToTableTop(event)" class="flex items-center">
+            <img
+              src="wlogo.png"
+              alt="CHan Analytics"
+              class="h-6 sm:h-7 w-auto object-contain select-none"
+              style="max-height: 28px"
+            />
+          </a>
+
+          <div class="hidden md:flex ml-8 space-x-1">
+            <a href="index.html" class="text-slate-300 hover:text-white hover:bg-slate-800 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+              Rankings
+            </a>
+            <a href="schedule.html" class="text-slate-300 hover:text-white hover:bg-slate-800 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+              Today's Games
+            </a>
+            <a href="matchup.html" class="text-slate-300 hover:text-white hover:bg-slate-800 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+              Matchup Simulator
+            </a>
+            <a href="bracketology.html" class="text-slate-300 hover:text-white hover:bg-slate-800 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+              Bracketology
+            </a>
+            <a href="conferences.html" class="bg-slate-800 text-white px-3 py-2 rounded-md text-sm font-medium transition-colors border border-slate-700">
+              Conferences
+            </a>
+          </div>
         </div>
+
+        <div class="flex items-center gap-4">
+          <div class="hidden md:block text-xs font-mono text-slate-400 bg-slate-800 px-3 py-1.5 rounded-full border border-slate-700">
+            <span class="text-brand-500">●</span> Updated:
+            <span class="text-slate-200" id="lastUpdated">--</span>
+          </div>
+
+          <div class="-mr-2 flex md:hidden">
+            <button type="button" onclick="toggleMenu()" class="text-slate-400 hover:text-white p-2" aria-label="Open menu">
+              <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="md:hidden" id="mobile-menu"><div class="px-2 pt-2 pb-3 space-y-1 sm:px-3"><a href="index.html" class="text-gray-300 hover:bg-slate-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Rankings</a><a href="schedule.html" class="text-gray-300 hover:bg-slate-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Today's Games</a><a href="matchup.html" class="text-gray-300 hover:bg-slate-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Matchup Simulator</a><a href="bracketology.html" class="text-gray-300 hover:bg-slate-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Bracketology</a><a href="conferences.html" class="text-gray-300 hover:bg-slate-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Conferences</a></div></div>
-</nav>
+
+    <!-- Mobile menu (must be id="mobile-menu" for the exact logic) -->
+    <div class="md:hidden" id="mobile-menu">
+      <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-slate-900 border-t border-slate-800">
+        <a href="index.html" class="text-slate-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Rankings</a>
+        <a href="schedule.html" class="text-slate-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Today's Games</a>
+        <a href="matchup.html" class="text-slate-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Matchup Simulator</a>
+        <a href="bracketology.html" class="text-slate-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Bracketology</a>
+        <a href="conferences.html" class="bg-slate-800 text-white block px-3 py-2 rounded-md text-base font-medium border border-slate-700">Conferences</a>
+
+        <div class="pt-2 px-3">
+          <div class="text-[11px] font-mono text-slate-400 bg-slate-800 px-3 py-2 rounded-lg border border-slate-700">
+            <span class="text-brand-500">●</span> Updated:
+            <span class="text-slate-200" id="lastUpdatedMobile">--</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
 
   <main class="flex-grow max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+    <div id="topTableAnchor" style="scroll-margin-top: 88px;"></div>
 
     <!-- Header -->
     <div class="mb-8">
@@ -81,7 +124,6 @@
         <div>
           <div class="text-sm font-semibold text-slate-800">Conference strength</div>
         </div>
-
       </div>
 
       <div class="overflow-x-auto">
@@ -137,7 +179,7 @@
                 Conf <span class="ml-1 text-slate-300" id="sortIcon_conf">↕</span>
               </th>
               <th class="px-5 py-4 text-right cursor-pointer select-none" data-standings-sort="actual_wpct">
-                    Current <span class="ml-1 text-slate-300" id="sortIcon_actual_wpct">↕</span>
+                Current <span class="ml-1 text-slate-300" id="sortIcon_actual_wpct">↕</span>
               </th>
               <th class="px-5 py-4 text-right cursor-pointer select-none" data-standings-sort="rem_conf_games">
                 Remaining <span class="ml-1 text-slate-300" id="sortIcon_rem_conf_games">↕</span>
@@ -154,55 +196,54 @@
         </table>
       </div>
 
-
+      <div class="px-5 py-3 bg-white border-t border-slate-100 text-[11px] text-slate-400">
+        Projected = actual conference record + expected wins/losses from remaining conference games (sum of game win probabilities).
+      </div>
     </div>
-
   </main>
 
   <script src="conferences_data.js"></script>
+
   <script>
-    // -----------------------
-    // Nav mobile collapse fix
-    // -----------------------
-    (function initMobileNav(){
-      const btn = document.getElementById("mobileMenuBtn");
-      const menu = document.getElementById("mobile-menu"); // comes from NAV_MOBILE
-      const iconOpen = document.getElementById("iconOpen");
-      const iconClose = document.getElementById("iconClose");
+    // ------------------------------------------------------------
+    // EXACT same navbar logic as Matchup Simulator (toggle "open")
+    // ------------------------------------------------------------
+    function toggleMenu() {
+      const menu = document.getElementById('mobile-menu');
+      if (!menu) return;
+      menu.classList.toggle('open');
+    }
 
-      if (!btn || !menu) return;
+    // Optional usability: close mobile menu when a mobile link is tapped
+    document.addEventListener("click", (e) => {
+      const menu = document.getElementById("mobile-menu");
+      if (!menu || !menu.classList.contains("open")) return;
+      const a = e.target.closest("#mobile-menu a");
+      if (a) menu.classList.remove("open");
+    });
 
-      // Ensure initial state is hidden
-      menu.classList.add("hidden");
-      btn.setAttribute("aria-expanded", "false");
-      iconOpen.classList.remove("hidden");
-      iconClose.classList.add("hidden");
+    // Close on resize to desktop
+    window.addEventListener("resize", () => {
+      const menu = document.getElementById("mobile-menu");
+      if (!menu) return;
+      if (window.innerWidth >= 768) menu.classList.remove("open");
+    });
 
-      btn.addEventListener("click", () => {
-        const isHidden = menu.classList.contains("hidden");
-        if (isHidden) {
-          menu.classList.remove("hidden");
-          btn.setAttribute("aria-expanded", "true");
-          iconOpen.classList.add("hidden");
-          iconClose.classList.remove("hidden");
-        } else {
-          menu.classList.add("hidden");
-          btn.setAttribute("aria-expanded", "false");
-          iconOpen.classList.remove("hidden");
-          iconClose.classList.add("hidden");
-        }
-      });
+    // Sticky-navbar-aware scroll to top anchor
+    function scrollToTableTop(e){
+      if (e) e.preventDefault();
+      const anchor = document.getElementById("topTableAnchor");
+      if (!anchor) return;
 
-      // Close on resize to desktop
-      window.addEventListener("resize", () => {
-        if (window.innerWidth >= 768) {
-          menu.classList.add("hidden");
-          btn.setAttribute("aria-expanded", "false");
-          iconOpen.classList.remove("hidden");
-          iconClose.classList.add("hidden");
-        }
-      });
-    })();
+      const nav = document.getElementById("siteNav");
+      const navH = nav ? nav.getBoundingClientRect().height : 0;
+      const pad = 12;
+
+      const y = anchor.getBoundingClientRect().top + window.pageYOffset - navH - pad;
+      window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
+
+      history.replaceState(null, "", window.location.pathname);
+    }
 
     // -----------------------
     // Helpers
@@ -306,7 +347,11 @@
             proj_conf_wins: pw,
             proj_conf_losses: pl,
             actual_wpct,
-            proj_wpct
+            proj_wpct,
+
+            // For "rank" sorting column we will use the current rendered order by default,
+            // but we still support clicking it: use orig_rank as the value.
+            rank: idx + 1
           });
         });
       });
@@ -330,9 +375,32 @@
       // sort (standings-only)
       const {key, dir} = STATE.sort;
       rows.sort((a, b) => {
-        const c = cmp(a[key], b[key]);
-        return dir === "asc" ? c : -c;
-      });
+  if (key === "proj_wpct") {
+    // Primary: projected wins
+    if (a.proj_conf_wins !== b.proj_conf_wins) {
+      return dir === "asc"
+        ? a.proj_conf_wins - b.proj_conf_wins
+        : b.proj_conf_wins - a.proj_conf_wins;
+    }
+
+    // Secondary: projected win %
+    if (a.proj_wpct !== b.proj_wpct) {
+      return dir === "asc"
+        ? a.proj_wpct - b.proj_wpct
+        : b.proj_wpct - a.proj_wpct;
+    }
+
+    // Tertiary: AdjEM
+    return dir === "asc"
+      ? a.adjem - b.adjem
+      : b.adjem - a.adjem;
+  }
+
+  // Default behavior
+  const c = cmp(a[key], b[key]);
+  return dir === "asc" ? c : -c;
+});
+
 
       setStandingsSortIcon(key, dir);
 
@@ -393,9 +461,13 @@
       } else {
         STATE.sort.key = key;
         const preferDesc = new Set([
-          "adjem","proj_wpct","actual_wpct","rem_conf_games","exp_conf_wins_remaining","rank"
+          "adjem","proj_wpct","actual_wpct","rem_conf_games","exp_conf_wins_remaining"
         ]);
         STATE.sort.dir = preferDesc.has(key) ? "desc" : "asc";
+
+        // rank is naturally asc
+        if (key === "rank") STATE.sort.dir = "asc";
+        if (key === "team" || key === "conf") STATE.sort.dir = "asc";
       }
       renderStandings(CONFERENCES_DATA);
     }
@@ -410,6 +482,13 @@
     // Init
     // -----------------------
     if (typeof CONFERENCES_DATA !== "undefined") {
+      // Updated timestamp: use data if provided, else local time
+      const upd = CONFERENCES_DATA.last_updated || new Date().toLocaleString();
+      const el1 = document.getElementById("lastUpdated");
+      const el2 = document.getElementById("lastUpdatedMobile");
+      if (el1) el1.textContent = upd;
+      if (el2) el2.textContent = upd;
+
       renderSummary(CONFERENCES_DATA);
       buildStandingsConfOptions(CONFERENCES_DATA);
       attachStandingsSortHandlers();
