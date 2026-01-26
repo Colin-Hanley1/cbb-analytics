@@ -36,10 +36,16 @@
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <div class="flex items-center space-x-4">
-                    <a href="javascript:history.back()" class="font-bold text-lg tracking-tight text-white hover:text-brand-500 transition flex items-center gap-2 group">
-                        <svg class="w-5 h-5 text-slate-400 group-hover:text-brand-500 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                    <a href="#" id="backBtn"
+                        class="font-bold text-lg tracking-tight text-white hover:text-brand-500 transition flex items-center gap-2 group">
+                        <svg class="w-5 h-5 text-slate-400 group-hover:text-brand-500 transition"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                        </svg>
                         Back
-                    </a>
+                        </a>
+
                 </div>
             </div>
         </div>
@@ -240,6 +246,22 @@
 
     <script src="teams_data.js"></script>
     <script>
+        (function () {
+    const btn = document.getElementById("backBtn");
+    if (!btn) return;
+
+    btn.addEventListener("click", function (e) {
+      e.preventDefault();
+
+      // If there is meaningful history, go back
+      if (window.history.length > 1) {
+        window.history.back();
+      } else {
+        // Fallback for direct page load / new tab
+        window.location.href = "index.html";
+      }
+    });
+  })();
         const params = new URLSearchParams(window.location.search);
         const teamName = decodeURIComponent(params.get('q'));
 
