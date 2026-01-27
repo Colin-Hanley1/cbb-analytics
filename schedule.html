@@ -58,7 +58,7 @@
                 
                 <div class="flex items-center gap-4">
                     <div class="hidden md:block text-xs font-mono text-slate-400 bg-slate-800 px-3 py-1.5 rounded-full border border-slate-700">
-                        <span class="text-brand-500">●</span> Updated: <span class="text-slate-200">2026-01-27 12:54 UTC</span>
+                        <span class="text-brand-500">●</span> Updated: <span class="text-slate-200">2026-01-27 18:37 UTC</span>
                     </div>
                     <div class="-mr-2 flex md:hidden">
                         <button type="button" onclick="toggleMenu()" class="text-slate-400 hover:text-white p-2">
@@ -105,7 +105,7 @@
                             <th class="px-6 py-4 text-right">Home Score</th>
                             <th class="px-6 py-4 text-right">Away Score</th>
                             <th class="px-6 py-4 text-right">Spread</th>
-                            <th class="px-6 py-4 text-right">Win Prob</th>
+                            <th class="px-6 py-4 text-right" onclick="handleSort('WinProb', this)">Win Prob</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100 bg-white" id="scheduleBody">
@@ -125,197 +125,317 @@
     <!-- Load Ratings Data -->
     <script src="teams_data.js"></script>
 
-    <script>
-        // --- Smooth scroll with sticky-nav offset ---
-        function scrollToTableTop(e) {
-            if (e) e.preventDefault();
+    <script src="teams_data.js"></script>
 
-            const anchor = document.getElementById('topTableAnchor');
-            if (!anchor) return;
+<script>
+  // -----------------------
+  // CONFIG / STATE
+  // -----------------------
+  const AVG_EFF = 106.0;
+  const AVG_TEMPO = 68.5;
+  const HFA = 3.2;
 
-            const nav = document.getElementById('siteNav');
-            const navH = nav ? nav.getBoundingClientRect().height : 0;
+  let sortKey = "winProb";     // default sort: win prob (desc)
+  let sortAsc = false;
 
-            // Extra padding so the header doesn’t feel glued to the nav
-            const pad = 12;
+  // --- Smooth scroll with sticky-nav offset ---
+  function scrollToTableTop(e) {
+    if (e) e.preventDefault();
+    const anchor = document.getElementById("topTableAnchor");
+    if (!anchor) return;
 
-            const y = anchor.getBoundingClientRect().top + window.pageYOffset - navH - pad;
+    const nav = document.getElementById("siteNav");
+    const navH = nav ? nav.getBoundingClientRect().height : 0;
+    const pad = 12;
 
-            window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+    const y = anchor.getBoundingClientRect().top + window.pageYOffset - navH - pad;
+    window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
+    history.replaceState(null, "", window.location.pathname);
+  }
 
-            // Keep URL clean (optional); if you want the hash, remove this line.
-            history.replaceState(null, '', window.location.pathname);
+  // Mobile menu (same logic you used elsewhere)
+  function toggleMenu() {
+    document.getElementById("mobile-menu")?.classList.toggle("open");
+  }
+
+  // If the page loads with #topTableAnchor in the URL, apply offset scroll once.
+  window.addEventListener("load", () => {
+    if (window.location.hash === "#topTableAnchor") {
+      setTimeout(() => scrollToTableTop(), 0);
+    }
+  });
+
+  // -----------------------
+  // DATA
+  // -----------------------
+  let games = [];
+  try {
+    games = [{"away": "Providence", "home": "Connecticut"}, {"away": "Nebraska", "home": "Michigan"}, {"away": "Michigan St.", "home": "Rutgers"}, {"away": "Purdue", "home": "Indiana"}, {"away": "Arkansas", "home": "Oklahoma"}, {"away": "Virginia", "home": "Notre Dame"}, {"away": "Kentucky", "home": "Vanderbilt"}, {"away": "George Washington", "home": "Saint Louis"}, {"away": "Missouri", "home": "Alabama"}, {"away": "Massachusetts", "home": "Miami OH"}, {"away": "Toledo", "home": "Akron"}, {"away": "Arizona St.", "home": "UCF"}, {"away": "Rhode Island", "home": "Dayton"}, {"away": "Wake Forest", "home": "Pittsburgh"}, {"away": "Richmond", "home": "VCU"}, {"away": "Kansas St.", "home": "West Virginia"}, {"away": "Indiana St.", "home": "Illinois Chicago"}, {"away": "Saint Joseph's", "home": "Loyola Chicago"}, {"away": "Western Michigan", "home": "Northern Illinois"}, {"away": "Grand Canyon", "home": "Nevada"}, {"away": "New Mexico", "home": "UNLV"}, {"away": "Boise St.", "home": "San Jose St."}, {"away": "Alabama A&M", "home": "Prairie View A&M"}, {"away": "Alabama St.", "home": "Texas Southern"}, {"away": "New Orleans", "home": "Nicholls"}, {"away": "Northwestern St.", "home": "Stephen F. Austin"}, {"away": "Buffalo", "home": "Bowling Green"}, {"away": "Eastern Michigan", "home": "Central Michigan"}, {"away": "Ohio", "home": "Kent St."}, {"away": "East Texas A&M", "home": "Lamar"}, {"away": "Syracuse", "home": "N.C. State"}, {"away": "McNeese", "home": "Southeastern Louisiana"}, {"away": "Incarnate Word", "home": "Houston Christian"}, {"away": "Mississippi Valley St.", "home": "Southern"}, {"away": "Tennessee Tech", "home": "Tennessee St."}, {"away": "Georgia Tech", "home": "Virginia Tech"}, {"away": "Creighton", "home": "Marquette"}];
+  } catch (e) {
+    console.error("Games JSON failed to load", e);
+  }
+
+  const tbody = document.getElementById("scheduleBody");
+  const noGamesMsg = document.getElementById("noGamesMsg");
+  const table = document.getElementById("scheduleTable");
+
+  // -----------------------
+  // UTILS
+  // -----------------------
+  function safeNum(x, fb = 0) {
+    const v = Number(x);
+    return Number.isFinite(v) ? v : fb;
+  }
+
+  function cmp(a, b) {
+    // numbers first
+    const na = typeof a === "number" && Number.isFinite(a);
+    const nb = typeof b === "number" && Number.isFinite(b);
+    if (na && nb) return a - b;
+
+    // strings
+    return String(a).localeCompare(String(b));
+  }
+
+  function setSortIcon(th, active, asc) {
+    // remove existing icons
+    document.querySelectorAll("th[data-sort] .sortIcon").forEach(el => el.textContent = "↕");
+    if (!active) return;
+    const icon = th.querySelector(".sortIcon");
+    if (icon) icon.textContent = asc ? "↑" : "↓";
+  }
+
+  // -----------------------
+  // BUILD COMPUTED ROWS
+  // -----------------------
+  function computeRows() {
+    if (!games || games.length === 0) return [];
+
+    if (typeof TEAMS_DATA === "undefined") {
+      noGamesMsg.innerHTML = "<p class='text-rose-600 font-bold'>Error: Team Ratings data not loaded.</p>";
+      noGamesMsg.classList.remove("hidden");
+      return [];
+    }
+
+    const out = [];
+
+    for (const g of games) {
+      const homeTeam = g.home;
+      const awayTeam = g.away;
+
+      const home = TEAMS_DATA[homeTeam];
+      const away = TEAMS_DATA[awayTeam];
+      if (!home || !away) continue;
+
+      const expTempo = safeNum(home.adjt) + safeNum(away.adjt) - AVG_TEMPO;
+      const expEffHome = (safeNum(home.adjo) + safeNum(away.adjd) - AVG_EFF) + HFA;
+      const expEffAway = (safeNum(away.adjo) + safeNum(home.adjd) - AVG_EFF) - HFA;
+
+      const rawHome = (expEffHome * expTempo) / 100;
+      const rawAway = (expEffAway * expTempo) / 100;
+
+      const scoreHome = Math.round(rawHome);
+      const scoreAway = Math.round(rawAway);
+
+      const margin = rawHome - rawAway; // >0 means home favored
+      const absSpread = Math.abs(margin);
+
+      const x = 11.5;
+      const wpHome = (Math.pow(rawHome, x)) / (Math.pow(rawHome, x) + Math.pow(rawAway, x));
+      const wpAway = 1 - wpHome;
+
+      const winnerIsHome = margin > 0;
+      const winnerName = winnerIsHome ? homeTeam : awayTeam;
+      const winProb = winnerIsHome ? wpHome : wpAway; // probability of predicted winner
+
+      out.push({
+        homeTeam,
+        awayTeam,
+        homeRank: safeNum(home.rank, 999),
+        awayRank: safeNum(away.rank, 999),
+        scoreHome,
+        scoreAway,
+        margin,          // signed (home - away)
+        spread: absSpread, // numeric, absolute spread
+        winnerName,
+        winProb,         // 0..1
+      });
+    }
+
+    return out;
+  }
+
+  // -----------------------
+  // SORT + RENDER
+  // -----------------------
+  function getSortedRows() {
+    const rows = computeRows();
+
+    rows.sort((a, b) => {
+      const c = cmp(a[sortKey], b[sortKey]);
+      return sortAsc ? c : -c;
+    });
+
+    return rows;
+  }
+
+  function renderSchedule() {
+    const rowsArr = getSortedRows();
+
+    if (!rowsArr || rowsArr.length === 0) {
+      tbody.innerHTML = "";
+      noGamesMsg.innerHTML = "<p>No games scheduled for today.</p>";
+      noGamesMsg.classList.remove("hidden");
+      return;
+    }
+
+    let rowsHTML = "";
+
+    for (const r of rowsArr) {
+      const homeNameClass = r.margin > 0 ? "text-emerald-600 font-bold" : "text-red-600 font-medium";
+      const awayNameClass = r.margin < 0 ? "text-emerald-600 font-bold" : "text-red-600 font-medium";
+
+      const homeScoreClass = r.margin > 0 ? "text-emerald-600 font-bold" : "text-red-600";
+      const awayScoreClass = r.margin < 0 ? "text-emerald-600 font-bold" : "text-red-600";
+
+      let spreadDisplay = "Pick";
+      if (Math.abs(r.margin) >= 0.1) {
+        const fav = r.margin > 0 ? r.homeTeam : r.awayTeam;
+        spreadDisplay = `${fav} -${r.spread.toFixed(1)}`;
+      }
+
+      const probDisplay = (r.winProb * 100).toFixed(1) + "%";
+
+      rowsHTML += `
+        <tr class="hover:bg-slate-50 transition-colors group border-b border-slate-50">
+          <td class="px-6 py-4 border-r border-slate-100/50">
+            <a href="team.html?q=${encodeURIComponent(r.homeTeam)}"
+               class="hover:text-brand-600 hover:underline decoration-2 underline-offset-2 ${homeNameClass} block">
+              ${r.homeTeam}
+            </a>
+            <span class="text-[10px] text-slate-400 font-mono tracking-wide">#${r.homeRank}</span>
+          </td>
+
+          <td class="px-2 py-4 text-center text-xs text-slate-300 font-bold">vs</td>
+
+          <td class="px-6 py-4 border-l border-slate-100/50">
+            <a href="team.html?q=${encodeURIComponent(r.awayTeam)}"
+               class="hover:text-brand-600 hover:underline decoration-2 underline-offset-2 ${awayNameClass} block">
+              ${r.awayTeam}
+            </a>
+            <span class="text-[10px] text-slate-400 font-mono tracking-wide">#${r.awayRank}</span>
+          </td>
+
+          <td class="px-6 py-4 text-right font-mono text-base ${homeScoreClass} border-l border-slate-100/50">${r.scoreHome}</td>
+          <td class="px-6 py-4 text-right font-mono text-base ${awayScoreClass}">${r.scoreAway}</td>
+
+          <td class="px-6 py-4 text-right font-bold text-brand-600 text-sm font-mono border-l border-slate-100">${spreadDisplay}</td>
+
+          <td class="px-6 py-4 text-right">
+            <div class="font-mono text-slate-700 font-bold">${probDisplay}</div>
+            <div class="text-[10px] text-slate-400 font-medium uppercase tracking-wide">${r.winnerName}</div>
+          </td>
+        </tr>
+      `;
+    }
+
+    tbody.innerHTML = rowsHTML;
+    noGamesMsg.classList.add("hidden");
+  }
+
+  // -----------------------
+  // SORT HANDLER
+  // -----------------------
+  function handleSort(key, th) {
+    if (sortKey === key) sortAsc = !sortAsc;
+    else {
+      sortKey = key;
+      // default directions
+      const preferAsc = new Set(["homeTeam", "awayTeam", "scoreHome", "scoreAway"]);
+      sortAsc = preferAsc.has(key);
+      // usually want larger winProb/spread first
+      if (key === "winProb" || key === "spread") sortAsc = false;
+    }
+
+    // update icon
+    setSortIcon(th, true, sortAsc);
+    renderSchedule();
+  }
+
+  // Attach listeners to headers (and add icons)
+  (function initSorting() {
+    // mark columns as sortable + add icon span
+    const map = {
+      homeTeam: 0,
+      awayTeam: 2,
+      scoreHome: 3,
+      scoreAway: 4,
+      spread: 5,
+      winProb: 6,
+    };
+
+    const ths = table.querySelectorAll("thead th");
+    Object.keys(map).forEach(key => {
+      const idx = map[key];
+      const th = ths[idx];
+      if (!th) return;
+
+      th.style.cursor = "pointer";
+      th.classList.add("select-none");
+      th.setAttribute("data-sort", key);
+
+      // add an icon if missing
+      if (!th.querySelector(".sortIcon")) {
+        th.innerHTML = `${th.innerHTML} <span class="ml-1 text-slate-300 sortIcon">↕</span>`;
+      }
+
+      th.addEventListener("click", () => handleSort(key, th));
+    });
+
+    // initial icon state
+    const th = table.querySelector(`th[data-sort="${sortKey}"]`);
+    if (th) setSortIcon(th, true, sortAsc);
+  })();
+
+  // -----------------------
+  // SEARCH FILTER (unchanged)
+  // -----------------------
+  function filterSchedule() {
+    const input = document.getElementById("scheduleSearch");
+    const filter = input.value.toUpperCase();
+    const tr = table.getElementsByTagName("tr");
+    let hasVisible = false;
+
+    for (let i = 1; i < tr.length; i++) {
+      const tdHome = tr[i].getElementsByTagName("td")[0];
+      const tdAway = tr[i].getElementsByTagName("td")[2];
+
+      if (tdAway || tdHome) {
+        const txtAway = tdAway.textContent || tdAway.innerText;
+        const txtHome = tdHome.textContent || tdHome.innerText;
+
+        if (txtAway.toUpperCase().includes(filter) || txtHome.toUpperCase().includes(filter)) {
+          tr[i].style.display = "";
+          hasVisible = true;
+        } else {
+          tr[i].style.display = "none";
         }
+      }
+    }
 
-        // If the page loads with #topTableAnchor in the URL, apply offset scroll once.
-        window.addEventListener('load', () => {
-            if (window.location.hash === '#topTableAnchor') {
-                // Defer to ensure layout is stable
-                setTimeout(() => scrollToTableTop(), 0);
-            }
-        });
+    if (!hasVisible && tr.length > 1) {
+      noGamesMsg.innerText = "No teams found matching '" + input.value + "'";
+      noGamesMsg.classList.remove("hidden");
+    } else {
+      if (tr.length > 1) noGamesMsg.classList.add("hidden");
+    }
+  }
 
-        // --- FIX IS HERE: Double Braces ---
-        let games = [];
-        try {
-            games = [{"away": "Providence", "home": "Connecticut"}, {"away": "Nebraska", "home": "Michigan"}, {"away": "Michigan St.", "home": "Rutgers"}, {"away": "Purdue", "home": "Indiana"}, {"away": "Arkansas", "home": "Oklahoma"}, {"away": "Virginia", "home": "Notre Dame"}, {"away": "Kentucky", "home": "Vanderbilt"}, {"away": "George Washington", "home": "Saint Louis"}, {"away": "Missouri", "home": "Alabama"}, {"away": "Massachusetts", "home": "Miami OH"}, {"away": "Toledo", "home": "Akron"}, {"away": "Arizona St.", "home": "UCF"}, {"away": "Rhode Island", "home": "Dayton"}, {"away": "Wake Forest", "home": "Pittsburgh"}, {"away": "Richmond", "home": "VCU"}, {"away": "Kansas St.", "home": "West Virginia"}, {"away": "Indiana St.", "home": "Illinois Chicago"}, {"away": "Saint Joseph's", "home": "Loyola Chicago"}, {"away": "Western Michigan", "home": "Northern Illinois"}, {"away": "Grand Canyon", "home": "Nevada"}, {"away": "New Mexico", "home": "UNLV"}, {"away": "Boise St.", "home": "San Jose St."}, {"away": "Alabama A&M", "home": "Prairie View A&M"}, {"away": "Alabama St.", "home": "Texas Southern"}, {"away": "New Orleans", "home": "Nicholls"}, {"away": "Northwestern St.", "home": "Stephen F. Austin"}, {"away": "Buffalo", "home": "Bowling Green"}, {"away": "Eastern Michigan", "home": "Central Michigan"}, {"away": "Ohio", "home": "Kent St."}, {"away": "East Texas A&M", "home": "Lamar"}, {"away": "Syracuse", "home": "N.C. State"}, {"away": "McNeese", "home": "Southeastern Louisiana"}, {"away": "Incarnate Word", "home": "Houston Christian"}, {"away": "Mississippi Valley St.", "home": "Southern"}, {"away": "Tennessee Tech", "home": "Tennessee St."}, {"away": "Georgia Tech", "home": "Virginia Tech"}, {"away": "Creighton", "home": "Marquette"}];
-        } catch (e) {
-            console.error("Games JSON failed to load", e);
-        }
-        
-        const tbody = document.getElementById('scheduleBody');
-        const noGamesMsg = document.getElementById('noGamesMsg');
-        
-        const AVG_EFF = 106.0;
-        const AVG_TEMPO = 68.5;
-        const HFA = 3.2;
+  // -----------------------
+  // INIT RENDER
+  // -----------------------
+  renderSchedule();
+</script>
 
-        function toggleMenu() {
-            document.getElementById('mobile-menu').classList.toggle('open');
-        }
-
-        function renderSchedule() {
-            if (!games || games.length === 0) {
-                tbody.innerHTML = '';
-                noGamesMsg.innerHTML = "<p>No games scheduled for today.</p>";
-                noGamesMsg.classList.remove('hidden');
-                return;
-            }
-
-            let rows = "";
-            let gamesFound = false;
-
-            // Safety check for TEAMS_DATA
-            if (typeof TEAMS_DATA === 'undefined') {
-                noGamesMsg.innerHTML = "<p class='text-rose-600 font-bold'>Error: Team Ratings data not loaded.</p>";
-                noGamesMsg.classList.remove('hidden');
-                return;
-            }
-
-            games.forEach(g => {
-                const homeTeam = g.home;
-                const awayTeam = g.away;
-                
-                const home = TEAMS_DATA[homeTeam];
-                const away = TEAMS_DATA[awayTeam];
-
-                if (!home || !away) return; 
-                gamesFound = true;
-
-                // Calc
-                const expTempo = home.adjt + away.adjt - AVG_TEMPO;
-                const expEffHome = (home.adjo + away.adjd - AVG_EFF) + HFA;
-                const expEffAway = (away.adjo + home.adjd - AVG_EFF) - HFA;
-
-                const rawScoreHome = (expEffHome * expTempo) / 100;
-                const rawScoreAway = (expEffAway * expTempo) / 100;
-                
-                const scoreHome = Math.round(rawScoreHome);
-                const scoreAway = Math.round(rawScoreAway);
-                
-                const margin = rawScoreHome - rawScoreAway;
-                const spreadVal = Math.abs(margin).toFixed(1);
-                
-                let spreadDisplay = "Pick";
-                if (Math.abs(margin) >= 0.1) {
-                    const fav = margin > 0 ? homeTeam : awayTeam;
-                    spreadDisplay = `${fav} -${spreadVal}`;
-                }
-
-                const x = 11.5;
-                const wpHome = (Math.pow(rawScoreHome, x)) / (Math.pow(rawScoreHome, x) + Math.pow(rawScoreAway, x));
-                const wpAway = 1 - wpHome;
-                
-                const winnerProb = margin > 0 ? wpHome : wpAway;
-                const probDisplay = (winnerProb * 100).toFixed(1) + "%";
-                const winnerName = margin > 0 ? homeTeam : awayTeam;
-                
-                // --- STYLING LOGIC ---
-                const homeNameClass = margin > 0 ? "text-emerald-600 font-bold" : "text-red-600 font-medium";
-                const awayNameClass = margin < 0 ? "text-emerald-600 font-bold" : "text-red-600 font-medium";
-                
-                // Scores: Winner gets color, Loser gets gray
-                const homeScoreClass = margin > 0 ? "text-emerald-600 font-bold" : "text-red-600";
-                const awayScoreClass = margin < 0 ? "text-emerald-600 font-bold" : "text-red-600";
-                
-                const spreadColor = "text-brand-600"; 
-                const probColor = "text-slate-700";
-
-                rows += `
-                <tr class="hover:bg-slate-50 transition-colors group border-b border-slate-50">
-                    <!-- Home Team -->
-                    <td class="px-6 py-4 border-r border-slate-100/50">
-                        <a href="team.html?q=${encodeURIComponent(homeTeam)}" class="hover:text-brand-600 hover:underline decoration-2 underline-offset-2 ${homeNameClass} block">${homeTeam}</a>
-                        <span class="text-[10px] text-slate-400 font-mono tracking-wide">#${home.rank}</span>
-                    </td>
-                    
-                    <td class="px-2 py-4 text-center text-xs text-slate-300 font-bold">vs</td>
-                    
-                    <!-- Away Team -->
-                    <td class="px-6 py-4 border-l border-slate-100/50">
-                        <a href="team.html?q=${encodeURIComponent(awayTeam)}" class="hover:text-brand-600 hover:underline decoration-2 underline-offset-2 ${awayNameClass} block">${awayTeam}</a>
-                        <span class="text-[10px] text-slate-400 font-mono tracking-wide">#${away.rank}</span>
-                    </td>
-
-                    <!-- Scores -->
-                    <td class="px-6 py-4 text-right font-mono text-base ${homeScoreClass} border-l border-slate-100/50">${scoreHome}</td>
-                    <td class="px-6 py-4 text-right font-mono text-base ${awayScoreClass}">${scoreAway}</td>
-                    
-                    <!-- Stats -->
-                    <td class="px-6 py-4 text-right font-bold ${spreadColor} text-sm font-mono border-l border-slate-100">${spreadDisplay}</td>
-                    <td class="px-6 py-4 text-right">
-                        <div class="font-mono ${probColor} font-bold">${probDisplay}</div>
-                        <div class="text-[10px] text-slate-400 font-medium uppercase tracking-wide">${winnerName}</div>
-                    </td>
-                </tr>
-                `;
-            });
-            
-            if (!gamesFound) {
-                 tbody.innerHTML = "";
-                 noGamesMsg.innerText = "Schedule loaded, but matched team ratings not found.";
-                 noGamesMsg.classList.remove('hidden');
-            } else {
-                 tbody.innerHTML = rows;
-                 noGamesMsg.classList.add('hidden');
-            }
-        }
-
-        function filterSchedule() {
-            const input = document.getElementById('scheduleSearch');
-            const filter = input.value.toUpperCase();
-            const table = document.getElementById('scheduleTable');
-            const tr = table.getElementsByTagName('tr');
-            let hasVisible = false;
-
-            for (let i = 1; i < tr.length; i++) {
-                const tdHome = tr[i].getElementsByTagName("td")[0];
-                const tdAway = tr[i].getElementsByTagName("td")[2];
-                
-                if (tdAway || tdHome) {
-                    const txtValueAway = tdAway.textContent || tdAway.innerText;
-                    const txtValueHome = tdHome.textContent || tdHome.innerText;
-                    
-                    if (txtValueAway.toUpperCase().indexOf(filter) > -1 || txtValueHome.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                        hasVisible = true;
-                    } else {
-                        tr[i].style.display = "none";
-                    }
-                }
-            }
-            
-            const msg = document.getElementById('noGamesMsg');
-            if (!hasVisible && tr.length > 1) {
-                msg.innerText = "No teams found matching '" + input.value + "'";
-                msg.classList.remove('hidden');
-            } else {
-                if (tr.length <= 1) { } 
-                else { msg.classList.add('hidden'); }
-            }
-        }
-
-        renderSchedule();
-    </script>
 </body>
 </html>
