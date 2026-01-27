@@ -416,7 +416,9 @@ def generate_html(field_df, l4i, f4o, n4o):
                 <div class="flex items-center gap-3">
                     <img src="{logo_path}" class="w-8 h-8 object-contain" onerror="this.style.display='none'">
                     <div>
+                        <a href="https://colin-hanley1.github.io/cbb-analytics/team.html?q={row['Team']}">
                         <div class="font-bold text-slate-900 text-base">{row['Team']}</div>
+                        </a>
                         <div class="text-[10px] text-slate-400 font-mono tracking-wide uppercase">{row['Conference']}</div>
                     </div>
                 </div>
@@ -458,7 +460,9 @@ def generate_html(field_df, l4i, f4o, n4o):
                 <div class="flex items-center gap-3">
                     <img src="{logo}" class="w-6 h-6 object-contain opacity-80 group-hover:opacity-100 transition-opacity" onerror="this.style.display='none'">
                     <div>
-                        <div class="font-bold text-slate-800 text-sm group-hover:text-brand-600 transition-colors">{r['Team']}</div>
+                                                <a href="https://colin-hanley1.github.io/cbb-analytics/team.html?q={r['Team']}">
+                        <div class="font-bold text-slate-900 text-base">{r['Team']}</div>
+                        </a>
                         <div class="text-[10px] text-slate-400 font-mono">{r['Conference']}</div>
                     </div>
                 </div>
