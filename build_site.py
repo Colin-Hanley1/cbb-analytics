@@ -14,6 +14,8 @@ import scrape_cbb
 SCRAPER_SCRIPT = "scrape_cbb.py"
 BRACKET_SCRIPT = "bracket.py"
 RATINGS_SCRIPT = "adj.py"
+SIM_SCRIPT = "mc.py"
+MC_TO_JS_SCRIPT = "exportmctojs.py"
 
 OUTPUT_INDEX = "index.html"
 OUTPUT_MATCHUP = "matchup.html"
@@ -872,6 +874,8 @@ if __name__ == "__main__":
     run_script(SCRAPER_SCRIPT)
     run_script(RATINGS_SCRIPT)
     run_script(BRACKET_SCRIPT)
+    #run_script(SIM_SCRIPT)
+    #run_script(MC_TO_JS_SCRIPT)
 
     df_ratings, df_scores, df_conf = get_data()
 

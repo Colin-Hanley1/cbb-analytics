@@ -2,8 +2,8 @@ Team,Seed,Prob
 Abilene Christian,16,0.002
 Akron,9,0.001
 Akron,10,0.004
-Akron,11,0.138
-Akron,12,0.49
+Akron,11,0.141
+Akron,12,0.487
 Akron,13,0.024
 Alabama,2,0.025
 Alabama,3,0.12
@@ -67,21 +67,21 @@ BYU,10,0.001
 Baylor,8,0.001
 Baylor,9,0.001
 Baylor,10,0.007
-Baylor,11,0.035
-Baylor,12,0.003
+Baylor,11,0.036
+Baylor,12,0.004
 Bellarmine,16,0.014
 Belmont,8,0.009
 Belmont,9,0.024
-Belmont,10,0.056
-Belmont,11,0.201
-Belmont,12,0.16
+Belmont,10,0.057
+Belmont,11,0.202
+Belmont,12,0.159
 Belmont,13,0.002
 Bethune Cookman,15,0.008
 Bethune Cookman,16,0.346
-Boise St.,9,0.008
-Boise St.,10,0.021
-Boise St.,11,0.082
-Boise St.,12,0.008
+Boise St.,9,0.001
+Boise St.,10,0.008
+Boise St.,11,0.03
+Boise St.,12,0.006
 Boston University,16,0.021
 Bowling Green,13,0.001
 Bowling Green,14,0.009
@@ -93,8 +93,8 @@ Butler,7,0.001
 Butler,8,0.008
 Butler,9,0.019
 Butler,10,0.048
-Butler,11,0.112
-Butler,12,0.009
+Butler,11,0.116
+Butler,12,0.01
 CSUN,15,0.002
 CSUN,16,0.002
 Cal Baptist,12,0.008
@@ -109,7 +109,7 @@ California,8,0.047
 California,9,0.062
 California,10,0.097
 California,11,0.177
-California,12,0.008
+California,12,0.011
 Campbell,16,0.001
 Canisius,16,0.001
 Central Arkansas,14,0.005
@@ -199,7 +199,7 @@ Furman,15,0.03
 George Mason,8,0.001
 George Mason,9,0.002
 George Mason,10,0.018
-George Mason,11,0.051
+George Mason,11,0.052
 George Mason,12,0.004
 George Washington,11,0.001
 George Washington,12,0.068
@@ -211,8 +211,8 @@ Georgia,7,0.103
 Georgia,8,0.156
 Georgia,9,0.212
 Georgia,10,0.168
-Georgia,11,0.15
-Georgia,12,0.004
+Georgia,11,0.152
+Georgia,12,0.003
 Georgia Southern,16,0.002
 Georgia St.,16,0.005
 Gonzaga,1,0.019
@@ -272,9 +272,9 @@ Indiana,5,0.003
 Indiana,6,0.041
 Indiana,7,0.09
 Indiana,8,0.153
-Indiana,9,0.186
-Indiana,10,0.174
-Indiana,11,0.184
+Indiana,9,0.189
+Indiana,10,0.171
+Indiana,11,0.186
 Indiana,12,0.006
 Iona,15,0.01
 Iona,16,0.029
@@ -285,7 +285,7 @@ Iowa,6,0.207
 Iowa,7,0.209
 Iowa,8,0.18
 Iowa,9,0.127
-Iowa,10,0.065
+Iowa,10,0.066
 Iowa,11,0.04
 Iowa,12,0.002
 Iowa St.,1,0.009
@@ -323,8 +323,8 @@ Kentucky,7,0.097
 Kentucky,8,0.168
 Kentucky,9,0.177
 Kentucky,10,0.165
-Kentucky,11,0.161
-Kentucky,12,0.006
+Kentucky,11,0.166
+Kentucky,12,0.005
 LIU,14,0.002
 LIU,15,0.158
 LIU,16,0.412
@@ -340,8 +340,8 @@ Lamar,16,0.001
 Le Moyne,16,0.219
 Lehigh,16,0.002
 Liberty,10,0.004
-Liberty,11,0.076
-Liberty,12,0.331
+Liberty,11,0.077
+Liberty,12,0.33
 Liberty,13,0.047
 Lindenwood,15,0.009
 Lindenwood,16,0.174
@@ -374,9 +374,9 @@ Marshall,15,0.057
 Marshall,16,0.001
 Maryland Eastern Shore,16,0.398
 McNeese,9,0.008
-McNeese,10,0.043
-McNeese,11,0.218
-McNeese,12,0.367
+McNeese,10,0.044
+McNeese,11,0.22
+McNeese,12,0.364
 McNeese,13,0.012
 Memphis,12,0.005
 Memphis,13,0.009
@@ -393,15 +393,15 @@ Miami FL,6,0.007
 Miami FL,7,0.041
 Miami FL,8,0.069
 Miami FL,9,0.129
-Miami FL,10,0.175
-Miami FL,11,0.188
-Miami FL,12,0.014
+Miami FL,10,0.177
+Miami FL,11,0.189
+Miami FL,12,0.015
 Miami OH,7,0.001
 Miami OH,8,0.009
 Miami OH,9,0.031
-Miami OH,10,0.104
-Miami OH,11,0.265
-Miami OH,12,0.065
+Miami OH,10,0.106
+Miami OH,11,0.263
+Miami OH,12,0.067
 Miami OH,13,0.001
 Michigan,1,0.918
 Michigan,2,0.079
@@ -448,7 +448,7 @@ N.C. State,6,0.139
 N.C. State,7,0.213
 N.C. State,8,0.196
 N.C. State,9,0.164
-N.C. State,10,0.082
+N.C. State,10,0.083
 N.C. State,11,0.07
 NJIT,16,0.004
 Navy,13,0.003
@@ -463,7 +463,7 @@ Nebraska Omaha,16,0.001
 Nevada,7,0.001
 Nevada,8,0.001
 Nevada,9,0.009
-Nevada,10,0.018
+Nevada,10,0.019
 Nevada,11,0.077
 Nevada,12,0.01
 New Hampshire,16,0.067
@@ -474,7 +474,7 @@ New Mexico,7,0.132
 New Mexico,8,0.176
 New Mexico,9,0.23
 New Mexico,10,0.168
-New Mexico,11,0.131
+New Mexico,11,0.133
 New Mexico,12,0.001
 New Mexico St.,14,0.001
 New Mexico St.,15,0.008
@@ -517,12 +517,12 @@ Ohio St.,7,0.058
 Ohio St.,8,0.107
 Ohio St.,9,0.126
 Ohio St.,10,0.153
-Ohio St.,11,0.214
-Ohio St.,12,0.008
+Ohio St.,11,0.215
+Ohio St.,12,0.009
 Oklahoma St.,8,0.001
 Oklahoma St.,9,0.002
 Oklahoma St.,10,0.003
-Oklahoma St.,11,0.008
+Oklahoma St.,11,0.01
 Oklahoma St.,12,0.001
 Old Dominion,16,0.004
 Pacific,12,0.002
@@ -567,10 +567,10 @@ SMU,5,0.115
 SMU,6,0.16
 SMU,7,0.208
 SMU,8,0.216
-SMU,9,0.143
-SMU,10,0.073
-SMU,11,0.045
-SMU,12,0.003
+SMU,9,0.144
+SMU,10,0.072
+SMU,11,0.046
+SMU,12,0.002
 Sacramento St.,16,0.002
 Sacred Heart,16,0.001
 Saint Joseph's,13,0.002
@@ -602,24 +602,24 @@ San Diego St.,6,0.004
 San Diego St.,7,0.019
 San Diego St.,8,0.057
 San Diego St.,9,0.116
-San Diego St.,10,0.164
-San Diego St.,11,0.185
-San Diego St.,12,0.014
+San Diego St.,10,0.167
+San Diego St.,11,0.182
+San Diego St.,12,0.015
 San Francisco,12,0.002
 Santa Clara,6,0.002
 Santa Clara,7,0.012
 Santa Clara,8,0.03
 Santa Clara,9,0.075
-Santa Clara,10,0.136
-Santa Clara,11,0.238
-Santa Clara,12,0.017
+Santa Clara,10,0.137
+Santa Clara,11,0.243
+Santa Clara,12,0.014
 Seattle,13,0.003
 Seton Hall,7,0.005
 Seton Hall,8,0.012
 Seton Hall,9,0.025
 Seton Hall,10,0.06
 Seton Hall,11,0.138
-Seton Hall,12,0.008
+Seton Hall,12,0.009
 Siena,14,0.005
 Siena,15,0.088
 Siena,16,0.027
@@ -666,9 +666,9 @@ TCU,6,0.005
 TCU,7,0.013
 TCU,8,0.028
 TCU,9,0.086
-TCU,10,0.121
-TCU,11,0.189
-TCU,12,0.016
+TCU,10,0.122
+TCU,11,0.191
+TCU,12,0.017
 Tarleton St.,14,0.001
 Tarleton St.,15,0.005
 Tarleton St.,16,0.002
@@ -695,17 +695,17 @@ Texas,5,0.002
 Texas,6,0.009
 Texas,7,0.022
 Texas,8,0.064
-Texas,9,0.118
+Texas,9,0.119
 Texas,10,0.141
-Texas,11,0.191
+Texas,11,0.195
 Texas,12,0.008
 Texas A&M,5,0.013
 Texas A&M,6,0.052
 Texas A&M,7,0.091
 Texas A&M,8,0.138
 Texas A&M,9,0.204
-Texas A&M,10,0.168
-Texas A&M,11,0.167
+Texas A&M,10,0.169
+Texas A&M,11,0.166
 Texas A&M,12,0.003
 Texas A&M Corpus Chris,14,0.003
 Texas A&M Corpus Chris,15,0.008
@@ -749,14 +749,14 @@ UCF,7,0.059
 UCF,8,0.124
 UCF,9,0.158
 UCF,10,0.174
-UCF,11,0.187
+UCF,11,0.191
 UCF,12,0.013
 UCLA,6,0.008
 UCLA,7,0.028
 UCLA,8,0.064
 UCLA,9,0.13
 UCLA,10,0.171
-UCLA,11,0.216
+UCLA,11,0.219
 UCLA,12,0.017
 UMBC,15,0.01
 UMBC,16,0.131
@@ -770,8 +770,8 @@ USC,6,0.002
 USC,7,0.018
 USC,8,0.033
 USC,9,0.084
-USC,10,0.113
-USC,11,0.16
+USC,10,0.114
+USC,11,0.162
 USC,12,0.014
 UT Arlington,12,0.001
 UT Arlington,13,0.085
@@ -785,7 +785,7 @@ Utah St.,5,0.048
 Utah St.,6,0.137
 Utah St.,7,0.194
 Utah St.,8,0.192
-Utah St.,9,0.163
+Utah St.,9,0.164
 Utah St.,10,0.119
 Utah St.,11,0.076
 Utah St.,12,0.003
@@ -799,9 +799,9 @@ Utah Valley,15,0.005
 VCU,7,0.001
 VCU,8,0.013
 VCU,9,0.033
-VCU,10,0.065
+VCU,10,0.067
 VCU,11,0.169
-VCU,12,0.015
+VCU,12,0.016
 Valparaiso,13,0.001
 Valparaiso,14,0.021
 Valparaiso,15,0.014
@@ -838,14 +838,14 @@ Virginia Tech,8,0.03
 Virginia Tech,9,0.074
 Virginia Tech,10,0.132
 Virginia Tech,11,0.219
-Virginia Tech,12,0.015
+Virginia Tech,12,0.017
 Wagner,16,0.018
-Wake Forest,11,0.003
+Wake Forest,11,0.004
 Washington,8,0.005
 Washington,9,0.017
 Washington,10,0.04
-Washington,11,0.105
-Washington,12,0.01
+Washington,11,0.111
+Washington,12,0.009
 Weber St.,14,0.001
 Weber St.,15,0.019
 Weber St.,16,0.014
@@ -853,7 +853,7 @@ West Virginia,8,0.002
 West Virginia,9,0.002
 West Virginia,10,0.015
 West Virginia,11,0.051
-West Virginia,12,0.004
+West Virginia,12,0.005
 Western Carolina,16,0.001
 Western Kentucky,14,0.002
 Wichita St.,12,0.092
@@ -870,10 +870,10 @@ Wisconsin,5,0.007
 Wisconsin,6,0.02
 Wisconsin,7,0.044
 Wisconsin,8,0.096
-Wisconsin,9,0.133
-Wisconsin,10,0.172
-Wisconsin,11,0.195
-Wisconsin,12,0.008
+Wisconsin,9,0.134
+Wisconsin,10,0.171
+Wisconsin,11,0.197
+Wisconsin,12,0.009
 Wofford,14,0.002
 Wofford,15,0.01
 Wright St.,13,0.004

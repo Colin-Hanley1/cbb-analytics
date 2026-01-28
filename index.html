@@ -7,6 +7,10 @@
     <title>CHan Analytics | CBB Ratings</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- ✅ NEW: load Monte Carlo data (expects window.MC_DATA) -->
+    <script src="mc_data.js"></script>
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     
     <script>
@@ -32,8 +36,6 @@
     </script>
 
     <style> 
-
-        
         body { -webkit-font-smoothing: antialiased; } 
         
         /* Custom Scrollbar */
@@ -77,7 +79,6 @@
                         />
                       </a>
                       
-                    
                     <!-- Desktop Nav -->
                     <div class="hidden md:flex ml-8 space-x-1">
                         <div class="hidden md:block"><div class="ml-10 flex items-baseline space-x-4"><a href="index.html" class="bg-slate-900 text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Rankings</a><a href="schedule.html" class="text-gray-300 hover:bg-slate-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Today's Games</a><a href="matchup.html" class="text-gray-300 hover:bg-slate-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Matchup Simulator</a><a href="bracketology.html" class="text-gray-300 hover:bg-slate-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Bracketology</a><a href="conferences.html" class="text-gray-300 hover:bg-slate-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Conferences</a></div></div>
@@ -86,7 +87,7 @@
                 
                 <div class="flex items-center gap-4">
                     <div class="hidden md:block text-xs font-mono text-slate-400 bg-slate-800 px-3 py-1.5 rounded-full border border-slate-700">
-                        <span class="text-brand-500">●</span> Live Update: <span class="text-slate-200">2026-01-28 16:32 UTC</span>
+                        <span class="text-brand-500">●</span> Live Update: <span class="text-slate-200">2026-01-28 19:44 UTC</span>
                     </div>
 
                     <div class="-mr-2 flex md:hidden">
@@ -99,7 +100,7 @@
         </div>
         <div class="md:hidden" id="mobile-menu"><div class="px-2 pt-2 pb-3 space-y-1 sm:px-3"><a href="index.html" class="bg-slate-900 text-white block px-3 py-2 rounded-md text-base font-medium">Rankings</a><a href="schedule.html" class="text-gray-300 hover:bg-slate-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Today's Games</a><a href="matchup.html" class="text-gray-300 hover:bg-slate-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Matchup Simulator</a><a href="bracketology.html" class="text-gray-300 hover:bg-slate-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Bracketology</a><a href="conferences.html" class="text-gray-300 hover:bg-slate-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Conferences</a></div></div>
     </nav>
-    <div id = "topTableAnchor" class="relative -top-28"> </div>
+    <div id="topTableAnchor" class="relative -top-28"></div>
 
     <!-- Sub-Header & Controls -->
     <div class="bg-white border-b border-slate-200 sticky top-16 z-40 shadow-sm">
@@ -114,7 +115,6 @@
                     </div>
                     
                     <div class="hidden md:block h-6 w-px bg-slate-200 mx-1"></div>
-                    
                     
                 </div>
 
@@ -170,11 +170,8 @@
                             <th class="px-4 py-4 text-right bg-purple-50/50 text-purple-900 cursor-pointer hover:bg-purple-100 border-l border-purple-100" onclick="handleSort('RQ', this)">RQ</th>
                             <th class="px-4 py-4 text-right bg-purple-50/50 text-purple-900 cursor-pointer hover:bg-purple-100 border-l border-purple-100" onclick="handleSort('RQ_Win_Avg', this)">Avg WQ</th>
                             <th class="px-4 py-4 text-right bg-purple-50/50 text-purple-900 cursor-pointer hover:bg-purple-100 border-l border-purple-100" onclick="handleSort('RQ_Loss_Avg', this)">Avg LQ</th>
-
-
-
                             <th class="px-4 py-4 text-right text-slate-500 cursor-pointer hover:bg-slate-100 border-l border-slate-200" onclick="handleSort('Consistency', this)">Cons</th>
-
+                            
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100" id="tableBody"></tbody>
@@ -192,14 +189,13 @@
                 Loading Data...
             </div>
             <div class="chart-wrapper"><canvas id="quadrantChart"></canvas></div>
-            
         </div>
     </main>
 
-    
-
     <script>
-        // ... (Keep existing Data Injection) ...
+        // -----------------------------
+        // Data Injection (existing)
+        // -----------------------------
         let rawData = [];
         let conferences = [];
         try {
@@ -207,12 +203,35 @@
             conferences = ["A10", "ACC", "AE", "ASun", "Amer", "B10", "B12", "BE", "BSky", "BSth", "BW", "CAA", "CUSA", "Horz", "Ivy", "MAAC", "MAC", "MEAC", "MVC", "MWC", "NEC", "OVC", "PL", "SB", "SC", "SEC", "SWAC", "Slnd", "Sum", "WAC", "WCC"];
         } catch (e) {
             console.error("Data Injection Failed", e);
-            document.getElementById('tableBody').innerHTML = '<tr><td colspan="12" class="p-8 text-center text-rose-600 font-bold bg-rose-50">System Error: Data not loaded.</td></tr>';
+            document.getElementById('tableBody').innerHTML =
+                '<tr><td colspan="12" class="p-8 text-center text-rose-600 font-bold bg-rose-50">System Error: Data not loaded.</td></tr>';
+        }
+
+        // -----------------------------
+        // ✅ NEW: Monte Carlo integration
+        // Expects mc_data.js to define: window.MC_DATA = { "Team Name": { AtLargeIfNoAQ_Prob: 1.0, ... }, ... }
+        // -----------------------------
+        const MC = (window.MC_DATA || {});
+
+        function getAtLargeIfNoAQProb(team) {
+            // Prefer explicit AtLargeIfNoAQ_Prob if present
+            const v = MC?.[team]?.AtLargeIfNoAQ_Prob;
+            // Allow fallback key if you exported differently (e.g., al_noaq)
+            const v2 = MC?.[team]?.al_noaq;
+
+            const p = (v != null) ? Number(v) : Number(v2);
+            return Number.isFinite(p) ? p : null; // 0..1 or null
+        }
+
+        function isAtLargeLock(team) {
+            const p = getAtLargeIfNoAQProb(team);
+            if (p == null) return false;
+            return p >= 0.999999; // float tolerance for "100%"
         }
 
         const MULTI_BID_LEAGUES = ["ACC", "B10", "B12", "SEC", "BE", "MWC", "A10", "Amer", "WCC"];
-        const POWER_5_LEAGUES = ["ACC", "B10", "B12", "SEC", "BE"];
-        const NON_MID = ["ACC", "B10", "B12", "SEC", "BE", "MWC"];
+        const POWER_5_LEAGUES   = ["ACC", "B10", "B12", "SEC", "BE"];
+        const NON_MID           = ["ACC", "B10", "B12", "SEC", "BE", "MWC"];
 
         let currentData = [...rawData];
         let sortCol = 'AdjEM';
@@ -220,7 +239,7 @@
         let chartInstance = null;
         const imageCache = {};
 
-        function toggleMenu() { document.getElementById('mobile-menu').classList.toggle('open'); }
+        function toggleMenu() { document.getElementById('mobile-menu')?.classList.toggle('open'); }
         function getLogoPath(teamName) { return `logos/${teamName}.png`; }
 
         function preloadLogos() {
@@ -239,7 +258,6 @@
             const bt = document.getElementById('btnTable');
             const bc = document.getElementById('btnChart');
 
-            // Toggle Styles
             const activeStyle = "px-4 py-1.5 text-xs font-bold rounded-md shadow-sm bg-white text-slate-900 transition-all ring-1 ring-black/5";
             const inactiveStyle = "px-4 py-1.5 text-xs font-medium rounded-md text-slate-500 hover:text-slate-900 transition-all";
 
@@ -253,7 +271,6 @@
             }
         }
 
-        // ... (Keep existing initChart logic) ...
         async function initChart() {
             const ctx = document.getElementById('quadrantChart').getContext('2d');
             const loadingEl = document.getElementById('chartLoading');
@@ -358,15 +375,13 @@
                 }
             });
         }
+
         function scrollToTableTop(e) {
-    e.preventDefault();
-    const el = document.getElementById('topTableAnchor');
-    if (!el) return;
-
-    // Smooth scroll to the table top anchor
-    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-
+            e.preventDefault();
+            const el = document.getElementById('topTableAnchor');
+            if (!el) return;
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
 
         window.onload = function() {
             preloadLogos();
@@ -380,7 +395,6 @@
             renderTable();
         };
 
-        // ... (Keep sort/filter logic same as before, just updated visually) ...
         function handleSort(col, el) {
             if (sortCol === col) sortAsc = !sortAsc;
             else {
@@ -417,52 +431,41 @@
             else { noData.classList.add('hidden'); }
 
             currentData.sort((a, b) => {
-  const vA = a?.[sortCol];
-  const vB = b?.[sortCol];
+                const vA = a?.[sortCol];
+                const vB = b?.[sortCol];
 
-  // Handle null / undefined explicitly
-  if (vA == null && vB == null) return 0;
-  if (vA == null) return sortAsc ? 1 : -1;
-  if (vB == null) return sortAsc ? -1 : 1;
+                if (vA == null && vB == null) return 0;
+                if (vA == null) return sortAsc ? 1 : -1;
+                if (vB == null) return sortAsc ? -1 : 1;
 
-  // Try numeric comparison first
-  const nA = Number(vA);
-  const nB = Number(vB);
+                const nA = Number(vA);
+                const nB = Number(vB);
 
-  if (Number.isFinite(nA) && Number.isFinite(nB)) {
-    return sortAsc ? (nA - nB) : (nB - nA);
-  }
+                if (Number.isFinite(nA) && Number.isFinite(nB)) {
+                    return sortAsc ? (nA - nB) : (nB - nA);
+                }
 
-  // Fallback: safe string comparison
-  const sA = String(vA).toLowerCase();
-  const sB = String(vB).toLowerCase();
+                const sA = String(vA).toLowerCase();
+                const sB = String(vB).toLowerCase();
 
-  return sortAsc ? sA.localeCompare(sB) : sB.localeCompare(sA);
-});
-
+                return sortAsc ? sA.localeCompare(sB) : sB.localeCompare(sA);
+            });
 
             document.querySelectorAll('th').forEach(th => {
-                th.classList.remove('text-brand-600', 'bg-slate-100'); // Clean old sorts
-                if (th.getAttribute('onclick').includes(`'${sortCol}'`)) {
-                    th.classList.add('text-brand-600', 'bg-slate-100'); // Add active color
+                th.classList.remove('text-brand-600', 'bg-slate-100');
+                if (th.getAttribute('onclick') && th.getAttribute('onclick').includes(`'${sortCol}'`)) {
+                    th.classList.add('text-brand-600', 'bg-slate-100');
                 }
             });
 
-            // Calculate colors based on rank
             const totalRows = rawData.length || 362;
 
             let html = '';
             currentData.forEach(row => {
-                // Color Logic
-                const emColor = row.AdjEM > 0 ? 'text-emerald-600' : 'text-rose-600';
-                const wabColor = row.RQ > 0 ? 'text-emerald-600' : 'text-rose-600';
                 const consVal = row.Consistency || 50.0;
                 const consColor = 'text-slate-500'
                 const scoreVal = (row.Selection_Score || 0).toFixed(1);
-                const sosVal = row.SOS ? row.SOS.toFixed(2) : '-';
-                
-                // Rank Color Gradient (Subtle background tint for Rank column)
-                // Green (Top) -> Yellow (Mid) -> Red (Bottom)
+
                 const rankRatio = (row.Rank - 1) / (totalRows - 1);
                 const hue = Math.pow(1 - rankRatio,3) * 120; 
                 const rankBg = `background-color: hsla(${hue}, 80%, 96%, 1);`;
@@ -500,6 +503,13 @@
                 const rdadjhue = Math.pow(1 - rdadjratio,3) * 120;
                 const rdadjStyle = `color: hsla(${rdadjhue}, 100%, 35%, 1);`;
 
+                // ✅ NEW: lock indicator based on AtLargeIfNoAQ_Prob === 1.0
+                const lockHtmlDesktop = isAtLargeLock(row.Team)
+                    ? ' <span title="100% At-Large Probability">🔒</span>'
+                    : '';
+
+
+
                 html += `
                 <tr class="hover:bg-slate-50 transition-colors group border-b border-slate-50">
                     
@@ -508,18 +518,19 @@
                         <span class="inline-block w-8 py-0.5 rounded text-xs font-bold border border-black/5" style="${rankBg} color: hsla(${hue}, 100%, 25%, 1);">${row.Rank}</span>
                     </td>
                     
-                    <!-- TEAM (Logo only on mobile; Logo + Name on >= sm) -->
+                    <!-- TEAM -->
                     <td class="sticky-col-2 bg-opaque px-2 sm:px-4 py-3 font-medium text-slate-900 border-r border-slate-100 shadow-sm text-sm">
                         <a href="${row.Link}" class="flex items-center justify-center sm:justify-start gap-0 sm:gap-3 hover:text-brand-600 transition-colors w-full">
-                            <img src="${getLogoPath(row.Team)}"
-                                class="w-7 h-7 sm:w-6 sm:h-6 object-contain"
-                                alt=""
-                                onerror="this.style.display='none'">
-                            <span class="hidden sm:inline truncate">${row.Team}</span>
+                            <div class="relative">
+                                <img src="${getLogoPath(row.Team)}"
+                                    class="w-7 h-7 sm:w-6 sm:h-6 object-contain"
+                                    alt=""
+                                    onerror="this.style.display='none'">
+                            </div>
+                            <span class="hidden sm:inline truncate">${row.Team}${lockHtmlDesktop}</span>
                         </a>
                     </td>
 
-                    
                     <td class="px-4 py-3 text-slate-500 text-left border-r border-slate-100 hidden sm:table-cell text-xs font-mono tracking-tight">${row.Conference || '-'}</td>
                     
                     <td class="px-4 py-3 font-bold text-right bg-blue-50/20 text-xs sm:text-sm font-mono" style="${adjEmStyle}">
@@ -548,8 +559,6 @@
                         ${row.StrengthAdjust.toFixed(2)}
                         <span class="text-[10px] text-slate-400 ml-1 font-mono">${row.Rank_SA || '-'}</span>
                     </td> 
-                    <!-- SOS -->
-                    <!-- Selection Score -->
                     <td class="px-4 py-3 font-bold text-slate-800 text-right bg-slate-100/50 text-sm font-mono border-l border-slate-200">${scoreVal}<span class="text-[10px] text-slate-400 ml-0.5">${row.Rank_SLS || '-'}</span></td>
                     <td class="px-4 py-3 font-bold text-right bg-blue-50/20 text-xs sm:text-sm font-mono " style="${rqStyle}">
                         ${row.RQ.toFixed(2)}
@@ -563,16 +572,10 @@
                         ${row.RQ_Loss_Avg.toFixed(2)}
                         <span class="text-[10px] text-slate-400 ml-1 font-mono">${row.Rank_alq || '-'}</span>
                     </td>  
-                    
-
-                    
-
-
                     <td class="px-4 py-3 font-bold ${consColor} text-right text-sm font-mono border-l border-slate-100">${consVal.toFixed(1)}<span class="text-[10px] text-slate-400 ml-0.5">${row.Rank_Consistency || '-'}</span></td>
-                    
-                
-                    </tr>`;
+                </tr>`;
             });
+
             tbody.innerHTML = html;
         }
     </script>
