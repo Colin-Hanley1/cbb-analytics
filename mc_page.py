@@ -212,6 +212,17 @@ def build_html(
     title: str = "MC Report | CHan Analytics",
 ) -> str:
     now = to_iso_now()
+        # Drop teams that never make the field in any sim
+    if df_field is not None and not df_field.empty and "MakeField_Prob" in df_field.columns:
+        df_field["MakeField_Prob"] = pd.to_numeric(df_field["MakeField_Prob"], errors="coerce").fillna(0.0)
+        df_field = df_field[df_field["MakeField_Prob"] > 0.0].copy()
+        make_field_teams = set(df_field["Team"].astype(str)) if df_field is not None and not df_field.empty else set()
+
+    if df_seed_wide is not None and not df_seed_wide.empty and "Team" in df_seed_wide.columns and make_field_teams:
+        df_seed_wide = df_seed_wide[df_seed_wide["Team"].astype(str).isin(make_field_teams)].copy()
+
+    if df_seed_long is not None and not df_seed_long.empty and "Team" in df_seed_long.columns and make_field_teams:
+        df_seed_long = df_seed_long[df_seed_long["Team"].astype(str).isin(make_field_teams)].copy()
 
     if df_field is not None:
         df_field = normalize_cols(df_field)
@@ -242,35 +253,46 @@ def build_html(
         if seed_mode_df is not None and not seed_mode_df.empty:
             combined = combined.merge(seed_mode_df, on="Team", how="left")
 
+                    # --- Best seed (definition: smallest seed with non-zero probability in mc_seed_odds_wide.csv) ---
         if df_seed_wide is not None and not df_seed_wide.empty and "Team" in df_seed_wide.columns:
             sw = df_seed_wide.copy()
-            # Normalize seed columns to strings "1".."16"
+
+            # Normalize seed column names to string digits "1".."16"
             renamed = {}
             for c in sw.columns:
-                if str(c).isdigit():
-                    renamed[c] = str(int(float(c)))
+                cs = str(c).strip()
+                if cs.isdigit():
+                    renamed[c] = str(int(cs))
+                else:
+                    # sometimes pandas reads numeric columns as floats (e.g., 1.0)
+                    try:
+                        f = float(cs)
+                        if f.is_integer():
+                            renamed[c] = str(int(f))
+                    except Exception:
+                        pass
             sw = sw.rename(columns=renamed)
 
-            seed_cols = [c for c in sw.columns if str(c).isdigit()]
-            for c in seed_cols:
-                sw[c] = pd.to_numeric(sw[c], errors="coerce").fillna(0.0)
+            # Ensure seed columns exist and are numeric
+            for s in range(1, 17):
+                cs = str(s)
+                if cs not in sw.columns:
+                    sw[cs] = 0.0
+                sw[cs] = pd.to_numeric(sw[cs], errors="coerce").fillna(0.0)
 
-            def best_seed_row(r):
-                best = None
-                bestp = -1.0
+            def first_nonzero_seed_row(r):
                 for s in range(1, 17):
-                    cs = str(s)
-                    if cs not in r:
-                        continue
-                    p = float(r[cs])
-                    if p > bestp + 1e-12 or (abs(p - bestp) <= 1e-12 and (best is None or s < best)):
-                        bestp = p
-                        best = s
-                return pd.Series({"BestSeed": best if best is not None else None, "BestSeed_Prob": bestp if bestp >= 0 else None})
+                    p = float(r.get(str(s), 0.0))
+                    if p > 0.0:
+                        return pd.Series({"BestSeed": s, "BestSeed_Prob": p})
+                return pd.Series({"BestSeed": None, "BestSeed_Prob": None})
 
-            bs = sw.apply(best_seed_row, axis=1)
+            bs = sw.apply(first_nonzero_seed_row, axis=1)
             sw2 = pd.concat([sw[["Team"]], bs], axis=1)
+
             combined = combined.merge(sw2, on="Team", how="left")
+
+
 
         # Choose display columns (only if they exist)
         nice_cols = ["Team"]

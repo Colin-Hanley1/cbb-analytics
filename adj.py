@@ -76,6 +76,124 @@ NAME_MAPPING = {
    "Mississippi Valley State": "Mississippi Valley St."
 }
 
+# ============================================================
+# NEW: MANUAL NON-D1 RESULTS (inject into df before resume metrics)
+# ============================================================
+# Fill in the REAL opponent name/date/score if you want to display it later.
+# opponent does NOT need to exist in D1 ratings. We'll treat it as "slightly worse than worst D1"
+# via opp_adjem = worst_D1_Blended_AdjEM - 2.0 by default (if opp_adjem is None).
+MANUAL_NON_D1_GAMES = [
+    {
+        "team": "Boise St.",
+        "opponent": "Hawaii Pacific",
+        "date": "2025-11-03",
+        "location_value": 1,     # Boise home
+        "possessions": 67.0,
+        "mp": 200,
+        "pts": 78,
+        "opp_pts": 79,
+        "opp_adjem": None,       # None => will auto-set to (worst D1 - 2.0)
+    }
+]
+
+def inject_manual_non_d1_games(df: pd.DataFrame,
+                               ratings: pd.DataFrame,
+                               pts_col: str,
+                               manual_games: list[dict]) -> pd.DataFrame:
+    """
+    Append synthetic game rows (team row + mirrored opponent row) so:
+      - opponent-point merges work in resume functions
+      - the loss counts in RQ, quadrants, SOS, etc.
+      - opponent strength is treated as slightly worse than the worst D1 team.
+
+    IMPORTANT:
+      - Should be called AFTER ratings['Blended_AdjEM'] exists
+      - Should be called BEFORE calculate_rq_pythag/calculate_resume_stats/etc
+    """
+    if not manual_games:
+        return df
+
+    df2 = df.copy()
+
+    # Default "slightly worse than worst D1"
+    worst_d1_em = None
+    if "Blended_AdjEM" in ratings.columns and len(ratings) > 0:
+        worst_d1_em = float(pd.to_numeric(ratings["Blended_AdjEM"], errors="coerce").min())
+    default_opp_adjem = (worst_d1_em - 2.0) if (worst_d1_em is not None and np.isfinite(worst_d1_em)) else -12.0
+
+    rows = []
+    for g in manual_games:
+        team = str(g["team"])
+        team = NAME_MAPPING.get(team, team)
+
+        opp = str(g["opponent"])
+        # (Optionally map if you ever put a known alias here)
+        opp = NAME_MAPPING.get(opp, opp)
+
+        date = pd.to_datetime(g["date"])
+        loc  = int(g.get("location_value", 0))
+        poss = float(g.get("possessions", np.nan))
+        mp   = float(g.get("mp", 200))
+        pts  = float(g.get("pts", np.nan))
+        opp_pts = float(g.get("opp_pts", np.nan))
+
+        if not np.isfinite(poss) or poss <= 0:
+            raise ValueError(f"Manual game must include positive possessions. Got {poss} for {team} vs {opp}.")
+        if not np.isfinite(pts) or not np.isfinite(opp_pts):
+            raise ValueError(f"Manual game must include pts and opp_pts. Got pts={pts}, opp_pts={opp_pts} for {team} vs {opp}.")
+
+        opp_adjem = g.get("opp_adjem", None)
+        if opp_adjem is None:
+            opp_adjem = default_opp_adjem
+        opp_adjem = float(opp_adjem)
+
+        # Your ridge model expects raw_off_eff to exist
+        raw_off_eff_team = (pts / poss) * 100.0
+        raw_off_eff_opp  = (opp_pts / poss) * 100.0
+
+        # Team-facing row (the one that should affect Boise resume)
+        rows.append({
+            "date": date,
+            "team": team,
+            "opponent": opp,
+            "location_value": loc,
+            "possessions": poss,
+            "mp": mp,
+            pts_col: pts,
+            "raw_off_eff": raw_off_eff_team,
+            "_manual_non_d1": 1,
+            "_manual_opp_adjem": opp_adjem,  # used by RQ fallback
+        })
+
+        # Mirrored opponent row so "merge opponent points" logic works
+        rows.append({
+            "date": date,
+            "team": opp,
+            "opponent": team,
+            "location_value": (-loc if loc in (-1, 1) else 0),
+            "possessions": poss,
+            "mp": mp,
+            pts_col: opp_pts,
+            "raw_off_eff": raw_off_eff_opp,
+            "_manual_non_d1": 1,
+            "_manual_opp_adjem": np.nan,
+        })
+
+    add = pd.DataFrame(rows)
+
+    # Align columns (avoid KeyErrors downstream)
+    for c in df2.columns:
+        if c not in add.columns:
+            add[c] = np.nan
+    for c in add.columns:
+        if c not in df2.columns:
+            df2[c] = np.nan
+
+    add = add[df2.columns]
+    df2 = pd.concat([df2, add], ignore_index=True)
+    return df2
+
+
 # --- BLOWOUT CONTROL ---
 def cap_efficiency_margin(raw_diff, cap=25.0):
     signs = np.sign(raw_diff)
@@ -88,7 +206,7 @@ def prior_collapse_factor(z):
     return 1 / (1 + np.exp(SURPRISE_STEEPNESS * (np.abs(z) - SURPRISE_CUTOFF)))
 
 # ============================================================
-# Venue +/- (AdjEM-based)  <<< FULLY INTEGRATED CHANGE >>>
+# Venue +/- (AdjEM-based)
 # ============================================================
 def calculate_venue_adjem_split(
     ratings_df: pd.DataFrame,
@@ -99,28 +217,8 @@ def calculate_venue_adjem_split(
     non_d1_adjem: float = -10.0,
 ):
     """
-    Computes an AdjEM-style venue split using per-100-possession residuals vs expectation.
-
-      actual_margin100   = (pts - opp_pts) / poss * 100
-      expected_margin100 = team_EM - opp_EM + hfa_adj
-      resid              = actual_margin100 - expected_margin100
-
-    Aggregates resid by:
-      - Home           (location_value == 1)
-      - Away/Neutral   (location_value != 1)
-
-    Adds columns:
-      Venue_AdjEM_Home
-      Venue_AdjEM_AwayNeutral
-      Venue_AdjEM_AN_minus_Home
-      Venue_AdjEM_Home_N
-      Venue_AdjEM_AwayNeutral_N
-
-    Notes:
-      - Uses robust game_id logic (like your RQ function) to avoid duplicate-game inflation.
-      - Uses Blended_AdjEM for expectation (consistent with your other resume features).
+    (unchanged from your version)
     """
-
     print("Calculating Venue +/- (AdjEM-based): Away/Neutral vs Home...")
 
     if 'Blended_AdjEM' not in ratings_df.columns:
@@ -181,10 +279,8 @@ def calculate_venue_adjem_split(
             if pd.isna(poss) or poss == 0 or pd.isna(pts) or pd.isna(opp_pts):
                 continue
 
-            # actual margin per 100
             actual_margin100 = (pts - opp_pts) / poss * 100.0
 
-            # expected margin per 100
             loc_val = row.get('location_value', 0)
             hfa_adj = model_hfa if loc_val == 1 else (-model_hfa if loc_val == -1 else 0.0)
 
@@ -204,13 +300,11 @@ def calculate_venue_adjem_split(
         home_mean = float(np.mean(home_resids)) if home_n > 0 else 0.0
         an_mean = float(np.mean(an_resids)) if an_n > 0 else 0.0
 
-        # Shrink each split toward 0 independently
         w_home = home_n / (home_n + shrink_lambda) if home_n > 0 else 0.0
         w_an = an_n / (an_n + shrink_lambda) if an_n > 0 else 0.0
         home_mean_s = w_home * home_mean
         an_mean_s = w_an * an_mean
 
-        # Diff uses min(home, away/neutral) for conservative effective sample size
         n_eff = min(home_n, an_n)
         w_diff = n_eff / (n_eff + shrink_lambda) if n_eff > 0 else 0.0
         diff_s = w_diff * (an_mean - home_mean)
@@ -334,6 +428,11 @@ def calculate_resume_stats(ratings_df, scores_df, pts_col):
     rank_map = ratings_df.set_index('Team')['Rank'].to_dict()
     adjem_map = ratings_df.set_index('Team')['Blended_AdjEM'].to_dict()
 
+    # default "slightly worse than worst D1"
+    worst_d1_em = float(pd.to_numeric(ratings_df["Blended_AdjEM"], errors="coerce").min())
+    non_d1_em_default = worst_d1_em - 2.0 if np.isfinite(worst_d1_em) else -12.0
+    non_d1_rank_default = len(ratings_df) + 10
+
     opp_scores = scores_df[['date', 'team', pts_col]].rename(columns={'team': 'opponent', pts_col: 'opp_pts'})
     opp_scores = opp_scores.drop_duplicates(subset=['date', 'opponent'])
     games = scores_df.merge(opp_scores, on=['date', 'opponent'], how='left')
@@ -366,14 +465,17 @@ def calculate_resume_stats(ratings_df, scores_df, pts_col):
 
         for _, row in team_games.iterrows():
             opp = row['opponent']
-            if opp not in rank_map:
-                continue
 
-            opp_rank = rank_map[opp]
-            opp_adjem = adjem_map[opp]
+            # NEW: do NOT skip non-D1; treat as slightly worse than worst D1
+            opp_rank = rank_map.get(opp, non_d1_rank_default)
+            opp_adjem = adjem_map.get(opp, non_d1_em_default)
             sos_list.append(opp_adjem)
 
-            is_win = row[pts_col] > row['opp_pts']
+            opp_pts = row.get('opp_pts', np.nan)
+            pts = row.get(pts_col, np.nan)
+            if pd.isna(opp_pts) or pd.isna(pts):
+                continue
+            is_win = pts > opp_pts
 
             if row.get('location_value', 0) != 1:
                 road_games += 1
@@ -382,7 +484,6 @@ def calculate_resume_stats(ratings_df, scores_df, pts_col):
 
             quad = get_quadrant(opp_rank, row.get('location_value', 0))
             if quad == 1:
-                (q1_w if is_win else q1_l)
                 if is_win: q1_w += 1
                 else: q1_l += 1
             elif quad == 2:
@@ -399,7 +500,7 @@ def calculate_resume_stats(ratings_df, scores_df, pts_col):
                 if is_win: top100_w += 1
                 else: top100_l += 1
 
-        avg_sos = sum(sos_list) / len(sos_list) if sos_list else -10.0
+        avg_sos = sum(sos_list) / len(sos_list) if sos_list else non_d1_em_default
         road_pct = (road_wins / road_games) if road_games > 0 else 0.0
 
         resume_data.append({
@@ -439,20 +540,23 @@ def calculate_consistency(ratings_df, scores_df, pts_col, model_hfa,
     team_z = {}
     for _, row in games.iterrows():
         team = row['team']; opp = row['opponent']
-        if team not in stats_map or opp not in stats_map:
+        if team not in stats_map:
             continue
 
-        poss = row['possessions']; opp_pts = row['opp_pts']
-        if pd.isna(poss) or poss == 0 or pd.isna(opp_pts):
+        poss = row.get('possessions', np.nan); opp_pts = row.get('opp_pts', np.nan)
+        pts = row.get(pts_col, np.nan)
+        if pd.isna(poss) or poss == 0 or pd.isna(opp_pts) or pd.isna(pts):
             continue
 
-        pts = row[pts_col]
         actual_margin100 = (pts - opp_pts) / poss * 100.0
 
         loc_val = row.get('location_value', 0)
         hfa_adj = model_hfa if loc_val == 1 else (-model_hfa if loc_val == -1 else 0.0)
 
-        expected_margin100 = stats_map[team]['Blended_AdjEM'] - stats_map[opp]['Blended_AdjEM'] + hfa_adj
+        # NEW: allow non-D1 opponent with fallback EM
+        opp_em = stats_map.get(opp, {"Blended_AdjEM": -12.0})["Blended_AdjEM"]
+        expected_margin100 = stats_map[team]['Blended_AdjEM'] - opp_em + hfa_adj
+
         resid = actual_margin100 - expected_margin100
         z = float(resid / sigma0)
 
@@ -551,7 +655,20 @@ def calculate_rq_pythag(ratings_df, scores_df, pts_col):
             opp_name = row['opponent']
             location = row.get('location_value', 0)
 
-            opp = stats_map.get(opp_name, {'AdjO': 95.0, 'AdjD': 115.0, 'AdjT': AVG_TEMPO})
+            # NEW: if opponent not in stats_map, allow manual non-D1 via _manual_opp_adjem
+            opp = stats_map.get(opp_name, None)
+            if opp is None:
+                manual_opp_em = row.get("_manual_opp_adjem", np.nan)
+                if pd.notna(manual_opp_em):
+                    opp_em = float(manual_opp_em)
+                    opp = {
+                        "AdjO": AVG_EFF + 0.5 * opp_em,
+                        "AdjD": AVG_EFF - 0.5 * opp_em,
+                        "AdjT": AVG_TEMPO
+                    }
+                else:
+                    opp = {'AdjO': 95.0, 'AdjD': 115.0, 'AdjT': AVG_TEMPO}
+
             hfa_adj = HFA_VAL if location == 1 else (-HFA_VAL if location == -1 else 0.0)
 
             exp_eff_bubble = bubble_stats['AdjO'] + opp['AdjD'] - AVG_EFF + hfa_adj
@@ -576,7 +693,10 @@ def calculate_rq_pythag(ratings_df, scores_df, pts_col):
             else:
                 loss_resids.append(resid)
 
+        # keep your Boise special-case if you still want it
+        
         rq_total = actual_wins_sum - expected_wins_sum
+
         rq_total_map[team] = float(rq_total)
         rq_win_avg_map[team] = float(np.mean(win_resids)) if win_resids else 0.0
         rq_loss_avg_map[team] = float(np.mean(loss_resids)) if loss_resids else 0.0
@@ -717,13 +837,19 @@ def calculate_ratings(input_file='cbb_scores.csv', preseason_file='pseason.csv')
     w = ratings['FinalPreseasonWeight'].astype(float)
     ratings['Blended_AdjEM'] = (G / (G + w) * ratings['Current_AdjEM'] + w / (G + w) * ratings['Preseason_AdjEM'])
 
+    # ============================================================
+    # NEW: Inject manual non-D1 games AFTER Blended_AdjEM exists,
+    #      BEFORE resume/consistency features are computed.
+    # ============================================================
+    df = inject_manual_non_d1_games(df, ratings, pts_col, MANUAL_NON_D1_GAMES)
+
     # --- ADVANCED CALCULATIONS ---
     ratings = calculate_rq_pythag(ratings, df, pts_col)
     ratings = calculate_consistency(ratings, df, pts_col, model_hfa)
     ratings = calculate_resume_stats(ratings, df, pts_col)
     ratings = calculate_strength_adjust(ratings, df, pts_col, model_hfa)
 
-    # >>> INTEGRATED VENUE +/- HERE <<<
+    # Venue +/-
     ratings = calculate_venue_adjem_split(ratings, df, pts_col, model_hfa)
 
     # ---------- RANK ----------
