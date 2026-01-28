@@ -1,0 +1,508 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Monte Carlo Example Bracket</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen">
+  <div class="max-w-5xl mx-auto px-4 py-10">
+    <div class="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
+      <div class="px-6 py-5 bg-slate-900 text-white">
+        <div class="text-sm font-bold tracking-wide">Monte Carlo Example Bracket</div>
+        <div class="text-xs text-slate-300 font-mono mt-1">Generated: 2026-01-27 18:55 UTC</div>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead class="bg-slate-50 border-b border-slate-200 text-xs uppercase tracking-wider text-slate-500 font-bold">
+            <tr>
+              <th class="px-4 py-3 text-center">Seed</th>
+              <th class="px-4 py-3">Team</th>
+              <th class="px-4 py-3 text-center">Bid</th>
+              <th class="px-4 py-3 text-right">Selection Score</th>
+            </tr>
+          </thead>
+          <tbody>
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">1</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Arizona<div class="text-[10px] text-slate-400 font-mono">B12</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-blue-700 bg-blue-50 border-brand-100">At-Large</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">246.3</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">1</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Duke<div class="text-[10px] text-slate-400 font-mono">ACC</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-blue-700 bg-blue-50 border-brand-100">At-Large</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">243.2</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">1</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Michigan<div class="text-[10px] text-slate-400 font-mono">B10</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-blue-700 bg-blue-50 border-brand-100">At-Large</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">233.7</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">1</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Nebraska<div class="text-[10px] text-slate-400 font-mono">B10</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-blue-700 bg-blue-50 border-brand-100">At-Large</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">217.4</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">2</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Connecticut<div class="text-[10px] text-slate-400 font-mono">BE</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-emerald-700 bg-emerald-50 border-emerald-100">Auto</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">210.2</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">2</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Michigan St.<div class="text-[10px] text-slate-400 font-mono">B10</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-emerald-700 bg-emerald-50 border-emerald-100">Auto</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">189.6</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">2</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Gonzaga<div class="text-[10px] text-slate-400 font-mono">WCC</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-emerald-700 bg-emerald-50 border-emerald-100">Auto</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">183.3</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">2</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Illinois<div class="text-[10px] text-slate-400 font-mono">B10</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-blue-700 bg-blue-50 border-brand-100">At-Large</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">177.4</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">3</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Purdue<div class="text-[10px] text-slate-400 font-mono">B10</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-blue-700 bg-blue-50 border-brand-100">At-Large</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">176.2</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">3</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Iowa St.<div class="text-[10px] text-slate-400 font-mono">B12</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-blue-700 bg-blue-50 border-brand-100">At-Large</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">173.1</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">3</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Vanderbilt<div class="text-[10px] text-slate-400 font-mono">SEC</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-blue-700 bg-blue-50 border-brand-100">At-Large</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">172.5</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">3</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Houston<div class="text-[10px] text-slate-400 font-mono">B12</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-emerald-700 bg-emerald-50 border-emerald-100">Auto</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">168.9</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">4</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Kansas<div class="text-[10px] text-slate-400 font-mono">B12</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-blue-700 bg-blue-50 border-brand-100">At-Large</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">161.0</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">4</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Texas Tech<div class="text-[10px] text-slate-400 font-mono">B12</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-blue-700 bg-blue-50 border-brand-100">At-Large</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">155.0</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">4</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">BYU<div class="text-[10px] text-slate-400 font-mono">B12</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-blue-700 bg-blue-50 border-brand-100">At-Large</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">150.3</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">4</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Virginia<div class="text-[10px] text-slate-400 font-mono">ACC</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-blue-700 bg-blue-50 border-brand-100">At-Large</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">145.3</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">5</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Florida<div class="text-[10px] text-slate-400 font-mono">SEC</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-blue-700 bg-blue-50 border-brand-100">At-Large</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">138.5</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">5</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Alabama<div class="text-[10px] text-slate-400 font-mono">SEC</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-emerald-700 bg-emerald-50 border-emerald-100">Auto</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">130.9</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">5</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Arkansas<div class="text-[10px] text-slate-400 font-mono">SEC</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-blue-700 bg-blue-50 border-brand-100">At-Large</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">127.6</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">5</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Clemson<div class="text-[10px] text-slate-400 font-mono">ACC</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-blue-700 bg-blue-50 border-brand-100">At-Large</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">123.4</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">6</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">St. John's<div class="text-[10px] text-slate-400 font-mono">BE</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-blue-700 bg-blue-50 border-brand-100">At-Large</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">120.1</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">6</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">North Carolina<div class="text-[10px] text-slate-400 font-mono">ACC</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-blue-700 bg-blue-50 border-brand-100">At-Large</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">115.7</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">6</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Saint Louis<div class="text-[10px] text-slate-400 font-mono">A10</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-emerald-700 bg-emerald-50 border-emerald-100">Auto</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">112.7</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">6</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Louisville<div class="text-[10px] text-slate-400 font-mono">ACC</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-blue-700 bg-blue-50 border-brand-100">At-Large</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">111.7</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">7</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">SMU<div class="text-[10px] text-slate-400 font-mono">ACC</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-emerald-700 bg-emerald-50 border-emerald-100">Auto</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">107.5</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">7</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Tennessee<div class="text-[10px] text-slate-400 font-mono">SEC</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-blue-700 bg-blue-50 border-brand-100">At-Large</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">107.2</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">7</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Auburn<div class="text-[10px] text-slate-400 font-mono">SEC</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-blue-700 bg-blue-50 border-brand-100">At-Large</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">106.5</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">7</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Georgia<div class="text-[10px] text-slate-400 font-mono">SEC</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-blue-700 bg-blue-50 border-brand-100">At-Large</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">103.0</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">8</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Saint Mary's<div class="text-[10px] text-slate-400 font-mono">WCC</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-blue-700 bg-blue-50 border-brand-100">At-Large</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">100.5</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">8</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Kentucky<div class="text-[10px] text-slate-400 font-mono">SEC</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-blue-700 bg-blue-50 border-brand-100">At-Large</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">99.5</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">8</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">N.C. State<div class="text-[10px] text-slate-400 font-mono">ACC</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-blue-700 bg-blue-50 border-brand-100">At-Large</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">98.2</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">8</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Villanova<div class="text-[10px] text-slate-400 font-mono">BE</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-blue-700 bg-blue-50 border-brand-100">At-Large</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">96.5</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">9</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Utah St.<div class="text-[10px] text-slate-400 font-mono">MWC</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-blue-700 bg-blue-50 border-brand-100">At-Large</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">96.4</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">9</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Texas A&M<div class="text-[10px] text-slate-400 font-mono">SEC</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-blue-700 bg-blue-50 border-brand-100">At-Large</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">89.7</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">9</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Iowa<div class="text-[10px] text-slate-400 font-mono">B10</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-blue-700 bg-blue-50 border-brand-100">At-Large</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">88.4</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">9</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">UCF<div class="text-[10px] text-slate-400 font-mono">B12</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-blue-700 bg-blue-50 border-brand-100">At-Large</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">82.7</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">10</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">USC<div class="text-[10px] text-slate-400 font-mono">B10</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-blue-700 bg-blue-50 border-brand-100">At-Large</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">80.0</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">10</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Wisconsin<div class="text-[10px] text-slate-400 font-mono">B10</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-blue-700 bg-blue-50 border-brand-100">At-Large</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">79.8</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">10</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">New Mexico<div class="text-[10px] text-slate-400 font-mono">MWC</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-blue-700 bg-blue-50 border-brand-100">At-Large</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">76.8</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">10</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Miami FL<div class="text-[10px] text-slate-400 font-mono">ACC</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-blue-700 bg-blue-50 border-brand-100">At-Large</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">74.8</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">11</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">San Diego St.<div class="text-[10px] text-slate-400 font-mono">MWC</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-blue-700 bg-blue-50 border-brand-100">At-Large</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">72.6</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">11</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Virginia Tech<div class="text-[10px] text-slate-400 font-mono">ACC</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-blue-700 bg-blue-50 border-brand-100">At-Large</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">72.0</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">11</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Ohio St.<div class="text-[10px] text-slate-400 font-mono">B10</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-blue-700 bg-blue-50 border-brand-100">At-Large</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">71.5</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">11</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">UCLA<div class="text-[10px] text-slate-400 font-mono">B10</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-blue-700 bg-blue-50 border-brand-100">At-Large</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">71.0</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">11</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Miami OH<div class="text-[10px] text-slate-400 font-mono">MAC</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-emerald-700 bg-emerald-50 border-emerald-100">Auto</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">64.6</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">11</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Boise St.<div class="text-[10px] text-slate-400 font-mono">MWC</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-emerald-700 bg-emerald-50 border-emerald-100">Auto</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">47.7</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">12</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Tulsa<div class="text-[10px] text-slate-400 font-mono">Amer</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-emerald-700 bg-emerald-50 border-emerald-100">Auto</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">39.6</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">12</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Yale<div class="text-[10px] text-slate-400 font-mono">Ivy</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-emerald-700 bg-emerald-50 border-emerald-100">Auto</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">33.0</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">12</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Liberty<div class="text-[10px] text-slate-400 font-mono">CUSA</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-emerald-700 bg-emerald-50 border-emerald-100">Auto</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">29.4</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">12</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Stephen F. Austin<div class="text-[10px] text-slate-400 font-mono">Slnd</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-emerald-700 bg-emerald-50 border-emerald-100">Auto</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">13.9</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">13</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">High Point<div class="text-[10px] text-slate-400 font-mono">BSth</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-emerald-700 bg-emerald-50 border-emerald-100">Auto</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">-9.8</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">13</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Cal Baptist<div class="text-[10px] text-slate-400 font-mono">WAC</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-emerald-700 bg-emerald-50 border-emerald-100">Auto</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">-17.7</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">13</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Northern Iowa<div class="text-[10px] text-slate-400 font-mono">MVC</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-emerald-700 bg-emerald-50 border-emerald-100">Auto</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">-24.4</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">13</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Portland St.<div class="text-[10px] text-slate-400 font-mono">BSky</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-emerald-700 bg-emerald-50 border-emerald-100">Auto</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">-31.4</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">14</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">UC Irvine<div class="text-[10px] text-slate-400 font-mono">BW</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-emerald-700 bg-emerald-50 border-emerald-100">Auto</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">-36.5</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">14</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Troy<div class="text-[10px] text-slate-400 font-mono">SB</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-emerald-700 bg-emerald-50 border-emerald-100">Auto</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">-37.5</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">14</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">North Dakota St.<div class="text-[10px] text-slate-400 font-mono">Sum</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-emerald-700 bg-emerald-50 border-emerald-100">Auto</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">-45.2</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">14</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Lipscomb<div class="text-[10px] text-slate-400 font-mono">ASun</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-emerald-700 bg-emerald-50 border-emerald-100">Auto</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">-53.3</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">15</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Navy<div class="text-[10px] text-slate-400 font-mono">PL</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-emerald-700 bg-emerald-50 border-emerald-100">Auto</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">-57.1</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">15</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Oakland<div class="text-[10px] text-slate-400 font-mono">Horz</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-emerald-700 bg-emerald-50 border-emerald-100">Auto</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">-65.5</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">15</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Hofstra<div class="text-[10px] text-slate-400 font-mono">CAA</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-emerald-700 bg-emerald-50 border-emerald-100">Auto</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">-77.2</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">15</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Marist<div class="text-[10px] text-slate-400 font-mono">MAAC</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-emerald-700 bg-emerald-50 border-emerald-100">Auto</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">-82.5</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">16</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Tennessee Martin<div class="text-[10px] text-slate-400 font-mono">OVC</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-emerald-700 bg-emerald-50 border-emerald-100">Auto</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">-83.6</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">16</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Furman<div class="text-[10px] text-slate-400 font-mono">SC</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-emerald-700 bg-emerald-50 border-emerald-100">Auto</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">-99.3</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">16</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Vermont<div class="text-[10px] text-slate-400 font-mono">AE</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-emerald-700 bg-emerald-50 border-emerald-100">Auto</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">-117.4</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">16</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Le Moyne<div class="text-[10px] text-slate-400 font-mono">NEC</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-emerald-700 bg-emerald-50 border-emerald-100">Auto</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">-162.7</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">16</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Howard<div class="text-[10px] text-slate-400 font-mono">MEAC</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-emerald-700 bg-emerald-50 border-emerald-100">Auto</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">-171.0</td>
+        </tr>
+        
+        <tr class="border-b border-slate-100 hover:bg-slate-50">
+          <td class="px-4 py-3 text-center font-mono text-slate-700">16</td>
+          <td class="px-4 py-3 font-semibold text-slate-900">Grambling St.<div class="text-[10px] text-slate-400 font-mono">SWAC</div></td>
+          <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase border text-emerald-700 bg-emerald-50 border-emerald-100">Auto</span></td>
+          <td class="px-4 py-3 text-right font-mono font-bold text-slate-800">-178.4</td>
+        </tr>
+        </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

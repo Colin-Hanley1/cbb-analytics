@@ -1,0 +1,5841 @@
+Team,Seed,Count,P(Seed),P(Seed | In)
+Arizona,1,2000,1.0,1.0
+Arizona,2,0,0.0,0.0
+Arizona,3,0,0.0,0.0
+Arizona,4,0,0.0,0.0
+Arizona,5,0,0.0,0.0
+Arizona,6,0,0.0,0.0
+Arizona,7,0,0.0,0.0
+Arizona,8,0,0.0,0.0
+Arizona,9,0,0.0,0.0
+Arizona,10,0,0.0,0.0
+Arizona,11,0,0.0,0.0
+Arizona,12,0,0.0,0.0
+Arizona,13,0,0.0,0.0
+Arizona,14,0,0.0,0.0
+Arizona,15,0,0.0,0.0
+Arizona,16,0,0.0,0.0
+Michigan,1,2000,1.0,1.0
+Michigan,2,0,0.0,0.0
+Michigan,3,0,0.0,0.0
+Michigan,4,0,0.0,0.0
+Michigan,5,0,0.0,0.0
+Michigan,6,0,0.0,0.0
+Michigan,7,0,0.0,0.0
+Michigan,8,0,0.0,0.0
+Michigan,9,0,0.0,0.0
+Michigan,10,0,0.0,0.0
+Michigan,11,0,0.0,0.0
+Michigan,12,0,0.0,0.0
+Michigan,13,0,0.0,0.0
+Michigan,14,0,0.0,0.0
+Michigan,15,0,0.0,0.0
+Michigan,16,0,0.0,0.0
+Duke,1,2000,1.0,1.0
+Duke,2,0,0.0,0.0
+Duke,3,0,0.0,0.0
+Duke,4,0,0.0,0.0
+Duke,5,0,0.0,0.0
+Duke,6,0,0.0,0.0
+Duke,7,0,0.0,0.0
+Duke,8,0,0.0,0.0
+Duke,9,0,0.0,0.0
+Duke,10,0,0.0,0.0
+Duke,11,0,0.0,0.0
+Duke,12,0,0.0,0.0
+Duke,13,0,0.0,0.0
+Duke,14,0,0.0,0.0
+Duke,15,0,0.0,0.0
+Duke,16,0,0.0,0.0
+Michigan St.,1,0,0.0,0.0
+Michigan St.,2,2000,1.0,1.0
+Michigan St.,3,0,0.0,0.0
+Michigan St.,4,0,0.0,0.0
+Michigan St.,5,0,0.0,0.0
+Michigan St.,6,0,0.0,0.0
+Michigan St.,7,0,0.0,0.0
+Michigan St.,8,0,0.0,0.0
+Michigan St.,9,0,0.0,0.0
+Michigan St.,10,0,0.0,0.0
+Michigan St.,11,0,0.0,0.0
+Michigan St.,12,0,0.0,0.0
+Michigan St.,13,0,0.0,0.0
+Michigan St.,14,0,0.0,0.0
+Michigan St.,15,0,0.0,0.0
+Michigan St.,16,0,0.0,0.0
+Nebraska,1,2000,1.0,1.0
+Nebraska,2,0,0.0,0.0
+Nebraska,3,0,0.0,0.0
+Nebraska,4,0,0.0,0.0
+Nebraska,5,0,0.0,0.0
+Nebraska,6,0,0.0,0.0
+Nebraska,7,0,0.0,0.0
+Nebraska,8,0,0.0,0.0
+Nebraska,9,0,0.0,0.0
+Nebraska,10,0,0.0,0.0
+Nebraska,11,0,0.0,0.0
+Nebraska,12,0,0.0,0.0
+Nebraska,13,0,0.0,0.0
+Nebraska,14,0,0.0,0.0
+Nebraska,15,0,0.0,0.0
+Nebraska,16,0,0.0,0.0
+Purdue,1,0,0.0,0.0
+Purdue,2,0,0.0,0.0
+Purdue,3,2000,1.0,1.0
+Purdue,4,0,0.0,0.0
+Purdue,5,0,0.0,0.0
+Purdue,6,0,0.0,0.0
+Purdue,7,0,0.0,0.0
+Purdue,8,0,0.0,0.0
+Purdue,9,0,0.0,0.0
+Purdue,10,0,0.0,0.0
+Purdue,11,0,0.0,0.0
+Purdue,12,0,0.0,0.0
+Purdue,13,0,0.0,0.0
+Purdue,14,0,0.0,0.0
+Purdue,15,0,0.0,0.0
+Purdue,16,0,0.0,0.0
+Illinois,1,0,0.0,0.0
+Illinois,2,2000,1.0,1.0
+Illinois,3,0,0.0,0.0
+Illinois,4,0,0.0,0.0
+Illinois,5,0,0.0,0.0
+Illinois,6,0,0.0,0.0
+Illinois,7,0,0.0,0.0
+Illinois,8,0,0.0,0.0
+Illinois,9,0,0.0,0.0
+Illinois,10,0,0.0,0.0
+Illinois,11,0,0.0,0.0
+Illinois,12,0,0.0,0.0
+Illinois,13,0,0.0,0.0
+Illinois,14,0,0.0,0.0
+Illinois,15,0,0.0,0.0
+Illinois,16,0,0.0,0.0
+Houston,1,0,0.0,0.0
+Houston,2,0,0.0,0.0
+Houston,3,2000,1.0,1.0
+Houston,4,0,0.0,0.0
+Houston,5,0,0.0,0.0
+Houston,6,0,0.0,0.0
+Houston,7,0,0.0,0.0
+Houston,8,0,0.0,0.0
+Houston,9,0,0.0,0.0
+Houston,10,0,0.0,0.0
+Houston,11,0,0.0,0.0
+Houston,12,0,0.0,0.0
+Houston,13,0,0.0,0.0
+Houston,14,0,0.0,0.0
+Houston,15,0,0.0,0.0
+Houston,16,0,0.0,0.0
+Gonzaga,1,0,0.0,0.0
+Gonzaga,2,2000,1.0,1.0
+Gonzaga,3,0,0.0,0.0
+Gonzaga,4,0,0.0,0.0
+Gonzaga,5,0,0.0,0.0
+Gonzaga,6,0,0.0,0.0
+Gonzaga,7,0,0.0,0.0
+Gonzaga,8,0,0.0,0.0
+Gonzaga,9,0,0.0,0.0
+Gonzaga,10,0,0.0,0.0
+Gonzaga,11,0,0.0,0.0
+Gonzaga,12,0,0.0,0.0
+Gonzaga,13,0,0.0,0.0
+Gonzaga,14,0,0.0,0.0
+Gonzaga,15,0,0.0,0.0
+Gonzaga,16,0,0.0,0.0
+Connecticut,1,0,0.0,0.0
+Connecticut,2,2000,1.0,1.0
+Connecticut,3,0,0.0,0.0
+Connecticut,4,0,0.0,0.0
+Connecticut,5,0,0.0,0.0
+Connecticut,6,0,0.0,0.0
+Connecticut,7,0,0.0,0.0
+Connecticut,8,0,0.0,0.0
+Connecticut,9,0,0.0,0.0
+Connecticut,10,0,0.0,0.0
+Connecticut,11,0,0.0,0.0
+Connecticut,12,0,0.0,0.0
+Connecticut,13,0,0.0,0.0
+Connecticut,14,0,0.0,0.0
+Connecticut,15,0,0.0,0.0
+Connecticut,16,0,0.0,0.0
+Iowa St.,1,0,0.0,0.0
+Iowa St.,2,0,0.0,0.0
+Iowa St.,3,2000,1.0,1.0
+Iowa St.,4,0,0.0,0.0
+Iowa St.,5,0,0.0,0.0
+Iowa St.,6,0,0.0,0.0
+Iowa St.,7,0,0.0,0.0
+Iowa St.,8,0,0.0,0.0
+Iowa St.,9,0,0.0,0.0
+Iowa St.,10,0,0.0,0.0
+Iowa St.,11,0,0.0,0.0
+Iowa St.,12,0,0.0,0.0
+Iowa St.,13,0,0.0,0.0
+Iowa St.,14,0,0.0,0.0
+Iowa St.,15,0,0.0,0.0
+Iowa St.,16,0,0.0,0.0
+Kansas,1,0,0.0,0.0
+Kansas,2,0,0.0,0.0
+Kansas,3,0,0.0,0.0
+Kansas,4,2000,1.0,1.0
+Kansas,5,0,0.0,0.0
+Kansas,6,0,0.0,0.0
+Kansas,7,0,0.0,0.0
+Kansas,8,0,0.0,0.0
+Kansas,9,0,0.0,0.0
+Kansas,10,0,0.0,0.0
+Kansas,11,0,0.0,0.0
+Kansas,12,0,0.0,0.0
+Kansas,13,0,0.0,0.0
+Kansas,14,0,0.0,0.0
+Kansas,15,0,0.0,0.0
+Kansas,16,0,0.0,0.0
+Florida,1,0,0.0,0.0
+Florida,2,0,0.0,0.0
+Florida,3,0,0.0,0.0
+Florida,4,0,0.0,0.0
+Florida,5,2000,1.0,1.0
+Florida,6,0,0.0,0.0
+Florida,7,0,0.0,0.0
+Florida,8,0,0.0,0.0
+Florida,9,0,0.0,0.0
+Florida,10,0,0.0,0.0
+Florida,11,0,0.0,0.0
+Florida,12,0,0.0,0.0
+Florida,13,0,0.0,0.0
+Florida,14,0,0.0,0.0
+Florida,15,0,0.0,0.0
+Florida,16,0,0.0,0.0
+Texas Tech,1,0,0.0,0.0
+Texas Tech,2,0,0.0,0.0
+Texas Tech,3,0,0.0,0.0
+Texas Tech,4,2000,1.0,1.0
+Texas Tech,5,0,0.0,0.0
+Texas Tech,6,0,0.0,0.0
+Texas Tech,7,0,0.0,0.0
+Texas Tech,8,0,0.0,0.0
+Texas Tech,9,0,0.0,0.0
+Texas Tech,10,0,0.0,0.0
+Texas Tech,11,0,0.0,0.0
+Texas Tech,12,0,0.0,0.0
+Texas Tech,13,0,0.0,0.0
+Texas Tech,14,0,0.0,0.0
+Texas Tech,15,0,0.0,0.0
+Texas Tech,16,0,0.0,0.0
+Vanderbilt,1,0,0.0,0.0
+Vanderbilt,2,0,0.0,0.0
+Vanderbilt,3,2000,1.0,1.0
+Vanderbilt,4,0,0.0,0.0
+Vanderbilt,5,0,0.0,0.0
+Vanderbilt,6,0,0.0,0.0
+Vanderbilt,7,0,0.0,0.0
+Vanderbilt,8,0,0.0,0.0
+Vanderbilt,9,0,0.0,0.0
+Vanderbilt,10,0,0.0,0.0
+Vanderbilt,11,0,0.0,0.0
+Vanderbilt,12,0,0.0,0.0
+Vanderbilt,13,0,0.0,0.0
+Vanderbilt,14,0,0.0,0.0
+Vanderbilt,15,0,0.0,0.0
+Vanderbilt,16,0,0.0,0.0
+Virginia,1,0,0.0,0.0
+Virginia,2,0,0.0,0.0
+Virginia,3,0,0.0,0.0
+Virginia,4,2000,1.0,1.0
+Virginia,5,0,0.0,0.0
+Virginia,6,0,0.0,0.0
+Virginia,7,0,0.0,0.0
+Virginia,8,0,0.0,0.0
+Virginia,9,0,0.0,0.0
+Virginia,10,0,0.0,0.0
+Virginia,11,0,0.0,0.0
+Virginia,12,0,0.0,0.0
+Virginia,13,0,0.0,0.0
+Virginia,14,0,0.0,0.0
+Virginia,15,0,0.0,0.0
+Virginia,16,0,0.0,0.0
+BYU,1,0,0.0,0.0
+BYU,2,0,0.0,0.0
+BYU,3,0,0.0,0.0
+BYU,4,2000,1.0,1.0
+BYU,5,0,0.0,0.0
+BYU,6,0,0.0,0.0
+BYU,7,0,0.0,0.0
+BYU,8,0,0.0,0.0
+BYU,9,0,0.0,0.0
+BYU,10,0,0.0,0.0
+BYU,11,0,0.0,0.0
+BYU,12,0,0.0,0.0
+BYU,13,0,0.0,0.0
+BYU,14,0,0.0,0.0
+BYU,15,0,0.0,0.0
+BYU,16,0,0.0,0.0
+Saint Louis,1,0,0.0,0.0
+Saint Louis,2,0,0.0,0.0
+Saint Louis,3,0,0.0,0.0
+Saint Louis,4,0,0.0,0.0
+Saint Louis,5,0,0.0,0.0
+Saint Louis,6,2000,1.0,1.0
+Saint Louis,7,0,0.0,0.0
+Saint Louis,8,0,0.0,0.0
+Saint Louis,9,0,0.0,0.0
+Saint Louis,10,0,0.0,0.0
+Saint Louis,11,0,0.0,0.0
+Saint Louis,12,0,0.0,0.0
+Saint Louis,13,0,0.0,0.0
+Saint Louis,14,0,0.0,0.0
+Saint Louis,15,0,0.0,0.0
+Saint Louis,16,0,0.0,0.0
+Tennessee,1,0,0.0,0.0
+Tennessee,2,0,0.0,0.0
+Tennessee,3,0,0.0,0.0
+Tennessee,4,0,0.0,0.0
+Tennessee,5,0,0.0,0.0
+Tennessee,6,0,0.0,0.0
+Tennessee,7,2000,1.0,1.0
+Tennessee,8,0,0.0,0.0
+Tennessee,9,0,0.0,0.0
+Tennessee,10,0,0.0,0.0
+Tennessee,11,0,0.0,0.0
+Tennessee,12,0,0.0,0.0
+Tennessee,13,0,0.0,0.0
+Tennessee,14,0,0.0,0.0
+Tennessee,15,0,0.0,0.0
+Tennessee,16,0,0.0,0.0
+Arkansas,1,0,0.0,0.0
+Arkansas,2,0,0.0,0.0
+Arkansas,3,0,0.0,0.0
+Arkansas,4,0,0.0,0.0
+Arkansas,5,2000,1.0,1.0
+Arkansas,6,0,0.0,0.0
+Arkansas,7,0,0.0,0.0
+Arkansas,8,0,0.0,0.0
+Arkansas,9,0,0.0,0.0
+Arkansas,10,0,0.0,0.0
+Arkansas,11,0,0.0,0.0
+Arkansas,12,0,0.0,0.0
+Arkansas,13,0,0.0,0.0
+Arkansas,14,0,0.0,0.0
+Arkansas,15,0,0.0,0.0
+Arkansas,16,0,0.0,0.0
+Alabama,1,0,0.0,0.0
+Alabama,2,0,0.0,0.0
+Alabama,3,0,0.0,0.0
+Alabama,4,0,0.0,0.0
+Alabama,5,2000,1.0,1.0
+Alabama,6,0,0.0,0.0
+Alabama,7,0,0.0,0.0
+Alabama,8,0,0.0,0.0
+Alabama,9,0,0.0,0.0
+Alabama,10,0,0.0,0.0
+Alabama,11,0,0.0,0.0
+Alabama,12,0,0.0,0.0
+Alabama,13,0,0.0,0.0
+Alabama,14,0,0.0,0.0
+Alabama,15,0,0.0,0.0
+Alabama,16,0,0.0,0.0
+Louisville,1,0,0.0,0.0
+Louisville,2,0,0.0,0.0
+Louisville,3,0,0.0,0.0
+Louisville,4,0,0.0,0.0
+Louisville,5,0,0.0,0.0
+Louisville,6,2000,1.0,1.0
+Louisville,7,0,0.0,0.0
+Louisville,8,0,0.0,0.0
+Louisville,9,0,0.0,0.0
+Louisville,10,0,0.0,0.0
+Louisville,11,0,0.0,0.0
+Louisville,12,0,0.0,0.0
+Louisville,13,0,0.0,0.0
+Louisville,14,0,0.0,0.0
+Louisville,15,0,0.0,0.0
+Louisville,16,0,0.0,0.0
+St. John's,1,0,0.0,0.0
+St. John's,2,0,0.0,0.0
+St. John's,3,0,0.0,0.0
+St. John's,4,0,0.0,0.0
+St. John's,5,0,0.0,0.0
+St. John's,6,2000,1.0,1.0
+St. John's,7,0,0.0,0.0
+St. John's,8,0,0.0,0.0
+St. John's,9,0,0.0,0.0
+St. John's,10,0,0.0,0.0
+St. John's,11,0,0.0,0.0
+St. John's,12,0,0.0,0.0
+St. John's,13,0,0.0,0.0
+St. John's,14,0,0.0,0.0
+St. John's,15,0,0.0,0.0
+St. John's,16,0,0.0,0.0
+Iowa,1,0,0.0,0.0
+Iowa,2,0,0.0,0.0
+Iowa,3,0,0.0,0.0
+Iowa,4,0,0.0,0.0
+Iowa,5,0,0.0,0.0
+Iowa,6,0,0.0,0.0
+Iowa,7,0,0.0,0.0
+Iowa,8,0,0.0,0.0
+Iowa,9,2000,1.0,1.0
+Iowa,10,0,0.0,0.0
+Iowa,11,0,0.0,0.0
+Iowa,12,0,0.0,0.0
+Iowa,13,0,0.0,0.0
+Iowa,14,0,0.0,0.0
+Iowa,15,0,0.0,0.0
+Iowa,16,0,0.0,0.0
+North Carolina,1,0,0.0,0.0
+North Carolina,2,0,0.0,0.0
+North Carolina,3,0,0.0,0.0
+North Carolina,4,0,0.0,0.0
+North Carolina,5,0,0.0,0.0
+North Carolina,6,2000,1.0,1.0
+North Carolina,7,0,0.0,0.0
+North Carolina,8,0,0.0,0.0
+North Carolina,9,0,0.0,0.0
+North Carolina,10,0,0.0,0.0
+North Carolina,11,0,0.0,0.0
+North Carolina,12,0,0.0,0.0
+North Carolina,13,0,0.0,0.0
+North Carolina,14,0,0.0,0.0
+North Carolina,15,0,0.0,0.0
+North Carolina,16,0,0.0,0.0
+Saint Mary's,1,0,0.0,0.0
+Saint Mary's,2,0,0.0,0.0
+Saint Mary's,3,0,0.0,0.0
+Saint Mary's,4,0,0.0,0.0
+Saint Mary's,5,0,0.0,0.0
+Saint Mary's,6,0,0.0,0.0
+Saint Mary's,7,0,0.0,0.0
+Saint Mary's,8,2000,1.0,1.0
+Saint Mary's,9,0,0.0,0.0
+Saint Mary's,10,0,0.0,0.0
+Saint Mary's,11,0,0.0,0.0
+Saint Mary's,12,0,0.0,0.0
+Saint Mary's,13,0,0.0,0.0
+Saint Mary's,14,0,0.0,0.0
+Saint Mary's,15,0,0.0,0.0
+Saint Mary's,16,0,0.0,0.0
+N.C. State,1,0,0.0,0.0
+N.C. State,2,0,0.0,0.0
+N.C. State,3,0,0.0,0.0
+N.C. State,4,0,0.0,0.0
+N.C. State,5,0,0.0,0.0
+N.C. State,6,0,0.0,0.0
+N.C. State,7,0,0.0,0.0
+N.C. State,8,2000,1.0,1.0
+N.C. State,9,0,0.0,0.0
+N.C. State,10,0,0.0,0.0
+N.C. State,11,0,0.0,0.0
+N.C. State,12,0,0.0,0.0
+N.C. State,13,0,0.0,0.0
+N.C. State,14,0,0.0,0.0
+N.C. State,15,0,0.0,0.0
+N.C. State,16,0,0.0,0.0
+Auburn,1,0,0.0,0.0
+Auburn,2,0,0.0,0.0
+Auburn,3,0,0.0,0.0
+Auburn,4,0,0.0,0.0
+Auburn,5,0,0.0,0.0
+Auburn,6,0,0.0,0.0
+Auburn,7,2000,1.0,1.0
+Auburn,8,0,0.0,0.0
+Auburn,9,0,0.0,0.0
+Auburn,10,0,0.0,0.0
+Auburn,11,0,0.0,0.0
+Auburn,12,0,0.0,0.0
+Auburn,13,0,0.0,0.0
+Auburn,14,0,0.0,0.0
+Auburn,15,0,0.0,0.0
+Auburn,16,0,0.0,0.0
+Kentucky,1,0,0.0,0.0
+Kentucky,2,0,0.0,0.0
+Kentucky,3,0,0.0,0.0
+Kentucky,4,0,0.0,0.0
+Kentucky,5,0,0.0,0.0
+Kentucky,6,0,0.0,0.0
+Kentucky,7,0,0.0,0.0
+Kentucky,8,2000,1.0,1.0
+Kentucky,9,0,0.0,0.0
+Kentucky,10,0,0.0,0.0
+Kentucky,11,0,0.0,0.0
+Kentucky,12,0,0.0,0.0
+Kentucky,13,0,0.0,0.0
+Kentucky,14,0,0.0,0.0
+Kentucky,15,0,0.0,0.0
+Kentucky,16,0,0.0,0.0
+SMU,1,0,0.0,0.0
+SMU,2,0,0.0,0.0
+SMU,3,0,0.0,0.0
+SMU,4,0,0.0,0.0
+SMU,5,0,0.0,0.0
+SMU,6,0,0.0,0.0
+SMU,7,2000,1.0,1.0
+SMU,8,0,0.0,0.0
+SMU,9,0,0.0,0.0
+SMU,10,0,0.0,0.0
+SMU,11,0,0.0,0.0
+SMU,12,0,0.0,0.0
+SMU,13,0,0.0,0.0
+SMU,14,0,0.0,0.0
+SMU,15,0,0.0,0.0
+SMU,16,0,0.0,0.0
+Villanova,1,0,0.0,0.0
+Villanova,2,0,0.0,0.0
+Villanova,3,0,0.0,0.0
+Villanova,4,0,0.0,0.0
+Villanova,5,0,0.0,0.0
+Villanova,6,0,0.0,0.0
+Villanova,7,0,0.0,0.0
+Villanova,8,2000,1.0,1.0
+Villanova,9,0,0.0,0.0
+Villanova,10,0,0.0,0.0
+Villanova,11,0,0.0,0.0
+Villanova,12,0,0.0,0.0
+Villanova,13,0,0.0,0.0
+Villanova,14,0,0.0,0.0
+Villanova,15,0,0.0,0.0
+Villanova,16,0,0.0,0.0
+Clemson,1,0,0.0,0.0
+Clemson,2,0,0.0,0.0
+Clemson,3,0,0.0,0.0
+Clemson,4,0,0.0,0.0
+Clemson,5,2000,1.0,1.0
+Clemson,6,0,0.0,0.0
+Clemson,7,0,0.0,0.0
+Clemson,8,0,0.0,0.0
+Clemson,9,0,0.0,0.0
+Clemson,10,0,0.0,0.0
+Clemson,11,0,0.0,0.0
+Clemson,12,0,0.0,0.0
+Clemson,13,0,0.0,0.0
+Clemson,14,0,0.0,0.0
+Clemson,15,0,0.0,0.0
+Clemson,16,0,0.0,0.0
+Utah St.,1,0,0.0,0.0
+Utah St.,2,0,0.0,0.0
+Utah St.,3,0,0.0,0.0
+Utah St.,4,0,0.0,0.0
+Utah St.,5,0,0.0,0.0
+Utah St.,6,0,0.0,0.0
+Utah St.,7,0,0.0,0.0
+Utah St.,8,0,0.0,0.0
+Utah St.,9,2000,1.0,1.0
+Utah St.,10,0,0.0,0.0
+Utah St.,11,0,0.0,0.0
+Utah St.,12,0,0.0,0.0
+Utah St.,13,0,0.0,0.0
+Utah St.,14,0,0.0,0.0
+Utah St.,15,0,0.0,0.0
+Utah St.,16,0,0.0,0.0
+Texas,1,0,0.0,0.0
+Texas,2,0,0.0,0.0
+Texas,3,0,0.0,0.0
+Texas,4,0,0.0,0.0
+Texas,5,0,0.0,0.0
+Texas,6,0,0.0,0.0
+Texas,7,0,0.0,0.0
+Texas,8,0,0.0,0.0
+Texas,9,0,0.0,0.0
+Texas,10,0,0.0,0.0
+Texas,11,40,0.02,1.0
+Texas,12,0,0.0,0.0
+Texas,13,0,0.0,0.0
+Texas,14,0,0.0,0.0
+Texas,15,0,0.0,0.0
+Texas,16,0,0.0,0.0
+Indiana,1,0,0.0,0.0
+Indiana,2,0,0.0,0.0
+Indiana,3,0,0.0,0.0
+Indiana,4,0,0.0,0.0
+Indiana,5,0,0.0,0.0
+Indiana,6,0,0.0,0.0
+Indiana,7,0,0.0,0.0
+Indiana,8,0,0.0,0.0
+Indiana,9,0,0.0,0.0
+Indiana,10,0,0.0,0.0
+Indiana,11,8,0.004,1.0
+Indiana,12,0,0.0,0.0
+Indiana,13,0,0.0,0.0
+Indiana,14,0,0.0,0.0
+Indiana,15,0,0.0,0.0
+Indiana,16,0,0.0,0.0
+Texas A&M,1,0,0.0,0.0
+Texas A&M,2,0,0.0,0.0
+Texas A&M,3,0,0.0,0.0
+Texas A&M,4,0,0.0,0.0
+Texas A&M,5,0,0.0,0.0
+Texas A&M,6,0,0.0,0.0
+Texas A&M,7,0,0.0,0.0
+Texas A&M,8,0,0.0,0.0
+Texas A&M,9,2000,1.0,1.0
+Texas A&M,10,0,0.0,0.0
+Texas A&M,11,0,0.0,0.0
+Texas A&M,12,0,0.0,0.0
+Texas A&M,13,0,0.0,0.0
+Texas A&M,14,0,0.0,0.0
+Texas A&M,15,0,0.0,0.0
+Texas A&M,16,0,0.0,0.0
+Georgia,1,0,0.0,0.0
+Georgia,2,0,0.0,0.0
+Georgia,3,0,0.0,0.0
+Georgia,4,0,0.0,0.0
+Georgia,5,0,0.0,0.0
+Georgia,6,0,0.0,0.0
+Georgia,7,2000,1.0,1.0
+Georgia,8,0,0.0,0.0
+Georgia,9,0,0.0,0.0
+Georgia,10,0,0.0,0.0
+Georgia,11,0,0.0,0.0
+Georgia,12,0,0.0,0.0
+Georgia,13,0,0.0,0.0
+Georgia,14,0,0.0,0.0
+Georgia,15,0,0.0,0.0
+Georgia,16,0,0.0,0.0
+Wisconsin,1,0,0.0,0.0
+Wisconsin,2,0,0.0,0.0
+Wisconsin,3,0,0.0,0.0
+Wisconsin,4,0,0.0,0.0
+Wisconsin,5,0,0.0,0.0
+Wisconsin,6,0,0.0,0.0
+Wisconsin,7,0,0.0,0.0
+Wisconsin,8,0,0.0,0.0
+Wisconsin,9,0,0.0,0.0
+Wisconsin,10,2000,1.0,1.0
+Wisconsin,11,0,0.0,0.0
+Wisconsin,12,0,0.0,0.0
+Wisconsin,13,0,0.0,0.0
+Wisconsin,14,0,0.0,0.0
+Wisconsin,15,0,0.0,0.0
+Wisconsin,16,0,0.0,0.0
+Ohio St.,1,0,0.0,0.0
+Ohio St.,2,0,0.0,0.0
+Ohio St.,3,0,0.0,0.0
+Ohio St.,4,0,0.0,0.0
+Ohio St.,5,0,0.0,0.0
+Ohio St.,6,0,0.0,0.0
+Ohio St.,7,0,0.0,0.0
+Ohio St.,8,0,0.0,0.0
+Ohio St.,9,0,0.0,0.0
+Ohio St.,10,0,0.0,0.0
+Ohio St.,11,1972,0.986,1.0
+Ohio St.,12,0,0.0,0.0
+Ohio St.,13,0,0.0,0.0
+Ohio St.,14,0,0.0,0.0
+Ohio St.,15,0,0.0,0.0
+Ohio St.,16,0,0.0,0.0
+UCLA,1,0,0.0,0.0
+UCLA,2,0,0.0,0.0
+UCLA,3,0,0.0,0.0
+UCLA,4,0,0.0,0.0
+UCLA,5,0,0.0,0.0
+UCLA,6,0,0.0,0.0
+UCLA,7,0,0.0,0.0
+UCLA,8,0,0.0,0.0
+UCLA,9,0,0.0,0.0
+UCLA,10,0,0.0,0.0
+UCLA,11,1786,0.893,1.0
+UCLA,12,0,0.0,0.0
+UCLA,13,0,0.0,0.0
+UCLA,14,0,0.0,0.0
+UCLA,15,0,0.0,0.0
+UCLA,16,0,0.0,0.0
+New Mexico,1,0,0.0,0.0
+New Mexico,2,0,0.0,0.0
+New Mexico,3,0,0.0,0.0
+New Mexico,4,0,0.0,0.0
+New Mexico,5,0,0.0,0.0
+New Mexico,6,0,0.0,0.0
+New Mexico,7,0,0.0,0.0
+New Mexico,8,0,0.0,0.0
+New Mexico,9,0,0.0,0.0
+New Mexico,10,2000,1.0,1.0
+New Mexico,11,0,0.0,0.0
+New Mexico,12,0,0.0,0.0
+New Mexico,13,0,0.0,0.0
+New Mexico,14,0,0.0,0.0
+New Mexico,15,0,0.0,0.0
+New Mexico,16,0,0.0,0.0
+TCU,1,0,0.0,0.0
+TCU,2,0,0.0,0.0
+TCU,3,0,0.0,0.0
+TCU,4,0,0.0,0.0
+TCU,5,0,0.0,0.0
+TCU,6,0,0.0,0.0
+TCU,7,0,0.0,0.0
+TCU,8,0,0.0,0.0
+TCU,9,0,0.0,0.0
+TCU,10,0,0.0,0.0
+TCU,11,32,0.016,1.0
+TCU,12,0,0.0,0.0
+TCU,13,0,0.0,0.0
+TCU,14,0,0.0,0.0
+TCU,15,0,0.0,0.0
+TCU,16,0,0.0,0.0
+Washington,1,0,0.0,0.0
+Washington,2,0,0.0,0.0
+Washington,3,0,0.0,0.0
+Washington,4,0,0.0,0.0
+Washington,5,0,0.0,0.0
+Washington,6,0,0.0,0.0
+Washington,7,0,0.0,0.0
+Washington,8,0,0.0,0.0
+Washington,9,0,0.0,0.0
+Washington,10,0,0.0,0.0
+Washington,11,14,0.007,1.0
+Washington,12,0,0.0,0.0
+Washington,13,0,0.0,0.0
+Washington,14,0,0.0,0.0
+Washington,15,0,0.0,0.0
+Washington,16,0,0.0,0.0
+San Diego St.,1,0,0.0,0.0
+San Diego St.,2,0,0.0,0.0
+San Diego St.,3,0,0.0,0.0
+San Diego St.,4,0,0.0,0.0
+San Diego St.,5,0,0.0,0.0
+San Diego St.,6,0,0.0,0.0
+San Diego St.,7,0,0.0,0.0
+San Diego St.,8,0,0.0,0.0
+San Diego St.,9,0,0.0,0.0
+San Diego St.,10,0,0.0,0.0
+San Diego St.,11,2000,1.0,1.0
+San Diego St.,12,0,0.0,0.0
+San Diego St.,13,0,0.0,0.0
+San Diego St.,14,0,0.0,0.0
+San Diego St.,15,0,0.0,0.0
+San Diego St.,16,0,0.0,0.0
+Creighton,1,0,0.0,0.0
+Creighton,2,0,0.0,0.0
+Creighton,3,0,0.0,0.0
+Creighton,4,0,0.0,0.0
+Creighton,5,0,0.0,0.0
+Creighton,6,0,0.0,0.0
+Creighton,7,0,0.0,0.0
+Creighton,8,0,0.0,0.0
+Creighton,9,0,0.0,0.0
+Creighton,10,0,0.0,0.0
+Creighton,11,16,0.008,0.8888888888888888
+Creighton,12,2,0.001,0.1111111111111111
+Creighton,13,0,0.0,0.0
+Creighton,14,0,0.0,0.0
+Creighton,15,0,0.0,0.0
+Creighton,16,0,0.0,0.0
+Virginia Tech,1,0,0.0,0.0
+Virginia Tech,2,0,0.0,0.0
+Virginia Tech,3,0,0.0,0.0
+Virginia Tech,4,0,0.0,0.0
+Virginia Tech,5,0,0.0,0.0
+Virginia Tech,6,0,0.0,0.0
+Virginia Tech,7,0,0.0,0.0
+Virginia Tech,8,0,0.0,0.0
+Virginia Tech,9,0,0.0,0.0
+Virginia Tech,10,0,0.0,0.0
+Virginia Tech,11,1999,0.9995,1.0
+Virginia Tech,12,0,0.0,0.0
+Virginia Tech,13,0,0.0,0.0
+Virginia Tech,14,0,0.0,0.0
+Virginia Tech,15,0,0.0,0.0
+Virginia Tech,16,0,0.0,0.0
+Miami FL,1,0,0.0,0.0
+Miami FL,2,0,0.0,0.0
+Miami FL,3,0,0.0,0.0
+Miami FL,4,0,0.0,0.0
+Miami FL,5,0,0.0,0.0
+Miami FL,6,0,0.0,0.0
+Miami FL,7,0,0.0,0.0
+Miami FL,8,0,0.0,0.0
+Miami FL,9,0,0.0,0.0
+Miami FL,10,2000,1.0,1.0
+Miami FL,11,0,0.0,0.0
+Miami FL,12,0,0.0,0.0
+Miami FL,13,0,0.0,0.0
+Miami FL,14,0,0.0,0.0
+Miami FL,15,0,0.0,0.0
+Miami FL,16,0,0.0,0.0
+Santa Clara,1,0,0.0,0.0
+Santa Clara,2,0,0.0,0.0
+Santa Clara,3,0,0.0,0.0
+Santa Clara,4,0,0.0,0.0
+Santa Clara,5,0,0.0,0.0
+Santa Clara,6,0,0.0,0.0
+Santa Clara,7,0,0.0,0.0
+Santa Clara,8,0,0.0,0.0
+Santa Clara,9,0,0.0,0.0
+Santa Clara,10,0,0.0,0.0
+Santa Clara,11,101,0.0505,1.0
+Santa Clara,12,0,0.0,0.0
+Santa Clara,13,0,0.0,0.0
+Santa Clara,14,0,0.0,0.0
+Santa Clara,15,0,0.0,0.0
+Santa Clara,16,0,0.0,0.0
+LSU,1,0,0.0,0.0
+LSU,2,0,0.0,0.0
+LSU,3,0,0.0,0.0
+LSU,4,0,0.0,0.0
+LSU,5,0,0.0,0.0
+LSU,6,0,0.0,0.0
+LSU,7,0,0.0,0.0
+LSU,8,0,0.0,0.0
+LSU,9,0,0.0,0.0
+LSU,10,0,0.0,0.0
+LSU,11,8,0.004,1.0
+LSU,12,0,0.0,0.0
+LSU,13,0,0.0,0.0
+LSU,14,0,0.0,0.0
+LSU,15,0,0.0,0.0
+LSU,16,0,0.0,0.0
+VCU,1,0,0.0,0.0
+VCU,2,0,0.0,0.0
+VCU,3,0,0.0,0.0
+VCU,4,0,0.0,0.0
+VCU,5,0,0.0,0.0
+VCU,6,0,0.0,0.0
+VCU,7,0,0.0,0.0
+VCU,8,0,0.0,0.0
+VCU,9,0,0.0,0.0
+VCU,10,0,0.0,0.0
+VCU,11,172,0.086,1.0
+VCU,12,0,0.0,0.0
+VCU,13,0,0.0,0.0
+VCU,14,0,0.0,0.0
+VCU,15,0,0.0,0.0
+VCU,16,0,0.0,0.0
+California,1,0,0.0,0.0
+California,2,0,0.0,0.0
+California,3,0,0.0,0.0
+California,4,0,0.0,0.0
+California,5,0,0.0,0.0
+California,6,0,0.0,0.0
+California,7,0,0.0,0.0
+California,8,0,0.0,0.0
+California,9,0,0.0,0.0
+California,10,0,0.0,0.0
+California,11,443,0.2215,1.0
+California,12,0,0.0,0.0
+California,13,0,0.0,0.0
+California,14,0,0.0,0.0
+California,15,0,0.0,0.0
+California,16,0,0.0,0.0
+UCF,1,0,0.0,0.0
+UCF,2,0,0.0,0.0
+UCF,3,0,0.0,0.0
+UCF,4,0,0.0,0.0
+UCF,5,0,0.0,0.0
+UCF,6,0,0.0,0.0
+UCF,7,0,0.0,0.0
+UCF,8,0,0.0,0.0
+UCF,9,2000,1.0,1.0
+UCF,10,0,0.0,0.0
+UCF,11,0,0.0,0.0
+UCF,12,0,0.0,0.0
+UCF,13,0,0.0,0.0
+UCF,14,0,0.0,0.0
+UCF,15,0,0.0,0.0
+UCF,16,0,0.0,0.0
+Baylor,1,0,0.0,0.0
+Baylor,2,0,0.0,0.0
+Baylor,3,0,0.0,0.0
+Baylor,4,0,0.0,0.0
+Baylor,5,0,0.0,0.0
+Baylor,6,0,0.0,0.0
+Baylor,7,0,0.0,0.0
+Baylor,8,0,0.0,0.0
+Baylor,9,0,0.0,0.0
+Baylor,10,0,0.0,0.0
+Baylor,11,3,0.0015,1.0
+Baylor,12,0,0.0,0.0
+Baylor,13,0,0.0,0.0
+Baylor,14,0,0.0,0.0
+Baylor,15,0,0.0,0.0
+Baylor,16,0,0.0,0.0
+Butler,1,0,0.0,0.0
+Butler,2,0,0.0,0.0
+Butler,3,0,0.0,0.0
+Butler,4,0,0.0,0.0
+Butler,5,0,0.0,0.0
+Butler,6,0,0.0,0.0
+Butler,7,0,0.0,0.0
+Butler,8,0,0.0,0.0
+Butler,9,0,0.0,0.0
+Butler,10,0,0.0,0.0
+Butler,11,28,0.014,1.0
+Butler,12,0,0.0,0.0
+Butler,13,0,0.0,0.0
+Butler,14,0,0.0,0.0
+Butler,15,0,0.0,0.0
+Butler,16,0,0.0,0.0
+Tulsa,1,0,0.0,0.0
+Tulsa,2,0,0.0,0.0
+Tulsa,3,0,0.0,0.0
+Tulsa,4,0,0.0,0.0
+Tulsa,5,0,0.0,0.0
+Tulsa,6,0,0.0,0.0
+Tulsa,7,0,0.0,0.0
+Tulsa,8,0,0.0,0.0
+Tulsa,9,0,0.0,0.0
+Tulsa,10,0,0.0,0.0
+Tulsa,11,295,0.1475,0.4616588419405321
+Tulsa,12,344,0.172,0.5383411580594679
+Tulsa,13,0,0.0,0.0
+Tulsa,14,0,0.0,0.0
+Tulsa,15,0,0.0,0.0
+Tulsa,16,0,0.0,0.0
+McNeese,1,0,0.0,0.0
+McNeese,2,0,0.0,0.0
+McNeese,3,0,0.0,0.0
+McNeese,4,0,0.0,0.0
+McNeese,5,0,0.0,0.0
+McNeese,6,0,0.0,0.0
+McNeese,7,0,0.0,0.0
+McNeese,8,0,0.0,0.0
+McNeese,9,0,0.0,0.0
+McNeese,10,0,0.0,0.0
+McNeese,11,197,0.0985,0.16068515497553018
+McNeese,12,1029,0.5145,0.8393148450244698
+McNeese,13,0,0.0,0.0
+McNeese,14,0,0.0,0.0
+McNeese,15,0,0.0,0.0
+McNeese,16,0,0.0,0.0
+USC,1,0,0.0,0.0
+USC,2,0,0.0,0.0
+USC,3,0,0.0,0.0
+USC,4,0,0.0,0.0
+USC,5,0,0.0,0.0
+USC,6,0,0.0,0.0
+USC,7,0,0.0,0.0
+USC,8,0,0.0,0.0
+USC,9,0,0.0,0.0
+USC,10,2000,1.0,1.0
+USC,11,0,0.0,0.0
+USC,12,0,0.0,0.0
+USC,13,0,0.0,0.0
+USC,14,0,0.0,0.0
+USC,15,0,0.0,0.0
+USC,16,0,0.0,0.0
+Seton Hall,1,0,0.0,0.0
+Seton Hall,2,0,0.0,0.0
+Seton Hall,3,0,0.0,0.0
+Seton Hall,4,0,0.0,0.0
+Seton Hall,5,0,0.0,0.0
+Seton Hall,6,0,0.0,0.0
+Seton Hall,7,0,0.0,0.0
+Seton Hall,8,0,0.0,0.0
+Seton Hall,9,0,0.0,0.0
+Seton Hall,10,0,0.0,0.0
+Seton Hall,11,14,0.007,1.0
+Seton Hall,12,0,0.0,0.0
+Seton Hall,13,0,0.0,0.0
+Seton Hall,14,0,0.0,0.0
+Seton Hall,15,0,0.0,0.0
+Seton Hall,16,0,0.0,0.0
+Belmont,1,0,0.0,0.0
+Belmont,2,0,0.0,0.0
+Belmont,3,0,0.0,0.0
+Belmont,4,0,0.0,0.0
+Belmont,5,0,0.0,0.0
+Belmont,6,0,0.0,0.0
+Belmont,7,0,0.0,0.0
+Belmont,8,0,0.0,0.0
+Belmont,9,0,0.0,0.0
+Belmont,10,0,0.0,0.0
+Belmont,11,658,0.329,0.735195530726257
+Belmont,12,237,0.1185,0.264804469273743
+Belmont,13,0,0.0,0.0
+Belmont,14,0,0.0,0.0
+Belmont,15,0,0.0,0.0
+Belmont,16,0,0.0,0.0
+Akron,1,0,0.0,0.0
+Akron,2,0,0.0,0.0
+Akron,3,0,0.0,0.0
+Akron,4,0,0.0,0.0
+Akron,5,0,0.0,0.0
+Akron,6,0,0.0,0.0
+Akron,7,0,0.0,0.0
+Akron,8,0,0.0,0.0
+Akron,9,0,0.0,0.0
+Akron,10,0,0.0,0.0
+Akron,11,507,0.2535,0.5292275574112735
+Akron,12,451,0.2255,0.4707724425887265
+Akron,13,0,0.0,0.0
+Akron,14,0,0.0,0.0
+Akron,15,0,0.0,0.0
+Akron,16,0,0.0,0.0
+Northwestern,1,0,0.0,0.0
+Northwestern,2,0,0.0,0.0
+Northwestern,3,0,0.0,0.0
+Northwestern,4,0,0.0,0.0
+Northwestern,5,0,0.0,0.0
+Northwestern,6,0,0.0,0.0
+Northwestern,7,0,0.0,0.0
+Northwestern,8,0,0.0,0.0
+Northwestern,9,0,0.0,0.0
+Northwestern,10,0,0.0,0.0
+Northwestern,11,0,0.0,0.0
+Northwestern,12,0,0.0,0.0
+Northwestern,13,0,0.0,0.0
+Northwestern,14,0,0.0,0.0
+Northwestern,15,0,0.0,0.0
+Northwestern,16,0,0.0,0.0
+West Virginia,1,0,0.0,0.0
+West Virginia,2,0,0.0,0.0
+West Virginia,3,0,0.0,0.0
+West Virginia,4,0,0.0,0.0
+West Virginia,5,0,0.0,0.0
+West Virginia,6,0,0.0,0.0
+West Virginia,7,0,0.0,0.0
+West Virginia,8,0,0.0,0.0
+West Virginia,9,0,0.0,0.0
+West Virginia,10,0,0.0,0.0
+West Virginia,11,7,0.0035,0.6363636363636364
+West Virginia,12,4,0.002,0.36363636363636365
+West Virginia,13,0,0.0,0.0
+West Virginia,14,0,0.0,0.0
+West Virginia,15,0,0.0,0.0
+West Virginia,16,0,0.0,0.0
+South Florida,1,0,0.0,0.0
+South Florida,2,0,0.0,0.0
+South Florida,3,0,0.0,0.0
+South Florida,4,0,0.0,0.0
+South Florida,5,0,0.0,0.0
+South Florida,6,0,0.0,0.0
+South Florida,7,0,0.0,0.0
+South Florida,8,0,0.0,0.0
+South Florida,9,0,0.0,0.0
+South Florida,10,0,0.0,0.0
+South Florida,11,3,0.0015,0.00663716814159292
+South Florida,12,416,0.208,0.9203539823008849
+South Florida,13,33,0.0165,0.07300884955752213
+South Florida,14,0,0.0,0.0
+South Florida,15,0,0.0,0.0
+South Florida,16,0,0.0,0.0
+Wake Forest,1,0,0.0,0.0
+Wake Forest,2,0,0.0,0.0
+Wake Forest,3,0,0.0,0.0
+Wake Forest,4,0,0.0,0.0
+Wake Forest,5,0,0.0,0.0
+Wake Forest,6,0,0.0,0.0
+Wake Forest,7,0,0.0,0.0
+Wake Forest,8,0,0.0,0.0
+Wake Forest,9,0,0.0,0.0
+Wake Forest,10,0,0.0,0.0
+Wake Forest,11,0,0.0,0.0
+Wake Forest,12,3,0.0015,1.0
+Wake Forest,13,0,0.0,0.0
+Wake Forest,14,0,0.0,0.0
+Wake Forest,15,0,0.0,0.0
+Wake Forest,16,0,0.0,0.0
+Missouri,1,0,0.0,0.0
+Missouri,2,0,0.0,0.0
+Missouri,3,0,0.0,0.0
+Missouri,4,0,0.0,0.0
+Missouri,5,0,0.0,0.0
+Missouri,6,0,0.0,0.0
+Missouri,7,0,0.0,0.0
+Missouri,8,0,0.0,0.0
+Missouri,9,0,0.0,0.0
+Missouri,10,0,0.0,0.0
+Missouri,11,0,0.0,0.0
+Missouri,12,0,0.0,0.0
+Missouri,13,0,0.0,0.0
+Missouri,14,0,0.0,0.0
+Missouri,15,0,0.0,0.0
+Missouri,16,0,0.0,0.0
+Yale,1,0,0.0,0.0
+Yale,2,0,0.0,0.0
+Yale,3,0,0.0,0.0
+Yale,4,0,0.0,0.0
+Yale,5,0,0.0,0.0
+Yale,6,0,0.0,0.0
+Yale,7,0,0.0,0.0
+Yale,8,0,0.0,0.0
+Yale,9,0,0.0,0.0
+Yale,10,0,0.0,0.0
+Yale,11,115,0.0575,0.06915213469633193
+Yale,12,1548,0.774,0.930847865303668
+Yale,13,0,0.0,0.0
+Yale,14,0,0.0,0.0
+Yale,15,0,0.0,0.0
+Yale,16,0,0.0,0.0
+Nevada,1,0,0.0,0.0
+Nevada,2,0,0.0,0.0
+Nevada,3,0,0.0,0.0
+Nevada,4,0,0.0,0.0
+Nevada,5,0,0.0,0.0
+Nevada,6,0,0.0,0.0
+Nevada,7,0,0.0,0.0
+Nevada,8,0,0.0,0.0
+Nevada,9,0,0.0,0.0
+Nevada,10,0,0.0,0.0
+Nevada,11,13,0.0065,0.07386363636363637
+Nevada,12,163,0.0815,0.9261363636363636
+Nevada,13,0,0.0,0.0
+Nevada,14,0,0.0,0.0
+Nevada,15,0,0.0,0.0
+Nevada,16,0,0.0,0.0
+Boise St.,1,0,0.0,0.0
+Boise St.,2,0,0.0,0.0
+Boise St.,3,0,0.0,0.0
+Boise St.,4,0,0.0,0.0
+Boise St.,5,0,0.0,0.0
+Boise St.,6,0,0.0,0.0
+Boise St.,7,0,0.0,0.0
+Boise St.,8,0,0.0,0.0
+Boise St.,9,0,0.0,0.0
+Boise St.,10,0,0.0,0.0
+Boise St.,11,90,0.045,1.0
+Boise St.,12,0,0.0,0.0
+Boise St.,13,0,0.0,0.0
+Boise St.,14,0,0.0,0.0
+Boise St.,15,0,0.0,0.0
+Boise St.,16,0,0.0,0.0
+Oklahoma,1,0,0.0,0.0
+Oklahoma,2,0,0.0,0.0
+Oklahoma,3,0,0.0,0.0
+Oklahoma,4,0,0.0,0.0
+Oklahoma,5,0,0.0,0.0
+Oklahoma,6,0,0.0,0.0
+Oklahoma,7,0,0.0,0.0
+Oklahoma,8,0,0.0,0.0
+Oklahoma,9,0,0.0,0.0
+Oklahoma,10,0,0.0,0.0
+Oklahoma,11,0,0.0,0.0
+Oklahoma,12,0,0.0,0.0
+Oklahoma,13,0,0.0,0.0
+Oklahoma,14,0,0.0,0.0
+Oklahoma,15,0,0.0,0.0
+Oklahoma,16,0,0.0,0.0
+Wichita St.,1,0,0.0,0.0
+Wichita St.,2,0,0.0,0.0
+Wichita St.,3,0,0.0,0.0
+Wichita St.,4,0,0.0,0.0
+Wichita St.,5,0,0.0,0.0
+Wichita St.,6,0,0.0,0.0
+Wichita St.,7,0,0.0,0.0
+Wichita St.,8,0,0.0,0.0
+Wichita St.,9,0,0.0,0.0
+Wichita St.,10,0,0.0,0.0
+Wichita St.,11,0,0.0,0.0
+Wichita St.,12,77,0.0385,0.18203309692671396
+Wichita St.,13,332,0.166,0.7848699763593381
+Wichita St.,14,14,0.007,0.03309692671394799
+Wichita St.,15,0,0.0,0.0
+Wichita St.,16,0,0.0,0.0
+Colorado,1,0,0.0,0.0
+Colorado,2,0,0.0,0.0
+Colorado,3,0,0.0,0.0
+Colorado,4,0,0.0,0.0
+Colorado,5,0,0.0,0.0
+Colorado,6,0,0.0,0.0
+Colorado,7,0,0.0,0.0
+Colorado,8,0,0.0,0.0
+Colorado,9,0,0.0,0.0
+Colorado,10,0,0.0,0.0
+Colorado,11,0,0.0,0.0
+Colorado,12,0,0.0,0.0
+Colorado,13,0,0.0,0.0
+Colorado,14,0,0.0,0.0
+Colorado,15,0,0.0,0.0
+Colorado,16,0,0.0,0.0
+Illinois St.,1,0,0.0,0.0
+Illinois St.,2,0,0.0,0.0
+Illinois St.,3,0,0.0,0.0
+Illinois St.,4,0,0.0,0.0
+Illinois St.,5,0,0.0,0.0
+Illinois St.,6,0,0.0,0.0
+Illinois St.,7,0,0.0,0.0
+Illinois St.,8,0,0.0,0.0
+Illinois St.,9,0,0.0,0.0
+Illinois St.,10,0,0.0,0.0
+Illinois St.,11,0,0.0,0.0
+Illinois St.,12,26,0.013,0.06074766355140187
+Illinois St.,13,370,0.185,0.8644859813084113
+Illinois St.,14,32,0.016,0.07476635514018691
+Illinois St.,15,0,0.0,0.0
+Illinois St.,16,0,0.0,0.0
+Mississippi,1,0,0.0,0.0
+Mississippi,2,0,0.0,0.0
+Mississippi,3,0,0.0,0.0
+Mississippi,4,0,0.0,0.0
+Mississippi,5,0,0.0,0.0
+Mississippi,6,0,0.0,0.0
+Mississippi,7,0,0.0,0.0
+Mississippi,8,0,0.0,0.0
+Mississippi,9,0,0.0,0.0
+Mississippi,10,0,0.0,0.0
+Mississippi,11,0,0.0,0.0
+Mississippi,12,0,0.0,0.0
+Mississippi,13,0,0.0,0.0
+Mississippi,14,0,0.0,0.0
+Mississippi,15,0,0.0,0.0
+Mississippi,16,0,0.0,0.0
+Miami OH,1,0,0.0,0.0
+Miami OH,2,0,0.0,0.0
+Miami OH,3,0,0.0,0.0
+Miami OH,4,0,0.0,0.0
+Miami OH,5,0,0.0,0.0
+Miami OH,6,0,0.0,0.0
+Miami OH,7,0,0.0,0.0
+Miami OH,8,0,0.0,0.0
+Miami OH,9,0,0.0,0.0
+Miami OH,10,0,0.0,0.0
+Miami OH,11,1428,0.714,1.0
+Miami OH,12,0,0.0,0.0
+Miami OH,13,0,0.0,0.0
+Miami OH,14,0,0.0,0.0
+Miami OH,15,0,0.0,0.0
+Miami OH,16,0,0.0,0.0
+Grand Canyon,1,0,0.0,0.0
+Grand Canyon,2,0,0.0,0.0
+Grand Canyon,3,0,0.0,0.0
+Grand Canyon,4,0,0.0,0.0
+Grand Canyon,5,0,0.0,0.0
+Grand Canyon,6,0,0.0,0.0
+Grand Canyon,7,0,0.0,0.0
+Grand Canyon,8,0,0.0,0.0
+Grand Canyon,9,0,0.0,0.0
+Grand Canyon,10,0,0.0,0.0
+Grand Canyon,11,6,0.003,0.022988505747126436
+Grand Canyon,12,245,0.1225,0.9386973180076629
+Grand Canyon,13,10,0.005,0.038314176245210725
+Grand Canyon,14,0,0.0,0.0
+Grand Canyon,15,0,0.0,0.0
+Grand Canyon,16,0,0.0,0.0
+Cincinnati,1,0,0.0,0.0
+Cincinnati,2,0,0.0,0.0
+Cincinnati,3,0,0.0,0.0
+Cincinnati,4,0,0.0,0.0
+Cincinnati,5,0,0.0,0.0
+Cincinnati,6,0,0.0,0.0
+Cincinnati,7,0,0.0,0.0
+Cincinnati,8,0,0.0,0.0
+Cincinnati,9,0,0.0,0.0
+Cincinnati,10,0,0.0,0.0
+Cincinnati,11,0,0.0,0.0
+Cincinnati,12,0,0.0,0.0
+Cincinnati,13,1,0.0005,1.0
+Cincinnati,14,0,0.0,0.0
+Cincinnati,15,0,0.0,0.0
+Cincinnati,16,0,0.0,0.0
+Dayton,1,0,0.0,0.0
+Dayton,2,0,0.0,0.0
+Dayton,3,0,0.0,0.0
+Dayton,4,0,0.0,0.0
+Dayton,5,0,0.0,0.0
+Dayton,6,0,0.0,0.0
+Dayton,7,0,0.0,0.0
+Dayton,8,0,0.0,0.0
+Dayton,9,0,0.0,0.0
+Dayton,10,0,0.0,0.0
+Dayton,11,0,0.0,0.0
+Dayton,12,11,0.0055,0.7333333333333333
+Dayton,13,4,0.002,0.26666666666666666
+Dayton,14,0,0.0,0.0
+Dayton,15,0,0.0,0.0
+Dayton,16,0,0.0,0.0
+Providence,1,0,0.0,0.0
+Providence,2,0,0.0,0.0
+Providence,3,0,0.0,0.0
+Providence,4,0,0.0,0.0
+Providence,5,0,0.0,0.0
+Providence,6,0,0.0,0.0
+Providence,7,0,0.0,0.0
+Providence,8,0,0.0,0.0
+Providence,9,0,0.0,0.0
+Providence,10,0,0.0,0.0
+Providence,11,0,0.0,0.0
+Providence,12,1,0.0005,0.3333333333333333
+Providence,13,2,0.001,0.6666666666666666
+Providence,14,0,0.0,0.0
+Providence,15,0,0.0,0.0
+Providence,16,0,0.0,0.0
+George Washington,1,0,0.0,0.0
+George Washington,2,0,0.0,0.0
+George Washington,3,0,0.0,0.0
+George Washington,4,0,0.0,0.0
+George Washington,5,0,0.0,0.0
+George Washington,6,0,0.0,0.0
+George Washington,7,0,0.0,0.0
+George Washington,8,0,0.0,0.0
+George Washington,9,0,0.0,0.0
+George Washington,10,0,0.0,0.0
+George Washington,11,0,0.0,0.0
+George Washington,12,14,0.007,0.28
+George Washington,13,36,0.018,0.72
+George Washington,14,0,0.0,0.0
+George Washington,15,0,0.0,0.0
+George Washington,16,0,0.0,0.0
+Liberty,1,0,0.0,0.0
+Liberty,2,0,0.0,0.0
+Liberty,3,0,0.0,0.0
+Liberty,4,0,0.0,0.0
+Liberty,5,0,0.0,0.0
+Liberty,6,0,0.0,0.0
+Liberty,7,0,0.0,0.0
+Liberty,8,0,0.0,0.0
+Liberty,9,0,0.0,0.0
+Liberty,10,0,0.0,0.0
+Liberty,11,7,0.0035,0.007284079084287201
+Liberty,12,899,0.4495,0.9354838709677419
+Liberty,13,55,0.0275,0.05723204994797086
+Liberty,14,0,0.0,0.0
+Liberty,15,0,0.0,0.0
+Liberty,16,0,0.0,0.0
+Stanford,1,0,0.0,0.0
+Stanford,2,0,0.0,0.0
+Stanford,3,0,0.0,0.0
+Stanford,4,0,0.0,0.0
+Stanford,5,0,0.0,0.0
+Stanford,6,0,0.0,0.0
+Stanford,7,0,0.0,0.0
+Stanford,8,0,0.0,0.0
+Stanford,9,0,0.0,0.0
+Stanford,10,0,0.0,0.0
+Stanford,11,1,0.0005,1.0
+Stanford,12,0,0.0,0.0
+Stanford,13,0,0.0,0.0
+Stanford,14,0,0.0,0.0
+Stanford,15,0,0.0,0.0
+Stanford,16,0,0.0,0.0
+Oklahoma St.,1,0,0.0,0.0
+Oklahoma St.,2,0,0.0,0.0
+Oklahoma St.,3,0,0.0,0.0
+Oklahoma St.,4,0,0.0,0.0
+Oklahoma St.,5,0,0.0,0.0
+Oklahoma St.,6,0,0.0,0.0
+Oklahoma St.,7,0,0.0,0.0
+Oklahoma St.,8,0,0.0,0.0
+Oklahoma St.,9,0,0.0,0.0
+Oklahoma St.,10,0,0.0,0.0
+Oklahoma St.,11,0,0.0,0.0
+Oklahoma St.,12,0,0.0,0.0
+Oklahoma St.,13,0,0.0,0.0
+Oklahoma St.,14,0,0.0,0.0
+Oklahoma St.,15,0,0.0,0.0
+Oklahoma St.,16,0,0.0,0.0
+Minnesota,1,0,0.0,0.0
+Minnesota,2,0,0.0,0.0
+Minnesota,3,0,0.0,0.0
+Minnesota,4,0,0.0,0.0
+Minnesota,5,0,0.0,0.0
+Minnesota,6,0,0.0,0.0
+Minnesota,7,0,0.0,0.0
+Minnesota,8,0,0.0,0.0
+Minnesota,9,0,0.0,0.0
+Minnesota,10,0,0.0,0.0
+Minnesota,11,0,0.0,0.0
+Minnesota,12,0,0.0,0.0
+Minnesota,13,0,0.0,0.0
+Minnesota,14,0,0.0,0.0
+Minnesota,15,0,0.0,0.0
+Minnesota,16,0,0.0,0.0
+South Carolina,1,0,0.0,0.0
+South Carolina,2,0,0.0,0.0
+South Carolina,3,0,0.0,0.0
+South Carolina,4,0,0.0,0.0
+South Carolina,5,0,0.0,0.0
+South Carolina,6,0,0.0,0.0
+South Carolina,7,0,0.0,0.0
+South Carolina,8,0,0.0,0.0
+South Carolina,9,0,0.0,0.0
+South Carolina,10,0,0.0,0.0
+South Carolina,11,0,0.0,0.0
+South Carolina,12,0,0.0,0.0
+South Carolina,13,0,0.0,0.0
+South Carolina,14,0,0.0,0.0
+South Carolina,15,0,0.0,0.0
+South Carolina,16,0,0.0,0.0
+Colorado St.,1,0,0.0,0.0
+Colorado St.,2,0,0.0,0.0
+Colorado St.,3,0,0.0,0.0
+Colorado St.,4,0,0.0,0.0
+Colorado St.,5,0,0.0,0.0
+Colorado St.,6,0,0.0,0.0
+Colorado St.,7,0,0.0,0.0
+Colorado St.,8,0,0.0,0.0
+Colorado St.,9,0,0.0,0.0
+Colorado St.,10,0,0.0,0.0
+Colorado St.,11,0,0.0,0.0
+Colorado St.,12,41,0.0205,0.7192982456140351
+Colorado St.,13,16,0.008,0.2807017543859649
+Colorado St.,14,0,0.0,0.0
+Colorado St.,15,0,0.0,0.0
+Colorado St.,16,0,0.0,0.0
+Xavier,1,0,0.0,0.0
+Xavier,2,0,0.0,0.0
+Xavier,3,0,0.0,0.0
+Xavier,4,0,0.0,0.0
+Xavier,5,0,0.0,0.0
+Xavier,6,0,0.0,0.0
+Xavier,7,0,0.0,0.0
+Xavier,8,0,0.0,0.0
+Xavier,9,0,0.0,0.0
+Xavier,10,0,0.0,0.0
+Xavier,11,0,0.0,0.0
+Xavier,12,0,0.0,0.0
+Xavier,13,0,0.0,0.0
+Xavier,14,0,0.0,0.0
+Xavier,15,0,0.0,0.0
+Xavier,16,0,0.0,0.0
+Hawaii,1,0,0.0,0.0
+Hawaii,2,0,0.0,0.0
+Hawaii,3,0,0.0,0.0
+Hawaii,4,0,0.0,0.0
+Hawaii,5,0,0.0,0.0
+Hawaii,6,0,0.0,0.0
+Hawaii,7,0,0.0,0.0
+Hawaii,8,0,0.0,0.0
+Hawaii,9,0,0.0,0.0
+Hawaii,10,0,0.0,0.0
+Hawaii,11,2,0.001,0.001702127659574468
+Hawaii,12,677,0.3385,0.5761702127659575
+Hawaii,13,496,0.248,0.4221276595744681
+Hawaii,14,0,0.0,0.0
+Hawaii,15,0,0.0,0.0
+Hawaii,16,0,0.0,0.0
+Murray St.,1,0,0.0,0.0
+Murray St.,2,0,0.0,0.0
+Murray St.,3,0,0.0,0.0
+Murray St.,4,0,0.0,0.0
+Murray St.,5,0,0.0,0.0
+Murray St.,6,0,0.0,0.0
+Murray St.,7,0,0.0,0.0
+Murray St.,8,0,0.0,0.0
+Murray St.,9,0,0.0,0.0
+Murray St.,10,0,0.0,0.0
+Murray St.,11,0,0.0,0.0
+Murray St.,12,256,0.128,0.8737201365187713
+Murray St.,13,37,0.0185,0.12627986348122866
+Murray St.,14,0,0.0,0.0
+Murray St.,15,0,0.0,0.0
+Murray St.,16,0,0.0,0.0
+Notre Dame,1,0,0.0,0.0
+Notre Dame,2,0,0.0,0.0
+Notre Dame,3,0,0.0,0.0
+Notre Dame,4,0,0.0,0.0
+Notre Dame,5,0,0.0,0.0
+Notre Dame,6,0,0.0,0.0
+Notre Dame,7,0,0.0,0.0
+Notre Dame,8,0,0.0,0.0
+Notre Dame,9,0,0.0,0.0
+Notre Dame,10,0,0.0,0.0
+Notre Dame,11,0,0.0,0.0
+Notre Dame,12,1,0.0005,1.0
+Notre Dame,13,0,0.0,0.0
+Notre Dame,14,0,0.0,0.0
+Notre Dame,15,0,0.0,0.0
+Notre Dame,16,0,0.0,0.0
+Stephen F. Austin,1,0,0.0,0.0
+Stephen F. Austin,2,0,0.0,0.0
+Stephen F. Austin,3,0,0.0,0.0
+Stephen F. Austin,4,0,0.0,0.0
+Stephen F. Austin,5,0,0.0,0.0
+Stephen F. Austin,6,0,0.0,0.0
+Stephen F. Austin,7,0,0.0,0.0
+Stephen F. Austin,8,0,0.0,0.0
+Stephen F. Austin,9,0,0.0,0.0
+Stephen F. Austin,10,0,0.0,0.0
+Stephen F. Austin,11,3,0.0015,0.004665629860031105
+Stephen F. Austin,12,582,0.291,0.9051321928460342
+Stephen F. Austin,13,58,0.029,0.09020217729393468
+Stephen F. Austin,14,0,0.0,0.0
+Stephen F. Austin,15,0,0.0,0.0
+Stephen F. Austin,16,0,0.0,0.0
+DePaul,1,0,0.0,0.0
+DePaul,2,0,0.0,0.0
+DePaul,3,0,0.0,0.0
+DePaul,4,0,0.0,0.0
+DePaul,5,0,0.0,0.0
+DePaul,6,0,0.0,0.0
+DePaul,7,0,0.0,0.0
+DePaul,8,0,0.0,0.0
+DePaul,9,0,0.0,0.0
+DePaul,10,0,0.0,0.0
+DePaul,11,0,0.0,0.0
+DePaul,12,1,0.0005,1.0
+DePaul,13,0,0.0,0.0
+DePaul,14,0,0.0,0.0
+DePaul,15,0,0.0,0.0
+DePaul,16,0,0.0,0.0
+Syracuse,1,0,0.0,0.0
+Syracuse,2,0,0.0,0.0
+Syracuse,3,0,0.0,0.0
+Syracuse,4,0,0.0,0.0
+Syracuse,5,0,0.0,0.0
+Syracuse,6,0,0.0,0.0
+Syracuse,7,0,0.0,0.0
+Syracuse,8,0,0.0,0.0
+Syracuse,9,0,0.0,0.0
+Syracuse,10,0,0.0,0.0
+Syracuse,11,0,0.0,0.0
+Syracuse,12,0,0.0,0.0
+Syracuse,13,0,0.0,0.0
+Syracuse,14,0,0.0,0.0
+Syracuse,15,0,0.0,0.0
+Syracuse,16,0,0.0,0.0
+George Mason,1,0,0.0,0.0
+George Mason,2,0,0.0,0.0
+George Mason,3,0,0.0,0.0
+George Mason,4,0,0.0,0.0
+George Mason,5,0,0.0,0.0
+George Mason,6,0,0.0,0.0
+George Mason,7,0,0.0,0.0
+George Mason,8,0,0.0,0.0
+George Mason,9,0,0.0,0.0
+George Mason,10,0,0.0,0.0
+George Mason,11,31,0.0155,0.9393939393939394
+George Mason,12,2,0.001,0.06060606060606061
+George Mason,13,0,0.0,0.0
+George Mason,14,0,0.0,0.0
+George Mason,15,0,0.0,0.0
+George Mason,16,0,0.0,0.0
+Florida Atlantic,1,0,0.0,0.0
+Florida Atlantic,2,0,0.0,0.0
+Florida Atlantic,3,0,0.0,0.0
+Florida Atlantic,4,0,0.0,0.0
+Florida Atlantic,5,0,0.0,0.0
+Florida Atlantic,6,0,0.0,0.0
+Florida Atlantic,7,0,0.0,0.0
+Florida Atlantic,8,0,0.0,0.0
+Florida Atlantic,9,0,0.0,0.0
+Florida Atlantic,10,0,0.0,0.0
+Florida Atlantic,11,0,0.0,0.0
+Florida Atlantic,12,135,0.0675,0.41284403669724773
+Florida Atlantic,13,192,0.096,0.5871559633027523
+Florida Atlantic,14,0,0.0,0.0
+Florida Atlantic,15,0,0.0,0.0
+Florida Atlantic,16,0,0.0,0.0
+Arizona St.,1,0,0.0,0.0
+Arizona St.,2,0,0.0,0.0
+Arizona St.,3,0,0.0,0.0
+Arizona St.,4,0,0.0,0.0
+Arizona St.,5,0,0.0,0.0
+Arizona St.,6,0,0.0,0.0
+Arizona St.,7,0,0.0,0.0
+Arizona St.,8,0,0.0,0.0
+Arizona St.,9,0,0.0,0.0
+Arizona St.,10,0,0.0,0.0
+Arizona St.,11,0,0.0,0.0
+Arizona St.,12,0,0.0,0.0
+Arizona St.,13,0,0.0,0.0
+Arizona St.,14,0,0.0,0.0
+Arizona St.,15,0,0.0,0.0
+Arizona St.,16,0,0.0,0.0
+Georgetown,1,0,0.0,0.0
+Georgetown,2,0,0.0,0.0
+Georgetown,3,0,0.0,0.0
+Georgetown,4,0,0.0,0.0
+Georgetown,5,0,0.0,0.0
+Georgetown,6,0,0.0,0.0
+Georgetown,7,0,0.0,0.0
+Georgetown,8,0,0.0,0.0
+Georgetown,9,0,0.0,0.0
+Georgetown,10,0,0.0,0.0
+Georgetown,11,0,0.0,0.0
+Georgetown,12,0,0.0,0.0
+Georgetown,13,0,0.0,0.0
+Georgetown,14,0,0.0,0.0
+Georgetown,15,0,0.0,0.0
+Georgetown,16,0,0.0,0.0
+High Point,1,0,0.0,0.0
+High Point,2,0,0.0,0.0
+High Point,3,0,0.0,0.0
+High Point,4,0,0.0,0.0
+High Point,5,0,0.0,0.0
+High Point,6,0,0.0,0.0
+High Point,7,0,0.0,0.0
+High Point,8,0,0.0,0.0
+High Point,9,0,0.0,0.0
+High Point,10,0,0.0,0.0
+High Point,11,0,0.0,0.0
+High Point,12,330,0.165,0.21653543307086615
+High Point,13,1194,0.597,0.7834645669291339
+High Point,14,0,0.0,0.0
+High Point,15,0,0.0,0.0
+High Point,16,0,0.0,0.0
+Oregon,1,0,0.0,0.0
+Oregon,2,0,0.0,0.0
+Oregon,3,0,0.0,0.0
+Oregon,4,0,0.0,0.0
+Oregon,5,0,0.0,0.0
+Oregon,6,0,0.0,0.0
+Oregon,7,0,0.0,0.0
+Oregon,8,0,0.0,0.0
+Oregon,9,0,0.0,0.0
+Oregon,10,0,0.0,0.0
+Oregon,11,0,0.0,0.0
+Oregon,12,0,0.0,0.0
+Oregon,13,0,0.0,0.0
+Oregon,14,0,0.0,0.0
+Oregon,15,0,0.0,0.0
+Oregon,16,0,0.0,0.0
+San Francisco,1,0,0.0,0.0
+San Francisco,2,0,0.0,0.0
+San Francisco,3,0,0.0,0.0
+San Francisco,4,0,0.0,0.0
+San Francisco,5,0,0.0,0.0
+San Francisco,6,0,0.0,0.0
+San Francisco,7,0,0.0,0.0
+San Francisco,8,0,0.0,0.0
+San Francisco,9,0,0.0,0.0
+San Francisco,10,0,0.0,0.0
+San Francisco,11,0,0.0,0.0
+San Francisco,12,0,0.0,0.0
+San Francisco,13,5,0.0025,0.8333333333333334
+San Francisco,14,1,0.0005,0.16666666666666666
+San Francisco,15,0,0.0,0.0
+San Francisco,16,0,0.0,0.0
+Kansas St.,1,0,0.0,0.0
+Kansas St.,2,0,0.0,0.0
+Kansas St.,3,0,0.0,0.0
+Kansas St.,4,0,0.0,0.0
+Kansas St.,5,0,0.0,0.0
+Kansas St.,6,0,0.0,0.0
+Kansas St.,7,0,0.0,0.0
+Kansas St.,8,0,0.0,0.0
+Kansas St.,9,0,0.0,0.0
+Kansas St.,10,0,0.0,0.0
+Kansas St.,11,0,0.0,0.0
+Kansas St.,12,0,0.0,0.0
+Kansas St.,13,0,0.0,0.0
+Kansas St.,14,0,0.0,0.0
+Kansas St.,15,0,0.0,0.0
+Kansas St.,16,0,0.0,0.0
+Utah,1,0,0.0,0.0
+Utah,2,0,0.0,0.0
+Utah,3,0,0.0,0.0
+Utah,4,0,0.0,0.0
+Utah,5,0,0.0,0.0
+Utah,6,0,0.0,0.0
+Utah,7,0,0.0,0.0
+Utah,8,0,0.0,0.0
+Utah,9,0,0.0,0.0
+Utah,10,0,0.0,0.0
+Utah,11,0,0.0,0.0
+Utah,12,0,0.0,0.0
+Utah,13,0,0.0,0.0
+Utah,14,0,0.0,0.0
+Utah,15,0,0.0,0.0
+Utah,16,0,0.0,0.0
+Northern Iowa,1,0,0.0,0.0
+Northern Iowa,2,0,0.0,0.0
+Northern Iowa,3,0,0.0,0.0
+Northern Iowa,4,0,0.0,0.0
+Northern Iowa,5,0,0.0,0.0
+Northern Iowa,6,0,0.0,0.0
+Northern Iowa,7,0,0.0,0.0
+Northern Iowa,8,0,0.0,0.0
+Northern Iowa,9,0,0.0,0.0
+Northern Iowa,10,0,0.0,0.0
+Northern Iowa,11,0,0.0,0.0
+Northern Iowa,12,8,0.004,0.05673758865248227
+Northern Iowa,13,118,0.059,0.8368794326241135
+Northern Iowa,14,15,0.0075,0.10638297872340426
+Northern Iowa,15,0,0.0,0.0
+Northern Iowa,16,0,0.0,0.0
+Wyoming,1,0,0.0,0.0
+Wyoming,2,0,0.0,0.0
+Wyoming,3,0,0.0,0.0
+Wyoming,4,0,0.0,0.0
+Wyoming,5,0,0.0,0.0
+Wyoming,6,0,0.0,0.0
+Wyoming,7,0,0.0,0.0
+Wyoming,8,0,0.0,0.0
+Wyoming,9,0,0.0,0.0
+Wyoming,10,0,0.0,0.0
+Wyoming,11,0,0.0,0.0
+Wyoming,12,0,0.0,0.0
+Wyoming,13,3,0.0015,0.6
+Wyoming,14,2,0.001,0.4
+Wyoming,15,0,0.0,0.0
+Wyoming,16,0,0.0,0.0
+Mississippi St.,1,0,0.0,0.0
+Mississippi St.,2,0,0.0,0.0
+Mississippi St.,3,0,0.0,0.0
+Mississippi St.,4,0,0.0,0.0
+Mississippi St.,5,0,0.0,0.0
+Mississippi St.,6,0,0.0,0.0
+Mississippi St.,7,0,0.0,0.0
+Mississippi St.,8,0,0.0,0.0
+Mississippi St.,9,0,0.0,0.0
+Mississippi St.,10,0,0.0,0.0
+Mississippi St.,11,0,0.0,0.0
+Mississippi St.,12,0,0.0,0.0
+Mississippi St.,13,0,0.0,0.0
+Mississippi St.,14,0,0.0,0.0
+Mississippi St.,15,0,0.0,0.0
+Mississippi St.,16,0,0.0,0.0
+East Tennessee St.,1,0,0.0,0.0
+East Tennessee St.,2,0,0.0,0.0
+East Tennessee St.,3,0,0.0,0.0
+East Tennessee St.,4,0,0.0,0.0
+East Tennessee St.,5,0,0.0,0.0
+East Tennessee St.,6,0,0.0,0.0
+East Tennessee St.,7,0,0.0,0.0
+East Tennessee St.,8,0,0.0,0.0
+East Tennessee St.,9,0,0.0,0.0
+East Tennessee St.,10,0,0.0,0.0
+East Tennessee St.,11,0,0.0,0.0
+East Tennessee St.,12,0,0.0,0.0
+East Tennessee St.,13,30,0.015,0.038510911424903725
+East Tennessee St.,14,580,0.29,0.7445442875481386
+East Tennessee St.,15,169,0.0845,0.21694480102695765
+East Tennessee St.,16,0,0.0,0.0
+Pittsburgh,1,0,0.0,0.0
+Pittsburgh,2,0,0.0,0.0
+Pittsburgh,3,0,0.0,0.0
+Pittsburgh,4,0,0.0,0.0
+Pittsburgh,5,0,0.0,0.0
+Pittsburgh,6,0,0.0,0.0
+Pittsburgh,7,0,0.0,0.0
+Pittsburgh,8,0,0.0,0.0
+Pittsburgh,9,0,0.0,0.0
+Pittsburgh,10,0,0.0,0.0
+Pittsburgh,11,0,0.0,0.0
+Pittsburgh,12,0,0.0,0.0
+Pittsburgh,13,0,0.0,0.0
+Pittsburgh,14,0,0.0,0.0
+Pittsburgh,15,0,0.0,0.0
+Pittsburgh,16,0,0.0,0.0
+UC Irvine,1,0,0.0,0.0
+UC Irvine,2,0,0.0,0.0
+UC Irvine,3,0,0.0,0.0
+UC Irvine,4,0,0.0,0.0
+UC Irvine,5,0,0.0,0.0
+UC Irvine,6,0,0.0,0.0
+UC Irvine,7,0,0.0,0.0
+UC Irvine,8,0,0.0,0.0
+UC Irvine,9,0,0.0,0.0
+UC Irvine,10,0,0.0,0.0
+UC Irvine,11,0,0.0,0.0
+UC Irvine,12,5,0.0025,0.008605851979345954
+UC Irvine,13,373,0.1865,0.6419965576592083
+UC Irvine,14,203,0.1015,0.3493975903614458
+UC Irvine,15,0,0.0,0.0
+UC Irvine,16,0,0.0,0.0
+St. Thomas,1,0,0.0,0.0
+St. Thomas,2,0,0.0,0.0
+St. Thomas,3,0,0.0,0.0
+St. Thomas,4,0,0.0,0.0
+St. Thomas,5,0,0.0,0.0
+St. Thomas,6,0,0.0,0.0
+St. Thomas,7,0,0.0,0.0
+St. Thomas,8,0,0.0,0.0
+St. Thomas,9,0,0.0,0.0
+St. Thomas,10,0,0.0,0.0
+St. Thomas,11,1,0.0005,0.0009900990099009901
+St. Thomas,12,365,0.1825,0.3613861386138614
+St. Thomas,13,644,0.322,0.6376237623762376
+St. Thomas,14,0,0.0,0.0
+St. Thomas,15,0,0.0,0.0
+St. Thomas,16,0,0.0,0.0
+UNC Wilmington,1,0,0.0,0.0
+UNC Wilmington,2,0,0.0,0.0
+UNC Wilmington,3,0,0.0,0.0
+UNC Wilmington,4,0,0.0,0.0
+UNC Wilmington,5,0,0.0,0.0
+UNC Wilmington,6,0,0.0,0.0
+UNC Wilmington,7,0,0.0,0.0
+UNC Wilmington,8,0,0.0,0.0
+UNC Wilmington,9,0,0.0,0.0
+UNC Wilmington,10,0,0.0,0.0
+UNC Wilmington,11,0,0.0,0.0
+UNC Wilmington,12,63,0.0315,0.08388814913448735
+UNC Wilmington,13,660,0.33,0.8788282290279628
+UNC Wilmington,14,28,0.014,0.037283621837549935
+UNC Wilmington,15,0,0.0,0.0
+UNC Wilmington,16,0,0.0,0.0
+Sam Houston St.,1,0,0.0,0.0
+Sam Houston St.,2,0,0.0,0.0
+Sam Houston St.,3,0,0.0,0.0
+Sam Houston St.,4,0,0.0,0.0
+Sam Houston St.,5,0,0.0,0.0
+Sam Houston St.,6,0,0.0,0.0
+Sam Houston St.,7,0,0.0,0.0
+Sam Houston St.,8,0,0.0,0.0
+Sam Houston St.,9,0,0.0,0.0
+Sam Houston St.,10,0,0.0,0.0
+Sam Houston St.,11,0,0.0,0.0
+Sam Houston St.,12,9,0.0045,0.018556701030927835
+Sam Houston St.,13,384,0.192,0.7917525773195876
+Sam Houston St.,14,92,0.046,0.18969072164948453
+Sam Houston St.,15,0,0.0,0.0
+Sam Houston St.,16,0,0.0,0.0
+Memphis,1,0,0.0,0.0
+Memphis,2,0,0.0,0.0
+Memphis,3,0,0.0,0.0
+Memphis,4,0,0.0,0.0
+Memphis,5,0,0.0,0.0
+Memphis,6,0,0.0,0.0
+Memphis,7,0,0.0,0.0
+Memphis,8,0,0.0,0.0
+Memphis,9,0,0.0,0.0
+Memphis,10,0,0.0,0.0
+Memphis,11,0,0.0,0.0
+Memphis,12,0,0.0,0.0
+Memphis,13,37,0.0185,0.7708333333333334
+Memphis,14,11,0.0055,0.22916666666666666
+Memphis,15,0,0.0,0.0
+Memphis,16,0,0.0,0.0
+Florida St.,1,0,0.0,0.0
+Florida St.,2,0,0.0,0.0
+Florida St.,3,0,0.0,0.0
+Florida St.,4,0,0.0,0.0
+Florida St.,5,0,0.0,0.0
+Florida St.,6,0,0.0,0.0
+Florida St.,7,0,0.0,0.0
+Florida St.,8,0,0.0,0.0
+Florida St.,9,0,0.0,0.0
+Florida St.,10,0,0.0,0.0
+Florida St.,11,0,0.0,0.0
+Florida St.,12,0,0.0,0.0
+Florida St.,13,0,0.0,0.0
+Florida St.,14,0,0.0,0.0
+Florida St.,15,0,0.0,0.0
+Florida St.,16,0,0.0,0.0
+UC San Diego,1,0,0.0,0.0
+UC San Diego,2,0,0.0,0.0
+UC San Diego,3,0,0.0,0.0
+UC San Diego,4,0,0.0,0.0
+UC San Diego,5,0,0.0,0.0
+UC San Diego,6,0,0.0,0.0
+UC San Diego,7,0,0.0,0.0
+UC San Diego,8,0,0.0,0.0
+UC San Diego,9,0,0.0,0.0
+UC San Diego,10,0,0.0,0.0
+UC San Diego,11,0,0.0,0.0
+UC San Diego,12,0,0.0,0.0
+UC San Diego,13,0,0.0,0.0
+UC San Diego,14,0,0.0,0.0
+UC San Diego,15,0,0.0,0.0
+UC San Diego,16,0,0.0,0.0
+Pacific,1,0,0.0,0.0
+Pacific,2,0,0.0,0.0
+Pacific,3,0,0.0,0.0
+Pacific,4,0,0.0,0.0
+Pacific,5,0,0.0,0.0
+Pacific,6,0,0.0,0.0
+Pacific,7,0,0.0,0.0
+Pacific,8,0,0.0,0.0
+Pacific,9,0,0.0,0.0
+Pacific,10,0,0.0,0.0
+Pacific,11,0,0.0,0.0
+Pacific,12,1,0.0005,0.2
+Pacific,13,3,0.0015,0.6
+Pacific,14,1,0.0005,0.2
+Pacific,15,0,0.0,0.0
+Pacific,16,0,0.0,0.0
+Utah Valley,1,0,0.0,0.0
+Utah Valley,2,0,0.0,0.0
+Utah Valley,3,0,0.0,0.0
+Utah Valley,4,0,0.0,0.0
+Utah Valley,5,0,0.0,0.0
+Utah Valley,6,0,0.0,0.0
+Utah Valley,7,0,0.0,0.0
+Utah Valley,8,0,0.0,0.0
+Utah Valley,9,0,0.0,0.0
+Utah Valley,10,0,0.0,0.0
+Utah Valley,11,0,0.0,0.0
+Utah Valley,12,2,0.001,0.0030211480362537764
+Utah Valley,13,272,0.136,0.4108761329305136
+Utah Valley,14,388,0.194,0.5861027190332326
+Utah Valley,15,0,0.0,0.0
+Utah Valley,16,0,0.0,0.0
+UNLV,1,0,0.0,0.0
+UNLV,2,0,0.0,0.0
+UNLV,3,0,0.0,0.0
+UNLV,4,0,0.0,0.0
+UNLV,5,0,0.0,0.0
+UNLV,6,0,0.0,0.0
+UNLV,7,0,0.0,0.0
+UNLV,8,0,0.0,0.0
+UNLV,9,0,0.0,0.0
+UNLV,10,0,0.0,0.0
+UNLV,11,0,0.0,0.0
+UNLV,12,0,0.0,0.0
+UNLV,13,3,0.0015,0.42857142857142855
+UNLV,14,4,0.002,0.5714285714285714
+UNLV,15,0,0.0,0.0
+UNLV,16,0,0.0,0.0
+Seattle,1,0,0.0,0.0
+Seattle,2,0,0.0,0.0
+Seattle,3,0,0.0,0.0
+Seattle,4,0,0.0,0.0
+Seattle,5,0,0.0,0.0
+Seattle,6,0,0.0,0.0
+Seattle,7,0,0.0,0.0
+Seattle,8,0,0.0,0.0
+Seattle,9,0,0.0,0.0
+Seattle,10,0,0.0,0.0
+Seattle,11,0,0.0,0.0
+Seattle,12,1,0.0005,0.05555555555555555
+Seattle,13,8,0.004,0.4444444444444444
+Seattle,14,9,0.0045,0.5
+Seattle,15,0,0.0,0.0
+Seattle,16,0,0.0,0.0
+Richmond,1,0,0.0,0.0
+Richmond,2,0,0.0,0.0
+Richmond,3,0,0.0,0.0
+Richmond,4,0,0.0,0.0
+Richmond,5,0,0.0,0.0
+Richmond,6,0,0.0,0.0
+Richmond,7,0,0.0,0.0
+Richmond,8,0,0.0,0.0
+Richmond,9,0,0.0,0.0
+Richmond,10,0,0.0,0.0
+Richmond,11,0,0.0,0.0
+Richmond,12,0,0.0,0.0
+Richmond,13,0,0.0,0.0
+Richmond,14,13,0.0065,0.8125
+Richmond,15,3,0.0015,0.1875
+Richmond,16,0,0.0,0.0
+William & Mary,1,0,0.0,0.0
+William & Mary,2,0,0.0,0.0
+William & Mary,3,0,0.0,0.0
+William & Mary,4,0,0.0,0.0
+William & Mary,5,0,0.0,0.0
+William & Mary,6,0,0.0,0.0
+William & Mary,7,0,0.0,0.0
+William & Mary,8,0,0.0,0.0
+William & Mary,9,0,0.0,0.0
+William & Mary,10,0,0.0,0.0
+William & Mary,11,0,0.0,0.0
+William & Mary,12,10,0.005,0.019880715705765408
+William & Mary,13,424,0.212,0.8429423459244533
+William & Mary,14,69,0.0345,0.13717693836978131
+William & Mary,15,0,0.0,0.0
+William & Mary,16,0,0.0,0.0
+Troy,1,0,0.0,0.0
+Troy,2,0,0.0,0.0
+Troy,3,0,0.0,0.0
+Troy,4,0,0.0,0.0
+Troy,5,0,0.0,0.0
+Troy,6,0,0.0,0.0
+Troy,7,0,0.0,0.0
+Troy,8,0,0.0,0.0
+Troy,9,0,0.0,0.0
+Troy,10,0,0.0,0.0
+Troy,11,0,0.0,0.0
+Troy,12,1,0.0005,0.0011363636363636363
+Troy,13,352,0.176,0.4
+Troy,14,527,0.2635,0.5988636363636364
+Troy,15,0,0.0,0.0
+Troy,16,0,0.0,0.0
+UAB,1,0,0.0,0.0
+UAB,2,0,0.0,0.0
+UAB,3,0,0.0,0.0
+UAB,4,0,0.0,0.0
+UAB,5,0,0.0,0.0
+UAB,6,0,0.0,0.0
+UAB,7,0,0.0,0.0
+UAB,8,0,0.0,0.0
+UAB,9,0,0.0,0.0
+UAB,10,0,0.0,0.0
+UAB,11,0,0.0,0.0
+UAB,12,0,0.0,0.0
+UAB,13,12,0.006,0.20689655172413793
+UAB,14,43,0.0215,0.7413793103448276
+UAB,15,3,0.0015,0.05172413793103448
+UAB,16,0,0.0,0.0
+Hofstra,1,0,0.0,0.0
+Hofstra,2,0,0.0,0.0
+Hofstra,3,0,0.0,0.0
+Hofstra,4,0,0.0,0.0
+Hofstra,5,0,0.0,0.0
+Hofstra,6,0,0.0,0.0
+Hofstra,7,0,0.0,0.0
+Hofstra,8,0,0.0,0.0
+Hofstra,9,0,0.0,0.0
+Hofstra,10,0,0.0,0.0
+Hofstra,11,0,0.0,0.0
+Hofstra,12,0,0.0,0.0
+Hofstra,13,1,0.0005,0.0022522522522522522
+Hofstra,14,183,0.0915,0.41216216216216217
+Hofstra,15,260,0.13,0.5855855855855856
+Hofstra,16,0,0.0,0.0
+North Dakota St.,1,0,0.0,0.0
+North Dakota St.,2,0,0.0,0.0
+North Dakota St.,3,0,0.0,0.0
+North Dakota St.,4,0,0.0,0.0
+North Dakota St.,5,0,0.0,0.0
+North Dakota St.,6,0,0.0,0.0
+North Dakota St.,7,0,0.0,0.0
+North Dakota St.,8,0,0.0,0.0
+North Dakota St.,9,0,0.0,0.0
+North Dakota St.,10,0,0.0,0.0
+North Dakota St.,11,0,0.0,0.0
+North Dakota St.,12,0,0.0,0.0
+North Dakota St.,13,154,0.077,0.358974358974359
+North Dakota St.,14,275,0.1375,0.6410256410256411
+North Dakota St.,15,0,0.0,0.0
+North Dakota St.,16,0,0.0,0.0
+Georgia Tech,1,0,0.0,0.0
+Georgia Tech,2,0,0.0,0.0
+Georgia Tech,3,0,0.0,0.0
+Georgia Tech,4,0,0.0,0.0
+Georgia Tech,5,0,0.0,0.0
+Georgia Tech,6,0,0.0,0.0
+Georgia Tech,7,0,0.0,0.0
+Georgia Tech,8,0,0.0,0.0
+Georgia Tech,9,0,0.0,0.0
+Georgia Tech,10,0,0.0,0.0
+Georgia Tech,11,0,0.0,0.0
+Georgia Tech,12,0,0.0,0.0
+Georgia Tech,13,0,0.0,0.0
+Georgia Tech,14,0,0.0,0.0
+Georgia Tech,15,0,0.0,0.0
+Georgia Tech,16,0,0.0,0.0
+Penn St.,1,0,0.0,0.0
+Penn St.,2,0,0.0,0.0
+Penn St.,3,0,0.0,0.0
+Penn St.,4,0,0.0,0.0
+Penn St.,5,0,0.0,0.0
+Penn St.,6,0,0.0,0.0
+Penn St.,7,0,0.0,0.0
+Penn St.,8,0,0.0,0.0
+Penn St.,9,0,0.0,0.0
+Penn St.,10,0,0.0,0.0
+Penn St.,11,0,0.0,0.0
+Penn St.,12,0,0.0,0.0
+Penn St.,13,0,0.0,0.0
+Penn St.,14,0,0.0,0.0
+Penn St.,15,0,0.0,0.0
+Penn St.,16,0,0.0,0.0
+Montana St.,1,0,0.0,0.0
+Montana St.,2,0,0.0,0.0
+Montana St.,3,0,0.0,0.0
+Montana St.,4,0,0.0,0.0
+Montana St.,5,0,0.0,0.0
+Montana St.,6,0,0.0,0.0
+Montana St.,7,0,0.0,0.0
+Montana St.,8,0,0.0,0.0
+Montana St.,9,0,0.0,0.0
+Montana St.,10,0,0.0,0.0
+Montana St.,11,0,0.0,0.0
+Montana St.,12,0,0.0,0.0
+Montana St.,13,7,0.0035,0.012962962962962963
+Montana St.,14,252,0.126,0.4666666666666667
+Montana St.,15,281,0.1405,0.5203703703703704
+Montana St.,16,0,0.0,0.0
+Cal Baptist,1,0,0.0,0.0
+Cal Baptist,2,0,0.0,0.0
+Cal Baptist,3,0,0.0,0.0
+Cal Baptist,4,0,0.0,0.0
+Cal Baptist,5,0,0.0,0.0
+Cal Baptist,6,0,0.0,0.0
+Cal Baptist,7,0,0.0,0.0
+Cal Baptist,8,0,0.0,0.0
+Cal Baptist,9,0,0.0,0.0
+Cal Baptist,10,0,0.0,0.0
+Cal Baptist,11,0,0.0,0.0
+Cal Baptist,12,33,0.0165,0.04182509505703422
+Cal Baptist,13,673,0.3365,0.85297845373891
+Cal Baptist,14,83,0.0415,0.10519645120405577
+Cal Baptist,15,0,0.0,0.0
+Cal Baptist,16,0,0.0,0.0
+Boston College,1,0,0.0,0.0
+Boston College,2,0,0.0,0.0
+Boston College,3,0,0.0,0.0
+Boston College,4,0,0.0,0.0
+Boston College,5,0,0.0,0.0
+Boston College,6,0,0.0,0.0
+Boston College,7,0,0.0,0.0
+Boston College,8,0,0.0,0.0
+Boston College,9,0,0.0,0.0
+Boston College,10,0,0.0,0.0
+Boston College,11,0,0.0,0.0
+Boston College,12,0,0.0,0.0
+Boston College,13,0,0.0,0.0
+Boston College,14,0,0.0,0.0
+Boston College,15,0,0.0,0.0
+Boston College,16,0,0.0,0.0
+Bowling Green,1,0,0.0,0.0
+Bowling Green,2,0,0.0,0.0
+Bowling Green,3,0,0.0,0.0
+Bowling Green,4,0,0.0,0.0
+Bowling Green,5,0,0.0,0.0
+Bowling Green,6,0,0.0,0.0
+Bowling Green,7,0,0.0,0.0
+Bowling Green,8,0,0.0,0.0
+Bowling Green,9,0,0.0,0.0
+Bowling Green,10,0,0.0,0.0
+Bowling Green,11,0,0.0,0.0
+Bowling Green,12,0,0.0,0.0
+Bowling Green,13,50,0.025,0.34965034965034963
+Bowling Green,14,93,0.0465,0.6503496503496503
+Bowling Green,15,0,0.0,0.0
+Bowling Green,16,0,0.0,0.0
+Davidson,1,0,0.0,0.0
+Davidson,2,0,0.0,0.0
+Davidson,3,0,0.0,0.0
+Davidson,4,0,0.0,0.0
+Davidson,5,0,0.0,0.0
+Davidson,6,0,0.0,0.0
+Davidson,7,0,0.0,0.0
+Davidson,8,0,0.0,0.0
+Davidson,9,0,0.0,0.0
+Davidson,10,0,0.0,0.0
+Davidson,11,0,0.0,0.0
+Davidson,12,0,0.0,0.0
+Davidson,13,4,0.002,0.8
+Davidson,14,1,0.0005,0.2
+Davidson,15,0,0.0,0.0
+Davidson,16,0,0.0,0.0
+Illinois Chicago,1,0,0.0,0.0
+Illinois Chicago,2,0,0.0,0.0
+Illinois Chicago,3,0,0.0,0.0
+Illinois Chicago,4,0,0.0,0.0
+Illinois Chicago,5,0,0.0,0.0
+Illinois Chicago,6,0,0.0,0.0
+Illinois Chicago,7,0,0.0,0.0
+Illinois Chicago,8,0,0.0,0.0
+Illinois Chicago,9,0,0.0,0.0
+Illinois Chicago,10,0,0.0,0.0
+Illinois Chicago,11,0,0.0,0.0
+Illinois Chicago,12,0,0.0,0.0
+Illinois Chicago,13,2,0.001,0.028169014084507043
+Illinois Chicago,14,23,0.0115,0.323943661971831
+Illinois Chicago,15,46,0.023,0.647887323943662
+Illinois Chicago,16,0,0.0,0.0
+Washington St.,1,0,0.0,0.0
+Washington St.,2,0,0.0,0.0
+Washington St.,3,0,0.0,0.0
+Washington St.,4,0,0.0,0.0
+Washington St.,5,0,0.0,0.0
+Washington St.,6,0,0.0,0.0
+Washington St.,7,0,0.0,0.0
+Washington St.,8,0,0.0,0.0
+Washington St.,9,0,0.0,0.0
+Washington St.,10,0,0.0,0.0
+Washington St.,11,0,0.0,0.0
+Washington St.,12,0,0.0,0.0
+Washington St.,13,0,0.0,0.0
+Washington St.,14,1,0.0005,0.14285714285714285
+Washington St.,15,6,0.003,0.8571428571428571
+Washington St.,16,0,0.0,0.0
+Rhode Island,1,0,0.0,0.0
+Rhode Island,2,0,0.0,0.0
+Rhode Island,3,0,0.0,0.0
+Rhode Island,4,0,0.0,0.0
+Rhode Island,5,0,0.0,0.0
+Rhode Island,6,0,0.0,0.0
+Rhode Island,7,0,0.0,0.0
+Rhode Island,8,0,0.0,0.0
+Rhode Island,9,0,0.0,0.0
+Rhode Island,10,0,0.0,0.0
+Rhode Island,11,0,0.0,0.0
+Rhode Island,12,0,0.0,0.0
+Rhode Island,13,0,0.0,0.0
+Rhode Island,14,3,0.0015,1.0
+Rhode Island,15,0,0.0,0.0
+Rhode Island,16,0,0.0,0.0
+Portland St.,1,0,0.0,0.0
+Portland St.,2,0,0.0,0.0
+Portland St.,3,0,0.0,0.0
+Portland St.,4,0,0.0,0.0
+Portland St.,5,0,0.0,0.0
+Portland St.,6,0,0.0,0.0
+Portland St.,7,0,0.0,0.0
+Portland St.,8,0,0.0,0.0
+Portland St.,9,0,0.0,0.0
+Portland St.,10,0,0.0,0.0
+Portland St.,11,0,0.0,0.0
+Portland St.,12,6,0.003,0.008415147265077139
+Portland St.,13,440,0.22,0.6171107994389902
+Portland St.,14,267,0.1335,0.3744740532959327
+Portland St.,15,0,0.0,0.0
+Portland St.,16,0,0.0,0.0
+Middle Tennessee,1,0,0.0,0.0
+Middle Tennessee,2,0,0.0,0.0
+Middle Tennessee,3,0,0.0,0.0
+Middle Tennessee,4,0,0.0,0.0
+Middle Tennessee,5,0,0.0,0.0
+Middle Tennessee,6,0,0.0,0.0
+Middle Tennessee,7,0,0.0,0.0
+Middle Tennessee,8,0,0.0,0.0
+Middle Tennessee,9,0,0.0,0.0
+Middle Tennessee,10,0,0.0,0.0
+Middle Tennessee,11,0,0.0,0.0
+Middle Tennessee,12,0,0.0,0.0
+Middle Tennessee,13,9,0.0045,0.0410958904109589
+Middle Tennessee,14,179,0.0895,0.817351598173516
+Middle Tennessee,15,31,0.0155,0.1415525114155251
+Middle Tennessee,16,0,0.0,0.0
+Wright St.,1,0,0.0,0.0
+Wright St.,2,0,0.0,0.0
+Wright St.,3,0,0.0,0.0
+Wright St.,4,0,0.0,0.0
+Wright St.,5,0,0.0,0.0
+Wright St.,6,0,0.0,0.0
+Wright St.,7,0,0.0,0.0
+Wright St.,8,0,0.0,0.0
+Wright St.,9,0,0.0,0.0
+Wright St.,10,0,0.0,0.0
+Wright St.,11,0,0.0,0.0
+Wright St.,12,0,0.0,0.0
+Wright St.,13,1,0.0005,0.0015923566878980893
+Wright St.,14,67,0.0335,0.10668789808917198
+Wright St.,15,522,0.261,0.8312101910828026
+Wright St.,16,38,0.019,0.06050955414012739
+Kennesaw St.,1,0,0.0,0.0
+Kennesaw St.,2,0,0.0,0.0
+Kennesaw St.,3,0,0.0,0.0
+Kennesaw St.,4,0,0.0,0.0
+Kennesaw St.,5,0,0.0,0.0
+Kennesaw St.,6,0,0.0,0.0
+Kennesaw St.,7,0,0.0,0.0
+Kennesaw St.,8,0,0.0,0.0
+Kennesaw St.,9,0,0.0,0.0
+Kennesaw St.,10,0,0.0,0.0
+Kennesaw St.,11,0,0.0,0.0
+Kennesaw St.,12,0,0.0,0.0
+Kennesaw St.,13,0,0.0,0.0
+Kennesaw St.,14,6,0.003,0.03488372093023256
+Kennesaw St.,15,138,0.069,0.8023255813953488
+Kennesaw St.,16,28,0.014,0.16279069767441862
+Southern Illinois,1,0,0.0,0.0
+Southern Illinois,2,0,0.0,0.0
+Southern Illinois,3,0,0.0,0.0
+Southern Illinois,4,0,0.0,0.0
+Southern Illinois,5,0,0.0,0.0
+Southern Illinois,6,0,0.0,0.0
+Southern Illinois,7,0,0.0,0.0
+Southern Illinois,8,0,0.0,0.0
+Southern Illinois,9,0,0.0,0.0
+Southern Illinois,10,0,0.0,0.0
+Southern Illinois,11,0,0.0,0.0
+Southern Illinois,12,0,0.0,0.0
+Southern Illinois,13,1,0.0005,0.01639344262295082
+Southern Illinois,14,24,0.012,0.39344262295081966
+Southern Illinois,15,36,0.018,0.5901639344262295
+Southern Illinois,16,0,0.0,0.0
+Winthrop,1,0,0.0,0.0
+Winthrop,2,0,0.0,0.0
+Winthrop,3,0,0.0,0.0
+Winthrop,4,0,0.0,0.0
+Winthrop,5,0,0.0,0.0
+Winthrop,6,0,0.0,0.0
+Winthrop,7,0,0.0,0.0
+Winthrop,8,0,0.0,0.0
+Winthrop,9,0,0.0,0.0
+Winthrop,10,0,0.0,0.0
+Winthrop,11,0,0.0,0.0
+Winthrop,12,0,0.0,0.0
+Winthrop,13,4,0.002,0.012618296529968454
+Winthrop,14,184,0.092,0.580441640378549
+Winthrop,15,129,0.0645,0.4069400630914827
+Winthrop,16,0,0.0,0.0
+North Texas,1,0,0.0,0.0
+North Texas,2,0,0.0,0.0
+North Texas,3,0,0.0,0.0
+North Texas,4,0,0.0,0.0
+North Texas,5,0,0.0,0.0
+North Texas,6,0,0.0,0.0
+North Texas,7,0,0.0,0.0
+North Texas,8,0,0.0,0.0
+North Texas,9,0,0.0,0.0
+North Texas,10,0,0.0,0.0
+North Texas,11,0,0.0,0.0
+North Texas,12,0,0.0,0.0
+North Texas,13,5,0.0025,0.18518518518518517
+North Texas,14,21,0.0105,0.7777777777777778
+North Texas,15,1,0.0005,0.037037037037037035
+North Texas,16,0,0.0,0.0
+Bradley,1,0,0.0,0.0
+Bradley,2,0,0.0,0.0
+Bradley,3,0,0.0,0.0
+Bradley,4,0,0.0,0.0
+Bradley,5,0,0.0,0.0
+Bradley,6,0,0.0,0.0
+Bradley,7,0,0.0,0.0
+Bradley,8,0,0.0,0.0
+Bradley,9,0,0.0,0.0
+Bradley,10,0,0.0,0.0
+Bradley,11,0,0.0,0.0
+Bradley,12,0,0.0,0.0
+Bradley,13,0,0.0,0.0
+Bradley,14,12,0.006,0.5454545454545454
+Bradley,15,10,0.005,0.45454545454545453
+Bradley,16,0,0.0,0.0
+Rutgers,1,0,0.0,0.0
+Rutgers,2,0,0.0,0.0
+Rutgers,3,0,0.0,0.0
+Rutgers,4,0,0.0,0.0
+Rutgers,5,0,0.0,0.0
+Rutgers,6,0,0.0,0.0
+Rutgers,7,0,0.0,0.0
+Rutgers,8,0,0.0,0.0
+Rutgers,9,0,0.0,0.0
+Rutgers,10,0,0.0,0.0
+Rutgers,11,0,0.0,0.0
+Rutgers,12,0,0.0,0.0
+Rutgers,13,0,0.0,0.0
+Rutgers,14,0,0.0,0.0
+Rutgers,15,0,0.0,0.0
+Rutgers,16,0,0.0,0.0
+Marquette,1,0,0.0,0.0
+Marquette,2,0,0.0,0.0
+Marquette,3,0,0.0,0.0
+Marquette,4,0,0.0,0.0
+Marquette,5,0,0.0,0.0
+Marquette,6,0,0.0,0.0
+Marquette,7,0,0.0,0.0
+Marquette,8,0,0.0,0.0
+Marquette,9,0,0.0,0.0
+Marquette,10,0,0.0,0.0
+Marquette,11,0,0.0,0.0
+Marquette,12,0,0.0,0.0
+Marquette,13,0,0.0,0.0
+Marquette,14,0,0.0,0.0
+Marquette,15,0,0.0,0.0
+Marquette,16,0,0.0,0.0
+UC Santa Barbara,1,0,0.0,0.0
+UC Santa Barbara,2,0,0.0,0.0
+UC Santa Barbara,3,0,0.0,0.0
+UC Santa Barbara,4,0,0.0,0.0
+UC Santa Barbara,5,0,0.0,0.0
+UC Santa Barbara,6,0,0.0,0.0
+UC Santa Barbara,7,0,0.0,0.0
+UC Santa Barbara,8,0,0.0,0.0
+UC Santa Barbara,9,0,0.0,0.0
+UC Santa Barbara,10,0,0.0,0.0
+UC Santa Barbara,11,0,0.0,0.0
+UC Santa Barbara,12,0,0.0,0.0
+UC Santa Barbara,13,0,0.0,0.0
+UC Santa Barbara,14,7,0.0035,0.06086956521739131
+UC Santa Barbara,15,80,0.04,0.6956521739130435
+UC Santa Barbara,16,28,0.014,0.24347826086956523
+Mercer,1,0,0.0,0.0
+Mercer,2,0,0.0,0.0
+Mercer,3,0,0.0,0.0
+Mercer,4,0,0.0,0.0
+Mercer,5,0,0.0,0.0
+Mercer,6,0,0.0,0.0
+Mercer,7,0,0.0,0.0
+Mercer,8,0,0.0,0.0
+Mercer,9,0,0.0,0.0
+Mercer,10,0,0.0,0.0
+Mercer,11,0,0.0,0.0
+Mercer,12,0,0.0,0.0
+Mercer,13,158,0.079,0.15221579961464354
+Mercer,14,834,0.417,0.8034682080924855
+Mercer,15,46,0.023,0.04431599229287091
+Mercer,16,0,0.0,0.0
+Montana,1,0,0.0,0.0
+Montana,2,0,0.0,0.0
+Montana,3,0,0.0,0.0
+Montana,4,0,0.0,0.0
+Montana,5,0,0.0,0.0
+Montana,6,0,0.0,0.0
+Montana,7,0,0.0,0.0
+Montana,8,0,0.0,0.0
+Montana,9,0,0.0,0.0
+Montana,10,0,0.0,0.0
+Montana,11,0,0.0,0.0
+Montana,12,0,0.0,0.0
+Montana,13,3,0.0015,0.01098901098901099
+Montana,14,116,0.058,0.4249084249084249
+Montana,15,154,0.077,0.5641025641025641
+Montana,16,0,0.0,0.0
+Duquesne,1,0,0.0,0.0
+Duquesne,2,0,0.0,0.0
+Duquesne,3,0,0.0,0.0
+Duquesne,4,0,0.0,0.0
+Duquesne,5,0,0.0,0.0
+Duquesne,6,0,0.0,0.0
+Duquesne,7,0,0.0,0.0
+Duquesne,8,0,0.0,0.0
+Duquesne,9,0,0.0,0.0
+Duquesne,10,0,0.0,0.0
+Duquesne,11,0,0.0,0.0
+Duquesne,12,0,0.0,0.0
+Duquesne,13,0,0.0,0.0
+Duquesne,14,1,0.0005,0.5
+Duquesne,15,1,0.0005,0.5
+Duquesne,16,0,0.0,0.0
+Marshall,1,0,0.0,0.0
+Marshall,2,0,0.0,0.0
+Marshall,3,0,0.0,0.0
+Marshall,4,0,0.0,0.0
+Marshall,5,0,0.0,0.0
+Marshall,6,0,0.0,0.0
+Marshall,7,0,0.0,0.0
+Marshall,8,0,0.0,0.0
+Marshall,9,0,0.0,0.0
+Marshall,10,0,0.0,0.0
+Marshall,11,0,0.0,0.0
+Marshall,12,0,0.0,0.0
+Marshall,13,7,0.0035,0.023178807947019868
+Marshall,14,186,0.093,0.6158940397350994
+Marshall,15,109,0.0545,0.3609271523178808
+Marshall,16,0,0.0,0.0
+Drake,1,0,0.0,0.0
+Drake,2,0,0.0,0.0
+Drake,3,0,0.0,0.0
+Drake,4,0,0.0,0.0
+Drake,5,0,0.0,0.0
+Drake,6,0,0.0,0.0
+Drake,7,0,0.0,0.0
+Drake,8,0,0.0,0.0
+Drake,9,0,0.0,0.0
+Drake,10,0,0.0,0.0
+Drake,11,0,0.0,0.0
+Drake,12,0,0.0,0.0
+Drake,13,0,0.0,0.0
+Drake,14,0,0.0,0.0
+Drake,15,9,0.0045,0.6923076923076923
+Drake,16,4,0.002,0.3076923076923077
+Saint Joseph's,1,0,0.0,0.0
+Saint Joseph's,2,0,0.0,0.0
+Saint Joseph's,3,0,0.0,0.0
+Saint Joseph's,4,0,0.0,0.0
+Saint Joseph's,5,0,0.0,0.0
+Saint Joseph's,6,0,0.0,0.0
+Saint Joseph's,7,0,0.0,0.0
+Saint Joseph's,8,0,0.0,0.0
+Saint Joseph's,9,0,0.0,0.0
+Saint Joseph's,10,0,0.0,0.0
+Saint Joseph's,11,0,0.0,0.0
+Saint Joseph's,12,0,0.0,0.0
+Saint Joseph's,13,1,0.0005,0.1111111111111111
+Saint Joseph's,14,5,0.0025,0.5555555555555556
+Saint Joseph's,15,3,0.0015,0.3333333333333333
+Saint Joseph's,16,0,0.0,0.0
+Oakland,1,0,0.0,0.0
+Oakland,2,0,0.0,0.0
+Oakland,3,0,0.0,0.0
+Oakland,4,0,0.0,0.0
+Oakland,5,0,0.0,0.0
+Oakland,6,0,0.0,0.0
+Oakland,7,0,0.0,0.0
+Oakland,8,0,0.0,0.0
+Oakland,9,0,0.0,0.0
+Oakland,10,0,0.0,0.0
+Oakland,11,0,0.0,0.0
+Oakland,12,0,0.0,0.0
+Oakland,13,2,0.001,0.0025220680958385876
+Oakland,14,398,0.199,0.501891551071879
+Oakland,15,393,0.1965,0.49558638083228246
+Oakland,16,0,0.0,0.0
+UT Arlington,1,0,0.0,0.0
+UT Arlington,2,0,0.0,0.0
+UT Arlington,3,0,0.0,0.0
+UT Arlington,4,0,0.0,0.0
+UT Arlington,5,0,0.0,0.0
+UT Arlington,6,0,0.0,0.0
+UT Arlington,7,0,0.0,0.0
+UT Arlington,8,0,0.0,0.0
+UT Arlington,9,0,0.0,0.0
+UT Arlington,10,0,0.0,0.0
+UT Arlington,11,0,0.0,0.0
+UT Arlington,12,1,0.0005,0.002380952380952381
+UT Arlington,13,65,0.0325,0.15476190476190477
+UT Arlington,14,336,0.168,0.8
+UT Arlington,15,18,0.009,0.04285714285714286
+UT Arlington,16,0,0.0,0.0
+Temple,1,0,0.0,0.0
+Temple,2,0,0.0,0.0
+Temple,3,0,0.0,0.0
+Temple,4,0,0.0,0.0
+Temple,5,0,0.0,0.0
+Temple,6,0,0.0,0.0
+Temple,7,0,0.0,0.0
+Temple,8,0,0.0,0.0
+Temple,9,0,0.0,0.0
+Temple,10,0,0.0,0.0
+Temple,11,0,0.0,0.0
+Temple,12,0,0.0,0.0
+Temple,13,0,0.0,0.0
+Temple,14,15,0.0075,0.9375
+Temple,15,1,0.0005,0.0625
+Temple,16,0,0.0,0.0
+Fresno St.,1,0,0.0,0.0
+Fresno St.,2,0,0.0,0.0
+Fresno St.,3,0,0.0,0.0
+Fresno St.,4,0,0.0,0.0
+Fresno St.,5,0,0.0,0.0
+Fresno St.,6,0,0.0,0.0
+Fresno St.,7,0,0.0,0.0
+Fresno St.,8,0,0.0,0.0
+Fresno St.,9,0,0.0,0.0
+Fresno St.,10,0,0.0,0.0
+Fresno St.,11,0,0.0,0.0
+Fresno St.,12,0,0.0,0.0
+Fresno St.,13,0,0.0,0.0
+Fresno St.,14,1,0.0005,0.3333333333333333
+Fresno St.,15,0,0.0,0.0
+Fresno St.,16,2,0.001,0.6666666666666666
+Charlotte,1,0,0.0,0.0
+Charlotte,2,0,0.0,0.0
+Charlotte,3,0,0.0,0.0
+Charlotte,4,0,0.0,0.0
+Charlotte,5,0,0.0,0.0
+Charlotte,6,0,0.0,0.0
+Charlotte,7,0,0.0,0.0
+Charlotte,8,0,0.0,0.0
+Charlotte,9,0,0.0,0.0
+Charlotte,10,0,0.0,0.0
+Charlotte,11,0,0.0,0.0
+Charlotte,12,0,0.0,0.0
+Charlotte,13,0,0.0,0.0
+Charlotte,14,0,0.0,0.0
+Charlotte,15,7,0.0035,1.0
+Charlotte,16,0,0.0,0.0
+Lipscomb,1,0,0.0,0.0
+Lipscomb,2,0,0.0,0.0
+Lipscomb,3,0,0.0,0.0
+Lipscomb,4,0,0.0,0.0
+Lipscomb,5,0,0.0,0.0
+Lipscomb,6,0,0.0,0.0
+Lipscomb,7,0,0.0,0.0
+Lipscomb,8,0,0.0,0.0
+Lipscomb,9,0,0.0,0.0
+Lipscomb,10,0,0.0,0.0
+Lipscomb,11,0,0.0,0.0
+Lipscomb,12,0,0.0,0.0
+Lipscomb,13,53,0.0265,0.11751662971175167
+Lipscomb,14,356,0.178,0.7893569844789357
+Lipscomb,15,42,0.021,0.09312638580931264
+Lipscomb,16,0,0.0,0.0
+UT Rio Grande Valley,1,0,0.0,0.0
+UT Rio Grande Valley,2,0,0.0,0.0
+UT Rio Grande Valley,3,0,0.0,0.0
+UT Rio Grande Valley,4,0,0.0,0.0
+UT Rio Grande Valley,5,0,0.0,0.0
+UT Rio Grande Valley,6,0,0.0,0.0
+UT Rio Grande Valley,7,0,0.0,0.0
+UT Rio Grande Valley,8,0,0.0,0.0
+UT Rio Grande Valley,9,0,0.0,0.0
+UT Rio Grande Valley,10,0,0.0,0.0
+UT Rio Grande Valley,11,0,0.0,0.0
+UT Rio Grande Valley,12,0,0.0,0.0
+UT Rio Grande Valley,13,0,0.0,0.0
+UT Rio Grande Valley,14,0,0.0,0.0
+UT Rio Grande Valley,15,0,0.0,0.0
+UT Rio Grande Valley,16,63,0.0315,1.0
+South Dakota St.,1,0,0.0,0.0
+South Dakota St.,2,0,0.0,0.0
+South Dakota St.,3,0,0.0,0.0
+South Dakota St.,4,0,0.0,0.0
+South Dakota St.,5,0,0.0,0.0
+South Dakota St.,6,0,0.0,0.0
+South Dakota St.,7,0,0.0,0.0
+South Dakota St.,8,0,0.0,0.0
+South Dakota St.,9,0,0.0,0.0
+South Dakota St.,10,0,0.0,0.0
+South Dakota St.,11,0,0.0,0.0
+South Dakota St.,12,0,0.0,0.0
+South Dakota St.,13,0,0.0,0.0
+South Dakota St.,14,0,0.0,0.0
+South Dakota St.,15,28,0.014,0.053742802303262956
+South Dakota St.,16,493,0.2465,0.946257197696737
+Harvard,1,0,0.0,0.0
+Harvard,2,0,0.0,0.0
+Harvard,3,0,0.0,0.0
+Harvard,4,0,0.0,0.0
+Harvard,5,0,0.0,0.0
+Harvard,6,0,0.0,0.0
+Harvard,7,0,0.0,0.0
+Harvard,8,0,0.0,0.0
+Harvard,9,0,0.0,0.0
+Harvard,10,0,0.0,0.0
+Harvard,11,0,0.0,0.0
+Harvard,12,0,0.0,0.0
+Harvard,13,0,0.0,0.0
+Harvard,14,0,0.0,0.0
+Harvard,15,4,0.002,0.09523809523809523
+Harvard,16,38,0.019,0.9047619047619048
+Maryland,1,0,0.0,0.0
+Maryland,2,0,0.0,0.0
+Maryland,3,0,0.0,0.0
+Maryland,4,0,0.0,0.0
+Maryland,5,0,0.0,0.0
+Maryland,6,0,0.0,0.0
+Maryland,7,0,0.0,0.0
+Maryland,8,0,0.0,0.0
+Maryland,9,0,0.0,0.0
+Maryland,10,0,0.0,0.0
+Maryland,11,0,0.0,0.0
+Maryland,12,0,0.0,0.0
+Maryland,13,0,0.0,0.0
+Maryland,14,0,0.0,0.0
+Maryland,15,0,0.0,0.0
+Maryland,16,0,0.0,0.0
+Charleston,1,0,0.0,0.0
+Charleston,2,0,0.0,0.0
+Charleston,3,0,0.0,0.0
+Charleston,4,0,0.0,0.0
+Charleston,5,0,0.0,0.0
+Charleston,6,0,0.0,0.0
+Charleston,7,0,0.0,0.0
+Charleston,8,0,0.0,0.0
+Charleston,9,0,0.0,0.0
+Charleston,10,0,0.0,0.0
+Charleston,11,0,0.0,0.0
+Charleston,12,0,0.0,0.0
+Charleston,13,1,0.0005,0.0125
+Charleston,14,25,0.0125,0.3125
+Charleston,15,54,0.027,0.675
+Charleston,16,0,0.0,0.0
+Valparaiso,1,0,0.0,0.0
+Valparaiso,2,0,0.0,0.0
+Valparaiso,3,0,0.0,0.0
+Valparaiso,4,0,0.0,0.0
+Valparaiso,5,0,0.0,0.0
+Valparaiso,6,0,0.0,0.0
+Valparaiso,7,0,0.0,0.0
+Valparaiso,8,0,0.0,0.0
+Valparaiso,9,0,0.0,0.0
+Valparaiso,10,0,0.0,0.0
+Valparaiso,11,0,0.0,0.0
+Valparaiso,12,0,0.0,0.0
+Valparaiso,13,0,0.0,0.0
+Valparaiso,14,11,0.0055,0.14666666666666667
+Valparaiso,15,59,0.0295,0.7866666666666666
+Valparaiso,16,5,0.0025,0.06666666666666667
+New Mexico St.,1,0,0.0,0.0
+New Mexico St.,2,0,0.0,0.0
+New Mexico St.,3,0,0.0,0.0
+New Mexico St.,4,0,0.0,0.0
+New Mexico St.,5,0,0.0,0.0
+New Mexico St.,6,0,0.0,0.0
+New Mexico St.,7,0,0.0,0.0
+New Mexico St.,8,0,0.0,0.0
+New Mexico St.,9,0,0.0,0.0
+New Mexico St.,10,0,0.0,0.0
+New Mexico St.,11,0,0.0,0.0
+New Mexico St.,12,0,0.0,0.0
+New Mexico St.,13,0,0.0,0.0
+New Mexico St.,14,0,0.0,0.0
+New Mexico St.,15,1,0.0005,0.030303030303030304
+New Mexico St.,16,32,0.016,0.9696969696969697
+Marist,1,0,0.0,0.0
+Marist,2,0,0.0,0.0
+Marist,3,0,0.0,0.0
+Marist,4,0,0.0,0.0
+Marist,5,0,0.0,0.0
+Marist,6,0,0.0,0.0
+Marist,7,0,0.0,0.0
+Marist,8,0,0.0,0.0
+Marist,9,0,0.0,0.0
+Marist,10,0,0.0,0.0
+Marist,11,0,0.0,0.0
+Marist,12,0,0.0,0.0
+Marist,13,1,0.0005,0.0014388489208633094
+Marist,14,131,0.0655,0.1884892086330935
+Marist,15,549,0.2745,0.7899280575539568
+Marist,16,14,0.007,0.02014388489208633
+Navy,1,0,0.0,0.0
+Navy,2,0,0.0,0.0
+Navy,3,0,0.0,0.0
+Navy,4,0,0.0,0.0
+Navy,5,0,0.0,0.0
+Navy,6,0,0.0,0.0
+Navy,7,0,0.0,0.0
+Navy,8,0,0.0,0.0
+Navy,9,0,0.0,0.0
+Navy,10,0,0.0,0.0
+Navy,11,0,0.0,0.0
+Navy,12,0,0.0,0.0
+Navy,13,59,0.0295,0.05148342059336824
+Navy,14,890,0.445,0.7766143106457243
+Navy,15,197,0.0985,0.1719022687609075
+Navy,16,0,0.0,0.0
+Austin Peay,1,0,0.0,0.0
+Austin Peay,2,0,0.0,0.0
+Austin Peay,3,0,0.0,0.0
+Austin Peay,4,0,0.0,0.0
+Austin Peay,5,0,0.0,0.0
+Austin Peay,6,0,0.0,0.0
+Austin Peay,7,0,0.0,0.0
+Austin Peay,8,0,0.0,0.0
+Austin Peay,9,0,0.0,0.0
+Austin Peay,10,0,0.0,0.0
+Austin Peay,11,0,0.0,0.0
+Austin Peay,12,0,0.0,0.0
+Austin Peay,13,123,0.0615,0.18580060422960726
+Austin Peay,14,528,0.264,0.797583081570997
+Austin Peay,15,11,0.0055,0.01661631419939577
+Austin Peay,16,0,0.0,0.0
+FIU,1,0,0.0,0.0
+FIU,2,0,0.0,0.0
+FIU,3,0,0.0,0.0
+FIU,4,0,0.0,0.0
+FIU,5,0,0.0,0.0
+FIU,6,0,0.0,0.0
+FIU,7,0,0.0,0.0
+FIU,8,0,0.0,0.0
+FIU,9,0,0.0,0.0
+FIU,10,0,0.0,0.0
+FIU,11,0,0.0,0.0
+FIU,12,0,0.0,0.0
+FIU,13,0,0.0,0.0
+FIU,14,0,0.0,0.0
+FIU,15,18,0.009,0.5142857142857142
+FIU,16,17,0.0085,0.4857142857142857
+Arkansas St.,1,0,0.0,0.0
+Arkansas St.,2,0,0.0,0.0
+Arkansas St.,3,0,0.0,0.0
+Arkansas St.,4,0,0.0,0.0
+Arkansas St.,5,0,0.0,0.0
+Arkansas St.,6,0,0.0,0.0
+Arkansas St.,7,0,0.0,0.0
+Arkansas St.,8,0,0.0,0.0
+Arkansas St.,9,0,0.0,0.0
+Arkansas St.,10,0,0.0,0.0
+Arkansas St.,11,0,0.0,0.0
+Arkansas St.,12,0,0.0,0.0
+Arkansas St.,13,0,0.0,0.0
+Arkansas St.,14,59,0.0295,0.11007462686567164
+Arkansas St.,15,437,0.2185,0.8152985074626866
+Arkansas St.,16,40,0.02,0.07462686567164178
+Cornell,1,0,0.0,0.0
+Cornell,2,0,0.0,0.0
+Cornell,3,0,0.0,0.0
+Cornell,4,0,0.0,0.0
+Cornell,5,0,0.0,0.0
+Cornell,6,0,0.0,0.0
+Cornell,7,0,0.0,0.0
+Cornell,8,0,0.0,0.0
+Cornell,9,0,0.0,0.0
+Cornell,10,0,0.0,0.0
+Cornell,11,0,0.0,0.0
+Cornell,12,0,0.0,0.0
+Cornell,13,0,0.0,0.0
+Cornell,14,0,0.0,0.0
+Cornell,15,36,0.018,0.5538461538461539
+Cornell,16,29,0.0145,0.4461538461538462
+Loyola Marymount,1,0,0.0,0.0
+Loyola Marymount,2,0,0.0,0.0
+Loyola Marymount,3,0,0.0,0.0
+Loyola Marymount,4,0,0.0,0.0
+Loyola Marymount,5,0,0.0,0.0
+Loyola Marymount,6,0,0.0,0.0
+Loyola Marymount,7,0,0.0,0.0
+Loyola Marymount,8,0,0.0,0.0
+Loyola Marymount,9,0,0.0,0.0
+Loyola Marymount,10,0,0.0,0.0
+Loyola Marymount,11,0,0.0,0.0
+Loyola Marymount,12,0,0.0,0.0
+Loyola Marymount,13,0,0.0,0.0
+Loyola Marymount,14,0,0.0,0.0
+Loyola Marymount,15,3,0.0015,0.75
+Loyola Marymount,16,1,0.0005,0.25
+Furman,1,0,0.0,0.0
+Furman,2,0,0.0,0.0
+Furman,3,0,0.0,0.0
+Furman,4,0,0.0,0.0
+Furman,5,0,0.0,0.0
+Furman,6,0,0.0,0.0
+Furman,7,0,0.0,0.0
+Furman,8,0,0.0,0.0
+Furman,9,0,0.0,0.0
+Furman,10,0,0.0,0.0
+Furman,11,0,0.0,0.0
+Furman,12,0,0.0,0.0
+Furman,13,0,0.0,0.0
+Furman,14,2,0.001,0.025
+Furman,15,60,0.03,0.75
+Furman,16,18,0.009,0.225
+Idaho,1,0,0.0,0.0
+Idaho,2,0,0.0,0.0
+Idaho,3,0,0.0,0.0
+Idaho,4,0,0.0,0.0
+Idaho,5,0,0.0,0.0
+Idaho,6,0,0.0,0.0
+Idaho,7,0,0.0,0.0
+Idaho,8,0,0.0,0.0
+Idaho,9,0,0.0,0.0
+Idaho,10,0,0.0,0.0
+Idaho,11,0,0.0,0.0
+Idaho,12,0,0.0,0.0
+Idaho,13,0,0.0,0.0
+Idaho,14,10,0.005,0.06802721088435375
+Idaho,15,116,0.058,0.7891156462585034
+Idaho,16,21,0.0105,0.14285714285714285
+Kent St.,1,0,0.0,0.0
+Kent St.,2,0,0.0,0.0
+Kent St.,3,0,0.0,0.0
+Kent St.,4,0,0.0,0.0
+Kent St.,5,0,0.0,0.0
+Kent St.,6,0,0.0,0.0
+Kent St.,7,0,0.0,0.0
+Kent St.,8,0,0.0,0.0
+Kent St.,9,0,0.0,0.0
+Kent St.,10,0,0.0,0.0
+Kent St.,11,0,0.0,0.0
+Kent St.,12,0,0.0,0.0
+Kent St.,13,4,0.002,0.26666666666666666
+Kent St.,14,11,0.0055,0.7333333333333333
+Kent St.,15,0,0.0,0.0
+Kent St.,16,0,0.0,0.0
+Columbia,1,0,0.0,0.0
+Columbia,2,0,0.0,0.0
+Columbia,3,0,0.0,0.0
+Columbia,4,0,0.0,0.0
+Columbia,5,0,0.0,0.0
+Columbia,6,0,0.0,0.0
+Columbia,7,0,0.0,0.0
+Columbia,8,0,0.0,0.0
+Columbia,9,0,0.0,0.0
+Columbia,10,0,0.0,0.0
+Columbia,11,0,0.0,0.0
+Columbia,12,0,0.0,0.0
+Columbia,13,7,0.0035,0.05343511450381679
+Columbia,14,92,0.046,0.7022900763358778
+Columbia,15,32,0.016,0.24427480916030533
+Columbia,16,0,0.0,0.0
+Penn,1,0,0.0,0.0
+Penn,2,0,0.0,0.0
+Penn,3,0,0.0,0.0
+Penn,4,0,0.0,0.0
+Penn,5,0,0.0,0.0
+Penn,6,0,0.0,0.0
+Penn,7,0,0.0,0.0
+Penn,8,0,0.0,0.0
+Penn,9,0,0.0,0.0
+Penn,10,0,0.0,0.0
+Penn,11,0,0.0,0.0
+Penn,12,0,0.0,0.0
+Penn,13,0,0.0,0.0
+Penn,14,26,0.013,0.33766233766233766
+Penn,15,51,0.0255,0.6623376623376623
+Penn,16,0,0.0,0.0
+Siena,1,0,0.0,0.0
+Siena,2,0,0.0,0.0
+Siena,3,0,0.0,0.0
+Siena,4,0,0.0,0.0
+Siena,5,0,0.0,0.0
+Siena,6,0,0.0,0.0
+Siena,7,0,0.0,0.0
+Siena,8,0,0.0,0.0
+Siena,9,0,0.0,0.0
+Siena,10,0,0.0,0.0
+Siena,11,0,0.0,0.0
+Siena,12,0,0.0,0.0
+Siena,13,0,0.0,0.0
+Siena,14,2,0.001,0.0076045627376425855
+Siena,15,159,0.0795,0.6045627376425855
+Siena,16,102,0.051,0.38783269961977185
+Drexel,1,0,0.0,0.0
+Drexel,2,0,0.0,0.0
+Drexel,3,0,0.0,0.0
+Drexel,4,0,0.0,0.0
+Drexel,5,0,0.0,0.0
+Drexel,6,0,0.0,0.0
+Drexel,7,0,0.0,0.0
+Drexel,8,0,0.0,0.0
+Drexel,9,0,0.0,0.0
+Drexel,10,0,0.0,0.0
+Drexel,11,0,0.0,0.0
+Drexel,12,0,0.0,0.0
+Drexel,13,0,0.0,0.0
+Drexel,14,0,0.0,0.0
+Drexel,15,1,0.0005,0.010101010101010102
+Drexel,16,98,0.049,0.98989898989899
+Monmouth,1,0,0.0,0.0
+Monmouth,2,0,0.0,0.0
+Monmouth,3,0,0.0,0.0
+Monmouth,4,0,0.0,0.0
+Monmouth,5,0,0.0,0.0
+Monmouth,6,0,0.0,0.0
+Monmouth,7,0,0.0,0.0
+Monmouth,8,0,0.0,0.0
+Monmouth,9,0,0.0,0.0
+Monmouth,10,0,0.0,0.0
+Monmouth,11,0,0.0,0.0
+Monmouth,12,0,0.0,0.0
+Monmouth,13,0,0.0,0.0
+Monmouth,14,0,0.0,0.0
+Monmouth,15,0,0.0,0.0
+Monmouth,16,46,0.023,1.0
+Cal St. Fullerton,1,0,0.0,0.0
+Cal St. Fullerton,2,0,0.0,0.0
+Cal St. Fullerton,3,0,0.0,0.0
+Cal St. Fullerton,4,0,0.0,0.0
+Cal St. Fullerton,5,0,0.0,0.0
+Cal St. Fullerton,6,0,0.0,0.0
+Cal St. Fullerton,7,0,0.0,0.0
+Cal St. Fullerton,8,0,0.0,0.0
+Cal St. Fullerton,9,0,0.0,0.0
+Cal St. Fullerton,10,0,0.0,0.0
+Cal St. Fullerton,11,0,0.0,0.0
+Cal St. Fullerton,12,0,0.0,0.0
+Cal St. Fullerton,13,0,0.0,0.0
+Cal St. Fullerton,14,0,0.0,0.0
+Cal St. Fullerton,15,12,0.006,0.19047619047619047
+Cal St. Fullerton,16,51,0.0255,0.8095238095238095
+Northern Colorado,1,0,0.0,0.0
+Northern Colorado,2,0,0.0,0.0
+Northern Colorado,3,0,0.0,0.0
+Northern Colorado,4,0,0.0,0.0
+Northern Colorado,5,0,0.0,0.0
+Northern Colorado,6,0,0.0,0.0
+Northern Colorado,7,0,0.0,0.0
+Northern Colorado,8,0,0.0,0.0
+Northern Colorado,9,0,0.0,0.0
+Northern Colorado,10,0,0.0,0.0
+Northern Colorado,11,0,0.0,0.0
+Northern Colorado,12,0,0.0,0.0
+Northern Colorado,13,0,0.0,0.0
+Northern Colorado,14,0,0.0,0.0
+Northern Colorado,15,4,0.002,0.034782608695652174
+Northern Colorado,16,111,0.0555,0.9652173913043478
+Texas A&M Corpus Chris,1,0,0.0,0.0
+Texas A&M Corpus Chris,2,0,0.0,0.0
+Texas A&M Corpus Chris,3,0,0.0,0.0
+Texas A&M Corpus Chris,4,0,0.0,0.0
+Texas A&M Corpus Chris,5,0,0.0,0.0
+Texas A&M Corpus Chris,6,0,0.0,0.0
+Texas A&M Corpus Chris,7,0,0.0,0.0
+Texas A&M Corpus Chris,8,0,0.0,0.0
+Texas A&M Corpus Chris,9,0,0.0,0.0
+Texas A&M Corpus Chris,10,0,0.0,0.0
+Texas A&M Corpus Chris,11,0,0.0,0.0
+Texas A&M Corpus Chris,12,0,0.0,0.0
+Texas A&M Corpus Chris,13,0,0.0,0.0
+Texas A&M Corpus Chris,14,0,0.0,0.0
+Texas A&M Corpus Chris,15,23,0.0115,0.6052631578947368
+Texas A&M Corpus Chris,16,15,0.0075,0.39473684210526316
+Idaho St.,1,0,0.0,0.0
+Idaho St.,2,0,0.0,0.0
+Idaho St.,3,0,0.0,0.0
+Idaho St.,4,0,0.0,0.0
+Idaho St.,5,0,0.0,0.0
+Idaho St.,6,0,0.0,0.0
+Idaho St.,7,0,0.0,0.0
+Idaho St.,8,0,0.0,0.0
+Idaho St.,9,0,0.0,0.0
+Idaho St.,10,0,0.0,0.0
+Idaho St.,11,0,0.0,0.0
+Idaho St.,12,0,0.0,0.0
+Idaho St.,13,0,0.0,0.0
+Idaho St.,14,0,0.0,0.0
+Idaho St.,15,17,0.0085,0.16666666666666666
+Idaho St.,16,85,0.0425,0.8333333333333334
+Western Kentucky,1,0,0.0,0.0
+Western Kentucky,2,0,0.0,0.0
+Western Kentucky,3,0,0.0,0.0
+Western Kentucky,4,0,0.0,0.0
+Western Kentucky,5,0,0.0,0.0
+Western Kentucky,6,0,0.0,0.0
+Western Kentucky,7,0,0.0,0.0
+Western Kentucky,8,0,0.0,0.0
+Western Kentucky,9,0,0.0,0.0
+Western Kentucky,10,0,0.0,0.0
+Western Kentucky,11,0,0.0,0.0
+Western Kentucky,12,0,0.0,0.0
+Western Kentucky,13,0,0.0,0.0
+Western Kentucky,14,4,0.002,0.23529411764705882
+Western Kentucky,15,13,0.0065,0.7647058823529411
+Western Kentucky,16,0,0.0,0.0
+Jacksonville St.,1,0,0.0,0.0
+Jacksonville St.,2,0,0.0,0.0
+Jacksonville St.,3,0,0.0,0.0
+Jacksonville St.,4,0,0.0,0.0
+Jacksonville St.,5,0,0.0,0.0
+Jacksonville St.,6,0,0.0,0.0
+Jacksonville St.,7,0,0.0,0.0
+Jacksonville St.,8,0,0.0,0.0
+Jacksonville St.,9,0,0.0,0.0
+Jacksonville St.,10,0,0.0,0.0
+Jacksonville St.,11,0,0.0,0.0
+Jacksonville St.,12,0,0.0,0.0
+Jacksonville St.,13,0,0.0,0.0
+Jacksonville St.,14,0,0.0,0.0
+Jacksonville St.,15,3,0.0015,0.08823529411764706
+Jacksonville St.,16,31,0.0155,0.9117647058823529
+Toledo,1,0,0.0,0.0
+Toledo,2,0,0.0,0.0
+Toledo,3,0,0.0,0.0
+Toledo,4,0,0.0,0.0
+Toledo,5,0,0.0,0.0
+Toledo,6,0,0.0,0.0
+Toledo,7,0,0.0,0.0
+Toledo,8,0,0.0,0.0
+Toledo,9,0,0.0,0.0
+Toledo,10,0,0.0,0.0
+Toledo,11,0,0.0,0.0
+Toledo,12,0,0.0,0.0
+Toledo,13,0,0.0,0.0
+Toledo,14,0,0.0,0.0
+Toledo,15,3,0.0015,0.75
+Toledo,16,1,0.0005,0.25
+Appalachian St.,1,0,0.0,0.0
+Appalachian St.,2,0,0.0,0.0
+Appalachian St.,3,0,0.0,0.0
+Appalachian St.,4,0,0.0,0.0
+Appalachian St.,5,0,0.0,0.0
+Appalachian St.,6,0,0.0,0.0
+Appalachian St.,7,0,0.0,0.0
+Appalachian St.,8,0,0.0,0.0
+Appalachian St.,9,0,0.0,0.0
+Appalachian St.,10,0,0.0,0.0
+Appalachian St.,11,0,0.0,0.0
+Appalachian St.,12,0,0.0,0.0
+Appalachian St.,13,0,0.0,0.0
+Appalachian St.,14,0,0.0,0.0
+Appalachian St.,15,1,0.0005,0.015384615384615385
+Appalachian St.,16,64,0.032,0.9846153846153847
+Weber St.,1,0,0.0,0.0
+Weber St.,2,0,0.0,0.0
+Weber St.,3,0,0.0,0.0
+Weber St.,4,0,0.0,0.0
+Weber St.,5,0,0.0,0.0
+Weber St.,6,0,0.0,0.0
+Weber St.,7,0,0.0,0.0
+Weber St.,8,0,0.0,0.0
+Weber St.,9,0,0.0,0.0
+Weber St.,10,0,0.0,0.0
+Weber St.,11,0,0.0,0.0
+Weber St.,12,0,0.0,0.0
+Weber St.,13,0,0.0,0.0
+Weber St.,14,0,0.0,0.0
+Weber St.,15,17,0.0085,0.19767441860465115
+Weber St.,16,69,0.0345,0.8023255813953488
+Missouri St.,1,0,0.0,0.0
+Missouri St.,2,0,0.0,0.0
+Missouri St.,3,0,0.0,0.0
+Missouri St.,4,0,0.0,0.0
+Missouri St.,5,0,0.0,0.0
+Missouri St.,6,0,0.0,0.0
+Missouri St.,7,0,0.0,0.0
+Missouri St.,8,0,0.0,0.0
+Missouri St.,9,0,0.0,0.0
+Missouri St.,10,0,0.0,0.0
+Missouri St.,11,0,0.0,0.0
+Missouri St.,12,0,0.0,0.0
+Missouri St.,13,0,0.0,0.0
+Missouri St.,14,0,0.0,0.0
+Missouri St.,15,31,0.0155,0.7045454545454546
+Missouri St.,16,13,0.0065,0.29545454545454547
+Towson,1,0,0.0,0.0
+Towson,2,0,0.0,0.0
+Towson,3,0,0.0,0.0
+Towson,4,0,0.0,0.0
+Towson,5,0,0.0,0.0
+Towson,6,0,0.0,0.0
+Towson,7,0,0.0,0.0
+Towson,8,0,0.0,0.0
+Towson,9,0,0.0,0.0
+Towson,10,0,0.0,0.0
+Towson,11,0,0.0,0.0
+Towson,12,0,0.0,0.0
+Towson,13,0,0.0,0.0
+Towson,14,0,0.0,0.0
+Towson,15,28,0.014,0.7567567567567568
+Towson,16,9,0.0045,0.24324324324324326
+Northern Kentucky,1,0,0.0,0.0
+Northern Kentucky,2,0,0.0,0.0
+Northern Kentucky,3,0,0.0,0.0
+Northern Kentucky,4,0,0.0,0.0
+Northern Kentucky,5,0,0.0,0.0
+Northern Kentucky,6,0,0.0,0.0
+Northern Kentucky,7,0,0.0,0.0
+Northern Kentucky,8,0,0.0,0.0
+Northern Kentucky,9,0,0.0,0.0
+Northern Kentucky,10,0,0.0,0.0
+Northern Kentucky,11,0,0.0,0.0
+Northern Kentucky,12,0,0.0,0.0
+Northern Kentucky,13,0,0.0,0.0
+Northern Kentucky,14,0,0.0,0.0
+Northern Kentucky,15,116,0.058,0.5658536585365853
+Northern Kentucky,16,89,0.0445,0.43414634146341463
+Tulane,1,0,0.0,0.0
+Tulane,2,0,0.0,0.0
+Tulane,3,0,0.0,0.0
+Tulane,4,0,0.0,0.0
+Tulane,5,0,0.0,0.0
+Tulane,6,0,0.0,0.0
+Tulane,7,0,0.0,0.0
+Tulane,8,0,0.0,0.0
+Tulane,9,0,0.0,0.0
+Tulane,10,0,0.0,0.0
+Tulane,11,0,0.0,0.0
+Tulane,12,0,0.0,0.0
+Tulane,13,0,0.0,0.0
+Tulane,14,0,0.0,0.0
+Tulane,15,0,0.0,0.0
+Tulane,16,0,0.0,0.0
+Queens,1,0,0.0,0.0
+Queens,2,0,0.0,0.0
+Queens,3,0,0.0,0.0
+Queens,4,0,0.0,0.0
+Queens,5,0,0.0,0.0
+Queens,6,0,0.0,0.0
+Queens,7,0,0.0,0.0
+Queens,8,0,0.0,0.0
+Queens,9,0,0.0,0.0
+Queens,10,0,0.0,0.0
+Queens,11,0,0.0,0.0
+Queens,12,0,0.0,0.0
+Queens,13,1,0.0005,0.003048780487804878
+Queens,14,49,0.0245,0.14939024390243902
+Queens,15,267,0.1335,0.8140243902439024
+Queens,16,11,0.0055,0.03353658536585366
+Utah Tech,1,0,0.0,0.0
+Utah Tech,2,0,0.0,0.0
+Utah Tech,3,0,0.0,0.0
+Utah Tech,4,0,0.0,0.0
+Utah Tech,5,0,0.0,0.0
+Utah Tech,6,0,0.0,0.0
+Utah Tech,7,0,0.0,0.0
+Utah Tech,8,0,0.0,0.0
+Utah Tech,9,0,0.0,0.0
+Utah Tech,10,0,0.0,0.0
+Utah Tech,11,0,0.0,0.0
+Utah Tech,12,0,0.0,0.0
+Utah Tech,13,0,0.0,0.0
+Utah Tech,14,4,0.002,0.0449438202247191
+Utah Tech,15,66,0.033,0.7415730337078652
+Utah Tech,16,19,0.0095,0.21348314606741572
+Eastern Michigan,1,0,0.0,0.0
+Eastern Michigan,2,0,0.0,0.0
+Eastern Michigan,3,0,0.0,0.0
+Eastern Michigan,4,0,0.0,0.0
+Eastern Michigan,5,0,0.0,0.0
+Eastern Michigan,6,0,0.0,0.0
+Eastern Michigan,7,0,0.0,0.0
+Eastern Michigan,8,0,0.0,0.0
+Eastern Michigan,9,0,0.0,0.0
+Eastern Michigan,10,0,0.0,0.0
+Eastern Michigan,11,0,0.0,0.0
+Eastern Michigan,12,0,0.0,0.0
+Eastern Michigan,13,0,0.0,0.0
+Eastern Michigan,14,0,0.0,0.0
+Eastern Michigan,15,0,0.0,0.0
+Eastern Michigan,16,10,0.005,1.0
+Buffalo,1,0,0.0,0.0
+Buffalo,2,0,0.0,0.0
+Buffalo,3,0,0.0,0.0
+Buffalo,4,0,0.0,0.0
+Buffalo,5,0,0.0,0.0
+Buffalo,6,0,0.0,0.0
+Buffalo,7,0,0.0,0.0
+Buffalo,8,0,0.0,0.0
+Buffalo,9,0,0.0,0.0
+Buffalo,10,0,0.0,0.0
+Buffalo,11,0,0.0,0.0
+Buffalo,12,0,0.0,0.0
+Buffalo,13,0,0.0,0.0
+Buffalo,14,0,0.0,0.0
+Buffalo,15,1,0.0005,0.3333333333333333
+Buffalo,16,2,0.001,0.6666666666666666
+UNC Asheville,1,0,0.0,0.0
+UNC Asheville,2,0,0.0,0.0
+UNC Asheville,3,0,0.0,0.0
+UNC Asheville,4,0,0.0,0.0
+UNC Asheville,5,0,0.0,0.0
+UNC Asheville,6,0,0.0,0.0
+UNC Asheville,7,0,0.0,0.0
+UNC Asheville,8,0,0.0,0.0
+UNC Asheville,9,0,0.0,0.0
+UNC Asheville,10,0,0.0,0.0
+UNC Asheville,11,0,0.0,0.0
+UNC Asheville,12,0,0.0,0.0
+UNC Asheville,13,0,0.0,0.0
+UNC Asheville,14,0,0.0,0.0
+UNC Asheville,15,0,0.0,0.0
+UNC Asheville,16,88,0.044,1.0
+UC Davis,1,0,0.0,0.0
+UC Davis,2,0,0.0,0.0
+UC Davis,3,0,0.0,0.0
+UC Davis,4,0,0.0,0.0
+UC Davis,5,0,0.0,0.0
+UC Davis,6,0,0.0,0.0
+UC Davis,7,0,0.0,0.0
+UC Davis,8,0,0.0,0.0
+UC Davis,9,0,0.0,0.0
+UC Davis,10,0,0.0,0.0
+UC Davis,11,0,0.0,0.0
+UC Davis,12,0,0.0,0.0
+UC Davis,13,0,0.0,0.0
+UC Davis,14,0,0.0,0.0
+UC Davis,15,24,0.012,0.75
+UC Davis,16,8,0.004,0.25
+Central Arkansas,1,0,0.0,0.0
+Central Arkansas,2,0,0.0,0.0
+Central Arkansas,3,0,0.0,0.0
+Central Arkansas,4,0,0.0,0.0
+Central Arkansas,5,0,0.0,0.0
+Central Arkansas,6,0,0.0,0.0
+Central Arkansas,7,0,0.0,0.0
+Central Arkansas,8,0,0.0,0.0
+Central Arkansas,9,0,0.0,0.0
+Central Arkansas,10,0,0.0,0.0
+Central Arkansas,11,0,0.0,0.0
+Central Arkansas,12,0,0.0,0.0
+Central Arkansas,13,0,0.0,0.0
+Central Arkansas,14,0,0.0,0.0
+Central Arkansas,15,28,0.014,0.09120521172638436
+Central Arkansas,16,279,0.1395,0.9087947882736156
+Elon,1,0,0.0,0.0
+Elon,2,0,0.0,0.0
+Elon,3,0,0.0,0.0
+Elon,4,0,0.0,0.0
+Elon,5,0,0.0,0.0
+Elon,6,0,0.0,0.0
+Elon,7,0,0.0,0.0
+Elon,8,0,0.0,0.0
+Elon,9,0,0.0,0.0
+Elon,10,0,0.0,0.0
+Elon,11,0,0.0,0.0
+Elon,12,0,0.0,0.0
+Elon,13,0,0.0,0.0
+Elon,14,0,0.0,0.0
+Elon,15,0,0.0,0.0
+Elon,16,13,0.0065,1.0
+Robert Morris,1,0,0.0,0.0
+Robert Morris,2,0,0.0,0.0
+Robert Morris,3,0,0.0,0.0
+Robert Morris,4,0,0.0,0.0
+Robert Morris,5,0,0.0,0.0
+Robert Morris,6,0,0.0,0.0
+Robert Morris,7,0,0.0,0.0
+Robert Morris,8,0,0.0,0.0
+Robert Morris,9,0,0.0,0.0
+Robert Morris,10,0,0.0,0.0
+Robert Morris,11,0,0.0,0.0
+Robert Morris,12,0,0.0,0.0
+Robert Morris,13,0,0.0,0.0
+Robert Morris,14,0,0.0,0.0
+Robert Morris,15,0,0.0,0.0
+Robert Morris,16,119,0.0595,1.0
+St. Bonaventure,1,0,0.0,0.0
+St. Bonaventure,2,0,0.0,0.0
+St. Bonaventure,3,0,0.0,0.0
+St. Bonaventure,4,0,0.0,0.0
+St. Bonaventure,5,0,0.0,0.0
+St. Bonaventure,6,0,0.0,0.0
+St. Bonaventure,7,0,0.0,0.0
+St. Bonaventure,8,0,0.0,0.0
+St. Bonaventure,9,0,0.0,0.0
+St. Bonaventure,10,0,0.0,0.0
+St. Bonaventure,11,0,0.0,0.0
+St. Bonaventure,12,0,0.0,0.0
+St. Bonaventure,13,0,0.0,0.0
+St. Bonaventure,14,0,0.0,0.0
+St. Bonaventure,15,0,0.0,0.0
+St. Bonaventure,16,0,0.0,0.0
+Quinnipiac,1,0,0.0,0.0
+Quinnipiac,2,0,0.0,0.0
+Quinnipiac,3,0,0.0,0.0
+Quinnipiac,4,0,0.0,0.0
+Quinnipiac,5,0,0.0,0.0
+Quinnipiac,6,0,0.0,0.0
+Quinnipiac,7,0,0.0,0.0
+Quinnipiac,8,0,0.0,0.0
+Quinnipiac,9,0,0.0,0.0
+Quinnipiac,10,0,0.0,0.0
+Quinnipiac,11,0,0.0,0.0
+Quinnipiac,12,0,0.0,0.0
+Quinnipiac,13,0,0.0,0.0
+Quinnipiac,14,15,0.0075,0.024916943521594685
+Quinnipiac,15,395,0.1975,0.6561461794019934
+Quinnipiac,16,192,0.096,0.31893687707641194
+South Alabama,1,0,0.0,0.0
+South Alabama,2,0,0.0,0.0
+South Alabama,3,0,0.0,0.0
+South Alabama,4,0,0.0,0.0
+South Alabama,5,0,0.0,0.0
+South Alabama,6,0,0.0,0.0
+South Alabama,7,0,0.0,0.0
+South Alabama,8,0,0.0,0.0
+South Alabama,9,0,0.0,0.0
+South Alabama,10,0,0.0,0.0
+South Alabama,11,0,0.0,0.0
+South Alabama,12,0,0.0,0.0
+South Alabama,13,0,0.0,0.0
+South Alabama,14,14,0.007,0.18421052631578946
+South Alabama,15,60,0.03,0.7894736842105263
+South Alabama,16,2,0.001,0.02631578947368421
+Massachusetts,1,0,0.0,0.0
+Massachusetts,2,0,0.0,0.0
+Massachusetts,3,0,0.0,0.0
+Massachusetts,4,0,0.0,0.0
+Massachusetts,5,0,0.0,0.0
+Massachusetts,6,0,0.0,0.0
+Massachusetts,7,0,0.0,0.0
+Massachusetts,8,0,0.0,0.0
+Massachusetts,9,0,0.0,0.0
+Massachusetts,10,0,0.0,0.0
+Massachusetts,11,0,0.0,0.0
+Massachusetts,12,0,0.0,0.0
+Massachusetts,13,0,0.0,0.0
+Massachusetts,14,0,0.0,0.0
+Massachusetts,15,1,0.0005,0.14285714285714285
+Massachusetts,16,6,0.003,0.8571428571428571
+Lamar,1,0,0.0,0.0
+Lamar,2,0,0.0,0.0
+Lamar,3,0,0.0,0.0
+Lamar,4,0,0.0,0.0
+Lamar,5,0,0.0,0.0
+Lamar,6,0,0.0,0.0
+Lamar,7,0,0.0,0.0
+Lamar,8,0,0.0,0.0
+Lamar,9,0,0.0,0.0
+Lamar,10,0,0.0,0.0
+Lamar,11,0,0.0,0.0
+Lamar,12,0,0.0,0.0
+Lamar,13,0,0.0,0.0
+Lamar,14,0,0.0,0.0
+Lamar,15,0,0.0,0.0
+Lamar,16,10,0.005,1.0
+San Diego,1,0,0.0,0.0
+San Diego,2,0,0.0,0.0
+San Diego,3,0,0.0,0.0
+San Diego,4,0,0.0,0.0
+San Diego,5,0,0.0,0.0
+San Diego,6,0,0.0,0.0
+San Diego,7,0,0.0,0.0
+San Diego,8,0,0.0,0.0
+San Diego,9,0,0.0,0.0
+San Diego,10,0,0.0,0.0
+San Diego,11,0,0.0,0.0
+San Diego,12,0,0.0,0.0
+San Diego,13,0,0.0,0.0
+San Diego,14,0,0.0,0.0
+San Diego,15,0,0.0,0.0
+San Diego,16,1,0.0005,1.0
+Vermont,1,0,0.0,0.0
+Vermont,2,0,0.0,0.0
+Vermont,3,0,0.0,0.0
+Vermont,4,0,0.0,0.0
+Vermont,5,0,0.0,0.0
+Vermont,6,0,0.0,0.0
+Vermont,7,0,0.0,0.0
+Vermont,8,0,0.0,0.0
+Vermont,9,0,0.0,0.0
+Vermont,10,0,0.0,0.0
+Vermont,11,0,0.0,0.0
+Vermont,12,0,0.0,0.0
+Vermont,13,0,0.0,0.0
+Vermont,14,0,0.0,0.0
+Vermont,15,267,0.1335,0.2136
+Vermont,16,983,0.4915,0.7864
+Princeton,1,0,0.0,0.0
+Princeton,2,0,0.0,0.0
+Princeton,3,0,0.0,0.0
+Princeton,4,0,0.0,0.0
+Princeton,5,0,0.0,0.0
+Princeton,6,0,0.0,0.0
+Princeton,7,0,0.0,0.0
+Princeton,8,0,0.0,0.0
+Princeton,9,0,0.0,0.0
+Princeton,10,0,0.0,0.0
+Princeton,11,0,0.0,0.0
+Princeton,12,0,0.0,0.0
+Princeton,13,0,0.0,0.0
+Princeton,14,0,0.0,0.0
+Princeton,15,0,0.0,0.0
+Princeton,16,15,0.0075,1.0
+Portland,1,0,0.0,0.0
+Portland,2,0,0.0,0.0
+Portland,3,0,0.0,0.0
+Portland,4,0,0.0,0.0
+Portland,5,0,0.0,0.0
+Portland,6,0,0.0,0.0
+Portland,7,0,0.0,0.0
+Portland,8,0,0.0,0.0
+Portland,9,0,0.0,0.0
+Portland,10,0,0.0,0.0
+Portland,11,0,0.0,0.0
+Portland,12,0,0.0,0.0
+Portland,13,0,0.0,0.0
+Portland,14,0,0.0,0.0
+Portland,15,0,0.0,0.0
+Portland,16,0,0.0,0.0
+Oregon St.,1,0,0.0,0.0
+Oregon St.,2,0,0.0,0.0
+Oregon St.,3,0,0.0,0.0
+Oregon St.,4,0,0.0,0.0
+Oregon St.,5,0,0.0,0.0
+Oregon St.,6,0,0.0,0.0
+Oregon St.,7,0,0.0,0.0
+Oregon St.,8,0,0.0,0.0
+Oregon St.,9,0,0.0,0.0
+Oregon St.,10,0,0.0,0.0
+Oregon St.,11,0,0.0,0.0
+Oregon St.,12,0,0.0,0.0
+Oregon St.,13,0,0.0,0.0
+Oregon St.,14,0,0.0,0.0
+Oregon St.,15,0,0.0,0.0
+Oregon St.,16,0,0.0,0.0
+Tennessee Martin,1,0,0.0,0.0
+Tennessee Martin,2,0,0.0,0.0
+Tennessee Martin,3,0,0.0,0.0
+Tennessee Martin,4,0,0.0,0.0
+Tennessee Martin,5,0,0.0,0.0
+Tennessee Martin,6,0,0.0,0.0
+Tennessee Martin,7,0,0.0,0.0
+Tennessee Martin,8,0,0.0,0.0
+Tennessee Martin,9,0,0.0,0.0
+Tennessee Martin,10,0,0.0,0.0
+Tennessee Martin,11,0,0.0,0.0
+Tennessee Martin,12,0,0.0,0.0
+Tennessee Martin,13,0,0.0,0.0
+Tennessee Martin,14,109,0.0545,0.1392081736909323
+Tennessee Martin,15,622,0.311,0.7943805874840357
+Tennessee Martin,16,52,0.026,0.06641123882503193
+Fordham,1,0,0.0,0.0
+Fordham,2,0,0.0,0.0
+Fordham,3,0,0.0,0.0
+Fordham,4,0,0.0,0.0
+Fordham,5,0,0.0,0.0
+Fordham,6,0,0.0,0.0
+Fordham,7,0,0.0,0.0
+Fordham,8,0,0.0,0.0
+Fordham,9,0,0.0,0.0
+Fordham,10,0,0.0,0.0
+Fordham,11,0,0.0,0.0
+Fordham,12,0,0.0,0.0
+Fordham,13,0,0.0,0.0
+Fordham,14,0,0.0,0.0
+Fordham,15,0,0.0,0.0
+Fordham,16,0,0.0,0.0
+Green Bay,1,0,0.0,0.0
+Green Bay,2,0,0.0,0.0
+Green Bay,3,0,0.0,0.0
+Green Bay,4,0,0.0,0.0
+Green Bay,5,0,0.0,0.0
+Green Bay,6,0,0.0,0.0
+Green Bay,7,0,0.0,0.0
+Green Bay,8,0,0.0,0.0
+Green Bay,9,0,0.0,0.0
+Green Bay,10,0,0.0,0.0
+Green Bay,11,0,0.0,0.0
+Green Bay,12,0,0.0,0.0
+Green Bay,13,0,0.0,0.0
+Green Bay,14,0,0.0,0.0
+Green Bay,15,15,0.0075,0.13043478260869565
+Green Bay,16,100,0.05,0.8695652173913043
+James Madison,1,0,0.0,0.0
+James Madison,2,0,0.0,0.0
+James Madison,3,0,0.0,0.0
+James Madison,4,0,0.0,0.0
+James Madison,5,0,0.0,0.0
+James Madison,6,0,0.0,0.0
+James Madison,7,0,0.0,0.0
+James Madison,8,0,0.0,0.0
+James Madison,9,0,0.0,0.0
+James Madison,10,0,0.0,0.0
+James Madison,11,0,0.0,0.0
+James Madison,12,0,0.0,0.0
+James Madison,13,0,0.0,0.0
+James Madison,14,0,0.0,0.0
+James Madison,15,0,0.0,0.0
+James Madison,16,37,0.0185,1.0
+Colgate,1,0,0.0,0.0
+Colgate,2,0,0.0,0.0
+Colgate,3,0,0.0,0.0
+Colgate,4,0,0.0,0.0
+Colgate,5,0,0.0,0.0
+Colgate,6,0,0.0,0.0
+Colgate,7,0,0.0,0.0
+Colgate,8,0,0.0,0.0
+Colgate,9,0,0.0,0.0
+Colgate,10,0,0.0,0.0
+Colgate,11,0,0.0,0.0
+Colgate,12,0,0.0,0.0
+Colgate,13,0,0.0,0.0
+Colgate,14,0,0.0,0.0
+Colgate,15,136,0.068,0.4459016393442623
+Colgate,16,169,0.0845,0.5540983606557377
+LIU,1,0,0.0,0.0
+LIU,2,0,0.0,0.0
+LIU,3,0,0.0,0.0
+LIU,4,0,0.0,0.0
+LIU,5,0,0.0,0.0
+LIU,6,0,0.0,0.0
+LIU,7,0,0.0,0.0
+LIU,8,0,0.0,0.0
+LIU,9,0,0.0,0.0
+LIU,10,0,0.0,0.0
+LIU,11,0,0.0,0.0
+LIU,12,0,0.0,0.0
+LIU,13,0,0.0,0.0
+LIU,14,39,0.0195,0.036862003780718335
+LIU,15,749,0.3745,0.7079395085066162
+LIU,16,270,0.135,0.2551984877126654
+American,1,0,0.0,0.0
+American,2,0,0.0,0.0
+American,3,0,0.0,0.0
+American,4,0,0.0,0.0
+American,5,0,0.0,0.0
+American,6,0,0.0,0.0
+American,7,0,0.0,0.0
+American,8,0,0.0,0.0
+American,9,0,0.0,0.0
+American,10,0,0.0,0.0
+American,11,0,0.0,0.0
+American,12,0,0.0,0.0
+American,13,0,0.0,0.0
+American,14,12,0.006,0.025477707006369428
+American,15,280,0.14,0.5944798301486199
+American,16,179,0.0895,0.38004246284501064
+Wofford,1,0,0.0,0.0
+Wofford,2,0,0.0,0.0
+Wofford,3,0,0.0,0.0
+Wofford,4,0,0.0,0.0
+Wofford,5,0,0.0,0.0
+Wofford,6,0,0.0,0.0
+Wofford,7,0,0.0,0.0
+Wofford,8,0,0.0,0.0
+Wofford,9,0,0.0,0.0
+Wofford,10,0,0.0,0.0
+Wofford,11,0,0.0,0.0
+Wofford,12,0,0.0,0.0
+Wofford,13,0,0.0,0.0
+Wofford,14,1,0.0005,0.013157894736842105
+Wofford,15,52,0.026,0.6842105263157895
+Wofford,16,23,0.0115,0.3026315789473684
+Nicholls,1,0,0.0,0.0
+Nicholls,2,0,0.0,0.0
+Nicholls,3,0,0.0,0.0
+Nicholls,4,0,0.0,0.0
+Nicholls,5,0,0.0,0.0
+Nicholls,6,0,0.0,0.0
+Nicholls,7,0,0.0,0.0
+Nicholls,8,0,0.0,0.0
+Nicholls,9,0,0.0,0.0
+Nicholls,10,0,0.0,0.0
+Nicholls,11,0,0.0,0.0
+Nicholls,12,0,0.0,0.0
+Nicholls,13,0,0.0,0.0
+Nicholls,14,0,0.0,0.0
+Nicholls,15,1,0.0005,0.16666666666666666
+Nicholls,16,5,0.0025,0.8333333333333334
+Charleston Southern,1,0,0.0,0.0
+Charleston Southern,2,0,0.0,0.0
+Charleston Southern,3,0,0.0,0.0
+Charleston Southern,4,0,0.0,0.0
+Charleston Southern,5,0,0.0,0.0
+Charleston Southern,6,0,0.0,0.0
+Charleston Southern,7,0,0.0,0.0
+Charleston Southern,8,0,0.0,0.0
+Charleston Southern,9,0,0.0,0.0
+Charleston Southern,10,0,0.0,0.0
+Charleston Southern,11,0,0.0,0.0
+Charleston Southern,12,0,0.0,0.0
+Charleston Southern,13,0,0.0,0.0
+Charleston Southern,14,0,0.0,0.0
+Charleston Southern,15,0,0.0,0.0
+Charleston Southern,16,35,0.0175,1.0
+Purdue Fort Wayne,1,0,0.0,0.0
+Purdue Fort Wayne,2,0,0.0,0.0
+Purdue Fort Wayne,3,0,0.0,0.0
+Purdue Fort Wayne,4,0,0.0,0.0
+Purdue Fort Wayne,5,0,0.0,0.0
+Purdue Fort Wayne,6,0,0.0,0.0
+Purdue Fort Wayne,7,0,0.0,0.0
+Purdue Fort Wayne,8,0,0.0,0.0
+Purdue Fort Wayne,9,0,0.0,0.0
+Purdue Fort Wayne,10,0,0.0,0.0
+Purdue Fort Wayne,11,0,0.0,0.0
+Purdue Fort Wayne,12,0,0.0,0.0
+Purdue Fort Wayne,13,0,0.0,0.0
+Purdue Fort Wayne,14,0,0.0,0.0
+Purdue Fort Wayne,15,32,0.016,0.5333333333333333
+Purdue Fort Wayne,16,28,0.014,0.4666666666666667
+Merrimack,1,0,0.0,0.0
+Merrimack,2,0,0.0,0.0
+Merrimack,3,0,0.0,0.0
+Merrimack,4,0,0.0,0.0
+Merrimack,5,0,0.0,0.0
+Merrimack,6,0,0.0,0.0
+Merrimack,7,0,0.0,0.0
+Merrimack,8,0,0.0,0.0
+Merrimack,9,0,0.0,0.0
+Merrimack,10,0,0.0,0.0
+Merrimack,11,0,0.0,0.0
+Merrimack,12,0,0.0,0.0
+Merrimack,13,0,0.0,0.0
+Merrimack,14,5,0.0025,0.019305019305019305
+Merrimack,15,149,0.0745,0.5752895752895753
+Merrimack,16,105,0.0525,0.40540540540540543
+Coastal Carolina,1,0,0.0,0.0
+Coastal Carolina,2,0,0.0,0.0
+Coastal Carolina,3,0,0.0,0.0
+Coastal Carolina,4,0,0.0,0.0
+Coastal Carolina,5,0,0.0,0.0
+Coastal Carolina,6,0,0.0,0.0
+Coastal Carolina,7,0,0.0,0.0
+Coastal Carolina,8,0,0.0,0.0
+Coastal Carolina,9,0,0.0,0.0
+Coastal Carolina,10,0,0.0,0.0
+Coastal Carolina,11,0,0.0,0.0
+Coastal Carolina,12,0,0.0,0.0
+Coastal Carolina,13,0,0.0,0.0
+Coastal Carolina,14,0,0.0,0.0
+Coastal Carolina,15,1,0.0005,0.022727272727272728
+Coastal Carolina,16,43,0.0215,0.9772727272727273
+Indiana St.,1,0,0.0,0.0
+Indiana St.,2,0,0.0,0.0
+Indiana St.,3,0,0.0,0.0
+Indiana St.,4,0,0.0,0.0
+Indiana St.,5,0,0.0,0.0
+Indiana St.,6,0,0.0,0.0
+Indiana St.,7,0,0.0,0.0
+Indiana St.,8,0,0.0,0.0
+Indiana St.,9,0,0.0,0.0
+Indiana St.,10,0,0.0,0.0
+Indiana St.,11,0,0.0,0.0
+Indiana St.,12,0,0.0,0.0
+Indiana St.,13,0,0.0,0.0
+Indiana St.,14,0,0.0,0.0
+Indiana St.,15,0,0.0,0.0
+Indiana St.,16,1,0.0005,1.0
+Hampton,1,0,0.0,0.0
+Hampton,2,0,0.0,0.0
+Hampton,3,0,0.0,0.0
+Hampton,4,0,0.0,0.0
+Hampton,5,0,0.0,0.0
+Hampton,6,0,0.0,0.0
+Hampton,7,0,0.0,0.0
+Hampton,8,0,0.0,0.0
+Hampton,9,0,0.0,0.0
+Hampton,10,0,0.0,0.0
+Hampton,11,0,0.0,0.0
+Hampton,12,0,0.0,0.0
+Hampton,13,0,0.0,0.0
+Hampton,14,0,0.0,0.0
+Hampton,15,0,0.0,0.0
+Hampton,16,7,0.0035,1.0
+New Orleans,1,0,0.0,0.0
+New Orleans,2,0,0.0,0.0
+New Orleans,3,0,0.0,0.0
+New Orleans,4,0,0.0,0.0
+New Orleans,5,0,0.0,0.0
+New Orleans,6,0,0.0,0.0
+New Orleans,7,0,0.0,0.0
+New Orleans,8,0,0.0,0.0
+New Orleans,9,0,0.0,0.0
+New Orleans,10,0,0.0,0.0
+New Orleans,11,0,0.0,0.0
+New Orleans,12,0,0.0,0.0
+New Orleans,13,0,0.0,0.0
+New Orleans,14,0,0.0,0.0
+New Orleans,15,0,0.0,0.0
+New Orleans,16,9,0.0045,1.0
+CSUN,1,0,0.0,0.0
+CSUN,2,0,0.0,0.0
+CSUN,3,0,0.0,0.0
+CSUN,4,0,0.0,0.0
+CSUN,5,0,0.0,0.0
+CSUN,6,0,0.0,0.0
+CSUN,7,0,0.0,0.0
+CSUN,8,0,0.0,0.0
+CSUN,9,0,0.0,0.0
+CSUN,10,0,0.0,0.0
+CSUN,11,0,0.0,0.0
+CSUN,12,0,0.0,0.0
+CSUN,13,0,0.0,0.0
+CSUN,14,0,0.0,0.0
+CSUN,15,6,0.003,0.3157894736842105
+CSUN,16,13,0.0065,0.6842105263157895
+Iona,1,0,0.0,0.0
+Iona,2,0,0.0,0.0
+Iona,3,0,0.0,0.0
+Iona,4,0,0.0,0.0
+Iona,5,0,0.0,0.0
+Iona,6,0,0.0,0.0
+Iona,7,0,0.0,0.0
+Iona,8,0,0.0,0.0
+Iona,9,0,0.0,0.0
+Iona,10,0,0.0,0.0
+Iona,11,0,0.0,0.0
+Iona,12,0,0.0,0.0
+Iona,13,0,0.0,0.0
+Iona,14,0,0.0,0.0
+Iona,15,5,0.0025,0.042735042735042736
+Iona,16,112,0.056,0.9572649572649573
+Saint Peter's,1,0,0.0,0.0
+Saint Peter's,2,0,0.0,0.0
+Saint Peter's,3,0,0.0,0.0
+Saint Peter's,4,0,0.0,0.0
+Saint Peter's,5,0,0.0,0.0
+Saint Peter's,6,0,0.0,0.0
+Saint Peter's,7,0,0.0,0.0
+Saint Peter's,8,0,0.0,0.0
+Saint Peter's,9,0,0.0,0.0
+Saint Peter's,10,0,0.0,0.0
+Saint Peter's,11,0,0.0,0.0
+Saint Peter's,12,0,0.0,0.0
+Saint Peter's,13,0,0.0,0.0
+Saint Peter's,14,0,0.0,0.0
+Saint Peter's,15,0,0.0,0.0
+Saint Peter's,16,0,0.0,0.0
+Dartmouth,1,0,0.0,0.0
+Dartmouth,2,0,0.0,0.0
+Dartmouth,3,0,0.0,0.0
+Dartmouth,4,0,0.0,0.0
+Dartmouth,5,0,0.0,0.0
+Dartmouth,6,0,0.0,0.0
+Dartmouth,7,0,0.0,0.0
+Dartmouth,8,0,0.0,0.0
+Dartmouth,9,0,0.0,0.0
+Dartmouth,10,0,0.0,0.0
+Dartmouth,11,0,0.0,0.0
+Dartmouth,12,0,0.0,0.0
+Dartmouth,13,0,0.0,0.0
+Dartmouth,14,0,0.0,0.0
+Dartmouth,15,0,0.0,0.0
+Dartmouth,16,7,0.0035,1.0
+La Salle,1,0,0.0,0.0
+La Salle,2,0,0.0,0.0
+La Salle,3,0,0.0,0.0
+La Salle,4,0,0.0,0.0
+La Salle,5,0,0.0,0.0
+La Salle,6,0,0.0,0.0
+La Salle,7,0,0.0,0.0
+La Salle,8,0,0.0,0.0
+La Salle,9,0,0.0,0.0
+La Salle,10,0,0.0,0.0
+La Salle,11,0,0.0,0.0
+La Salle,12,0,0.0,0.0
+La Salle,13,0,0.0,0.0
+La Salle,14,0,0.0,0.0
+La Salle,15,0,0.0,0.0
+La Salle,16,0,0.0,0.0
+Tarleton St.,1,0,0.0,0.0
+Tarleton St.,2,0,0.0,0.0
+Tarleton St.,3,0,0.0,0.0
+Tarleton St.,4,0,0.0,0.0
+Tarleton St.,5,0,0.0,0.0
+Tarleton St.,6,0,0.0,0.0
+Tarleton St.,7,0,0.0,0.0
+Tarleton St.,8,0,0.0,0.0
+Tarleton St.,9,0,0.0,0.0
+Tarleton St.,10,0,0.0,0.0
+Tarleton St.,11,0,0.0,0.0
+Tarleton St.,12,0,0.0,0.0
+Tarleton St.,13,0,0.0,0.0
+Tarleton St.,14,0,0.0,0.0
+Tarleton St.,15,12,0.006,0.6666666666666666
+Tarleton St.,16,6,0.003,0.3333333333333333
+Ohio,1,0,0.0,0.0
+Ohio,2,0,0.0,0.0
+Ohio,3,0,0.0,0.0
+Ohio,4,0,0.0,0.0
+Ohio,5,0,0.0,0.0
+Ohio,6,0,0.0,0.0
+Ohio,7,0,0.0,0.0
+Ohio,8,0,0.0,0.0
+Ohio,9,0,0.0,0.0
+Ohio,10,0,0.0,0.0
+Ohio,11,0,0.0,0.0
+Ohio,12,0,0.0,0.0
+Ohio,13,0,0.0,0.0
+Ohio,14,0,0.0,0.0
+Ohio,15,0,0.0,0.0
+Ohio,16,0,0.0,0.0
+Youngstown St.,1,0,0.0,0.0
+Youngstown St.,2,0,0.0,0.0
+Youngstown St.,3,0,0.0,0.0
+Youngstown St.,4,0,0.0,0.0
+Youngstown St.,5,0,0.0,0.0
+Youngstown St.,6,0,0.0,0.0
+Youngstown St.,7,0,0.0,0.0
+Youngstown St.,8,0,0.0,0.0
+Youngstown St.,9,0,0.0,0.0
+Youngstown St.,10,0,0.0,0.0
+Youngstown St.,11,0,0.0,0.0
+Youngstown St.,12,0,0.0,0.0
+Youngstown St.,13,0,0.0,0.0
+Youngstown St.,14,0,0.0,0.0
+Youngstown St.,15,0,0.0,0.0
+Youngstown St.,16,27,0.0135,1.0
+Old Dominion,1,0,0.0,0.0
+Old Dominion,2,0,0.0,0.0
+Old Dominion,3,0,0.0,0.0
+Old Dominion,4,0,0.0,0.0
+Old Dominion,5,0,0.0,0.0
+Old Dominion,6,0,0.0,0.0
+Old Dominion,7,0,0.0,0.0
+Old Dominion,8,0,0.0,0.0
+Old Dominion,9,0,0.0,0.0
+Old Dominion,10,0,0.0,0.0
+Old Dominion,11,0,0.0,0.0
+Old Dominion,12,0,0.0,0.0
+Old Dominion,13,0,0.0,0.0
+Old Dominion,14,0,0.0,0.0
+Old Dominion,15,0,0.0,0.0
+Old Dominion,16,16,0.008,1.0
+Lindenwood,1,0,0.0,0.0
+Lindenwood,2,0,0.0,0.0
+Lindenwood,3,0,0.0,0.0
+Lindenwood,4,0,0.0,0.0
+Lindenwood,5,0,0.0,0.0
+Lindenwood,6,0,0.0,0.0
+Lindenwood,7,0,0.0,0.0
+Lindenwood,8,0,0.0,0.0
+Lindenwood,9,0,0.0,0.0
+Lindenwood,10,0,0.0,0.0
+Lindenwood,11,0,0.0,0.0
+Lindenwood,12,0,0.0,0.0
+Lindenwood,13,0,0.0,0.0
+Lindenwood,14,0,0.0,0.0
+Lindenwood,15,2,0.001,0.005390835579514825
+Lindenwood,16,369,0.1845,0.9946091644204852
+Georgia St.,1,0,0.0,0.0
+Georgia St.,2,0,0.0,0.0
+Georgia St.,3,0,0.0,0.0
+Georgia St.,4,0,0.0,0.0
+Georgia St.,5,0,0.0,0.0
+Georgia St.,6,0,0.0,0.0
+Georgia St.,7,0,0.0,0.0
+Georgia St.,8,0,0.0,0.0
+Georgia St.,9,0,0.0,0.0
+Georgia St.,10,0,0.0,0.0
+Georgia St.,11,0,0.0,0.0
+Georgia St.,12,0,0.0,0.0
+Georgia St.,13,0,0.0,0.0
+Georgia St.,14,0,0.0,0.0
+Georgia St.,15,0,0.0,0.0
+Georgia St.,16,25,0.0125,1.0
+Florida Gulf Coast,1,0,0.0,0.0
+Florida Gulf Coast,2,0,0.0,0.0
+Florida Gulf Coast,3,0,0.0,0.0
+Florida Gulf Coast,4,0,0.0,0.0
+Florida Gulf Coast,5,0,0.0,0.0
+Florida Gulf Coast,6,0,0.0,0.0
+Florida Gulf Coast,7,0,0.0,0.0
+Florida Gulf Coast,8,0,0.0,0.0
+Florida Gulf Coast,9,0,0.0,0.0
+Florida Gulf Coast,10,0,0.0,0.0
+Florida Gulf Coast,11,0,0.0,0.0
+Florida Gulf Coast,12,0,0.0,0.0
+Florida Gulf Coast,13,0,0.0,0.0
+Florida Gulf Coast,14,0,0.0,0.0
+Florida Gulf Coast,15,0,0.0,0.0
+Florida Gulf Coast,16,157,0.0785,1.0
+Longwood,1,0,0.0,0.0
+Longwood,2,0,0.0,0.0
+Longwood,3,0,0.0,0.0
+Longwood,4,0,0.0,0.0
+Longwood,5,0,0.0,0.0
+Longwood,6,0,0.0,0.0
+Longwood,7,0,0.0,0.0
+Longwood,8,0,0.0,0.0
+Longwood,9,0,0.0,0.0
+Longwood,10,0,0.0,0.0
+Longwood,11,0,0.0,0.0
+Longwood,12,0,0.0,0.0
+Longwood,13,0,0.0,0.0
+Longwood,14,0,0.0,0.0
+Longwood,15,0,0.0,0.0
+Longwood,16,26,0.013,1.0
+Bethune Cookman,1,0,0.0,0.0
+Bethune Cookman,2,0,0.0,0.0
+Bethune Cookman,3,0,0.0,0.0
+Bethune Cookman,4,0,0.0,0.0
+Bethune Cookman,5,0,0.0,0.0
+Bethune Cookman,6,0,0.0,0.0
+Bethune Cookman,7,0,0.0,0.0
+Bethune Cookman,8,0,0.0,0.0
+Bethune Cookman,9,0,0.0,0.0
+Bethune Cookman,10,0,0.0,0.0
+Bethune Cookman,11,0,0.0,0.0
+Bethune Cookman,12,0,0.0,0.0
+Bethune Cookman,13,0,0.0,0.0
+Bethune Cookman,14,0,0.0,0.0
+Bethune Cookman,15,48,0.024,0.06770098730606489
+Bethune Cookman,16,661,0.3305,0.9322990126939351
+Tennessee St.,1,0,0.0,0.0
+Tennessee St.,2,0,0.0,0.0
+Tennessee St.,3,0,0.0,0.0
+Tennessee St.,4,0,0.0,0.0
+Tennessee St.,5,0,0.0,0.0
+Tennessee St.,6,0,0.0,0.0
+Tennessee St.,7,0,0.0,0.0
+Tennessee St.,8,0,0.0,0.0
+Tennessee St.,9,0,0.0,0.0
+Tennessee St.,10,0,0.0,0.0
+Tennessee St.,11,0,0.0,0.0
+Tennessee St.,12,0,0.0,0.0
+Tennessee St.,13,0,0.0,0.0
+Tennessee St.,14,0,0.0,0.0
+Tennessee St.,15,64,0.032,0.13445378151260504
+Tennessee St.,16,412,0.206,0.865546218487395
+Milwaukee,1,0,0.0,0.0
+Milwaukee,2,0,0.0,0.0
+Milwaukee,3,0,0.0,0.0
+Milwaukee,4,0,0.0,0.0
+Milwaukee,5,0,0.0,0.0
+Milwaukee,6,0,0.0,0.0
+Milwaukee,7,0,0.0,0.0
+Milwaukee,8,0,0.0,0.0
+Milwaukee,9,0,0.0,0.0
+Milwaukee,10,0,0.0,0.0
+Milwaukee,11,0,0.0,0.0
+Milwaukee,12,0,0.0,0.0
+Milwaukee,13,0,0.0,0.0
+Milwaukee,14,0,0.0,0.0
+Milwaukee,15,0,0.0,0.0
+Milwaukee,16,42,0.021,1.0
+Stony Brook,1,0,0.0,0.0
+Stony Brook,2,0,0.0,0.0
+Stony Brook,3,0,0.0,0.0
+Stony Brook,4,0,0.0,0.0
+Stony Brook,5,0,0.0,0.0
+Stony Brook,6,0,0.0,0.0
+Stony Brook,7,0,0.0,0.0
+Stony Brook,8,0,0.0,0.0
+Stony Brook,9,0,0.0,0.0
+Stony Brook,10,0,0.0,0.0
+Stony Brook,11,0,0.0,0.0
+Stony Brook,12,0,0.0,0.0
+Stony Brook,13,0,0.0,0.0
+Stony Brook,14,0,0.0,0.0
+Stony Brook,15,3,0.0015,0.1875
+Stony Brook,16,13,0.0065,0.8125
+Eastern Washington,1,0,0.0,0.0
+Eastern Washington,2,0,0.0,0.0
+Eastern Washington,3,0,0.0,0.0
+Eastern Washington,4,0,0.0,0.0
+Eastern Washington,5,0,0.0,0.0
+Eastern Washington,6,0,0.0,0.0
+Eastern Washington,7,0,0.0,0.0
+Eastern Washington,8,0,0.0,0.0
+Eastern Washington,9,0,0.0,0.0
+Eastern Washington,10,0,0.0,0.0
+Eastern Washington,11,0,0.0,0.0
+Eastern Washington,12,0,0.0,0.0
+Eastern Washington,13,0,0.0,0.0
+Eastern Washington,14,0,0.0,0.0
+Eastern Washington,15,0,0.0,0.0
+Eastern Washington,16,15,0.0075,1.0
+Long Beach St.,1,0,0.0,0.0
+Long Beach St.,2,0,0.0,0.0
+Long Beach St.,3,0,0.0,0.0
+Long Beach St.,4,0,0.0,0.0
+Long Beach St.,5,0,0.0,0.0
+Long Beach St.,6,0,0.0,0.0
+Long Beach St.,7,0,0.0,0.0
+Long Beach St.,8,0,0.0,0.0
+Long Beach St.,9,0,0.0,0.0
+Long Beach St.,10,0,0.0,0.0
+Long Beach St.,11,0,0.0,0.0
+Long Beach St.,12,0,0.0,0.0
+Long Beach St.,13,0,0.0,0.0
+Long Beach St.,14,0,0.0,0.0
+Long Beach St.,15,0,0.0,0.0
+Long Beach St.,16,9,0.0045,1.0
+UMBC,1,0,0.0,0.0
+UMBC,2,0,0.0,0.0
+UMBC,3,0,0.0,0.0
+UMBC,4,0,0.0,0.0
+UMBC,5,0,0.0,0.0
+UMBC,6,0,0.0,0.0
+UMBC,7,0,0.0,0.0
+UMBC,8,0,0.0,0.0
+UMBC,9,0,0.0,0.0
+UMBC,10,0,0.0,0.0
+UMBC,11,0,0.0,0.0
+UMBC,12,0,0.0,0.0
+UMBC,13,0,0.0,0.0
+UMBC,14,0,0.0,0.0
+UMBC,15,129,0.0645,0.2792207792207792
+UMBC,16,333,0.1665,0.7207792207792207
+Eastern Kentucky,1,0,0.0,0.0
+Eastern Kentucky,2,0,0.0,0.0
+Eastern Kentucky,3,0,0.0,0.0
+Eastern Kentucky,4,0,0.0,0.0
+Eastern Kentucky,5,0,0.0,0.0
+Eastern Kentucky,6,0,0.0,0.0
+Eastern Kentucky,7,0,0.0,0.0
+Eastern Kentucky,8,0,0.0,0.0
+Eastern Kentucky,9,0,0.0,0.0
+Eastern Kentucky,10,0,0.0,0.0
+Eastern Kentucky,11,0,0.0,0.0
+Eastern Kentucky,12,0,0.0,0.0
+Eastern Kentucky,13,0,0.0,0.0
+Eastern Kentucky,14,0,0.0,0.0
+Eastern Kentucky,15,0,0.0,0.0
+Eastern Kentucky,16,43,0.0215,1.0
+Campbell,1,0,0.0,0.0
+Campbell,2,0,0.0,0.0
+Campbell,3,0,0.0,0.0
+Campbell,4,0,0.0,0.0
+Campbell,5,0,0.0,0.0
+Campbell,6,0,0.0,0.0
+Campbell,7,0,0.0,0.0
+Campbell,8,0,0.0,0.0
+Campbell,9,0,0.0,0.0
+Campbell,10,0,0.0,0.0
+Campbell,11,0,0.0,0.0
+Campbell,12,0,0.0,0.0
+Campbell,13,0,0.0,0.0
+Campbell,14,0,0.0,0.0
+Campbell,15,1,0.0005,0.3333333333333333
+Campbell,16,2,0.001,0.6666666666666666
+SIUE,1,0,0.0,0.0
+SIUE,2,0,0.0,0.0
+SIUE,3,0,0.0,0.0
+SIUE,4,0,0.0,0.0
+SIUE,5,0,0.0,0.0
+SIUE,6,0,0.0,0.0
+SIUE,7,0,0.0,0.0
+SIUE,8,0,0.0,0.0
+SIUE,9,0,0.0,0.0
+SIUE,10,0,0.0,0.0
+SIUE,11,0,0.0,0.0
+SIUE,12,0,0.0,0.0
+SIUE,13,0,0.0,0.0
+SIUE,14,0,0.0,0.0
+SIUE,15,0,0.0,0.0
+SIUE,16,124,0.062,1.0
+Southeast Missouri,1,0,0.0,0.0
+Southeast Missouri,2,0,0.0,0.0
+Southeast Missouri,3,0,0.0,0.0
+Southeast Missouri,4,0,0.0,0.0
+Southeast Missouri,5,0,0.0,0.0
+Southeast Missouri,6,0,0.0,0.0
+Southeast Missouri,7,0,0.0,0.0
+Southeast Missouri,8,0,0.0,0.0
+Southeast Missouri,9,0,0.0,0.0
+Southeast Missouri,10,0,0.0,0.0
+Southeast Missouri,11,0,0.0,0.0
+Southeast Missouri,12,0,0.0,0.0
+Southeast Missouri,13,0,0.0,0.0
+Southeast Missouri,14,0,0.0,0.0
+Southeast Missouri,15,0,0.0,0.0
+Southeast Missouri,16,79,0.0395,1.0
+Rice,1,0,0.0,0.0
+Rice,2,0,0.0,0.0
+Rice,3,0,0.0,0.0
+Rice,4,0,0.0,0.0
+Rice,5,0,0.0,0.0
+Rice,6,0,0.0,0.0
+Rice,7,0,0.0,0.0
+Rice,8,0,0.0,0.0
+Rice,9,0,0.0,0.0
+Rice,10,0,0.0,0.0
+Rice,11,0,0.0,0.0
+Rice,12,0,0.0,0.0
+Rice,13,0,0.0,0.0
+Rice,14,0,0.0,0.0
+Rice,15,0,0.0,0.0
+Rice,16,2,0.001,1.0
+Georgia Southern,1,0,0.0,0.0
+Georgia Southern,2,0,0.0,0.0
+Georgia Southern,3,0,0.0,0.0
+Georgia Southern,4,0,0.0,0.0
+Georgia Southern,5,0,0.0,0.0
+Georgia Southern,6,0,0.0,0.0
+Georgia Southern,7,0,0.0,0.0
+Georgia Southern,8,0,0.0,0.0
+Georgia Southern,9,0,0.0,0.0
+Georgia Southern,10,0,0.0,0.0
+Georgia Southern,11,0,0.0,0.0
+Georgia Southern,12,0,0.0,0.0
+Georgia Southern,13,0,0.0,0.0
+Georgia Southern,14,0,0.0,0.0
+Georgia Southern,15,0,0.0,0.0
+Georgia Southern,16,10,0.005,1.0
+Chattanooga,1,0,0.0,0.0
+Chattanooga,2,0,0.0,0.0
+Chattanooga,3,0,0.0,0.0
+Chattanooga,4,0,0.0,0.0
+Chattanooga,5,0,0.0,0.0
+Chattanooga,6,0,0.0,0.0
+Chattanooga,7,0,0.0,0.0
+Chattanooga,8,0,0.0,0.0
+Chattanooga,9,0,0.0,0.0
+Chattanooga,10,0,0.0,0.0
+Chattanooga,11,0,0.0,0.0
+Chattanooga,12,0,0.0,0.0
+Chattanooga,13,0,0.0,0.0
+Chattanooga,14,0,0.0,0.0
+Chattanooga,15,0,0.0,0.0
+Chattanooga,16,9,0.0045,1.0
+Le Moyne,1,0,0.0,0.0
+Le Moyne,2,0,0.0,0.0
+Le Moyne,3,0,0.0,0.0
+Le Moyne,4,0,0.0,0.0
+Le Moyne,5,0,0.0,0.0
+Le Moyne,6,0,0.0,0.0
+Le Moyne,7,0,0.0,0.0
+Le Moyne,8,0,0.0,0.0
+Le Moyne,9,0,0.0,0.0
+Le Moyne,10,0,0.0,0.0
+Le Moyne,11,0,0.0,0.0
+Le Moyne,12,0,0.0,0.0
+Le Moyne,13,0,0.0,0.0
+Le Moyne,14,0,0.0,0.0
+Le Moyne,15,1,0.0005,0.002506265664160401
+Le Moyne,16,398,0.199,0.9974937343358395
+Western Michigan,1,0,0.0,0.0
+Western Michigan,2,0,0.0,0.0
+Western Michigan,3,0,0.0,0.0
+Western Michigan,4,0,0.0,0.0
+Western Michigan,5,0,0.0,0.0
+Western Michigan,6,0,0.0,0.0
+Western Michigan,7,0,0.0,0.0
+Western Michigan,8,0,0.0,0.0
+Western Michigan,9,0,0.0,0.0
+Western Michigan,10,0,0.0,0.0
+Western Michigan,11,0,0.0,0.0
+Western Michigan,12,0,0.0,0.0
+Western Michigan,13,0,0.0,0.0
+Western Michigan,14,0,0.0,0.0
+Western Michigan,15,0,0.0,0.0
+Western Michigan,16,0,0.0,0.0
+Incarnate Word,1,0,0.0,0.0
+Incarnate Word,2,0,0.0,0.0
+Incarnate Word,3,0,0.0,0.0
+Incarnate Word,4,0,0.0,0.0
+Incarnate Word,5,0,0.0,0.0
+Incarnate Word,6,0,0.0,0.0
+Incarnate Word,7,0,0.0,0.0
+Incarnate Word,8,0,0.0,0.0
+Incarnate Word,9,0,0.0,0.0
+Incarnate Word,10,0,0.0,0.0
+Incarnate Word,11,0,0.0,0.0
+Incarnate Word,12,0,0.0,0.0
+Incarnate Word,13,0,0.0,0.0
+Incarnate Word,14,0,0.0,0.0
+Incarnate Word,15,0,0.0,0.0
+Incarnate Word,16,5,0.0025,1.0
+Abilene Christian,1,0,0.0,0.0
+Abilene Christian,2,0,0.0,0.0
+Abilene Christian,3,0,0.0,0.0
+Abilene Christian,4,0,0.0,0.0
+Abilene Christian,5,0,0.0,0.0
+Abilene Christian,6,0,0.0,0.0
+Abilene Christian,7,0,0.0,0.0
+Abilene Christian,8,0,0.0,0.0
+Abilene Christian,9,0,0.0,0.0
+Abilene Christian,10,0,0.0,0.0
+Abilene Christian,11,0,0.0,0.0
+Abilene Christian,12,0,0.0,0.0
+Abilene Christian,13,0,0.0,0.0
+Abilene Christian,14,0,0.0,0.0
+Abilene Christian,15,1,0.0005,0.06666666666666667
+Abilene Christian,16,14,0.007,0.9333333333333333
+San Jose St.,1,0,0.0,0.0
+San Jose St.,2,0,0.0,0.0
+San Jose St.,3,0,0.0,0.0
+San Jose St.,4,0,0.0,0.0
+San Jose St.,5,0,0.0,0.0
+San Jose St.,6,0,0.0,0.0
+San Jose St.,7,0,0.0,0.0
+San Jose St.,8,0,0.0,0.0
+San Jose St.,9,0,0.0,0.0
+San Jose St.,10,0,0.0,0.0
+San Jose St.,11,0,0.0,0.0
+San Jose St.,12,0,0.0,0.0
+San Jose St.,13,0,0.0,0.0
+San Jose St.,14,0,0.0,0.0
+San Jose St.,15,0,0.0,0.0
+San Jose St.,16,0,0.0,0.0
+Nebraska Omaha,1,0,0.0,0.0
+Nebraska Omaha,2,0,0.0,0.0
+Nebraska Omaha,3,0,0.0,0.0
+Nebraska Omaha,4,0,0.0,0.0
+Nebraska Omaha,5,0,0.0,0.0
+Nebraska Omaha,6,0,0.0,0.0
+Nebraska Omaha,7,0,0.0,0.0
+Nebraska Omaha,8,0,0.0,0.0
+Nebraska Omaha,9,0,0.0,0.0
+Nebraska Omaha,10,0,0.0,0.0
+Nebraska Omaha,11,0,0.0,0.0
+Nebraska Omaha,12,0,0.0,0.0
+Nebraska Omaha,13,0,0.0,0.0
+Nebraska Omaha,14,0,0.0,0.0
+Nebraska Omaha,15,0,0.0,0.0
+Nebraska Omaha,16,7,0.0035,1.0
+Southern Mississippi,1,0,0.0,0.0
+Southern Mississippi,2,0,0.0,0.0
+Southern Mississippi,3,0,0.0,0.0
+Southern Mississippi,4,0,0.0,0.0
+Southern Mississippi,5,0,0.0,0.0
+Southern Mississippi,6,0,0.0,0.0
+Southern Mississippi,7,0,0.0,0.0
+Southern Mississippi,8,0,0.0,0.0
+Southern Mississippi,9,0,0.0,0.0
+Southern Mississippi,10,0,0.0,0.0
+Southern Mississippi,11,0,0.0,0.0
+Southern Mississippi,12,0,0.0,0.0
+Southern Mississippi,13,0,0.0,0.0
+Southern Mississippi,14,0,0.0,0.0
+Southern Mississippi,15,0,0.0,0.0
+Southern Mississippi,16,2,0.001,1.0
+East Carolina,1,0,0.0,0.0
+East Carolina,2,0,0.0,0.0
+East Carolina,3,0,0.0,0.0
+East Carolina,4,0,0.0,0.0
+East Carolina,5,0,0.0,0.0
+East Carolina,6,0,0.0,0.0
+East Carolina,7,0,0.0,0.0
+East Carolina,8,0,0.0,0.0
+East Carolina,9,0,0.0,0.0
+East Carolina,10,0,0.0,0.0
+East Carolina,11,0,0.0,0.0
+East Carolina,12,0,0.0,0.0
+East Carolina,13,0,0.0,0.0
+East Carolina,14,0,0.0,0.0
+East Carolina,15,0,0.0,0.0
+East Carolina,16,1,0.0005,1.0
+Louisiana Tech,1,0,0.0,0.0
+Louisiana Tech,2,0,0.0,0.0
+Louisiana Tech,3,0,0.0,0.0
+Louisiana Tech,4,0,0.0,0.0
+Louisiana Tech,5,0,0.0,0.0
+Louisiana Tech,6,0,0.0,0.0
+Louisiana Tech,7,0,0.0,0.0
+Louisiana Tech,8,0,0.0,0.0
+Louisiana Tech,9,0,0.0,0.0
+Louisiana Tech,10,0,0.0,0.0
+Louisiana Tech,11,0,0.0,0.0
+Louisiana Tech,12,0,0.0,0.0
+Louisiana Tech,13,0,0.0,0.0
+Louisiana Tech,14,0,0.0,0.0
+Louisiana Tech,15,0,0.0,0.0
+Louisiana Tech,16,0,0.0,0.0
+Howard,1,0,0.0,0.0
+Howard,2,0,0.0,0.0
+Howard,3,0,0.0,0.0
+Howard,4,0,0.0,0.0
+Howard,5,0,0.0,0.0
+Howard,6,0,0.0,0.0
+Howard,7,0,0.0,0.0
+Howard,8,0,0.0,0.0
+Howard,9,0,0.0,0.0
+Howard,10,0,0.0,0.0
+Howard,11,0,0.0,0.0
+Howard,12,0,0.0,0.0
+Howard,13,0,0.0,0.0
+Howard,14,0,0.0,0.0
+Howard,15,0,0.0,0.0
+Howard,16,1341,0.6705,1.0
+Radford,1,0,0.0,0.0
+Radford,2,0,0.0,0.0
+Radford,3,0,0.0,0.0
+Radford,4,0,0.0,0.0
+Radford,5,0,0.0,0.0
+Radford,6,0,0.0,0.0
+Radford,7,0,0.0,0.0
+Radford,8,0,0.0,0.0
+Radford,9,0,0.0,0.0
+Radford,10,0,0.0,0.0
+Radford,11,0,0.0,0.0
+Radford,12,0,0.0,0.0
+Radford,13,0,0.0,0.0
+Radford,14,0,0.0,0.0
+Radford,15,0,0.0,0.0
+Radford,16,4,0.002,1.0
+Brown,1,0,0.0,0.0
+Brown,2,0,0.0,0.0
+Brown,3,0,0.0,0.0
+Brown,4,0,0.0,0.0
+Brown,5,0,0.0,0.0
+Brown,6,0,0.0,0.0
+Brown,7,0,0.0,0.0
+Brown,8,0,0.0,0.0
+Brown,9,0,0.0,0.0
+Brown,10,0,0.0,0.0
+Brown,11,0,0.0,0.0
+Brown,12,0,0.0,0.0
+Brown,13,0,0.0,0.0
+Brown,14,0,0.0,0.0
+Brown,15,0,0.0,0.0
+Brown,16,0,0.0,0.0
+UTEP,1,0,0.0,0.0
+UTEP,2,0,0.0,0.0
+UTEP,3,0,0.0,0.0
+UTEP,4,0,0.0,0.0
+UTEP,5,0,0.0,0.0
+UTEP,6,0,0.0,0.0
+UTEP,7,0,0.0,0.0
+UTEP,8,0,0.0,0.0
+UTEP,9,0,0.0,0.0
+UTEP,10,0,0.0,0.0
+UTEP,11,0,0.0,0.0
+UTEP,12,0,0.0,0.0
+UTEP,13,0,0.0,0.0
+UTEP,14,0,0.0,0.0
+UTEP,15,0,0.0,0.0
+UTEP,16,0,0.0,0.0
+Presbyterian,1,0,0.0,0.0
+Presbyterian,2,0,0.0,0.0
+Presbyterian,3,0,0.0,0.0
+Presbyterian,4,0,0.0,0.0
+Presbyterian,5,0,0.0,0.0
+Presbyterian,6,0,0.0,0.0
+Presbyterian,7,0,0.0,0.0
+Presbyterian,8,0,0.0,0.0
+Presbyterian,9,0,0.0,0.0
+Presbyterian,10,0,0.0,0.0
+Presbyterian,11,0,0.0,0.0
+Presbyterian,12,0,0.0,0.0
+Presbyterian,13,0,0.0,0.0
+Presbyterian,14,0,0.0,0.0
+Presbyterian,15,0,0.0,0.0
+Presbyterian,16,5,0.0025,1.0
+Denver,1,0,0.0,0.0
+Denver,2,0,0.0,0.0
+Denver,3,0,0.0,0.0
+Denver,4,0,0.0,0.0
+Denver,5,0,0.0,0.0
+Denver,6,0,0.0,0.0
+Denver,7,0,0.0,0.0
+Denver,8,0,0.0,0.0
+Denver,9,0,0.0,0.0
+Denver,10,0,0.0,0.0
+Denver,11,0,0.0,0.0
+Denver,12,0,0.0,0.0
+Denver,13,0,0.0,0.0
+Denver,14,0,0.0,0.0
+Denver,15,0,0.0,0.0
+Denver,16,17,0.0085,1.0
+Samford,1,0,0.0,0.0
+Samford,2,0,0.0,0.0
+Samford,3,0,0.0,0.0
+Samford,4,0,0.0,0.0
+Samford,5,0,0.0,0.0
+Samford,6,0,0.0,0.0
+Samford,7,0,0.0,0.0
+Samford,8,0,0.0,0.0
+Samford,9,0,0.0,0.0
+Samford,10,0,0.0,0.0
+Samford,11,0,0.0,0.0
+Samford,12,0,0.0,0.0
+Samford,13,0,0.0,0.0
+Samford,14,0,0.0,0.0
+Samford,15,0,0.0,0.0
+Samford,16,10,0.005,1.0
+Mercyhurst,1,0,0.0,0.0
+Mercyhurst,2,0,0.0,0.0
+Mercyhurst,3,0,0.0,0.0
+Mercyhurst,4,0,0.0,0.0
+Mercyhurst,5,0,0.0,0.0
+Mercyhurst,6,0,0.0,0.0
+Mercyhurst,7,0,0.0,0.0
+Mercyhurst,8,0,0.0,0.0
+Mercyhurst,9,0,0.0,0.0
+Mercyhurst,10,0,0.0,0.0
+Mercyhurst,11,0,0.0,0.0
+Mercyhurst,12,0,0.0,0.0
+Mercyhurst,13,0,0.0,0.0
+Mercyhurst,14,0,0.0,0.0
+Mercyhurst,15,0,0.0,0.0
+Mercyhurst,16,272,0.136,1.0
+Southeastern Louisiana,1,0,0.0,0.0
+Southeastern Louisiana,2,0,0.0,0.0
+Southeastern Louisiana,3,0,0.0,0.0
+Southeastern Louisiana,4,0,0.0,0.0
+Southeastern Louisiana,5,0,0.0,0.0
+Southeastern Louisiana,6,0,0.0,0.0
+Southeastern Louisiana,7,0,0.0,0.0
+Southeastern Louisiana,8,0,0.0,0.0
+Southeastern Louisiana,9,0,0.0,0.0
+Southeastern Louisiana,10,0,0.0,0.0
+Southeastern Louisiana,11,0,0.0,0.0
+Southeastern Louisiana,12,0,0.0,0.0
+Southeastern Louisiana,13,0,0.0,0.0
+Southeastern Louisiana,14,0,0.0,0.0
+Southeastern Louisiana,15,0,0.0,0.0
+Southeastern Louisiana,16,0,0.0,0.0
+Evansville,1,0,0.0,0.0
+Evansville,2,0,0.0,0.0
+Evansville,3,0,0.0,0.0
+Evansville,4,0,0.0,0.0
+Evansville,5,0,0.0,0.0
+Evansville,6,0,0.0,0.0
+Evansville,7,0,0.0,0.0
+Evansville,8,0,0.0,0.0
+Evansville,9,0,0.0,0.0
+Evansville,10,0,0.0,0.0
+Evansville,11,0,0.0,0.0
+Evansville,12,0,0.0,0.0
+Evansville,13,0,0.0,0.0
+Evansville,14,0,0.0,0.0
+Evansville,15,0,0.0,0.0
+Evansville,16,0,0.0,0.0
+Pepperdine,1,0,0.0,0.0
+Pepperdine,2,0,0.0,0.0
+Pepperdine,3,0,0.0,0.0
+Pepperdine,4,0,0.0,0.0
+Pepperdine,5,0,0.0,0.0
+Pepperdine,6,0,0.0,0.0
+Pepperdine,7,0,0.0,0.0
+Pepperdine,8,0,0.0,0.0
+Pepperdine,9,0,0.0,0.0
+Pepperdine,10,0,0.0,0.0
+Pepperdine,11,0,0.0,0.0
+Pepperdine,12,0,0.0,0.0
+Pepperdine,13,0,0.0,0.0
+Pepperdine,14,0,0.0,0.0
+Pepperdine,15,0,0.0,0.0
+Pepperdine,16,0,0.0,0.0
+Northeastern,1,0,0.0,0.0
+Northeastern,2,0,0.0,0.0
+Northeastern,3,0,0.0,0.0
+Northeastern,4,0,0.0,0.0
+Northeastern,5,0,0.0,0.0
+Northeastern,6,0,0.0,0.0
+Northeastern,7,0,0.0,0.0
+Northeastern,8,0,0.0,0.0
+Northeastern,9,0,0.0,0.0
+Northeastern,10,0,0.0,0.0
+Northeastern,11,0,0.0,0.0
+Northeastern,12,0,0.0,0.0
+Northeastern,13,0,0.0,0.0
+Northeastern,14,0,0.0,0.0
+Northeastern,15,0,0.0,0.0
+Northeastern,16,0,0.0,0.0
+North Dakota,1,0,0.0,0.0
+North Dakota,2,0,0.0,0.0
+North Dakota,3,0,0.0,0.0
+North Dakota,4,0,0.0,0.0
+North Dakota,5,0,0.0,0.0
+North Dakota,6,0,0.0,0.0
+North Dakota,7,0,0.0,0.0
+North Dakota,8,0,0.0,0.0
+North Dakota,9,0,0.0,0.0
+North Dakota,10,0,0.0,0.0
+North Dakota,11,0,0.0,0.0
+North Dakota,12,0,0.0,0.0
+North Dakota,13,0,0.0,0.0
+North Dakota,14,0,0.0,0.0
+North Dakota,15,0,0.0,0.0
+North Dakota,16,6,0.003,1.0
+North Carolina A&T,1,0,0.0,0.0
+North Carolina A&T,2,0,0.0,0.0
+North Carolina A&T,3,0,0.0,0.0
+North Carolina A&T,4,0,0.0,0.0
+North Carolina A&T,5,0,0.0,0.0
+North Carolina A&T,6,0,0.0,0.0
+North Carolina A&T,7,0,0.0,0.0
+North Carolina A&T,8,0,0.0,0.0
+North Carolina A&T,9,0,0.0,0.0
+North Carolina A&T,10,0,0.0,0.0
+North Carolina A&T,11,0,0.0,0.0
+North Carolina A&T,12,0,0.0,0.0
+North Carolina A&T,13,0,0.0,0.0
+North Carolina A&T,14,0,0.0,0.0
+North Carolina A&T,15,0,0.0,0.0
+North Carolina A&T,16,1,0.0005,1.0
+Southern,1,0,0.0,0.0
+Southern,2,0,0.0,0.0
+Southern,3,0,0.0,0.0
+Southern,4,0,0.0,0.0
+Southern,5,0,0.0,0.0
+Southern,6,0,0.0,0.0
+Southern,7,0,0.0,0.0
+Southern,8,0,0.0,0.0
+Southern,9,0,0.0,0.0
+Southern,10,0,0.0,0.0
+Southern,11,0,0.0,0.0
+Southern,12,0,0.0,0.0
+Southern,13,0,0.0,0.0
+Southern,14,0,0.0,0.0
+Southern,15,0,0.0,0.0
+Southern,16,356,0.178,1.0
+Northwestern St.,1,0,0.0,0.0
+Northwestern St.,2,0,0.0,0.0
+Northwestern St.,3,0,0.0,0.0
+Northwestern St.,4,0,0.0,0.0
+Northwestern St.,5,0,0.0,0.0
+Northwestern St.,6,0,0.0,0.0
+Northwestern St.,7,0,0.0,0.0
+Northwestern St.,8,0,0.0,0.0
+Northwestern St.,9,0,0.0,0.0
+Northwestern St.,10,0,0.0,0.0
+Northwestern St.,11,0,0.0,0.0
+Northwestern St.,12,0,0.0,0.0
+Northwestern St.,13,0,0.0,0.0
+Northwestern St.,14,0,0.0,0.0
+Northwestern St.,15,0,0.0,0.0
+Northwestern St.,16,0,0.0,0.0
+Detroit Mercy,1,0,0.0,0.0
+Detroit Mercy,2,0,0.0,0.0
+Detroit Mercy,3,0,0.0,0.0
+Detroit Mercy,4,0,0.0,0.0
+Detroit Mercy,5,0,0.0,0.0
+Detroit Mercy,6,0,0.0,0.0
+Detroit Mercy,7,0,0.0,0.0
+Detroit Mercy,8,0,0.0,0.0
+Detroit Mercy,9,0,0.0,0.0
+Detroit Mercy,10,0,0.0,0.0
+Detroit Mercy,11,0,0.0,0.0
+Detroit Mercy,12,0,0.0,0.0
+Detroit Mercy,13,0,0.0,0.0
+Detroit Mercy,14,0,0.0,0.0
+Detroit Mercy,15,0,0.0,0.0
+Detroit Mercy,16,5,0.0025,1.0
+Fairfield,1,0,0.0,0.0
+Fairfield,2,0,0.0,0.0
+Fairfield,3,0,0.0,0.0
+Fairfield,4,0,0.0,0.0
+Fairfield,5,0,0.0,0.0
+Fairfield,6,0,0.0,0.0
+Fairfield,7,0,0.0,0.0
+Fairfield,8,0,0.0,0.0
+Fairfield,9,0,0.0,0.0
+Fairfield,10,0,0.0,0.0
+Fairfield,11,0,0.0,0.0
+Fairfield,12,0,0.0,0.0
+Fairfield,13,0,0.0,0.0
+Fairfield,14,0,0.0,0.0
+Fairfield,15,0,0.0,0.0
+Fairfield,16,24,0.012,1.0
+Sacramento St.,1,0,0.0,0.0
+Sacramento St.,2,0,0.0,0.0
+Sacramento St.,3,0,0.0,0.0
+Sacramento St.,4,0,0.0,0.0
+Sacramento St.,5,0,0.0,0.0
+Sacramento St.,6,0,0.0,0.0
+Sacramento St.,7,0,0.0,0.0
+Sacramento St.,8,0,0.0,0.0
+Sacramento St.,9,0,0.0,0.0
+Sacramento St.,10,0,0.0,0.0
+Sacramento St.,11,0,0.0,0.0
+Sacramento St.,12,0,0.0,0.0
+Sacramento St.,13,0,0.0,0.0
+Sacramento St.,14,0,0.0,0.0
+Sacramento St.,15,0,0.0,0.0
+Sacramento St.,16,7,0.0035,1.0
+Cal Poly,1,0,0.0,0.0
+Cal Poly,2,0,0.0,0.0
+Cal Poly,3,0,0.0,0.0
+Cal Poly,4,0,0.0,0.0
+Cal Poly,5,0,0.0,0.0
+Cal Poly,6,0,0.0,0.0
+Cal Poly,7,0,0.0,0.0
+Cal Poly,8,0,0.0,0.0
+Cal Poly,9,0,0.0,0.0
+Cal Poly,10,0,0.0,0.0
+Cal Poly,11,0,0.0,0.0
+Cal Poly,12,0,0.0,0.0
+Cal Poly,13,0,0.0,0.0
+Cal Poly,14,0,0.0,0.0
+Cal Poly,15,0,0.0,0.0
+Cal Poly,16,2,0.001,1.0
+Southern Utah,1,0,0.0,0.0
+Southern Utah,2,0,0.0,0.0
+Southern Utah,3,0,0.0,0.0
+Southern Utah,4,0,0.0,0.0
+Southern Utah,5,0,0.0,0.0
+Southern Utah,6,0,0.0,0.0
+Southern Utah,7,0,0.0,0.0
+Southern Utah,8,0,0.0,0.0
+Southern Utah,9,0,0.0,0.0
+Southern Utah,10,0,0.0,0.0
+Southern Utah,11,0,0.0,0.0
+Southern Utah,12,0,0.0,0.0
+Southern Utah,13,0,0.0,0.0
+Southern Utah,14,0,0.0,0.0
+Southern Utah,15,0,0.0,0.0
+Southern Utah,16,7,0.0035,1.0
+Western Carolina,1,0,0.0,0.0
+Western Carolina,2,0,0.0,0.0
+Western Carolina,3,0,0.0,0.0
+Western Carolina,4,0,0.0,0.0
+Western Carolina,5,0,0.0,0.0
+Western Carolina,6,0,0.0,0.0
+Western Carolina,7,0,0.0,0.0
+Western Carolina,8,0,0.0,0.0
+Western Carolina,9,0,0.0,0.0
+Western Carolina,10,0,0.0,0.0
+Western Carolina,11,0,0.0,0.0
+Western Carolina,12,0,0.0,0.0
+Western Carolina,13,0,0.0,0.0
+Western Carolina,14,0,0.0,0.0
+Western Carolina,15,0,0.0,0.0
+Western Carolina,16,8,0.004,1.0
+Delaware,1,0,0.0,0.0
+Delaware,2,0,0.0,0.0
+Delaware,3,0,0.0,0.0
+Delaware,4,0,0.0,0.0
+Delaware,5,0,0.0,0.0
+Delaware,6,0,0.0,0.0
+Delaware,7,0,0.0,0.0
+Delaware,8,0,0.0,0.0
+Delaware,9,0,0.0,0.0
+Delaware,10,0,0.0,0.0
+Delaware,11,0,0.0,0.0
+Delaware,12,0,0.0,0.0
+Delaware,13,0,0.0,0.0
+Delaware,14,0,0.0,0.0
+Delaware,15,0,0.0,0.0
+Delaware,16,0,0.0,0.0
+Morehead St.,1,0,0.0,0.0
+Morehead St.,2,0,0.0,0.0
+Morehead St.,3,0,0.0,0.0
+Morehead St.,4,0,0.0,0.0
+Morehead St.,5,0,0.0,0.0
+Morehead St.,6,0,0.0,0.0
+Morehead St.,7,0,0.0,0.0
+Morehead St.,8,0,0.0,0.0
+Morehead St.,9,0,0.0,0.0
+Morehead St.,10,0,0.0,0.0
+Morehead St.,11,0,0.0,0.0
+Morehead St.,12,0,0.0,0.0
+Morehead St.,13,0,0.0,0.0
+Morehead St.,14,0,0.0,0.0
+Morehead St.,15,0,0.0,0.0
+Morehead St.,16,67,0.0335,1.0
+Jacksonville,1,0,0.0,0.0
+Jacksonville,2,0,0.0,0.0
+Jacksonville,3,0,0.0,0.0
+Jacksonville,4,0,0.0,0.0
+Jacksonville,5,0,0.0,0.0
+Jacksonville,6,0,0.0,0.0
+Jacksonville,7,0,0.0,0.0
+Jacksonville,8,0,0.0,0.0
+Jacksonville,9,0,0.0,0.0
+Jacksonville,10,0,0.0,0.0
+Jacksonville,11,0,0.0,0.0
+Jacksonville,12,0,0.0,0.0
+Jacksonville,13,0,0.0,0.0
+Jacksonville,14,0,0.0,0.0
+Jacksonville,15,0,0.0,0.0
+Jacksonville,16,25,0.0125,1.0
+UC Riverside,1,0,0.0,0.0
+UC Riverside,2,0,0.0,0.0
+UC Riverside,3,0,0.0,0.0
+UC Riverside,4,0,0.0,0.0
+UC Riverside,5,0,0.0,0.0
+UC Riverside,6,0,0.0,0.0
+UC Riverside,7,0,0.0,0.0
+UC Riverside,8,0,0.0,0.0
+UC Riverside,9,0,0.0,0.0
+UC Riverside,10,0,0.0,0.0
+UC Riverside,11,0,0.0,0.0
+UC Riverside,12,0,0.0,0.0
+UC Riverside,13,0,0.0,0.0
+UC Riverside,14,0,0.0,0.0
+UC Riverside,15,0,0.0,0.0
+UC Riverside,16,2,0.001,1.0
+Boston University,1,0,0.0,0.0
+Boston University,2,0,0.0,0.0
+Boston University,3,0,0.0,0.0
+Boston University,4,0,0.0,0.0
+Boston University,5,0,0.0,0.0
+Boston University,6,0,0.0,0.0
+Boston University,7,0,0.0,0.0
+Boston University,8,0,0.0,0.0
+Boston University,9,0,0.0,0.0
+Boston University,10,0,0.0,0.0
+Boston University,11,0,0.0,0.0
+Boston University,12,0,0.0,0.0
+Boston University,13,0,0.0,0.0
+Boston University,14,0,0.0,0.0
+Boston University,15,0,0.0,0.0
+Boston University,16,33,0.0165,1.0
+East Texas A&M,1,0,0.0,0.0
+East Texas A&M,2,0,0.0,0.0
+East Texas A&M,3,0,0.0,0.0
+East Texas A&M,4,0,0.0,0.0
+East Texas A&M,5,0,0.0,0.0
+East Texas A&M,6,0,0.0,0.0
+East Texas A&M,7,0,0.0,0.0
+East Texas A&M,8,0,0.0,0.0
+East Texas A&M,9,0,0.0,0.0
+East Texas A&M,10,0,0.0,0.0
+East Texas A&M,11,0,0.0,0.0
+East Texas A&M,12,0,0.0,0.0
+East Texas A&M,13,0,0.0,0.0
+East Texas A&M,14,0,0.0,0.0
+East Texas A&M,15,0,0.0,0.0
+East Texas A&M,16,0,0.0,0.0
+Little Rock,1,0,0.0,0.0
+Little Rock,2,0,0.0,0.0
+Little Rock,3,0,0.0,0.0
+Little Rock,4,0,0.0,0.0
+Little Rock,5,0,0.0,0.0
+Little Rock,6,0,0.0,0.0
+Little Rock,7,0,0.0,0.0
+Little Rock,8,0,0.0,0.0
+Little Rock,9,0,0.0,0.0
+Little Rock,10,0,0.0,0.0
+Little Rock,11,0,0.0,0.0
+Little Rock,12,0,0.0,0.0
+Little Rock,13,0,0.0,0.0
+Little Rock,14,0,0.0,0.0
+Little Rock,15,0,0.0,0.0
+Little Rock,16,56,0.028,1.0
+South Dakota,1,0,0.0,0.0
+South Dakota,2,0,0.0,0.0
+South Dakota,3,0,0.0,0.0
+South Dakota,4,0,0.0,0.0
+South Dakota,5,0,0.0,0.0
+South Dakota,6,0,0.0,0.0
+South Dakota,7,0,0.0,0.0
+South Dakota,8,0,0.0,0.0
+South Dakota,9,0,0.0,0.0
+South Dakota,10,0,0.0,0.0
+South Dakota,11,0,0.0,0.0
+South Dakota,12,0,0.0,0.0
+South Dakota,13,0,0.0,0.0
+South Dakota,14,0,0.0,0.0
+South Dakota,15,0,0.0,0.0
+South Dakota,16,8,0.004,1.0
+Texas St.,1,0,0.0,0.0
+Texas St.,2,0,0.0,0.0
+Texas St.,3,0,0.0,0.0
+Texas St.,4,0,0.0,0.0
+Texas St.,5,0,0.0,0.0
+Texas St.,6,0,0.0,0.0
+Texas St.,7,0,0.0,0.0
+Texas St.,8,0,0.0,0.0
+Texas St.,9,0,0.0,0.0
+Texas St.,10,0,0.0,0.0
+Texas St.,11,0,0.0,0.0
+Texas St.,12,0,0.0,0.0
+Texas St.,13,0,0.0,0.0
+Texas St.,14,0,0.0,0.0
+Texas St.,15,0,0.0,0.0
+Texas St.,16,7,0.0035,1.0
+Northern Arizona,1,0,0.0,0.0
+Northern Arizona,2,0,0.0,0.0
+Northern Arizona,3,0,0.0,0.0
+Northern Arizona,4,0,0.0,0.0
+Northern Arizona,5,0,0.0,0.0
+Northern Arizona,6,0,0.0,0.0
+Northern Arizona,7,0,0.0,0.0
+Northern Arizona,8,0,0.0,0.0
+Northern Arizona,9,0,0.0,0.0
+Northern Arizona,10,0,0.0,0.0
+Northern Arizona,11,0,0.0,0.0
+Northern Arizona,12,0,0.0,0.0
+Northern Arizona,13,0,0.0,0.0
+Northern Arizona,14,0,0.0,0.0
+Northern Arizona,15,0,0.0,0.0
+Northern Arizona,16,2,0.001,1.0
+Central Connecticut,1,0,0.0,0.0
+Central Connecticut,2,0,0.0,0.0
+Central Connecticut,3,0,0.0,0.0
+Central Connecticut,4,0,0.0,0.0
+Central Connecticut,5,0,0.0,0.0
+Central Connecticut,6,0,0.0,0.0
+Central Connecticut,7,0,0.0,0.0
+Central Connecticut,8,0,0.0,0.0
+Central Connecticut,9,0,0.0,0.0
+Central Connecticut,10,0,0.0,0.0
+Central Connecticut,11,0,0.0,0.0
+Central Connecticut,12,0,0.0,0.0
+Central Connecticut,13,0,0.0,0.0
+Central Connecticut,14,0,0.0,0.0
+Central Connecticut,15,0,0.0,0.0
+Central Connecticut,16,172,0.086,1.0
+Bellarmine,1,0,0.0,0.0
+Bellarmine,2,0,0.0,0.0
+Bellarmine,3,0,0.0,0.0
+Bellarmine,4,0,0.0,0.0
+Bellarmine,5,0,0.0,0.0
+Bellarmine,6,0,0.0,0.0
+Bellarmine,7,0,0.0,0.0
+Bellarmine,8,0,0.0,0.0
+Bellarmine,9,0,0.0,0.0
+Bellarmine,10,0,0.0,0.0
+Bellarmine,11,0,0.0,0.0
+Bellarmine,12,0,0.0,0.0
+Bellarmine,13,0,0.0,0.0
+Bellarmine,14,0,0.0,0.0
+Bellarmine,15,0,0.0,0.0
+Bellarmine,16,21,0.0105,1.0
+Grambling St.,1,0,0.0,0.0
+Grambling St.,2,0,0.0,0.0
+Grambling St.,3,0,0.0,0.0
+Grambling St.,4,0,0.0,0.0
+Grambling St.,5,0,0.0,0.0
+Grambling St.,6,0,0.0,0.0
+Grambling St.,7,0,0.0,0.0
+Grambling St.,8,0,0.0,0.0
+Grambling St.,9,0,0.0,0.0
+Grambling St.,10,0,0.0,0.0
+Grambling St.,11,0,0.0,0.0
+Grambling St.,12,0,0.0,0.0
+Grambling St.,13,0,0.0,0.0
+Grambling St.,14,0,0.0,0.0
+Grambling St.,15,0,0.0,0.0
+Grambling St.,16,292,0.146,1.0
+Mount St. Mary's,1,0,0.0,0.0
+Mount St. Mary's,2,0,0.0,0.0
+Mount St. Mary's,3,0,0.0,0.0
+Mount St. Mary's,4,0,0.0,0.0
+Mount St. Mary's,5,0,0.0,0.0
+Mount St. Mary's,6,0,0.0,0.0
+Mount St. Mary's,7,0,0.0,0.0
+Mount St. Mary's,8,0,0.0,0.0
+Mount St. Mary's,9,0,0.0,0.0
+Mount St. Mary's,10,0,0.0,0.0
+Mount St. Mary's,11,0,0.0,0.0
+Mount St. Mary's,12,0,0.0,0.0
+Mount St. Mary's,13,0,0.0,0.0
+Mount St. Mary's,14,0,0.0,0.0
+Mount St. Mary's,15,0,0.0,0.0
+Mount St. Mary's,16,24,0.012,1.0
+New Hampshire,1,0,0.0,0.0
+New Hampshire,2,0,0.0,0.0
+New Hampshire,3,0,0.0,0.0
+New Hampshire,4,0,0.0,0.0
+New Hampshire,5,0,0.0,0.0
+New Hampshire,6,0,0.0,0.0
+New Hampshire,7,0,0.0,0.0
+New Hampshire,8,0,0.0,0.0
+New Hampshire,9,0,0.0,0.0
+New Hampshire,10,0,0.0,0.0
+New Hampshire,11,0,0.0,0.0
+New Hampshire,12,0,0.0,0.0
+New Hampshire,13,0,0.0,0.0
+New Hampshire,14,0,0.0,0.0
+New Hampshire,15,0,0.0,0.0
+New Hampshire,16,135,0.0675,1.0
+Sacred Heart,1,0,0.0,0.0
+Sacred Heart,2,0,0.0,0.0
+Sacred Heart,3,0,0.0,0.0
+Sacred Heart,4,0,0.0,0.0
+Sacred Heart,5,0,0.0,0.0
+Sacred Heart,6,0,0.0,0.0
+Sacred Heart,7,0,0.0,0.0
+Sacred Heart,8,0,0.0,0.0
+Sacred Heart,9,0,0.0,0.0
+Sacred Heart,10,0,0.0,0.0
+Sacred Heart,11,0,0.0,0.0
+Sacred Heart,12,0,0.0,0.0
+Sacred Heart,13,0,0.0,0.0
+Sacred Heart,14,0,0.0,0.0
+Sacred Heart,15,0,0.0,0.0
+Sacred Heart,16,6,0.003,1.0
+Cleveland St.,1,0,0.0,0.0
+Cleveland St.,2,0,0.0,0.0
+Cleveland St.,3,0,0.0,0.0
+Cleveland St.,4,0,0.0,0.0
+Cleveland St.,5,0,0.0,0.0
+Cleveland St.,6,0,0.0,0.0
+Cleveland St.,7,0,0.0,0.0
+Cleveland St.,8,0,0.0,0.0
+Cleveland St.,9,0,0.0,0.0
+Cleveland St.,10,0,0.0,0.0
+Cleveland St.,11,0,0.0,0.0
+Cleveland St.,12,0,0.0,0.0
+Cleveland St.,13,0,0.0,0.0
+Cleveland St.,14,0,0.0,0.0
+Cleveland St.,15,0,0.0,0.0
+Cleveland St.,16,4,0.002,1.0
+Lehigh,1,0,0.0,0.0
+Lehigh,2,0,0.0,0.0
+Lehigh,3,0,0.0,0.0
+Lehigh,4,0,0.0,0.0
+Lehigh,5,0,0.0,0.0
+Lehigh,6,0,0.0,0.0
+Lehigh,7,0,0.0,0.0
+Lehigh,8,0,0.0,0.0
+Lehigh,9,0,0.0,0.0
+Lehigh,10,0,0.0,0.0
+Lehigh,11,0,0.0,0.0
+Lehigh,12,0,0.0,0.0
+Lehigh,13,0,0.0,0.0
+Lehigh,14,0,0.0,0.0
+Lehigh,15,0,0.0,0.0
+Lehigh,16,16,0.008,1.0
+Albany,1,0,0.0,0.0
+Albany,2,0,0.0,0.0
+Albany,3,0,0.0,0.0
+Albany,4,0,0.0,0.0
+Albany,5,0,0.0,0.0
+Albany,6,0,0.0,0.0
+Albany,7,0,0.0,0.0
+Albany,8,0,0.0,0.0
+Albany,9,0,0.0,0.0
+Albany,10,0,0.0,0.0
+Albany,11,0,0.0,0.0
+Albany,12,0,0.0,0.0
+Albany,13,0,0.0,0.0
+Albany,14,0,0.0,0.0
+Albany,15,0,0.0,0.0
+Albany,16,58,0.029,1.0
+Eastern Illinois,1,0,0.0,0.0
+Eastern Illinois,2,0,0.0,0.0
+Eastern Illinois,3,0,0.0,0.0
+Eastern Illinois,4,0,0.0,0.0
+Eastern Illinois,5,0,0.0,0.0
+Eastern Illinois,6,0,0.0,0.0
+Eastern Illinois,7,0,0.0,0.0
+Eastern Illinois,8,0,0.0,0.0
+Eastern Illinois,9,0,0.0,0.0
+Eastern Illinois,10,0,0.0,0.0
+Eastern Illinois,11,0,0.0,0.0
+Eastern Illinois,12,0,0.0,0.0
+Eastern Illinois,13,0,0.0,0.0
+Eastern Illinois,14,0,0.0,0.0
+Eastern Illinois,15,0,0.0,0.0
+Eastern Illinois,16,40,0.02,1.0
+USC Upstate,1,0,0.0,0.0
+USC Upstate,2,0,0.0,0.0
+USC Upstate,3,0,0.0,0.0
+USC Upstate,4,0,0.0,0.0
+USC Upstate,5,0,0.0,0.0
+USC Upstate,6,0,0.0,0.0
+USC Upstate,7,0,0.0,0.0
+USC Upstate,8,0,0.0,0.0
+USC Upstate,9,0,0.0,0.0
+USC Upstate,10,0,0.0,0.0
+USC Upstate,11,0,0.0,0.0
+USC Upstate,12,0,0.0,0.0
+USC Upstate,13,0,0.0,0.0
+USC Upstate,14,0,0.0,0.0
+USC Upstate,15,0,0.0,0.0
+USC Upstate,16,1,0.0005,1.0
+Ball St.,1,0,0.0,0.0
+Ball St.,2,0,0.0,0.0
+Ball St.,3,0,0.0,0.0
+Ball St.,4,0,0.0,0.0
+Ball St.,5,0,0.0,0.0
+Ball St.,6,0,0.0,0.0
+Ball St.,7,0,0.0,0.0
+Ball St.,8,0,0.0,0.0
+Ball St.,9,0,0.0,0.0
+Ball St.,10,0,0.0,0.0
+Ball St.,11,0,0.0,0.0
+Ball St.,12,0,0.0,0.0
+Ball St.,13,0,0.0,0.0
+Ball St.,14,0,0.0,0.0
+Ball St.,15,0,0.0,0.0
+Ball St.,16,0,0.0,0.0
+Cal St. Bakersfield,1,0,0.0,0.0
+Cal St. Bakersfield,2,0,0.0,0.0
+Cal St. Bakersfield,3,0,0.0,0.0
+Cal St. Bakersfield,4,0,0.0,0.0
+Cal St. Bakersfield,5,0,0.0,0.0
+Cal St. Bakersfield,6,0,0.0,0.0
+Cal St. Bakersfield,7,0,0.0,0.0
+Cal St. Bakersfield,8,0,0.0,0.0
+Cal St. Bakersfield,9,0,0.0,0.0
+Cal St. Bakersfield,10,0,0.0,0.0
+Cal St. Bakersfield,11,0,0.0,0.0
+Cal St. Bakersfield,12,0,0.0,0.0
+Cal St. Bakersfield,13,0,0.0,0.0
+Cal St. Bakersfield,14,0,0.0,0.0
+Cal St. Bakersfield,15,0,0.0,0.0
+Cal St. Bakersfield,16,2,0.001,1.0
+Houston Christian,1,0,0.0,0.0
+Houston Christian,2,0,0.0,0.0
+Houston Christian,3,0,0.0,0.0
+Houston Christian,4,0,0.0,0.0
+Houston Christian,5,0,0.0,0.0
+Houston Christian,6,0,0.0,0.0
+Houston Christian,7,0,0.0,0.0
+Houston Christian,8,0,0.0,0.0
+Houston Christian,9,0,0.0,0.0
+Houston Christian,10,0,0.0,0.0
+Houston Christian,11,0,0.0,0.0
+Houston Christian,12,0,0.0,0.0
+Houston Christian,13,0,0.0,0.0
+Houston Christian,14,0,0.0,0.0
+Houston Christian,15,0,0.0,0.0
+Houston Christian,16,0,0.0,0.0
+Maryland Eastern Shore,1,0,0.0,0.0
+Maryland Eastern Shore,2,0,0.0,0.0
+Maryland Eastern Shore,3,0,0.0,0.0
+Maryland Eastern Shore,4,0,0.0,0.0
+Maryland Eastern Shore,5,0,0.0,0.0
+Maryland Eastern Shore,6,0,0.0,0.0
+Maryland Eastern Shore,7,0,0.0,0.0
+Maryland Eastern Shore,8,0,0.0,0.0
+Maryland Eastern Shore,9,0,0.0,0.0
+Maryland Eastern Shore,10,0,0.0,0.0
+Maryland Eastern Shore,11,0,0.0,0.0
+Maryland Eastern Shore,12,0,0.0,0.0
+Maryland Eastern Shore,13,0,0.0,0.0
+Maryland Eastern Shore,14,0,0.0,0.0
+Maryland Eastern Shore,15,0,0.0,0.0
+Maryland Eastern Shore,16,348,0.174,1.0
+Norfolk St.,1,0,0.0,0.0
+Norfolk St.,2,0,0.0,0.0
+Norfolk St.,3,0,0.0,0.0
+Norfolk St.,4,0,0.0,0.0
+Norfolk St.,5,0,0.0,0.0
+Norfolk St.,6,0,0.0,0.0
+Norfolk St.,7,0,0.0,0.0
+Norfolk St.,8,0,0.0,0.0
+Norfolk St.,9,0,0.0,0.0
+Norfolk St.,10,0,0.0,0.0
+Norfolk St.,11,0,0.0,0.0
+Norfolk St.,12,0,0.0,0.0
+Norfolk St.,13,0,0.0,0.0
+Norfolk St.,14,0,0.0,0.0
+Norfolk St.,15,0,0.0,0.0
+Norfolk St.,16,194,0.097,1.0
+Alabama St.,1,0,0.0,0.0
+Alabama St.,2,0,0.0,0.0
+Alabama St.,3,0,0.0,0.0
+Alabama St.,4,0,0.0,0.0
+Alabama St.,5,0,0.0,0.0
+Alabama St.,6,0,0.0,0.0
+Alabama St.,7,0,0.0,0.0
+Alabama St.,8,0,0.0,0.0
+Alabama St.,9,0,0.0,0.0
+Alabama St.,10,0,0.0,0.0
+Alabama St.,11,0,0.0,0.0
+Alabama St.,12,0,0.0,0.0
+Alabama St.,13,0,0.0,0.0
+Alabama St.,14,0,0.0,0.0
+Alabama St.,15,0,0.0,0.0
+Alabama St.,16,68,0.034,1.0
+Loyola Chicago,1,0,0.0,0.0
+Loyola Chicago,2,0,0.0,0.0
+Loyola Chicago,3,0,0.0,0.0
+Loyola Chicago,4,0,0.0,0.0
+Loyola Chicago,5,0,0.0,0.0
+Loyola Chicago,6,0,0.0,0.0
+Loyola Chicago,7,0,0.0,0.0
+Loyola Chicago,8,0,0.0,0.0
+Loyola Chicago,9,0,0.0,0.0
+Loyola Chicago,10,0,0.0,0.0
+Loyola Chicago,11,0,0.0,0.0
+Loyola Chicago,12,0,0.0,0.0
+Loyola Chicago,13,0,0.0,0.0
+Loyola Chicago,14,0,0.0,0.0
+Loyola Chicago,15,0,0.0,0.0
+Loyola Chicago,16,0,0.0,0.0
+UNC Greensboro,1,0,0.0,0.0
+UNC Greensboro,2,0,0.0,0.0
+UNC Greensboro,3,0,0.0,0.0
+UNC Greensboro,4,0,0.0,0.0
+UNC Greensboro,5,0,0.0,0.0
+UNC Greensboro,6,0,0.0,0.0
+UNC Greensboro,7,0,0.0,0.0
+UNC Greensboro,8,0,0.0,0.0
+UNC Greensboro,9,0,0.0,0.0
+UNC Greensboro,10,0,0.0,0.0
+UNC Greensboro,11,0,0.0,0.0
+UNC Greensboro,12,0,0.0,0.0
+UNC Greensboro,13,0,0.0,0.0
+UNC Greensboro,14,0,0.0,0.0
+UNC Greensboro,15,0,0.0,0.0
+UNC Greensboro,16,0,0.0,0.0
+Florida A&M,1,0,0.0,0.0
+Florida A&M,2,0,0.0,0.0
+Florida A&M,3,0,0.0,0.0
+Florida A&M,4,0,0.0,0.0
+Florida A&M,5,0,0.0,0.0
+Florida A&M,6,0,0.0,0.0
+Florida A&M,7,0,0.0,0.0
+Florida A&M,8,0,0.0,0.0
+Florida A&M,9,0,0.0,0.0
+Florida A&M,10,0,0.0,0.0
+Florida A&M,11,0,0.0,0.0
+Florida A&M,12,0,0.0,0.0
+Florida A&M,13,0,0.0,0.0
+Florida A&M,14,0,0.0,0.0
+Florida A&M,15,0,0.0,0.0
+Florida A&M,16,63,0.0315,1.0
+Stetson,1,0,0.0,0.0
+Stetson,2,0,0.0,0.0
+Stetson,3,0,0.0,0.0
+Stetson,4,0,0.0,0.0
+Stetson,5,0,0.0,0.0
+Stetson,6,0,0.0,0.0
+Stetson,7,0,0.0,0.0
+Stetson,8,0,0.0,0.0
+Stetson,9,0,0.0,0.0
+Stetson,10,0,0.0,0.0
+Stetson,11,0,0.0,0.0
+Stetson,12,0,0.0,0.0
+Stetson,13,0,0.0,0.0
+Stetson,14,0,0.0,0.0
+Stetson,15,0,0.0,0.0
+Stetson,16,3,0.0015,1.0
+Southern Indiana,1,0,0.0,0.0
+Southern Indiana,2,0,0.0,0.0
+Southern Indiana,3,0,0.0,0.0
+Southern Indiana,4,0,0.0,0.0
+Southern Indiana,5,0,0.0,0.0
+Southern Indiana,6,0,0.0,0.0
+Southern Indiana,7,0,0.0,0.0
+Southern Indiana,8,0,0.0,0.0
+Southern Indiana,9,0,0.0,0.0
+Southern Indiana,10,0,0.0,0.0
+Southern Indiana,11,0,0.0,0.0
+Southern Indiana,12,0,0.0,0.0
+Southern Indiana,13,0,0.0,0.0
+Southern Indiana,14,0,0.0,0.0
+Southern Indiana,15,0,0.0,0.0
+Southern Indiana,16,3,0.0015,1.0
+Arkansas Pine Bluff,1,0,0.0,0.0
+Arkansas Pine Bluff,2,0,0.0,0.0
+Arkansas Pine Bluff,3,0,0.0,0.0
+Arkansas Pine Bluff,4,0,0.0,0.0
+Arkansas Pine Bluff,5,0,0.0,0.0
+Arkansas Pine Bluff,6,0,0.0,0.0
+Arkansas Pine Bluff,7,0,0.0,0.0
+Arkansas Pine Bluff,8,0,0.0,0.0
+Arkansas Pine Bluff,9,0,0.0,0.0
+Arkansas Pine Bluff,10,0,0.0,0.0
+Arkansas Pine Bluff,11,0,0.0,0.0
+Arkansas Pine Bluff,12,0,0.0,0.0
+Arkansas Pine Bluff,13,0,0.0,0.0
+Arkansas Pine Bluff,14,0,0.0,0.0
+Arkansas Pine Bluff,15,0,0.0,0.0
+Arkansas Pine Bluff,16,205,0.1025,1.0
+UMass Lowell,1,0,0.0,0.0
+UMass Lowell,2,0,0.0,0.0
+UMass Lowell,3,0,0.0,0.0
+UMass Lowell,4,0,0.0,0.0
+UMass Lowell,5,0,0.0,0.0
+UMass Lowell,6,0,0.0,0.0
+UMass Lowell,7,0,0.0,0.0
+UMass Lowell,8,0,0.0,0.0
+UMass Lowell,9,0,0.0,0.0
+UMass Lowell,10,0,0.0,0.0
+UMass Lowell,11,0,0.0,0.0
+UMass Lowell,12,0,0.0,0.0
+UMass Lowell,13,0,0.0,0.0
+UMass Lowell,14,0,0.0,0.0
+UMass Lowell,15,0,0.0,0.0
+UMass Lowell,16,12,0.006,1.0
+Wagner,1,0,0.0,0.0
+Wagner,2,0,0.0,0.0
+Wagner,3,0,0.0,0.0
+Wagner,4,0,0.0,0.0
+Wagner,5,0,0.0,0.0
+Wagner,6,0,0.0,0.0
+Wagner,7,0,0.0,0.0
+Wagner,8,0,0.0,0.0
+Wagner,9,0,0.0,0.0
+Wagner,10,0,0.0,0.0
+Wagner,11,0,0.0,0.0
+Wagner,12,0,0.0,0.0
+Wagner,13,0,0.0,0.0
+Wagner,14,0,0.0,0.0
+Wagner,15,0,0.0,0.0
+Wagner,16,50,0.025,1.0
+IU Indy,1,0,0.0,0.0
+IU Indy,2,0,0.0,0.0
+IU Indy,3,0,0.0,0.0
+IU Indy,4,0,0.0,0.0
+IU Indy,5,0,0.0,0.0
+IU Indy,6,0,0.0,0.0
+IU Indy,7,0,0.0,0.0
+IU Indy,8,0,0.0,0.0
+IU Indy,9,0,0.0,0.0
+IU Indy,10,0,0.0,0.0
+IU Indy,11,0,0.0,0.0
+IU Indy,12,0,0.0,0.0
+IU Indy,13,0,0.0,0.0
+IU Indy,14,0,0.0,0.0
+IU Indy,15,0,0.0,0.0
+IU Indy,16,2,0.001,1.0
+West Georgia,1,0,0.0,0.0
+West Georgia,2,0,0.0,0.0
+West Georgia,3,0,0.0,0.0
+West Georgia,4,0,0.0,0.0
+West Georgia,5,0,0.0,0.0
+West Georgia,6,0,0.0,0.0
+West Georgia,7,0,0.0,0.0
+West Georgia,8,0,0.0,0.0
+West Georgia,9,0,0.0,0.0
+West Georgia,10,0,0.0,0.0
+West Georgia,11,0,0.0,0.0
+West Georgia,12,0,0.0,0.0
+West Georgia,13,0,0.0,0.0
+West Georgia,14,0,0.0,0.0
+West Georgia,15,0,0.0,0.0
+West Georgia,16,2,0.001,1.0
+Prairie View A&M,1,0,0.0,0.0
+Prairie View A&M,2,0,0.0,0.0
+Prairie View A&M,3,0,0.0,0.0
+Prairie View A&M,4,0,0.0,0.0
+Prairie View A&M,5,0,0.0,0.0
+Prairie View A&M,6,0,0.0,0.0
+Prairie View A&M,7,0,0.0,0.0
+Prairie View A&M,8,0,0.0,0.0
+Prairie View A&M,9,0,0.0,0.0
+Prairie View A&M,10,0,0.0,0.0
+Prairie View A&M,11,0,0.0,0.0
+Prairie View A&M,12,0,0.0,0.0
+Prairie View A&M,13,0,0.0,0.0
+Prairie View A&M,14,0,0.0,0.0
+Prairie View A&M,15,0,0.0,0.0
+Prairie View A&M,16,124,0.062,1.0
+Maine,1,0,0.0,0.0
+Maine,2,0,0.0,0.0
+Maine,3,0,0.0,0.0
+Maine,4,0,0.0,0.0
+Maine,5,0,0.0,0.0
+Maine,6,0,0.0,0.0
+Maine,7,0,0.0,0.0
+Maine,8,0,0.0,0.0
+Maine,9,0,0.0,0.0
+Maine,10,0,0.0,0.0
+Maine,11,0,0.0,0.0
+Maine,12,0,0.0,0.0
+Maine,13,0,0.0,0.0
+Maine,14,0,0.0,0.0
+Maine,15,0,0.0,0.0
+Maine,16,59,0.0295,1.0
+New Haven,1,0,0.0,0.0
+New Haven,2,0,0.0,0.0
+New Haven,3,0,0.0,0.0
+New Haven,4,0,0.0,0.0
+New Haven,5,0,0.0,0.0
+New Haven,6,0,0.0,0.0
+New Haven,7,0,0.0,0.0
+New Haven,8,0,0.0,0.0
+New Haven,9,0,0.0,0.0
+New Haven,10,0,0.0,0.0
+New Haven,11,0,0.0,0.0
+New Haven,12,0,0.0,0.0
+New Haven,13,0,0.0,0.0
+New Haven,14,0,0.0,0.0
+New Haven,15,0,0.0,0.0
+New Haven,16,22,0.011,1.0
+Oral Roberts,1,0,0.0,0.0
+Oral Roberts,2,0,0.0,0.0
+Oral Roberts,3,0,0.0,0.0
+Oral Roberts,4,0,0.0,0.0
+Oral Roberts,5,0,0.0,0.0
+Oral Roberts,6,0,0.0,0.0
+Oral Roberts,7,0,0.0,0.0
+Oral Roberts,8,0,0.0,0.0
+Oral Roberts,9,0,0.0,0.0
+Oral Roberts,10,0,0.0,0.0
+Oral Roberts,11,0,0.0,0.0
+Oral Roberts,12,0,0.0,0.0
+Oral Roberts,13,0,0.0,0.0
+Oral Roberts,14,0,0.0,0.0
+Oral Roberts,15,0,0.0,0.0
+Oral Roberts,16,2,0.001,1.0
+Lafayette,1,0,0.0,0.0
+Lafayette,2,0,0.0,0.0
+Lafayette,3,0,0.0,0.0
+Lafayette,4,0,0.0,0.0
+Lafayette,5,0,0.0,0.0
+Lafayette,6,0,0.0,0.0
+Lafayette,7,0,0.0,0.0
+Lafayette,8,0,0.0,0.0
+Lafayette,9,0,0.0,0.0
+Lafayette,10,0,0.0,0.0
+Lafayette,11,0,0.0,0.0
+Lafayette,12,0,0.0,0.0
+Lafayette,13,0,0.0,0.0
+Lafayette,14,0,0.0,0.0
+Lafayette,15,0,0.0,0.0
+Lafayette,16,6,0.003,1.0
+Central Michigan,1,0,0.0,0.0
+Central Michigan,2,0,0.0,0.0
+Central Michigan,3,0,0.0,0.0
+Central Michigan,4,0,0.0,0.0
+Central Michigan,5,0,0.0,0.0
+Central Michigan,6,0,0.0,0.0
+Central Michigan,7,0,0.0,0.0
+Central Michigan,8,0,0.0,0.0
+Central Michigan,9,0,0.0,0.0
+Central Michigan,10,0,0.0,0.0
+Central Michigan,11,0,0.0,0.0
+Central Michigan,12,0,0.0,0.0
+Central Michigan,13,0,0.0,0.0
+Central Michigan,14,0,0.0,0.0
+Central Michigan,15,0,0.0,0.0
+Central Michigan,16,0,0.0,0.0
+Loyola MD,1,0,0.0,0.0
+Loyola MD,2,0,0.0,0.0
+Loyola MD,3,0,0.0,0.0
+Loyola MD,4,0,0.0,0.0
+Loyola MD,5,0,0.0,0.0
+Loyola MD,6,0,0.0,0.0
+Loyola MD,7,0,0.0,0.0
+Loyola MD,8,0,0.0,0.0
+Loyola MD,9,0,0.0,0.0
+Loyola MD,10,0,0.0,0.0
+Loyola MD,11,0,0.0,0.0
+Loyola MD,12,0,0.0,0.0
+Loyola MD,13,0,0.0,0.0
+Loyola MD,14,0,0.0,0.0
+Loyola MD,15,0,0.0,0.0
+Loyola MD,16,4,0.002,1.0
+Holy Cross,1,0,0.0,0.0
+Holy Cross,2,0,0.0,0.0
+Holy Cross,3,0,0.0,0.0
+Holy Cross,4,0,0.0,0.0
+Holy Cross,5,0,0.0,0.0
+Holy Cross,6,0,0.0,0.0
+Holy Cross,7,0,0.0,0.0
+Holy Cross,8,0,0.0,0.0
+Holy Cross,9,0,0.0,0.0
+Holy Cross,10,0,0.0,0.0
+Holy Cross,11,0,0.0,0.0
+Holy Cross,12,0,0.0,0.0
+Holy Cross,13,0,0.0,0.0
+Holy Cross,14,0,0.0,0.0
+Holy Cross,15,0,0.0,0.0
+Holy Cross,16,8,0.004,1.0
+Alabama A&M,1,0,0.0,0.0
+Alabama A&M,2,0,0.0,0.0
+Alabama A&M,3,0,0.0,0.0
+Alabama A&M,4,0,0.0,0.0
+Alabama A&M,5,0,0.0,0.0
+Alabama A&M,6,0,0.0,0.0
+Alabama A&M,7,0,0.0,0.0
+Alabama A&M,8,0,0.0,0.0
+Alabama A&M,9,0,0.0,0.0
+Alabama A&M,10,0,0.0,0.0
+Alabama A&M,11,0,0.0,0.0
+Alabama A&M,12,0,0.0,0.0
+Alabama A&M,13,0,0.0,0.0
+Alabama A&M,14,0,0.0,0.0
+Alabama A&M,15,0,0.0,0.0
+Alabama A&M,16,60,0.03,1.0
+Fairleigh Dickinson,1,0,0.0,0.0
+Fairleigh Dickinson,2,0,0.0,0.0
+Fairleigh Dickinson,3,0,0.0,0.0
+Fairleigh Dickinson,4,0,0.0,0.0
+Fairleigh Dickinson,5,0,0.0,0.0
+Fairleigh Dickinson,6,0,0.0,0.0
+Fairleigh Dickinson,7,0,0.0,0.0
+Fairleigh Dickinson,8,0,0.0,0.0
+Fairleigh Dickinson,9,0,0.0,0.0
+Fairleigh Dickinson,10,0,0.0,0.0
+Fairleigh Dickinson,11,0,0.0,0.0
+Fairleigh Dickinson,12,0,0.0,0.0
+Fairleigh Dickinson,13,0,0.0,0.0
+Fairleigh Dickinson,14,0,0.0,0.0
+Fairleigh Dickinson,15,0,0.0,0.0
+Fairleigh Dickinson,16,16,0.008,1.0
+Northern Illinois,1,0,0.0,0.0
+Northern Illinois,2,0,0.0,0.0
+Northern Illinois,3,0,0.0,0.0
+Northern Illinois,4,0,0.0,0.0
+Northern Illinois,5,0,0.0,0.0
+Northern Illinois,6,0,0.0,0.0
+Northern Illinois,7,0,0.0,0.0
+Northern Illinois,8,0,0.0,0.0
+Northern Illinois,9,0,0.0,0.0
+Northern Illinois,10,0,0.0,0.0
+Northern Illinois,11,0,0.0,0.0
+Northern Illinois,12,0,0.0,0.0
+Northern Illinois,13,0,0.0,0.0
+Northern Illinois,14,0,0.0,0.0
+Northern Illinois,15,0,0.0,0.0
+Northern Illinois,16,0,0.0,0.0
+Stonehill,1,0,0.0,0.0
+Stonehill,2,0,0.0,0.0
+Stonehill,3,0,0.0,0.0
+Stonehill,4,0,0.0,0.0
+Stonehill,5,0,0.0,0.0
+Stonehill,6,0,0.0,0.0
+Stonehill,7,0,0.0,0.0
+Stonehill,8,0,0.0,0.0
+Stonehill,9,0,0.0,0.0
+Stonehill,10,0,0.0,0.0
+Stonehill,11,0,0.0,0.0
+Stonehill,12,0,0.0,0.0
+Stonehill,13,0,0.0,0.0
+Stonehill,14,0,0.0,0.0
+Stonehill,15,0,0.0,0.0
+Stonehill,16,8,0.004,1.0
+Texas Southern,1,0,0.0,0.0
+Texas Southern,2,0,0.0,0.0
+Texas Southern,3,0,0.0,0.0
+Texas Southern,4,0,0.0,0.0
+Texas Southern,5,0,0.0,0.0
+Texas Southern,6,0,0.0,0.0
+Texas Southern,7,0,0.0,0.0
+Texas Southern,8,0,0.0,0.0
+Texas Southern,9,0,0.0,0.0
+Texas Southern,10,0,0.0,0.0
+Texas Southern,11,0,0.0,0.0
+Texas Southern,12,0,0.0,0.0
+Texas Southern,13,0,0.0,0.0
+Texas Southern,14,0,0.0,0.0
+Texas Southern,15,0,0.0,0.0
+Texas Southern,16,75,0.0375,1.0
+NJIT,1,0,0.0,0.0
+NJIT,2,0,0.0,0.0
+NJIT,3,0,0.0,0.0
+NJIT,4,0,0.0,0.0
+NJIT,5,0,0.0,0.0
+NJIT,6,0,0.0,0.0
+NJIT,7,0,0.0,0.0
+NJIT,8,0,0.0,0.0
+NJIT,9,0,0.0,0.0
+NJIT,10,0,0.0,0.0
+NJIT,11,0,0.0,0.0
+NJIT,12,0,0.0,0.0
+NJIT,13,0,0.0,0.0
+NJIT,14,0,0.0,0.0
+NJIT,15,0,0.0,0.0
+NJIT,16,20,0.01,1.0
+Louisiana,1,0,0.0,0.0
+Louisiana,2,0,0.0,0.0
+Louisiana,3,0,0.0,0.0
+Louisiana,4,0,0.0,0.0
+Louisiana,5,0,0.0,0.0
+Louisiana,6,0,0.0,0.0
+Louisiana,7,0,0.0,0.0
+Louisiana,8,0,0.0,0.0
+Louisiana,9,0,0.0,0.0
+Louisiana,10,0,0.0,0.0
+Louisiana,11,0,0.0,0.0
+Louisiana,12,0,0.0,0.0
+Louisiana,13,0,0.0,0.0
+Louisiana,14,0,0.0,0.0
+Louisiana,15,0,0.0,0.0
+Louisiana,16,0,0.0,0.0
+Army,1,0,0.0,0.0
+Army,2,0,0.0,0.0
+Army,3,0,0.0,0.0
+Army,4,0,0.0,0.0
+Army,5,0,0.0,0.0
+Army,6,0,0.0,0.0
+Army,7,0,0.0,0.0
+Army,8,0,0.0,0.0
+Army,9,0,0.0,0.0
+Army,10,0,0.0,0.0
+Army,11,0,0.0,0.0
+Army,12,0,0.0,0.0
+Army,13,0,0.0,0.0
+Army,14,0,0.0,0.0
+Army,15,0,0.0,0.0
+Army,16,7,0.0035,1.0
+Bucknell,1,0,0.0,0.0
+Bucknell,2,0,0.0,0.0
+Bucknell,3,0,0.0,0.0
+Bucknell,4,0,0.0,0.0
+Bucknell,5,0,0.0,0.0
+Bucknell,6,0,0.0,0.0
+Bucknell,7,0,0.0,0.0
+Bucknell,8,0,0.0,0.0
+Bucknell,9,0,0.0,0.0
+Bucknell,10,0,0.0,0.0
+Bucknell,11,0,0.0,0.0
+Bucknell,12,0,0.0,0.0
+Bucknell,13,0,0.0,0.0
+Bucknell,14,0,0.0,0.0
+Bucknell,15,0,0.0,0.0
+Bucknell,16,4,0.002,1.0
+Air Force,1,0,0.0,0.0
+Air Force,2,0,0.0,0.0
+Air Force,3,0,0.0,0.0
+Air Force,4,0,0.0,0.0
+Air Force,5,0,0.0,0.0
+Air Force,6,0,0.0,0.0
+Air Force,7,0,0.0,0.0
+Air Force,8,0,0.0,0.0
+Air Force,9,0,0.0,0.0
+Air Force,10,0,0.0,0.0
+Air Force,11,0,0.0,0.0
+Air Force,12,0,0.0,0.0
+Air Force,13,0,0.0,0.0
+Air Force,14,0,0.0,0.0
+Air Force,15,0,0.0,0.0
+Air Force,16,0,0.0,0.0
+North Florida,1,0,0.0,0.0
+North Florida,2,0,0.0,0.0
+North Florida,3,0,0.0,0.0
+North Florida,4,0,0.0,0.0
+North Florida,5,0,0.0,0.0
+North Florida,6,0,0.0,0.0
+North Florida,7,0,0.0,0.0
+North Florida,8,0,0.0,0.0
+North Florida,9,0,0.0,0.0
+North Florida,10,0,0.0,0.0
+North Florida,11,0,0.0,0.0
+North Florida,12,0,0.0,0.0
+North Florida,13,0,0.0,0.0
+North Florida,14,0,0.0,0.0
+North Florida,15,0,0.0,0.0
+North Florida,16,0,0.0,0.0
+Manhattan,1,0,0.0,0.0
+Manhattan,2,0,0.0,0.0
+Manhattan,3,0,0.0,0.0
+Manhattan,4,0,0.0,0.0
+Manhattan,5,0,0.0,0.0
+Manhattan,6,0,0.0,0.0
+Manhattan,7,0,0.0,0.0
+Manhattan,8,0,0.0,0.0
+Manhattan,9,0,0.0,0.0
+Manhattan,10,0,0.0,0.0
+Manhattan,11,0,0.0,0.0
+Manhattan,12,0,0.0,0.0
+Manhattan,13,0,0.0,0.0
+Manhattan,14,0,0.0,0.0
+Manhattan,15,0,0.0,0.0
+Manhattan,16,3,0.0015,1.0
+North Carolina Central,1,0,0.0,0.0
+North Carolina Central,2,0,0.0,0.0
+North Carolina Central,3,0,0.0,0.0
+North Carolina Central,4,0,0.0,0.0
+North Carolina Central,5,0,0.0,0.0
+North Carolina Central,6,0,0.0,0.0
+North Carolina Central,7,0,0.0,0.0
+North Carolina Central,8,0,0.0,0.0
+North Carolina Central,9,0,0.0,0.0
+North Carolina Central,10,0,0.0,0.0
+North Carolina Central,11,0,0.0,0.0
+North Carolina Central,12,0,0.0,0.0
+North Carolina Central,13,0,0.0,0.0
+North Carolina Central,14,0,0.0,0.0
+North Carolina Central,15,0,0.0,0.0
+North Carolina Central,16,63,0.0315,1.0
+Tennessee Tech,1,0,0.0,0.0
+Tennessee Tech,2,0,0.0,0.0
+Tennessee Tech,3,0,0.0,0.0
+Tennessee Tech,4,0,0.0,0.0
+Tennessee Tech,5,0,0.0,0.0
+Tennessee Tech,6,0,0.0,0.0
+Tennessee Tech,7,0,0.0,0.0
+Tennessee Tech,8,0,0.0,0.0
+Tennessee Tech,9,0,0.0,0.0
+Tennessee Tech,10,0,0.0,0.0
+Tennessee Tech,11,0,0.0,0.0
+Tennessee Tech,12,0,0.0,0.0
+Tennessee Tech,13,0,0.0,0.0
+Tennessee Tech,14,0,0.0,0.0
+Tennessee Tech,15,0,0.0,0.0
+Tennessee Tech,16,1,0.0005,1.0
+Niagara,1,0,0.0,0.0
+Niagara,2,0,0.0,0.0
+Niagara,3,0,0.0,0.0
+Niagara,4,0,0.0,0.0
+Niagara,5,0,0.0,0.0
+Niagara,6,0,0.0,0.0
+Niagara,7,0,0.0,0.0
+Niagara,8,0,0.0,0.0
+Niagara,9,0,0.0,0.0
+Niagara,10,0,0.0,0.0
+Niagara,11,0,0.0,0.0
+Niagara,12,0,0.0,0.0
+Niagara,13,0,0.0,0.0
+Niagara,14,0,0.0,0.0
+Niagara,15,0,0.0,0.0
+Niagara,16,7,0.0035,1.0
+Kansas City,1,0,0.0,0.0
+Kansas City,2,0,0.0,0.0
+Kansas City,3,0,0.0,0.0
+Kansas City,4,0,0.0,0.0
+Kansas City,5,0,0.0,0.0
+Kansas City,6,0,0.0,0.0
+Kansas City,7,0,0.0,0.0
+Kansas City,8,0,0.0,0.0
+Kansas City,9,0,0.0,0.0
+Kansas City,10,0,0.0,0.0
+Kansas City,11,0,0.0,0.0
+Kansas City,12,0,0.0,0.0
+Kansas City,13,0,0.0,0.0
+Kansas City,14,0,0.0,0.0
+Kansas City,15,0,0.0,0.0
+Kansas City,16,0,0.0,0.0
+Saint Francis,1,0,0.0,0.0
+Saint Francis,2,0,0.0,0.0
+Saint Francis,3,0,0.0,0.0
+Saint Francis,4,0,0.0,0.0
+Saint Francis,5,0,0.0,0.0
+Saint Francis,6,0,0.0,0.0
+Saint Francis,7,0,0.0,0.0
+Saint Francis,8,0,0.0,0.0
+Saint Francis,9,0,0.0,0.0
+Saint Francis,10,0,0.0,0.0
+Saint Francis,11,0,0.0,0.0
+Saint Francis,12,0,0.0,0.0
+Saint Francis,13,0,0.0,0.0
+Saint Francis,14,0,0.0,0.0
+Saint Francis,15,0,0.0,0.0
+Saint Francis,16,2,0.001,1.0
+Jackson St.,1,0,0.0,0.0
+Jackson St.,2,0,0.0,0.0
+Jackson St.,3,0,0.0,0.0
+Jackson St.,4,0,0.0,0.0
+Jackson St.,5,0,0.0,0.0
+Jackson St.,6,0,0.0,0.0
+Jackson St.,7,0,0.0,0.0
+Jackson St.,8,0,0.0,0.0
+Jackson St.,9,0,0.0,0.0
+Jackson St.,10,0,0.0,0.0
+Jackson St.,11,0,0.0,0.0
+Jackson St.,12,0,0.0,0.0
+Jackson St.,13,0,0.0,0.0
+Jackson St.,14,0,0.0,0.0
+Jackson St.,15,0,0.0,0.0
+Jackson St.,16,27,0.0135,1.0
+Canisius,1,0,0.0,0.0
+Canisius,2,0,0.0,0.0
+Canisius,3,0,0.0,0.0
+Canisius,4,0,0.0,0.0
+Canisius,5,0,0.0,0.0
+Canisius,6,0,0.0,0.0
+Canisius,7,0,0.0,0.0
+Canisius,8,0,0.0,0.0
+Canisius,9,0,0.0,0.0
+Canisius,10,0,0.0,0.0
+Canisius,11,0,0.0,0.0
+Canisius,12,0,0.0,0.0
+Canisius,13,0,0.0,0.0
+Canisius,14,0,0.0,0.0
+Canisius,15,0,0.0,0.0
+Canisius,16,0,0.0,0.0
+North Alabama,1,0,0.0,0.0
+North Alabama,2,0,0.0,0.0
+North Alabama,3,0,0.0,0.0
+North Alabama,4,0,0.0,0.0
+North Alabama,5,0,0.0,0.0
+North Alabama,6,0,0.0,0.0
+North Alabama,7,0,0.0,0.0
+North Alabama,8,0,0.0,0.0
+North Alabama,9,0,0.0,0.0
+North Alabama,10,0,0.0,0.0
+North Alabama,11,0,0.0,0.0
+North Alabama,12,0,0.0,0.0
+North Alabama,13,0,0.0,0.0
+North Alabama,14,0,0.0,0.0
+North Alabama,15,0,0.0,0.0
+North Alabama,16,1,0.0005,1.0
+The Citadel,1,0,0.0,0.0
+The Citadel,2,0,0.0,0.0
+The Citadel,3,0,0.0,0.0
+The Citadel,4,0,0.0,0.0
+The Citadel,5,0,0.0,0.0
+The Citadel,6,0,0.0,0.0
+The Citadel,7,0,0.0,0.0
+The Citadel,8,0,0.0,0.0
+The Citadel,9,0,0.0,0.0
+The Citadel,10,0,0.0,0.0
+The Citadel,11,0,0.0,0.0
+The Citadel,12,0,0.0,0.0
+The Citadel,13,0,0.0,0.0
+The Citadel,14,0,0.0,0.0
+The Citadel,15,0,0.0,0.0
+The Citadel,16,0,0.0,0.0
+VMI,1,0,0.0,0.0
+VMI,2,0,0.0,0.0
+VMI,3,0,0.0,0.0
+VMI,4,0,0.0,0.0
+VMI,5,0,0.0,0.0
+VMI,6,0,0.0,0.0
+VMI,7,0,0.0,0.0
+VMI,8,0,0.0,0.0
+VMI,9,0,0.0,0.0
+VMI,10,0,0.0,0.0
+VMI,11,0,0.0,0.0
+VMI,12,0,0.0,0.0
+VMI,13,0,0.0,0.0
+VMI,14,0,0.0,0.0
+VMI,15,0,0.0,0.0
+VMI,16,0,0.0,0.0
+Bryant,1,0,0.0,0.0
+Bryant,2,0,0.0,0.0
+Bryant,3,0,0.0,0.0
+Bryant,4,0,0.0,0.0
+Bryant,5,0,0.0,0.0
+Bryant,6,0,0.0,0.0
+Bryant,7,0,0.0,0.0
+Bryant,8,0,0.0,0.0
+Bryant,9,0,0.0,0.0
+Bryant,10,0,0.0,0.0
+Bryant,11,0,0.0,0.0
+Bryant,12,0,0.0,0.0
+Bryant,13,0,0.0,0.0
+Bryant,14,0,0.0,0.0
+Bryant,15,0,0.0,0.0
+Bryant,16,2,0.001,1.0
+Alcorn St.,1,0,0.0,0.0
+Alcorn St.,2,0,0.0,0.0
+Alcorn St.,3,0,0.0,0.0
+Alcorn St.,4,0,0.0,0.0
+Alcorn St.,5,0,0.0,0.0
+Alcorn St.,6,0,0.0,0.0
+Alcorn St.,7,0,0.0,0.0
+Alcorn St.,8,0,0.0,0.0
+Alcorn St.,9,0,0.0,0.0
+Alcorn St.,10,0,0.0,0.0
+Alcorn St.,11,0,0.0,0.0
+Alcorn St.,12,0,0.0,0.0
+Alcorn St.,13,0,0.0,0.0
+Alcorn St.,14,0,0.0,0.0
+Alcorn St.,15,0,0.0,0.0
+Alcorn St.,16,21,0.0105,1.0
+Chicago St.,1,0,0.0,0.0
+Chicago St.,2,0,0.0,0.0
+Chicago St.,3,0,0.0,0.0
+Chicago St.,4,0,0.0,0.0
+Chicago St.,5,0,0.0,0.0
+Chicago St.,6,0,0.0,0.0
+Chicago St.,7,0,0.0,0.0
+Chicago St.,8,0,0.0,0.0
+Chicago St.,9,0,0.0,0.0
+Chicago St.,10,0,0.0,0.0
+Chicago St.,11,0,0.0,0.0
+Chicago St.,12,0,0.0,0.0
+Chicago St.,13,0,0.0,0.0
+Chicago St.,14,0,0.0,0.0
+Chicago St.,15,0,0.0,0.0
+Chicago St.,16,1,0.0005,1.0
+Rider,1,0,0.0,0.0
+Rider,2,0,0.0,0.0
+Rider,3,0,0.0,0.0
+Rider,4,0,0.0,0.0
+Rider,5,0,0.0,0.0
+Rider,6,0,0.0,0.0
+Rider,7,0,0.0,0.0
+Rider,8,0,0.0,0.0
+Rider,9,0,0.0,0.0
+Rider,10,0,0.0,0.0
+Rider,11,0,0.0,0.0
+Rider,12,0,0.0,0.0
+Rider,13,0,0.0,0.0
+Rider,14,0,0.0,0.0
+Rider,15,0,0.0,0.0
+Rider,16,0,0.0,0.0
+UTSA,1,0,0.0,0.0
+UTSA,2,0,0.0,0.0
+UTSA,3,0,0.0,0.0
+UTSA,4,0,0.0,0.0
+UTSA,5,0,0.0,0.0
+UTSA,6,0,0.0,0.0
+UTSA,7,0,0.0,0.0
+UTSA,8,0,0.0,0.0
+UTSA,9,0,0.0,0.0
+UTSA,10,0,0.0,0.0
+UTSA,11,0,0.0,0.0
+UTSA,12,0,0.0,0.0
+UTSA,13,0,0.0,0.0
+UTSA,14,0,0.0,0.0
+UTSA,15,0,0.0,0.0
+UTSA,16,0,0.0,0.0
+Morgan St.,1,0,0.0,0.0
+Morgan St.,2,0,0.0,0.0
+Morgan St.,3,0,0.0,0.0
+Morgan St.,4,0,0.0,0.0
+Morgan St.,5,0,0.0,0.0
+Morgan St.,6,0,0.0,0.0
+Morgan St.,7,0,0.0,0.0
+Morgan St.,8,0,0.0,0.0
+Morgan St.,9,0,0.0,0.0
+Morgan St.,10,0,0.0,0.0
+Morgan St.,11,0,0.0,0.0
+Morgan St.,12,0,0.0,0.0
+Morgan St.,13,0,0.0,0.0
+Morgan St.,14,0,0.0,0.0
+Morgan St.,15,0,0.0,0.0
+Morgan St.,16,42,0.021,1.0
+Delaware St.,1,0,0.0,0.0
+Delaware St.,2,0,0.0,0.0
+Delaware St.,3,0,0.0,0.0
+Delaware St.,4,0,0.0,0.0
+Delaware St.,5,0,0.0,0.0
+Delaware St.,6,0,0.0,0.0
+Delaware St.,7,0,0.0,0.0
+Delaware St.,8,0,0.0,0.0
+Delaware St.,9,0,0.0,0.0
+Delaware St.,10,0,0.0,0.0
+Delaware St.,11,0,0.0,0.0
+Delaware St.,12,0,0.0,0.0
+Delaware St.,13,0,0.0,0.0
+Delaware St.,14,0,0.0,0.0
+Delaware St.,15,0,0.0,0.0
+Delaware St.,16,7,0.0035,1.0
+Louisiana Monroe,1,0,0.0,0.0
+Louisiana Monroe,2,0,0.0,0.0
+Louisiana Monroe,3,0,0.0,0.0
+Louisiana Monroe,4,0,0.0,0.0
+Louisiana Monroe,5,0,0.0,0.0
+Louisiana Monroe,6,0,0.0,0.0
+Louisiana Monroe,7,0,0.0,0.0
+Louisiana Monroe,8,0,0.0,0.0
+Louisiana Monroe,9,0,0.0,0.0
+Louisiana Monroe,10,0,0.0,0.0
+Louisiana Monroe,11,0,0.0,0.0
+Louisiana Monroe,12,0,0.0,0.0
+Louisiana Monroe,13,0,0.0,0.0
+Louisiana Monroe,14,0,0.0,0.0
+Louisiana Monroe,15,0,0.0,0.0
+Louisiana Monroe,16,0,0.0,0.0
+Western Illinois,1,0,0.0,0.0
+Western Illinois,2,0,0.0,0.0
+Western Illinois,3,0,0.0,0.0
+Western Illinois,4,0,0.0,0.0
+Western Illinois,5,0,0.0,0.0
+Western Illinois,6,0,0.0,0.0
+Western Illinois,7,0,0.0,0.0
+Western Illinois,8,0,0.0,0.0
+Western Illinois,9,0,0.0,0.0
+Western Illinois,10,0,0.0,0.0
+Western Illinois,11,0,0.0,0.0
+Western Illinois,12,0,0.0,0.0
+Western Illinois,13,0,0.0,0.0
+Western Illinois,14,0,0.0,0.0
+Western Illinois,15,0,0.0,0.0
+Western Illinois,16,0,0.0,0.0
+Binghamton,1,0,0.0,0.0
+Binghamton,2,0,0.0,0.0
+Binghamton,3,0,0.0,0.0
+Binghamton,4,0,0.0,0.0
+Binghamton,5,0,0.0,0.0
+Binghamton,6,0,0.0,0.0
+Binghamton,7,0,0.0,0.0
+Binghamton,8,0,0.0,0.0
+Binghamton,9,0,0.0,0.0
+Binghamton,10,0,0.0,0.0
+Binghamton,11,0,0.0,0.0
+Binghamton,12,0,0.0,0.0
+Binghamton,13,0,0.0,0.0
+Binghamton,14,0,0.0,0.0
+Binghamton,15,0,0.0,0.0
+Binghamton,16,2,0.001,1.0
+South Carolina St.,1,0,0.0,0.0
+South Carolina St.,2,0,0.0,0.0
+South Carolina St.,3,0,0.0,0.0
+South Carolina St.,4,0,0.0,0.0
+South Carolina St.,5,0,0.0,0.0
+South Carolina St.,6,0,0.0,0.0
+South Carolina St.,7,0,0.0,0.0
+South Carolina St.,8,0,0.0,0.0
+South Carolina St.,9,0,0.0,0.0
+South Carolina St.,10,0,0.0,0.0
+South Carolina St.,11,0,0.0,0.0
+South Carolina St.,12,0,0.0,0.0
+South Carolina St.,13,0,0.0,0.0
+South Carolina St.,14,0,0.0,0.0
+South Carolina St.,15,0,0.0,0.0
+South Carolina St.,16,5,0.0025,1.0
+Gardner Webb,1,0,0.0,0.0
+Gardner Webb,2,0,0.0,0.0
+Gardner Webb,3,0,0.0,0.0
+Gardner Webb,4,0,0.0,0.0
+Gardner Webb,5,0,0.0,0.0
+Gardner Webb,6,0,0.0,0.0
+Gardner Webb,7,0,0.0,0.0
+Gardner Webb,8,0,0.0,0.0
+Gardner Webb,9,0,0.0,0.0
+Gardner Webb,10,0,0.0,0.0
+Gardner Webb,11,0,0.0,0.0
+Gardner Webb,12,0,0.0,0.0
+Gardner Webb,13,0,0.0,0.0
+Gardner Webb,14,0,0.0,0.0
+Gardner Webb,15,0,0.0,0.0
+Gardner Webb,16,0,0.0,0.0
+Mississippi Valley St.,1,0,0.0,0.0
+Mississippi Valley St.,2,0,0.0,0.0
+Mississippi Valley St.,3,0,0.0,0.0
+Mississippi Valley St.,4,0,0.0,0.0
+Mississippi Valley St.,5,0,0.0,0.0
+Mississippi Valley St.,6,0,0.0,0.0
+Mississippi Valley St.,7,0,0.0,0.0
+Mississippi Valley St.,8,0,0.0,0.0
+Mississippi Valley St.,9,0,0.0,0.0
+Mississippi Valley St.,10,0,0.0,0.0
+Mississippi Valley St.,11,0,0.0,0.0
+Mississippi Valley St.,12,0,0.0,0.0
+Mississippi Valley St.,13,0,0.0,0.0
+Mississippi Valley St.,14,0,0.0,0.0
+Mississippi Valley St.,15,0,0.0,0.0
+Mississippi Valley St.,16,0,0.0,0.0
+Coppin St.,1,0,0.0,0.0
+Coppin St.,2,0,0.0,0.0
+Coppin St.,3,0,0.0,0.0
+Coppin St.,4,0,0.0,0.0
+Coppin St.,5,0,0.0,0.0
+Coppin St.,6,0,0.0,0.0
+Coppin St.,7,0,0.0,0.0
+Coppin St.,8,0,0.0,0.0
+Coppin St.,9,0,0.0,0.0
+Coppin St.,10,0,0.0,0.0
+Coppin St.,11,0,0.0,0.0
+Coppin St.,12,0,0.0,0.0
+Coppin St.,13,0,0.0,0.0
+Coppin St.,14,0,0.0,0.0
+Coppin St.,15,0,0.0,0.0
+Coppin St.,16,0,0.0,0.0

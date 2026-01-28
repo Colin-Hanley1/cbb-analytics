@@ -1,0 +1,366 @@
+Team,P(Make Field),P(AQ),P(At-Large)
+Arizona,1.0,0.447,0.5529999999999999
+Clemson,1.0,0.013,0.987
+Iowa,1.0,0.0765,0.9235
+North Carolina,1.0,0.0255,0.9745
+Saint Mary's,1.0,0.132,0.868
+N.C. State,1.0,0.022,0.978
+Auburn,1.0,0.036,0.964
+Kentucky,1.0,0.007,0.993
+SMU,1.0,0.0515,0.9485
+Villanova,1.0,0.1195,0.8805000000000001
+Utah St.,1.0,0.3515,0.6485000000000001
+Louisville,1.0,0.0205,0.9795
+Texas A&M,1.0,0.0045,0.9955
+Wisconsin,1.0,0.0015,0.9985
+New Mexico,1.0,0.219,0.781
+Michigan,1.0,0.375,0.625
+San Diego St.,1.0,0.13,0.87
+Miami FL,1.0,0.0045,0.9955
+UCF,1.0,0.005,0.995
+USC,1.0,0.0,1.0
+St. John's,1.0,0.189,0.8109999999999999
+Georgia,1.0,0.0095,0.9905
+Alabama,1.0,0.1325,0.8674999999999999
+Iowa St.,1.0,0.1565,0.8435
+Purdue,1.0,0.086,0.914
+Arkansas,1.0,0.085,0.915
+Gonzaga,1.0,0.797,0.20299999999999996
+Michigan St.,1.0,0.1025,0.8975
+Connecticut,1.0,0.6595,0.3405
+Nebraska,1.0,0.2145,0.7855
+Duke,1.0,0.4895,0.5105
+Kansas,1.0,0.072,0.928
+Illinois,1.0,0.13,0.87
+Florida,1.0,0.2335,0.7665
+Texas Tech,1.0,0.0555,0.9445
+Vanderbilt,1.0,0.289,0.7110000000000001
+Virginia,1.0,0.351,0.649
+BYU,1.0,0.0415,0.9585
+Saint Louis,1.0,0.8475,0.15249999999999997
+Tennessee,1.0,0.179,0.821
+Houston,1.0,0.199,0.8009999999999999
+Virginia Tech,0.9995,0.0005,0.9990000000000001
+Ohio St.,0.986,0.0005,0.9855
+UCLA,0.893,0.0025,0.8905000000000001
+Yale,0.8315,0.8315,0.0
+High Point,0.762,0.762,0.0
+Miami OH,0.714,0.43,0.284
+Howard,0.6705,0.6705,0.0
+Vermont,0.625,0.625,0.0
+McNeese,0.613,0.613,0.0
+Hawaii,0.5875,0.5875,0.0
+Navy,0.573,0.573,0.0
+LIU,0.529,0.529,0.0
+Mercer,0.519,0.519,0.0
+St. Thomas,0.505,0.505,0.0
+Liberty,0.4805,0.4805,0.0
+Akron,0.479,0.479,0.0
+Belmont,0.4475,0.4475,0.0
+Troy,0.44,0.44,0.0
+Oakland,0.3965,0.3965,0.0
+Cal Baptist,0.3945,0.3945,0.0
+Tennessee Martin,0.3915,0.3915,0.0
+East Tennessee St.,0.3895,0.3895,0.0
+UNC Wilmington,0.3755,0.3755,0.0
+Portland St.,0.3565,0.3565,0.0
+Bethune Cookman,0.3545,0.3545,0.0
+Marist,0.3475,0.3475,0.0
+Utah Valley,0.331,0.331,0.0
+Austin Peay,0.331,0.331,0.0
+Stephen F. Austin,0.3215,0.3215,0.0
+Tulsa,0.3195,0.3195,0.0
+Wright St.,0.314,0.314,0.0
+Quinnipiac,0.301,0.301,0.0
+UC Irvine,0.2905,0.2905,0.0
+Montana St.,0.27,0.27,0.0
+Arkansas St.,0.268,0.268,0.0
+South Dakota St.,0.2605,0.2605,0.0
+William & Mary,0.2515,0.2515,0.0
+Sam Houston St.,0.2425,0.2425,0.0
+Tennessee St.,0.238,0.238,0.0
+American,0.2355,0.2355,0.0
+UMBC,0.231,0.231,0.0
+South Florida,0.226,0.226,0.0
+Lipscomb,0.2255,0.2255,0.0
+Hofstra,0.222,0.222,0.0
+California,0.2215,0.0195,0.202
+North Dakota St.,0.2145,0.2145,0.0
+Illinois St.,0.214,0.214,0.0
+Wichita St.,0.2115,0.2115,0.0
+UT Arlington,0.21,0.21,0.0
+Le Moyne,0.1995,0.1995,0.0
+Lindenwood,0.1855,0.1855,0.0
+Southern,0.178,0.178,0.0
+Maryland Eastern Shore,0.174,0.174,0.0
+Queens,0.164,0.164,0.0
+Florida Atlantic,0.1635,0.1635,0.0
+Winthrop,0.1585,0.1585,0.0
+Central Arkansas,0.1535,0.1535,0.0
+Colgate,0.1525,0.1525,0.0
+Marshall,0.151,0.151,0.0
+Murray St.,0.1465,0.1465,0.0
+Grambling St.,0.146,0.146,0.0
+Montana,0.1365,0.1365,0.0
+Mercyhurst,0.136,0.136,0.0
+Siena,0.1315,0.1315,0.0
+Grand Canyon,0.1305,0.1305,0.0
+Merrimack,0.1295,0.1295,0.0
+Middle Tennessee,0.1095,0.1095,0.0
+Arkansas Pine Bluff,0.1025,0.1025,0.0
+Northern Kentucky,0.1025,0.1025,0.0
+Norfolk St.,0.097,0.097,0.0
+Nevada,0.088,0.088,0.0
+Kennesaw St.,0.086,0.086,0.0
+Central Connecticut,0.086,0.086,0.0
+VCU,0.086,0.086,0.0
+Florida Gulf Coast,0.0785,0.0785,0.0
+Idaho,0.0735,0.0735,0.0
+Bowling Green,0.0715,0.0715,0.0
+Northern Iowa,0.0705,0.0705,0.0
+New Hampshire,0.0675,0.0675,0.0
+Columbia,0.0655,0.0655,0.0
+SIUE,0.062,0.062,0.0
+Prairie View A&M,0.062,0.062,0.0
+Robert Morris,0.0595,0.0595,0.0
+Iona,0.0585,0.0585,0.0
+UC Santa Barbara,0.0575,0.0575,0.0
+Green Bay,0.0575,0.0575,0.0
+Northern Colorado,0.0575,0.0575,0.0
+Idaho St.,0.051,0.051,0.0
+Santa Clara,0.0505,0.0505,0.0
+Drexel,0.0495,0.0495,0.0
+Boise St.,0.045,0.045,0.0
+Utah Tech,0.0445,0.0445,0.0
+UNC Asheville,0.044,0.044,0.0
+Weber St.,0.043,0.043,0.0
+Furman,0.04,0.04,0.0
+Charleston,0.04,0.04,0.0
+Southeast Missouri,0.0395,0.0395,0.0
+Penn,0.0385,0.0385,0.0
+South Alabama,0.038,0.038,0.0
+Wofford,0.038,0.038,0.0
+Valparaiso,0.0375,0.0375,0.0
+Texas Southern,0.0375,0.0375,0.0
+Illinois Chicago,0.0355,0.0355,0.0
+Alabama St.,0.034,0.034,0.0
+Morehead St.,0.0335,0.0335,0.0
+Appalachian St.,0.0325,0.0325,0.0
+Cornell,0.0325,0.0325,0.0
+Cal St. Fullerton,0.0315,0.0315,0.0
+UT Rio Grande Valley,0.0315,0.0315,0.0
+Florida A&M,0.0315,0.0315,0.0
+North Carolina Central,0.0315,0.0315,0.0
+Southern Illinois,0.0305,0.0305,0.0
+Alabama A&M,0.03,0.03,0.0
+Purdue Fort Wayne,0.03,0.03,0.0
+Maine,0.0295,0.0295,0.0
+UAB,0.029,0.029,0.0
+Albany,0.029,0.029,0.0
+Colorado St.,0.0285,0.0285,0.0
+Little Rock,0.028,0.028,0.0
+George Washington,0.025,0.025,0.0
+Wagner,0.025,0.025,0.0
+Memphis,0.024,0.024,0.0
+Monmouth,0.023,0.023,0.0
+Coastal Carolina,0.022,0.022,0.0
+Missouri St.,0.022,0.022,0.0
+Eastern Kentucky,0.0215,0.0215,0.0
+Harvard,0.021,0.021,0.0
+Morgan St.,0.021,0.021,0.0
+Milwaukee,0.021,0.021,0.0
+Texas,0.02,0.02,0.0
+Eastern Illinois,0.02,0.02,0.0
+Texas A&M Corpus Chris,0.019,0.019,0.0
+James Madison,0.0185,0.0185,0.0
+Towson,0.0185,0.0185,0.0
+FIU,0.0175,0.0175,0.0
+Charleston Southern,0.0175,0.0175,0.0
+Jacksonville St.,0.017,0.017,0.0
+Boston University,0.0165,0.0165,0.0
+George Mason,0.0165,0.0165,0.0
+New Mexico St.,0.0165,0.0165,0.0
+UC Davis,0.016,0.016,0.0
+TCU,0.016,0.016,0.0
+Butler,0.014,0.014,0.0
+Jackson St.,0.0135,0.0135,0.0
+North Texas,0.0135,0.0135,0.0
+Youngstown St.,0.0135,0.0135,0.0
+Longwood,0.013,0.013,0.0
+Georgia St.,0.0125,0.0125,0.0
+Jacksonville,0.0125,0.0125,0.0
+Fairfield,0.012,0.012,0.0
+Mount St. Mary's,0.012,0.012,0.0
+New Haven,0.011,0.011,0.0
+Bradley,0.011,0.011,0.0
+Bellarmine,0.0105,0.0105,0.0
+Alcorn St.,0.0105,0.0105,0.0
+NJIT,0.01,0.01,0.0
+CSUN,0.0095,0.0095,0.0
+Creighton,0.009,0.009,0.0
+Tarleton St.,0.009,0.009,0.0
+Seattle,0.009,0.009,0.0
+Denver,0.0085,0.0085,0.0
+Western Kentucky,0.0085,0.0085,0.0
+Temple,0.008,0.008,0.0
+Fairleigh Dickinson,0.008,0.008,0.0
+Richmond,0.008,0.008,0.0
+Lehigh,0.008,0.008,0.0
+Old Dominion,0.008,0.008,0.0
+Stony Brook,0.008,0.008,0.0
+Abilene Christian,0.0075,0.0075,0.0
+Kent St.,0.0075,0.0075,0.0
+Eastern Washington,0.0075,0.0075,0.0
+Dayton,0.0075,0.0075,0.0
+Princeton,0.0075,0.0075,0.0
+Washington,0.007,0.007,0.0
+Seton Hall,0.007,0.007,0.0
+Elon,0.0065,0.0065,0.0
+Drake,0.0065,0.0065,0.0
+UMass Lowell,0.006,0.006,0.0
+West Virginia,0.0055,0.0055,0.0
+Eastern Michigan,0.005,0.005,0.0
+Lamar,0.005,0.005,0.0
+Georgia Southern,0.005,0.005,0.0
+Samford,0.005,0.005,0.0
+Long Beach St.,0.0045,0.0045,0.0
+Chattanooga,0.0045,0.0045,0.0
+Saint Joseph's,0.0045,0.0045,0.0
+New Orleans,0.0045,0.0045,0.0
+Indiana,0.004,0.004,0.0
+LSU,0.004,0.004,0.0
+Holy Cross,0.004,0.004,0.0
+Western Carolina,0.004,0.004,0.0
+Stonehill,0.004,0.004,0.0
+South Dakota,0.004,0.004,0.0
+Niagara,0.0035,0.0035,0.0
+Nebraska Omaha,0.0035,0.0035,0.0
+Army,0.0035,0.0035,0.0
+Sacramento St.,0.0035,0.0035,0.0
+Southern Utah,0.0035,0.0035,0.0
+UNLV,0.0035,0.0035,0.0
+Texas St.,0.0035,0.0035,0.0
+Massachusetts,0.0035,0.0035,0.0
+Charlotte,0.0035,0.0035,0.0
+Dartmouth,0.0035,0.0035,0.0
+Delaware St.,0.0035,0.0035,0.0
+Hampton,0.0035,0.0035,0.0
+Washington St.,0.0035,0.0035,0.0
+Sacred Heart,0.003,0.003,0.0
+North Dakota,0.003,0.003,0.0
+Lafayette,0.003,0.003,0.0
+San Francisco,0.003,0.003,0.0
+Nicholls,0.003,0.003,0.0
+Presbyterian,0.0025,0.0025,0.0
+Davidson,0.0025,0.0025,0.0
+Detroit Mercy,0.0025,0.0025,0.0
+Wyoming,0.0025,0.0025,0.0
+South Carolina St.,0.0025,0.0025,0.0
+Incarnate Word,0.0025,0.0025,0.0
+Pacific,0.0025,0.0025,0.0
+Loyola Marymount,0.002,0.002,0.0
+Loyola MD,0.002,0.002,0.0
+Cleveland St.,0.002,0.002,0.0
+Toledo,0.002,0.002,0.0
+Radford,0.002,0.002,0.0
+Bucknell,0.002,0.002,0.0
+Campbell,0.0015,0.0015,0.0
+Rhode Island,0.0015,0.0015,0.0
+Buffalo,0.0015,0.0015,0.0
+Fresno St.,0.0015,0.0015,0.0
+Manhattan,0.0015,0.0015,0.0
+Baylor,0.0015,0.0015,0.0
+Stetson,0.0015,0.0015,0.0
+Southern Indiana,0.0015,0.0015,0.0
+Providence,0.0015,0.0015,0.0
+Wake Forest,0.0015,0.0015,0.0
+Northern Arizona,0.001,0.001,0.0
+Saint Francis,0.001,0.001,0.0
+IU Indy,0.001,0.001,0.0
+Southern Mississippi,0.001,0.001,0.0
+Duquesne,0.001,0.001,0.0
+Bryant,0.001,0.001,0.0
+Cal Poly,0.001,0.001,0.0
+Cal St. Bakersfield,0.001,0.001,0.0
+Binghamton,0.001,0.001,0.0
+West Georgia,0.001,0.001,0.0
+Oral Roberts,0.001,0.001,0.0
+UC Riverside,0.001,0.001,0.0
+Rice,0.001,0.001,0.0
+DePaul,0.0005,0.0005,0.0
+Stanford,0.0005,0.0005,0.0
+Notre Dame,0.0005,0.0005,0.0
+USC Upstate,0.0005,0.0005,0.0
+San Diego,0.0005,0.0005,0.0
+Cincinnati,0.0005,0.0005,0.0
+East Carolina,0.0005,0.0005,0.0
+Chicago St.,0.0005,0.0005,0.0
+North Alabama,0.0005,0.0005,0.0
+Indiana St.,0.0005,0.0005,0.0
+North Carolina A&T,0.0005,0.0005,0.0
+Tennessee Tech,0.0005,0.0005,0.0
+Western Illinois,0.0,0.0,0.0
+Kansas City,0.0,0.0,0.0
+The Citadel,0.0,0.0,0.0
+Rider,0.0,0.0,0.0
+Oklahoma,0.0,0.0,0.0
+Missouri,0.0,0.0,0.0
+Canisius,0.0,0.0,0.0
+UTSA,0.0,0.0,0.0
+North Florida,0.0,0.0,0.0
+Northern Illinois,0.0,0.0,0.0
+Air Force,0.0,0.0,0.0
+Central Michigan,0.0,0.0,0.0
+Mississippi Valley St.,0.0,0.0,0.0
+Louisiana,0.0,0.0,0.0
+Louisiana Monroe,0.0,0.0,0.0
+Northwestern,0.0,0.0,0.0
+Gardner Webb,0.0,0.0,0.0
+VMI,0.0,0.0,0.0
+Delaware,0.0,0.0,0.0
+Colorado,0.0,0.0,0.0
+Rutgers,0.0,0.0,0.0
+Pittsburgh,0.0,0.0,0.0
+Louisiana Tech,0.0,0.0,0.0
+San Jose St.,0.0,0.0,0.0
+Western Michigan,0.0,0.0,0.0
+Florida St.,0.0,0.0,0.0
+UC San Diego,0.0,0.0,0.0
+Georgia Tech,0.0,0.0,0.0
+Penn St.,0.0,0.0,0.0
+Boston College,0.0,0.0,0.0
+Marquette,0.0,0.0,0.0
+Mississippi,0.0,0.0,0.0
+Ohio,0.0,0.0,0.0
+La Salle,0.0,0.0,0.0
+Saint Peter's,0.0,0.0,0.0
+Maryland,0.0,0.0,0.0
+Tulane,0.0,0.0,0.0
+Fordham,0.0,0.0,0.0
+Oregon St.,0.0,0.0,0.0
+Portland,0.0,0.0,0.0
+St. Bonaventure,0.0,0.0,0.0
+Brown,0.0,0.0,0.0
+UTEP,0.0,0.0,0.0
+Mississippi St.,0.0,0.0,0.0
+Southeastern Louisiana,0.0,0.0,0.0
+UNC Greensboro,0.0,0.0,0.0
+Loyola Chicago,0.0,0.0,0.0
+Houston Christian,0.0,0.0,0.0
+Ball St.,0.0,0.0,0.0
+Oklahoma St.,0.0,0.0,0.0
+Minnesota,0.0,0.0,0.0
+South Carolina,0.0,0.0,0.0
+Xavier,0.0,0.0,0.0
+Syracuse,0.0,0.0,0.0
+Arizona St.,0.0,0.0,0.0
+East Texas A&M,0.0,0.0,0.0
+Georgetown,0.0,0.0,0.0
+Oregon,0.0,0.0,0.0
+Kansas St.,0.0,0.0,0.0
+Northwestern St.,0.0,0.0,0.0
+Utah,0.0,0.0,0.0
+Northeastern,0.0,0.0,0.0
+Pepperdine,0.0,0.0,0.0
+Evansville,0.0,0.0,0.0
+Coppin St.,0.0,0.0,0.0
