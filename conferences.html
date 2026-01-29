@@ -7,48 +7,165 @@
   <title>Conferences | CHan Analytics</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <script>
     tailwind.config = {
       theme: {
         extend: {
-          fontFamily: { sans: ['Inter','sans-serif'], mono: ['JetBrains Mono','monospace'] },
-          colors: { brand: { 500:'#6366f1', 600:'#4f46e5', 900:'#312e81' } }
+          fontFamily: { 
+            sans: ['Inter','sans-serif'], 
+            mono: ['JetBrains Mono','monospace'] 
+          },
+          colors: { 
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              200: '#c7d2fe',
+              300: '#a5b4fc',
+              400: '#818cf8',
+              500: '#6366f1', 
+              600: '#4f46e5',
+              700: '#4338ca',
+              800: '#3730a3',
+              900: '#312e81',
+            }
+          }
         }
       }
     }
   </script>
 
   <style>
-    body { -webkit-font-smoothing: antialiased; }
-    ::-webkit-scrollbar { width: 8px; height: 8px; }
-    ::-webkit-scrollbar-track { background: #f1f5f9; }
-    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    body { 
+      -webkit-font-smoothing: antialiased;
+      background: linear-gradient(to bottom, #f8fafc 0%, #ffffff 100%);
+    }
+    
+    /* Enhanced scrollbar */
+    ::-webkit-scrollbar { width: 10px; height: 10px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 5px; }
+    ::-webkit-scrollbar-thumb { 
+      background: linear-gradient(180deg, #94a3b8, #64748b);
+      border-radius: 5px;
+      border: 2px solid #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #64748b, #475569); }
 
-    /* EXACT same navbar logic as Matchup Simulator */
-    #mobile-menu { display: none; transition: all 0.3s; }
+    /* Mobile menu */
+    #mobile-menu { 
+      display: none; 
+      transition: all 0.3s ease;
+      background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+    }
     #mobile-menu.open { display: block; }
 
-    /* Smooth scroll for anchors */
+    /* Enhanced navbar */
+    .navbar-glass {
+      background: rgba(15, 23, 42, 0.98);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(71, 85, 105, 0.3);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Smooth scrolling */
     html { scroll-behavior: smooth; }
+
+    /* Card shadow */
+    .card-shadow {
+      box-shadow: 
+        0 1px 3px rgba(0,0,0,0.05),
+        0 10px 40px rgba(0,0,0,0.03),
+        0 0 1px rgba(0,0,0,0.1);
+    }
+
+    /* Table row hover */
+    tbody tr {
+      transition: all 0.2s ease;
+    }
+    
+    tbody tr:hover {
+      background-color: #fafbfc !important;
+      box-shadow: 0 2px 8px rgba(99, 102, 241, 0.08);
+      transform: translateY(-1px);
+    }
+
+    /* Logo hover effect */
+    .logo-hover {
+      transition: transform 0.3s ease;
+    }
+    .logo-hover:hover {
+      transform: scale(1.05);
+    }
+
+    /* Sort icon animation */
+    .sortIcon {
+      transition: all 0.2s ease;
+      display: inline-block;
+    }
+
+    th[data-standings-sort]:hover .sortIcon {
+      transform: scale(1.2);
+      color: #4f46e5;
+    }
+
+    /* Team logo styling */
+    .team-logo {
+      transition: transform 0.2s ease;
+    }
+
+    tr:hover .team-logo {
+      transform: scale(1.1);
+    }
+
+    /* Stat value enhancement */
+    .stat-value {
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.02em;
+    }
+
+    /* Conference badge */
+    .conf-badge {
+      display: inline-block;
+      padding: 0.125rem 0.5rem;
+      border-radius: 0.375rem;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.025em;
+      background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+      color: #475569;
+    }
+
+    /* Enhanced input focus */
+    input:focus, select:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    }
+
+    /* Gradient backgrounds for metric columns */
+    .metric-col-em {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(99, 102, 241, 0.02) 100%);
+    }
+
+    .metric-col-proj {
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.05) 0%, rgba(168, 85, 247, 0.02) 100%);
+    }
   </style>
 </head>
 
-<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col selection:bg-brand-500 selection:text-white">
+<body class="bg-gradient-to-b from-slate-50 to-white text-slate-900 min-h-screen flex flex-col selection:bg-brand-500 selection:text-white">
 
-  <!-- NAV (fully implemented, no placeholders) -->
-  <nav id="siteNav" class="bg-slate-900/95 backdrop-blur-md text-white shadow-lg sticky top-0 z-50 border-b border-slate-700/50">
+  <!-- Enhanced Navbar -->
+  <nav id="siteNav" class="navbar-glass text-white sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-16">
         <div class="flex items-center gap-3">
-          <a href="#topTableAnchor" onclick="scrollToTableTop(event)" class="flex items-center">
+          <a href="#topTableAnchor" onclick="scrollToTableTop(event)" class="flex items-center logo-hover">
             <img
               src="wlogo.png"
               alt="CHan Analytics"
-              class="h-6 sm:h-7 w-auto object-contain select-none"
-              style="max-height: 28px"
+              class="h-7 sm:h-8 w-auto object-contain select-none"
+              style="max-height: 32px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));"
             />
           </a>
 
@@ -72,13 +189,19 @@
         </div>
 
         <div class="flex items-center gap-4">
-          <div class="hidden md:block text-xs font-mono text-slate-400 bg-slate-800 px-3 py-1.5 rounded-full border border-slate-700">
-            <span class="text-brand-500">●</span> Updated:
-            <span class="text-slate-200" id="lastUpdated">--</span>
+          <!-- Enhanced status badge -->
+          <div class="hidden md:flex items-center gap-2 text-xs font-mono px-4 py-2 rounded-full border border-slate-600/50" 
+               style="background: linear-gradient(135deg, rgba(51, 65, 85, 0.6) 0%, rgba(30, 41, 59, 0.6) 100%);">
+            <span class="relative flex h-2 w-2">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-500"></span>
+            </span>
+            <span class="text-slate-300">Updated:</span>
+            <span class="text-white font-semibold" id="lastUpdated">--</span>
           </div>
 
           <div class="-mr-2 flex md:hidden">
-            <button type="button" onclick="toggleMenu()" class="text-slate-400 hover:text-white p-2" aria-label="Open menu">
+            <button type="button" onclick="toggleMenu()" class="text-slate-300 hover:text-white p-2 rounded-lg hover:bg-slate-700/50 transition-all" aria-label="Open menu">
               <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
               </svg>
@@ -88,9 +211,9 @@
       </div>
     </div>
 
-    <!-- Mobile menu (must be id="mobile-menu" for the exact logic) -->
+    <!-- Mobile menu -->
     <div class="md:hidden" id="mobile-menu">
-      <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-slate-900 border-t border-slate-800">
+      <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t border-slate-800">
         <a href="index.html" class="text-slate-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Rankings</a>
         <a href="schedule.html" class="text-slate-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Today's Games</a>
         <a href="matchup.html" class="text-slate-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Matchup Simulator</a>
@@ -98,45 +221,67 @@
         <a href="conferences.html" class="bg-slate-800 text-white block px-3 py-2 rounded-md text-base font-medium border border-slate-700">Conferences</a>
 
         <div class="pt-2 px-3">
-          <div class="text-[11px] font-mono text-slate-400 bg-slate-800 px-3 py-2 rounded-lg border border-slate-700">
-            <span class="text-brand-500">●</span> Updated:
-            <span class="text-slate-200" id="lastUpdatedMobile">--</span>
+          <div class="flex items-center gap-2 text-xs font-mono px-3 py-2 rounded-lg border border-slate-700" 
+               style="background: linear-gradient(135deg, rgba(51, 65, 85, 0.6) 0%, rgba(30, 41, 59, 0.6) 100%);">
+            <span class="relative flex h-2 w-2">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-500"></span>
+            </span>
+            <span class="text-slate-300">Updated:</span>
+            <span class="text-white font-semibold" id="lastUpdatedMobile">--</span>
           </div>
         </div>
       </div>
     </div>
   </nav>
 
-  <main class="flex-grow max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+  <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
     <div id="topTableAnchor" style="scroll-margin-top: 88px;"></div>
 
-    <!-- Header -->
-    <div class="mb-8">
-      <h1 class="text-3xl sm:text-5xl font-bold tracking-tight leading-none">Conferences</h1>
-      <p class="text-sm text-slate-500 mt-2">
-        Conference strength summary and projected standings (conference games only).
-      </p>
+    <!-- Enhanced Header -->
+    <div class="mb-10">
+      <div class="flex items-center gap-4 mb-3">
+        <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-brand-500 to-brand-600 flex items-center justify-center shadow-lg">
+          <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-4xl sm:text-5xl font-bold tracking-tight leading-none text-slate-900">Conferences</h1>
+          <p class="text-base text-slate-600 mt-1">
+            Conference strength summary and projected standings
+          </p>
+        </div>
+      </div>
     </div>
 
-    <!-- Overview: Conference Strength (NOT SORTABLE) -->
-    <div class="bg-white shadow-xl shadow-slate-200/50 rounded-2xl overflow-hidden border border-slate-200 mb-8">
-      <div class="px-5 py-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
-        <div>
-          <div class="text-sm font-semibold text-slate-800">Conference strength</div>
+    <!-- Enhanced Conference Strength Overview -->
+    <div class="bg-white card-shadow rounded-2xl overflow-hidden border border-slate-200 mb-8">
+      <div class="px-6 py-5 bg-gradient-to-r from-slate-50 to-slate-100/50 border-b border-slate-200">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center shadow-sm">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+            </svg>
+          </div>
+          <div>
+            <div class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-0.5">Overview</div>
+            <div class="text-base font-semibold text-slate-800">Conference Strength Rankings</div>
+          </div>
         </div>
       </div>
 
       <div class="overflow-x-auto">
         <table class="w-full text-left border-collapse whitespace-nowrap text-sm">
-          <thead class="bg-slate-50 border-b border-slate-200 text-xs uppercase tracking-wider text-slate-500 font-bold">
+          <thead class="bg-gradient-to-b from-slate-50 to-slate-100/50 border-b-2 border-slate-200 text-xs uppercase tracking-wider text-slate-600 font-bold">
             <tr>
-              <th class="px-5 py-4">Conference</th>
-              <th class="px-5 py-4 text-right">Teams</th>
-              <th class="px-5 py-4 text-right">Avg AdjEM</th>
-              <th class="px-5 py-4">Highest</th>
-              <th class="px-5 py-4 text-right">AdjEM</th>
-              <th class="px-5 py-4">Lowest</th>
-              <th class="px-5 py-4 text-right">AdjEM</th>
+              <th class="px-6 py-4">Conference</th>
+              <th class="px-6 py-4 text-right">Teams</th>
+              <th class="px-6 py-4 text-right bg-gradient-to-br from-brand-50/30 to-brand-100/20 border-l border-brand-200/50">Avg AdjEM</th>
+              <th class="px-6 py-4">Highest</th>
+              <th class="px-6 py-4 text-right">AdjEM</th>
+              <th class="px-6 py-4 border-l border-slate-200">Lowest</th>
+              <th class="px-6 py-4 text-right">AdjEM</th>
             </tr>
           </thead>
           <tbody id="confSummary" class="divide-y divide-slate-100 bg-white"></tbody>
@@ -144,19 +289,34 @@
       </div>
     </div>
 
-    <!-- Projected Standings (SEARCHABLE + SORTABLE) -->
-    <div class="bg-white shadow-xl shadow-slate-200/50 rounded-2xl overflow-hidden border border-slate-200">
-      <div class="px-5 py-4 bg-slate-50 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-        <div>
-          <div class="text-xs font-bold text-slate-400 uppercase tracking-widest">Standings</div>
-          <div class="text-sm font-semibold text-slate-800">Projected conference standings</div>
+    <!-- Enhanced Projected Standings -->
+    <div class="bg-white card-shadow rounded-2xl overflow-hidden border border-slate-200">
+      <div class="px-6 py-5 bg-gradient-to-r from-slate-50 to-slate-100/50 border-b border-slate-200 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center shadow-sm">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+          </div>
+          <div>
+            <div class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-0.5">Standings</div>
+            <div class="text-base font-semibold text-slate-800">Projected Conference Standings</div>
+          </div>
         </div>
 
-        <div class="flex flex-col sm:flex-row gap-2 sm:items-center w-full sm:w-auto">
-          <input id="standingsSearch" type="text" placeholder="Search team or conference..."
-                 class="px-3 py-2 rounded-lg border border-slate-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 w-full sm:w-72"/>
+        <div class="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
+          <div class="relative w-full sm:w-80 group">
+            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-brand-500 transition-colors">
+              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+            <input id="standingsSearch" type="text" placeholder="Search team or conference..."
+                   class="block w-full pl-12 pr-4 py-2.5 rounded-xl border-2 border-slate-200 bg-white text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 font-medium hover:border-slate-300 transition-all"/>
+          </div>
+          
           <select id="standingsConfSelect"
-                  class="px-3 py-2 rounded-lg border border-slate-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 w-full sm:w-56">
+                  class="px-4 py-2.5 rounded-xl border-2 border-slate-200 bg-white text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 font-medium w-full sm:w-64 cursor-pointer hover:border-slate-300 transition-all">
             <option value="">All conferences</option>
           </select>
         </div>
@@ -164,31 +324,31 @@
 
       <div class="overflow-x-auto">
         <table class="w-full text-left border-collapse whitespace-nowrap text-sm">
-          <thead class="bg-slate-50 border-b border-slate-200 text-xs uppercase tracking-wider text-slate-500 font-bold">
+          <thead class="bg-gradient-to-b from-slate-50 to-slate-100/50 border-b-2 border-slate-200 text-xs uppercase tracking-wider text-slate-600 font-bold">
             <tr>
-              <th class="px-5 py-4 text-right cursor-pointer select-none" data-standings-sort="rank">
-                # <span class="ml-1 text-slate-300" id="sortIcon_rank">↕</span>
+              <th class="px-6 py-4 text-right cursor-pointer select-none hover:bg-slate-200/50 transition-colors" data-standings-sort="rank">
+                # <span class="sortIcon ml-1 text-slate-300" id="sortIcon_rank">↕</span>
               </th>
-              <th class="px-5 py-4 cursor-pointer select-none" data-standings-sort="team">
-                Team <span class="ml-1 text-slate-300" id="sortIcon_team">↕</span>
+              <th class="px-6 py-4 cursor-pointer select-none hover:bg-slate-200/50 transition-colors" data-standings-sort="team">
+                Team <span class="sortIcon ml-1 text-slate-300" id="sortIcon_team">↕</span>
               </th>
-              <th class="px-5 py-4 text-right cursor-pointer select-none" data-standings-sort="adjem">
-                AdjEM <span class="ml-1 text-slate-300" id="sortIcon_adjem">↕</span>
+              <th class="px-6 py-4 text-right cursor-pointer select-none hover:bg-slate-200/50 transition-colors metric-col-em border-l border-brand-200/50" data-standings-sort="adjem">
+                AdjEM <span class="sortIcon ml-1 text-brand-400" id="sortIcon_adjem">↕</span>
               </th>
-              <th class="px-5 py-4 cursor-pointer select-none" data-standings-sort="conf">
-                Conf <span class="ml-1 text-slate-300" id="sortIcon_conf">↕</span>
+              <th class="px-6 py-4 cursor-pointer select-none hover:bg-slate-200/50 transition-colors" data-standings-sort="conf">
+                Conference <span class="sortIcon ml-1 text-slate-300" id="sortIcon_conf">↕</span>
               </th>
-              <th class="px-5 py-4 text-right cursor-pointer select-none" data-standings-sort="actual_wpct">
-                Current <span class="ml-1 text-slate-300" id="sortIcon_actual_wpct">↕</span>
+              <th class="px-6 py-4 text-right cursor-pointer select-none hover:bg-slate-200/50 transition-colors border-l border-slate-200" data-standings-sort="actual_wpct">
+                Current <span class="sortIcon ml-1 text-slate-300" id="sortIcon_actual_wpct">↕</span>
               </th>
-              <th class="px-5 py-4 text-right cursor-pointer select-none" data-standings-sort="rem_conf_games">
-                Remaining <span class="ml-1 text-slate-300" id="sortIcon_rem_conf_games">↕</span>
+              <th class="px-6 py-4 text-right cursor-pointer select-none hover:bg-slate-200/50 transition-colors" data-standings-sort="rem_conf_games">
+                Remaining <span class="sortIcon ml-1 text-slate-300" id="sortIcon_rem_conf_games">↕</span>
               </th>
-              <th class="px-5 py-4 text-right cursor-pointer select-none" data-standings-sort="exp_conf_wins_remaining">
-                Expected (rem) <span class="ml-1 text-slate-300" id="sortIcon_exp_conf_wins_remaining">↕</span>
+              <th class="px-6 py-4 text-right cursor-pointer select-none hover:bg-slate-200/50 transition-colors" data-standings-sort="exp_conf_wins_remaining">
+                Expected (rem) <span class="sortIcon ml-1 text-slate-300" id="sortIcon_exp_conf_wins_remaining">↕</span>
               </th>
-              <th class="px-5 py-4 text-right cursor-pointer select-none" data-standings-sort="proj_wpct">
-                Projected <span class="ml-1 text-slate-300" id="sortIcon_proj_wpct">↕</span>
+              <th class="px-6 py-4 text-right cursor-pointer select-none hover:bg-slate-200/50 transition-colors metric-col-proj border-l border-purple-200/50" data-standings-sort="proj_wpct">
+                Projected <span class="sortIcon ml-1 text-purple-400" id="sortIcon_proj_wpct">↕</span>
               </th>
             </tr>
           </thead>
@@ -196,8 +356,15 @@
         </table>
       </div>
 
-      <div class="px-5 py-3 bg-white border-t border-slate-100 text-[11px] text-slate-400">
-        Projected = actual conference record + expected wins/losses from remaining conference games (sum of game win probabilities).
+      <div class="px-6 py-4 bg-slate-50 border-t border-slate-200">
+        <div class="flex items-start gap-2 text-xs text-slate-500">
+          <svg class="w-4 h-4 text-slate-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <p>
+            <span class="font-semibold text-slate-600">Projected Record:</span> Calculated from actual conference record plus expected wins/losses from remaining conference games (sum of individual game win probabilities).
+          </p>
+        </div>
       </div>
     </div>
   </main>
@@ -205,16 +372,14 @@
   <script src="conferences_data.js"></script>
 
   <script>
-    // ------------------------------------------------------------
-    // EXACT same navbar logic as Matchup Simulator (toggle "open")
-    // ------------------------------------------------------------
+    // Mobile menu toggle
     function toggleMenu() {
       const menu = document.getElementById('mobile-menu');
       if (!menu) return;
       menu.classList.toggle('open');
     }
 
-    // Optional usability: close mobile menu when a mobile link is tapped
+    // Close mobile menu when link tapped
     document.addEventListener("click", (e) => {
       const menu = document.getElementById("mobile-menu");
       if (!menu || !menu.classList.contains("open")) return;
@@ -229,7 +394,7 @@
       if (window.innerWidth >= 768) menu.classList.remove("open");
     });
 
-    // Sticky-navbar-aware scroll to top anchor
+    // Sticky-navbar-aware scroll
     function scrollToTableTop(e){
       if (e) e.preventDefault();
       const anchor = document.getElementById("topTableAnchor");
@@ -241,13 +406,10 @@
 
       const y = anchor.getBoundingClientRect().top + window.pageYOffset - navH - pad;
       window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
-
       history.replaceState(null, "", window.location.pathname);
     }
 
-    // -----------------------
     // Helpers
-    // -----------------------
     function safeNum(x, fb=0){ const v = Number(x); return Number.isFinite(v) ? v : fb; }
     function getLogoPath(name){ return `logos/${name}.png`; }
 
@@ -259,64 +421,90 @@
       return String(a).localeCompare(String(b));
     }
 
-    // -----------------------
-    // Summary (NOT SORTABLE)
-    // -----------------------
+    // Render Conference Summary
     function renderSummary(data){
       const tbody = document.getElementById("confSummary");
       if (!tbody) return;
 
       const rows = (data.summary || []).slice();
 
-      tbody.innerHTML = rows.map(r => `
-        <tr class="hover:bg-slate-50 transition-colors">
-          <td class="px-5 py-4 font-semibold text-slate-900">${r.conference || ""}</td>
-          <td class="px-5 py-4 text-right font-mono text-slate-600">${safeNum(r.team_count,0)}</td>
-          <td class="px-5 py-4 text-right font-mono font-bold text-slate-900">${safeNum(r.avg_adjem,0).toFixed(2)}</td>
-
-          <td class="px-5 py-4">
+      tbody.innerHTML = rows.map((r, idx) => {
+        const avgColor = safeNum(r.avg_adjem, 0) > 0 ? 'text-emerald-600' : 'text-slate-700';
+        
+        return `
+        <tr class="hover:bg-slate-50/80 transition-all group border-b border-slate-50">
+          <td class="px-6 py-4">
             <div class="flex items-center gap-3">
-              <img src="${getLogoPath(r.highest_team || "")}" class="w-6 h-6 object-contain" onerror="this.style.display='none'">
-              <a class="font-medium text-slate-900 hover:text-brand-600 hover:underline decoration-2 underline-offset-2 transition-colors"
+              <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center font-bold text-slate-600 text-xs">
+                ${idx + 1}
+              </div>
+              <span class="font-bold text-slate-900 text-base">${r.conference || ""}</span>
+            </div>
+          </td>
+          <td class="px-6 py-4 text-right font-mono text-slate-600 font-semibold">${safeNum(r.team_count,0)}</td>
+          <td class="px-6 py-4 text-right font-mono font-bold text-lg ${avgColor} stat-value metric-col-em border-l border-brand-100/50">
+            ${safeNum(r.avg_adjem,0).toFixed(2)}
+          </td>
+
+          <td class="px-6 py-4">
+            <div class="flex items-center gap-3">
+              <img src="${getLogoPath(r.highest_team || "")}" class="team-logo w-7 h-7 object-contain" onerror="this.style.display='none'">
+              <a class="font-semibold text-slate-900 hover:text-brand-600 transition-colors group/link inline-flex items-center gap-2"
                  href="team.html?q=${encodeURIComponent(r.highest_team || "")}">
                 ${r.highest_team || ""}
+                <svg class="w-3 h-3 opacity-0 group-hover/link:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
               </a>
             </div>
           </td>
-          <td class="px-5 py-4 text-right font-mono text-slate-600">${safeNum(r.highest_adjem,0).toFixed(2)}</td>
+          <td class="px-6 py-4 text-right font-mono text-slate-600 font-semibold stat-value">${safeNum(r.highest_adjem,0).toFixed(2)}</td>
 
-          <td class="px-5 py-4">
+          <td class="px-6 py-4 border-l border-slate-200">
             <div class="flex items-center gap-3">
-              <img src="${getLogoPath(r.lowest_team || "")}" class="w-6 h-6 object-contain" onerror="this.style.display='none'">
-              <a class="font-medium text-slate-900 hover:text-brand-600 hover:underline decoration-2 underline-offset-2 transition-colors"
+              <img src="${getLogoPath(r.lowest_team || "")}" class="team-logo w-7 h-7 object-contain" onerror="this.style.display='none'">
+              <a class="font-semibold text-slate-900 hover:text-brand-600 transition-colors group/link inline-flex items-center gap-2"
                  href="team.html?q=${encodeURIComponent(r.lowest_team || "")}">
                 ${r.lowest_team || ""}
+                <svg class="w-3 h-3 opacity-0 group-hover/link:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
               </a>
             </div>
           </td>
-          <td class="px-5 py-4 text-right font-mono text-slate-600">${safeNum(r.lowest_adjem,0).toFixed(2)}</td>
+          <td class="px-6 py-4 text-right font-mono text-slate-600 font-semibold stat-value">${safeNum(r.lowest_adjem,0).toFixed(2)}</td>
         </tr>
-      `).join("") || `
-        <tr><td colspan="7" class="px-5 py-10 text-center text-slate-400">No results.</td></tr>
+      `;
+      }).join("") || `
+        <tr><td colspan="7" class="px-6 py-12 text-center">
+          <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-slate-100 mb-3">
+            <svg class="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
+            </svg>
+          </div>
+          <p class="text-slate-500">No conference data available</p>
+        </td></tr>
       `;
     }
 
-    // -----------------------
-    // Standings (SEARCHABLE + SORTABLE)
-    // -----------------------
+    // Standings state and rendering
     let STATE = {
       confFilter: "",
       search: "",
-      sort: { key: "proj_wpct", dir: "desc" } // standings-only sort
+      sort: { key: "proj_wpct", dir: "desc" }
     };
 
     function setStandingsSortIcon(key, dir){
-      document.querySelectorAll(`[id^="sortIcon_"]`).forEach(el => el.textContent = "↕");
+      document.querySelectorAll(`[id^="sortIcon_"]`).forEach(el => {
+        el.textContent = "↕";
+        el.classList.remove('text-brand-600');
+        el.classList.add('text-slate-300');
+      });
       const el = document.getElementById(`sortIcon_${key}`);
       if (!el) return;
       el.textContent = (dir === "asc") ? "↑" : "↓";
       el.classList.remove("text-slate-300");
-      el.classList.add("text-slate-400");
+      el.classList.add("text-brand-600");
     }
 
     function flattenStandings(data){
@@ -348,9 +536,6 @@
             proj_conf_losses: pl,
             actual_wpct,
             proj_wpct,
-
-            // For "rank" sorting column we will use the current rendered order by default,
-            // but we still support clicking it: use orig_rank as the value.
             rank: idx + 1
           });
         });
@@ -372,75 +557,77 @@
         return r.team.toLowerCase().includes(q) || r.conf.toLowerCase().includes(q);
       });
 
-      // sort (standings-only)
+      // Sort
       const {key, dir} = STATE.sort;
       rows.sort((a, b) => {
-  if (key === "proj_wpct") {
-    // Primary: projected wins
-    if (a.proj_conf_wins !== b.proj_conf_wins) {
-      return dir === "asc"
-        ? a.proj_conf_wins - b.proj_conf_wins
-        : b.proj_conf_wins - a.proj_conf_wins;
-    }
-
-    // Secondary: projected win %
-    if (a.proj_wpct !== b.proj_wpct) {
-      return dir === "asc"
-        ? a.proj_wpct - b.proj_wpct
-        : b.proj_wpct - a.proj_wpct;
-    }
-
-    // Tertiary: AdjEM
-    return dir === "asc"
-      ? a.adjem - b.adjem
-      : b.adjem - a.adjem;
-  }
-
-  // Default behavior
-  const c = cmp(a[key], b[key]);
-  return dir === "asc" ? c : -c;
-});
-
+        if (key === "proj_wpct") {
+          if (a.proj_conf_wins !== b.proj_conf_wins) {
+            return dir === "asc" ? a.proj_conf_wins - b.proj_conf_wins : b.proj_conf_wins - a.proj_conf_wins;
+          }
+          if (a.proj_wpct !== b.proj_wpct) {
+            return dir === "asc" ? a.proj_wpct - b.proj_wpct : b.proj_wpct - a.proj_wpct;
+          }
+          return dir === "asc" ? a.adjem - b.adjem : b.adjem - a.adjem;
+        }
+        const c = cmp(a[key], b[key]);
+        return dir === "asc" ? c : -c;
+      });
 
       setStandingsSortIcon(key, dir);
 
       tbody.innerHTML = rows.map((r, i) => {
         const actualStr = `${r.conf_w}-${r.conf_l}`;
-        const projStr = `${r.proj_conf_wins.toFixed(2)}-${r.proj_conf_losses.toFixed(2)}`;
+        const projStr = `${r.proj_conf_wins.toFixed(1)}-${r.proj_conf_losses.toFixed(1)}`;
 
-        const projCls = r.proj_wpct >= 0.65 ? "text-emerald-600"
-                      : r.proj_wpct <= 0.35 ? "text-rose-600"
-                      : "text-slate-700";
+        const projCls = r.proj_wpct >= 0.65 ? "text-emerald-600 font-bold"
+                      : r.proj_wpct <= 0.35 ? "text-rose-600 font-bold"
+                      : "text-slate-700 font-semibold";
 
-        const actualCls = r.actual_wpct >= 0.65 ? "text-emerald-600"
-                        : r.actual_wpct <= 0.35 ? "text-rose-600"
-                        : "text-slate-700";
+        const actualCls = r.actual_wpct >= 0.65 ? "text-emerald-600 font-bold"
+                        : r.actual_wpct <= 0.35 ? "text-rose-600 font-bold"
+                        : "text-slate-700 font-semibold";
+
+        const emCls = r.adjem > 0 ? "text-brand-700" : "text-slate-700";
 
         return `
-          <tr class="hover:bg-slate-50 transition-colors group">
-            <td class="px-5 py-4 text-right font-mono text-slate-400">${i + 1}</td>
+          <tr class="hover:bg-slate-50/80 transition-all group border-b border-slate-50">
+            <td class="px-6 py-4 text-right font-mono text-slate-500 font-semibold">${i + 1}</td>
 
-            <td class="px-5 py-4">
+            <td class="px-6 py-4">
               <div class="flex items-center gap-3">
-                <img src="${getLogoPath(r.team)}" class="w-6 h-6 object-contain" onerror="this.style.display='none'">
+                <img src="${getLogoPath(r.team)}" class="team-logo w-7 h-7 object-contain" onerror="this.style.display='none'">
                 <div>
-                  <a class="font-medium text-slate-900 hover:text-brand-600 hover:underline decoration-2 underline-offset-2 transition-colors"
-                     href="team.html?q=${encodeURIComponent(r.team)}">${r.team}</a>
-                  <div class="text-[11px] text-slate-400">${r.conf}</div>
+                  <a class="font-semibold text-slate-900 hover:text-brand-600 transition-colors group/link inline-flex items-center gap-2"
+                     href="team.html?q=${encodeURIComponent(r.team)}">
+                    ${r.team}
+                    <svg class="w-3 h-3 opacity-0 group-hover/link:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                  </a>
+                  <div class="text-[11px] text-slate-500 font-medium mt-0.5">${r.conf}</div>
                 </div>
               </div>
             </td>
 
-            <td class="px-5 py-4 text-right font-mono font-bold text-slate-900">${r.adjem.toFixed(2)}</td>
-            <td class="px-5 py-4 font-mono text-slate-600">${r.conf}</td>
-            <td class="px-5 py-4 text-right font-mono ${actualCls} font-bold">${actualStr}</td>
-            <td class="px-5 py-4 text-right font-mono text-slate-600">${r.rem_conf_games}</td>
-            <td class="px-5 py-4 text-right font-mono text-slate-600">${r.exp_conf_wins_remaining.toFixed(2)}</td>
-            <td class="px-5 py-4 text-right font-mono font-bold ${projCls}">${projStr}</td>
+            <td class="px-6 py-4 text-right font-mono font-bold ${emCls} text-base stat-value metric-col-em border-l border-brand-100/50">${r.adjem.toFixed(2)}</td>
+            <td class="px-6 py-4">
+              <span class="conf-badge">${r.conf}</span>
+            </td>
+            <td class="px-6 py-4 text-right font-mono ${actualCls} stat-value border-l border-slate-200">${actualStr}</td>
+            <td class="px-6 py-4 text-right font-mono text-slate-600 font-semibold stat-value">${r.rem_conf_games}</td>
+            <td class="px-6 py-4 text-right font-mono text-slate-600 font-semibold stat-value">${r.exp_conf_wins_remaining.toFixed(2)}</td>
+            <td class="px-6 py-4 text-right font-mono ${projCls} text-base stat-value metric-col-proj border-l border-purple-100/50">${projStr}</td>
           </tr>
         `;
       }).join("") || `
-        <tr><td colspan="8" class="px-5 py-10 text-center text-slate-400">No results.</td></tr>
+        <tr><td colspan="8" class="px-6 py-12 text-center">
+          <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-slate-100 mb-3">
+            <svg class="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+          </div>
+          <p class="text-slate-500">No teams found matching your criteria</p>
+        </td></tr>
       `;
     }
 
@@ -465,7 +652,6 @@
         ]);
         STATE.sort.dir = preferDesc.has(key) ? "desc" : "asc";
 
-        // rank is naturally asc
         if (key === "rank") STATE.sort.dir = "asc";
         if (key === "team" || key === "conf") STATE.sort.dir = "asc";
       }
@@ -478,11 +664,8 @@
       });
     }
 
-    // -----------------------
-    // Init
-    // -----------------------
+    // Initialize
     if (typeof CONFERENCES_DATA !== "undefined") {
-      // Updated timestamp: use data if provided, else local time
       const upd = CONFERENCES_DATA.last_updated || new Date().toLocaleString();
       const el1 = document.getElementById("lastUpdated");
       const el2 = document.getElementById("lastUpdatedMobile");
@@ -505,14 +688,24 @@
       sSel.addEventListener("change", refreshStandings);
       sInp.addEventListener("input", refreshStandings);
 
-      // initial render
       renderStandings(CONFERENCES_DATA);
     } else {
       document.querySelector("main").innerHTML =
-        `<div class="text-center mt-20 text-slate-400">
-            conferences_data.js not found.
-            <div class="mt-2"><a class="text-brand-600 hover:underline" href="index.html">Back to Rankings</a></div>
-         </div>`;
+        `<div class="text-center mt-20 p-8 bg-white rounded-2xl card-shadow border border-slate-200 max-w-md mx-auto">
+          <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-rose-100 mb-4">
+            <svg class="w-8 h-8 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </div>
+          <p class="text-lg font-semibold text-slate-700 mb-2">Data Not Found</p>
+          <p class="text-sm text-slate-500 mb-4">conferences_data.js could not be loaded</p>
+          <a class="inline-flex items-center gap-2 px-4 py-2 bg-brand-600 text-white rounded-lg hover:bg-brand-700 transition-colors font-medium" href="index.html">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+            </svg>
+            Back to Rankings
+          </a>
+        </div>`;
     }
   </script>
 </body>

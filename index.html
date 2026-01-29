@@ -7,11 +7,9 @@
     <title>CHan Analytics | CBB Ratings</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <!-- ✅ NEW: load Monte Carlo data (expects window.MC_DATA) -->
     <script src="mc_data.js"></script>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
@@ -25,8 +23,13 @@
                         brand: {
                             50: '#eef2ff',
                             100: '#e0e7ff',
+                            200: '#c7d2fe',
+                            300: '#a5b4fc',
+                            400: '#818cf8',
                             500: '#6366f1', 
                             600: '#4f46e5',
+                            700: '#4338ca',
+                            800: '#3730a3',
                             900: '#312e81',
                         }
                     }
@@ -36,48 +39,192 @@
     </script>
 
     <style> 
-        body { -webkit-font-smoothing: antialiased; } 
+        body { 
+            -webkit-font-smoothing: antialiased;
+            background: linear-gradient(to bottom, #f8fafc 0%, #ffffff 100%);
+        } 
         
         /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; height: 8px; }
-        ::-webkit-scrollbar-track { background: #f1f5f9; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        ::-webkit-scrollbar { width: 10px; height: 10px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 5px; }
+        ::-webkit-scrollbar-thumb { 
+            background: linear-gradient(180deg, #94a3b8, #64748b);
+            border-radius: 5px;
+            border: 2px solid #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #64748b, #475569); }
 
-        /* Sticky Columns with shadow handling */
-        .sticky-col-1 { position: sticky; left: 0; z-index: 30; }
-        .sticky-col-2 { position: sticky; left: 4rem; z-index: 30; } /* Adjusted for rank width */
+        /* Sticky Columns with enhanced shadows */
+        .sticky-col-1 { 
+            position: sticky; 
+            left: 0; 
+            z-index: 30;
+            box-shadow: 2px 0 8px rgba(0,0,0,0.04);
+        }
+        .sticky-col-2 { 
+            position: sticky; 
+            left: 4rem; 
+            z-index: 30;
+            box-shadow: 2px 0 8px rgba(0,0,0,0.04);
+        }
         
         .bg-opaque { background-color: white; }
-        tr:hover .bg-opaque { background-color: #f8fafc; }
+        tr:hover .bg-opaque { background-color: #fafbfc; }
+        tr:hover { background-color: #fafbfc; }
 
-        /* Sort Arrows */
-        th.sort-asc::after { content: " ↑"; color: #4f46e5; }
-        th.sort-desc::after { content: " ↓"; color: #4f46e5; }
+        /* Enhanced Sort Arrows */
+        th.sort-asc::after { content: " ↑"; color: #4f46e5; font-weight: bold; }
+        th.sort-desc::after { content: " ↓"; color: #4f46e5; font-weight: bold; }
 
         /* Mobile Menu Animation */
-        #mobile-menu { display: none; transition: all 0.3s; }
+        #mobile-menu { 
+            display: none; 
+            transition: all 0.3s ease;
+            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+        }
         #mobile-menu.open { display: block; }
         
         .chart-wrapper { position: relative; height: 65vh; width: 100%; }
+
+        /* Enhanced Table Row Hover */
+        tbody tr {
+            transition: all 0.2s ease;
+        }
+        tbody tr:hover {
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.1);
+            transform: translateY(-1px);
+        }
+
+        /* Glassmorphism effect for controls */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        /* Gradient text for headers */
+        .gradient-text {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Enhanced badge styles */
+        .rank-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 2.5rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.5rem;
+            font-weight: 700;
+            font-size: 0.75rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            transition: all 0.2s ease;
+        }
+
+        .rank-badge:hover {
+            transform: scale(1.05);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        }
+
+        /* Stat cell enhancements */
+        .stat-cell {
+            font-variant-numeric: tabular-nums;
+            letter-spacing: -0.02em;
+        }
+
+        /* Enhanced navbar */
+        .navbar-glass {
+            background: rgba(15, 23, 42, 0.98);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(71, 85, 105, 0.3);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Logo hover effect */
+        .logo-hover {
+            transition: transform 0.3s ease;
+        }
+        .logo-hover:hover {
+            transform: scale(1.05);
+        }
+
+        /* Enhanced input focus states */
+        input:focus, select:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        /* Table header gradient */
+        thead {
+            background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+        }
+
+        /* Conference badge styling */
+        .conf-badge {
+            display: inline-block;
+            padding: 0.125rem 0.5rem;
+            border-radius: 0.375rem;
+            font-size: 0.6875rem;
+            font-weight: 600;
+            letter-spacing: 0.025em;
+            background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+            color: #475569;
+        }
+
+        /* Lock icon styling */
+        .lock-icon {
+            display: inline-block;
+            margin-left: 0.25rem;
+            font-size: 0.875rem;
+            filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));
+        }
+
+        /* Stat rank mini badge */
+        .rank-mini {
+            font-size: 0.625rem;
+            opacity: 0.6;
+            transition: opacity 0.2s ease;
+        }
+        tr:hover .rank-mini {
+            opacity: 0.9;
+        }
+
+        /* Enhanced card shadows */
+        .card-shadow {
+            box-shadow: 
+                0 1px 3px rgba(0,0,0,0.05),
+                0 10px 40px rgba(0,0,0,0.03),
+                0 0 1px rgba(0,0,0,0.1);
+        }
+
+        /* Toggle switch enhancement */
+        .toggle-switch {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .toggle-switch:hover {
+            transform: scale(1.05);
+        }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col selection:bg-brand-500 selection:text-white">
+<body class="bg-gradient-to-b from-slate-50 to-white text-slate-900 min-h-screen flex flex-col selection:bg-brand-500 selection:text-white">
 
-    <!-- Navbar -->
-    <nav class="bg-slate-900/95 backdrop-blur-md text-white sticky top-0 z-50 border-b border-slate-700/50">
+    <!-- Enhanced Navbar -->
+    <nav class="navbar-glass text-white sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <div class="flex items-center gap-3">
-                    <!-- Brand Icon -->
-                    <a href="#topTableAnchor" onclick="scrollToTableTop(event)" class="flex items-center">
+                    <!-- Brand Icon with hover effect -->
+                    <a href="#topTableAnchor" onclick="scrollToTableTop(event)" class="flex items-center logo-hover">
                         <img
                           src="wlogo.png"
                           alt="CHan Analytics"
-                          class="h-6 sm:h-7 w-auto object-contain select-none"
-                          style="max-height: 28px"
+                          class="h-7 sm:h-8 w-auto object-contain select-none"
+                          style="max-height: 32px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));"
                         />
-                      </a>
+                    </a>
                       
                     <!-- Desktop Nav -->
                     <div class="hidden md:flex ml-8 space-x-1">
@@ -86,12 +233,18 @@
                 </div>
                 
                 <div class="flex items-center gap-4">
-                    <div class="hidden md:block text-xs font-mono text-slate-400 bg-slate-800 px-3 py-1.5 rounded-full border border-slate-700">
-                        <span class="text-brand-500">●</span> Live Update: <span class="text-slate-200">2026-01-28 19:44 UTC</span>
+                    <!-- Enhanced status badge -->
+                    <div class="hidden md:flex items-center gap-2 text-xs font-mono px-4 py-2 rounded-full border border-slate-600/50" style="background: linear-gradient(135deg, rgba(51, 65, 85, 0.6) 0%, rgba(30, 41, 59, 0.6) 100%);">
+                        <span class="relative flex h-2 w-2">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-500"></span>
+                        </span>
+                        <span class="text-slate-300">Updated:</span>
+                        <span class="text-white font-semibold">2026-01-29 00:09 UTC</span>
                     </div>
 
                     <div class="-mr-2 flex md:hidden">
-                        <button type="button" onclick="toggleMenu()" class="text-slate-400 hover:text-white p-2">
+                        <button type="button" onclick="toggleMenu()" class="text-slate-300 hover:text-white p-2 rounded-lg hover:bg-slate-700/50 transition-all">
                             <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
                         </button>
                     </div>
@@ -102,44 +255,54 @@
     </nav>
     <div id="topTableAnchor" class="relative -top-28"></div>
 
-    <!-- Sub-Header & Controls -->
-    <div class="bg-white border-b border-slate-200 sticky top-16 z-40 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+    <!-- Enhanced Sub-Header & Controls -->
+    <div class="glass-panel sticky top-16 z-40 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 
-                <div class="flex items-center gap-2 overflow-x-auto pb-1 md:pb-0 hide-scrollbar">
-                    
-                    <div class="hidden md:flex bg-slate-100 p-1 rounded-lg border border-slate-200">
-                        <button onclick="setView('table')" id="btnTable" class="px-4 py-1.5 text-xs font-bold rounded-md shadow-sm bg-white text-slate-900 transition-all">Table</button>
-                        <button onclick="setView('chart')" id="btnChart" class="px-4 py-1.5 text-xs font-medium rounded-md text-slate-500 hover:text-slate-900 transition-all">Scatter</button>
+                <!-- Left: View Toggle -->
+                <div class="flex items-center gap-3">
+                    <div class="hidden md:flex bg-slate-100/80 p-1.5 rounded-xl border border-slate-200/80 shadow-inner">
+                        <button onclick="setView('table')" id="btnTable" class="px-5 py-2 text-sm font-bold rounded-lg shadow-sm bg-white text-slate-900 transition-all hover:shadow-md">
+                            <span class="flex items-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                                Table
+                            </span>
+                        </button>
+                        <button onclick="setView('chart')" id="btnChart" class="px-5 py-2 text-sm font-medium rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-all">
+                            <span class="flex items-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                                Scatter
+                            </span>
+                        </button>
                     </div>
                     
-                    <div class="hidden md:block h-6 w-px bg-slate-200 mx-1"></div>
-                    
+                    <div class="hidden md:block h-8 w-px bg-slate-300"></div>
                 </div>
 
+                <!-- Right: Enhanced Filters -->
                 <div class="flex items-center gap-3 w-full md:w-auto">
-
-                <!-- Right: Filters -->
-                <div class="flex items-center gap-3 w-full md:w-auto">
-                    <div class="relative w-full md:w-64 group">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 group-focus-within:text-brand-500">
-                            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                    <!-- Search with icon -->
+                    <div class="relative w-full md:w-72 group">
+                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 group-focus-within:text-brand-500 transition-colors">
+                            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
                         </div>
-                        <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Find team..." class="block w-full pl-10 pr-3 py-2 border border-slate-200 rounded-lg bg-slate-50 focus:bg-white focus:ring-2 focus:ring-brand-500 focus:border-brand-500 sm:text-sm transition-all">
+                        <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Search teams..." class="block w-full pl-11 pr-4 py-2.5 border border-slate-300 rounded-xl bg-white/80 focus:bg-white focus:ring-2 focus:ring-brand-500 focus:border-brand-500 text-sm transition-all placeholder:text-slate-400 shadow-sm">
                     </div>
                     
-                    <select id="confFilter" onchange="filterTable()" class="block w-32 pl-2 pr-8 py-2 text-xs border-slate-200 rounded-lg bg-slate-50 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 text-slate-700 font-medium">
+                    <!-- Conference Filter -->
+                    <select id="confFilter" onchange="filterTable()" class="block w-36 pl-3 pr-10 py-2.5 text-sm border border-slate-300 rounded-xl bg-white/80 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 text-slate-700 font-medium shadow-sm cursor-pointer hover:border-brand-400 transition-all">
                         <option value="">All Conf</option>
                         <option value="One-Bid">One-Bid</option>
                         <option value="Power 5">Power 5</option>
                         <option value="Mid-Major">Mid-Major</option>
                     </select>
                     
-                    <label class="flex items-center cursor-pointer relative" title="Show Pure Ratings (No Preseason Bias)">
+                    <!-- Enhanced Toggle -->
+                    <label class="flex items-center cursor-pointer relative group toggle-switch" title="Show Pure Ratings (No Preseason Bias)">
                         <input type="checkbox" id="togglePure" class="sr-only peer" onchange="renderTable()">
-                        <div class="w-9 h-5 bg-slate-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-brand-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-brand-600"></div>
-                        <span class="ml-2 text-xs font-medium text-slate-600 hidden lg:block">Pure</span>
+                        <div class="w-11 h-6 bg-slate-300 peer-focus:outline-none peer-focus:ring-3 peer-focus:ring-brand-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all after:shadow-sm peer-checked:bg-brand-600 shadow-inner"></div>
+                        <span class="ml-3 text-sm font-semibold text-slate-700 hidden lg:block group-hover:text-brand-600 transition-colors">Pure</span>
                     </label>
                 </div>
             </div>
@@ -147,55 +310,56 @@
     </div>
 
     <!-- Main Content -->
-    <main class="flex-grow max-w-7xl w-full mx-auto px-0 sm:px-6 lg:px-8 py-6">
-        <!-- TABLE VIEW -->
-        <div id="tableView" class="bg-white shadow-xl shadow-slate-200/50 sm:rounded-xl overflow-hidden border border-slate-200">
+    <main class="flex-grow max-w-7xl w-full mx-auto px-0 sm:px-6 lg:px-8 py-8">
+        <!-- Enhanced TABLE VIEW -->
+        <div id="tableView" class="bg-white card-shadow sm:rounded-2xl overflow-hidden border border-slate-200/80">
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse whitespace-nowrap text-sm" id="rankingsTable">
-                    <thead class="bg-slate-50 border-b border-slate-200 text-xs uppercase tracking-wider text-slate-500 font-bold sticky top-0 z-30 shadow-sm">
+                    <thead class="bg-gradient-to-b from-slate-50 to-slate-100/50 border-b-2 border-slate-200 text-xs uppercase tracking-wider text-slate-600 font-bold sticky top-0 z-30 shadow-sm">
                         <tr>
-                            <th class="sticky-col-1 bg-slate-50 px-4 py-4 text-center border-r border-slate-200 cursor-pointer hover:bg-slate-100 w-16" onclick="handleSort('Rank', this)">Rk</th>
-                            <th class="sticky-col-2 bg-slate-50 px-4 py-4 text-left border-r border-slate-200 cursor-pointer hover:bg-slate-100" onclick="handleSort('Team', this)">Team</th>
-                            <th class="px-4 py-4 text-left border-r border-slate-200 cursor-pointer hover:bg-slate-100 hidden sm:table-cell text-slate-400" onclick="handleSort('Conference', this)">Conf</th>
+                            <th class="sticky-col-1 bg-gradient-to-b from-slate-50 to-slate-100/50 px-4 py-4 text-center border-r border-slate-200 cursor-pointer hover:bg-slate-200/50 transition-colors w-16" onclick="handleSort('Rank', this)">Rk</th>
+                            <th class="sticky-col-2 bg-gradient-to-b from-slate-50 to-slate-100/50 px-4 py-4 text-left border-r border-slate-200 cursor-pointer hover:bg-slate-200/50 transition-colors" onclick="handleSort('Team', this)">Team</th>
+                            <th class="px-4 py-4 text-left border-r border-slate-200 cursor-pointer hover:bg-slate-200/50 transition-colors hidden sm:table-cell" onclick="handleSort('Conference', this)">Conf</th>
                             
-                            <th class="px-4 py-4 text-right bg-brand-50/50 text-brand-900 cursor-pointer hover:bg-brand-100" onclick="handleSort('AdjEM', this)">AdjEM</th>
-                            <th class="px-4 py-4 text-right bg-orange-50/50 text-orange-900 hidden pure-col cursor-pointer hover:bg-orange-100" onclick="handleSort('Pure_AdjEM', this)">Pure</th>
-                            <th class="px-4 py-4 text-right text-slate-500 cursor-pointer hover:bg-slate-100" onclick="handleSort('AdjO', this)">AdjO</th>
-                            <th class="px-4 py-4 text-right text-slate-500 cursor-pointer hover:bg-slate-100" onclick="handleSort('AdjD', this)">AdjD</th>
-                            <th class="px-4 py-4 text-right text-slate-500 cursor-pointer hover:bg-slate-100" onclick="handleSort('AdjT', this)">Tempo</th>
-                            <th class="px-4 py-4 text-right text-slate-500 cursor-pointer hover:bg-slate-100" onclick="handleSort('Venue_AdjEM_AN_minus_Home', this)">Road Adj</th>
-                            <th class="px-4 py-4 text-right bg-purple-50/50 text-slate-900 cursor-pointer hover:bg-purple-100 border-l border-purple-100 border-r border-slate-200" onclick="handleSort('SOS', this)">SOS</th>
-                            <th class="px-4 py-4 text-right text-slate-500 cursor-pointer hover:bg-slate-100 border-l border-slate-200" onclick="handleSort('StrengthAdjust', this)">SDiff</th>
-                            <th class="px-4 py-4 text-right bg-slate-100 text-slate-800 cursor-pointer hover:bg-slate-200 border-r border-slate-200" onclick="handleSort('Selection_Score', this)">Sel. Score</th>
-                            <th class="px-4 py-4 text-right bg-purple-50/50 text-purple-900 cursor-pointer hover:bg-purple-100 border-l border-purple-100" onclick="handleSort('RQ', this)">RQ</th>
-                            <th class="px-4 py-4 text-right bg-purple-50/50 text-purple-900 cursor-pointer hover:bg-purple-100 border-l border-purple-100" onclick="handleSort('RQ_Win_Avg', this)">Avg WQ</th>
-                            <th class="px-4 py-4 text-right bg-purple-50/50 text-purple-900 cursor-pointer hover:bg-purple-100 border-l border-purple-100" onclick="handleSort('RQ_Loss_Avg', this)">Avg LQ</th>
-                            <th class="px-4 py-4 text-right text-slate-500 cursor-pointer hover:bg-slate-100 border-l border-slate-200" onclick="handleSort('Consistency', this)">Cons</th>
-                            
+                            <th class="px-4 py-4 text-right bg-gradient-to-br from-brand-50 to-brand-100/50 text-brand-900 cursor-pointer hover:bg-brand-100 transition-colors border-l border-brand-200" onclick="handleSort('AdjEM', this)">AdjEM</th>
+                            <th class="px-4 py-4 text-right bg-gradient-to-br from-orange-50 to-orange-100/50 text-orange-900 hidden pure-col cursor-pointer hover:bg-orange-100 transition-colors" onclick="handleSort('Pure_AdjEM', this)">Pure</th>
+                            <th class="px-4 py-4 text-right text-slate-600 cursor-pointer hover:bg-slate-100 transition-colors" onclick="handleSort('AdjO', this)">AdjO</th>
+                            <th class="px-4 py-4 text-right text-slate-600 cursor-pointer hover:bg-slate-100 transition-colors" onclick="handleSort('AdjD', this)">AdjD</th>
+                            <th class="px-4 py-4 text-right text-slate-600 cursor-pointer hover:bg-slate-100 transition-colors" onclick="handleSort('AdjT', this)">Tempo</th>
+                            <th class="px-4 py-4 text-right text-slate-600 cursor-pointer hover:bg-slate-100 transition-colors" onclick="handleSort('Venue_AdjEM_AN_minus_Home', this)">Road Adj</th>
+                            <th class="px-4 py-4 text-right bg-gradient-to-br from-purple-50 to-purple-100/50 text-purple-900 cursor-pointer hover:bg-purple-100 transition-colors border-l border-purple-200 border-r border-slate-200" onclick="handleSort('SOS', this)">SOS</th>
+                            <th class="px-4 py-4 text-right text-slate-600 cursor-pointer hover:bg-slate-100 transition-colors" onclick="handleSort('StrengthAdjust', this)">SDiff</th>
+                            <th class="px-4 py-4 text-right bg-gradient-to-br from-slate-100 to-slate-200/50 text-slate-800 cursor-pointer hover:bg-slate-200 transition-colors border-r border-slate-300" onclick="handleSort('Selection_Score', this)">Sel. Score</th>
+                            <th class="px-4 py-4 text-right bg-gradient-to-br from-purple-50 to-purple-100/50 text-purple-900 cursor-pointer hover:bg-purple-100 transition-colors border-l border-purple-200" onclick="handleSort('RQ', this)">RQ</th>
+                            <th class="px-4 py-4 text-right bg-gradient-to-br from-purple-50 to-purple-100/50 text-purple-900 cursor-pointer hover:bg-purple-100 transition-colors" onclick="handleSort('RQ_Win_Avg', this)">Avg WQ</th>
+                            <th class="px-4 py-4 text-right bg-gradient-to-br from-purple-50 to-purple-100/50 text-purple-900 cursor-pointer hover:bg-purple-100 transition-colors" onclick="handleSort('RQ_Loss_Avg', this)">Avg LQ</th>
+                            <th class="px-4 py-4 text-right text-slate-600 cursor-pointer hover:bg-slate-100 transition-colors border-l border-slate-200" onclick="handleSort('Consistency', this)">Cons</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100" id="tableBody"></tbody>
                 </table>
-                <div id="noDataMsg" class="hidden p-12 text-center text-slate-400">
-                    <p class="text-lg font-medium">No teams found.</p>
-                    <p class="text-sm">Try adjusting your filters.</p>
+                <div id="noDataMsg" class="hidden p-16 text-center">
+                    <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-100 mb-4">
+                        <svg class="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <p class="text-lg font-semibold text-slate-700 mb-1">No teams found</p>
+                    <p class="text-sm text-slate-500">Try adjusting your filters to see more results</p>
                 </div>
             </div>
         </div>
 
-        <!-- CHART VIEW -->
-        <div id="chartView" class="hidden bg-white shadow-xl shadow-slate-200/50 sm:rounded-xl p-6 border border-slate-200">
-            <div id="chartLoading" class="hidden flex justify-center items-center h-full text-slate-500 font-medium animate-pulse">
-                Loading Data...
+        <!-- Enhanced CHART VIEW -->
+        <div id="chartView" class="hidden bg-white card-shadow sm:rounded-2xl p-8 border border-slate-200/80">
+            <div id="chartLoading" class="hidden flex flex-col justify-center items-center h-full text-slate-500 font-medium">
+                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-600 mb-4"></div>
+                <p>Loading Data...</p>
             </div>
             <div class="chart-wrapper"><canvas id="quadrantChart"></canvas></div>
         </div>
     </main>
 
     <script>
-        // -----------------------------
-        // Data Injection (existing)
-        // -----------------------------
+        // Data Injection
         let rawData = [];
         let conferences = [];
         try {
@@ -204,29 +368,23 @@
         } catch (e) {
             console.error("Data Injection Failed", e);
             document.getElementById('tableBody').innerHTML =
-                '<tr><td colspan="12" class="p-8 text-center text-rose-600 font-bold bg-rose-50">System Error: Data not loaded.</td></tr>';
+                '<tr><td colspan="16" class="p-12 text-center text-rose-600 font-bold bg-rose-50 rounded-lg">System Error: Data not loaded.</td></tr>';
         }
 
-        // -----------------------------
-        // ✅ NEW: Monte Carlo integration
-        // Expects mc_data.js to define: window.MC_DATA = { "Team Name": { AtLargeIfNoAQ_Prob: 1.0, ... }, ... }
-        // -----------------------------
+        // Monte Carlo integration
         const MC = (window.MC_DATA || {});
 
         function getAtLargeIfNoAQProb(team) {
-            // Prefer explicit AtLargeIfNoAQ_Prob if present
             const v = MC?.[team]?.AtLargeIfNoAQ_Prob;
-            // Allow fallback key if you exported differently (e.g., al_noaq)
             const v2 = MC?.[team]?.al_noaq;
-
             const p = (v != null) ? Number(v) : Number(v2);
-            return Number.isFinite(p) ? p : null; // 0..1 or null
+            return Number.isFinite(p) ? p : null;
         }
 
         function isAtLargeLock(team) {
             const p = getAtLargeIfNoAQProb(team);
             if (p == null) return false;
-            return p >= 0.999999; // float tolerance for "100%"
+            return p >= 0.999999;
         }
 
         const MULTI_BID_LEAGUES = ["ACC", "B10", "B12", "SEC", "BE", "MWC", "A10", "Amer", "WCC"];
@@ -258,15 +416,21 @@
             const bt = document.getElementById('btnTable');
             const bc = document.getElementById('btnChart');
 
-            const activeStyle = "px-4 py-1.5 text-xs font-bold rounded-md shadow-sm bg-white text-slate-900 transition-all ring-1 ring-black/5";
-            const inactiveStyle = "px-4 py-1.5 text-xs font-medium rounded-md text-slate-500 hover:text-slate-900 transition-all";
+            const activeStyle = "px-5 py-2 text-sm font-bold rounded-lg shadow-sm bg-white text-slate-900 transition-all hover:shadow-md";
+            const inactiveStyle = "px-5 py-2 text-sm font-medium rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-all";
 
             if(view === 'table') {
                 t.classList.remove('hidden'); c.classList.add('hidden');
-                bt.className = activeStyle; bc.className = inactiveStyle;
+                bt.className = activeStyle + " flex items-center gap-2";
+                bc.className = inactiveStyle + " flex items-center gap-2";
+                bt.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>Table';
+                bc.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>Scatter';
             } else {
                 t.classList.add('hidden'); c.classList.remove('hidden');
-                bc.className = activeStyle; bt.className = inactiveStyle;
+                bc.className = activeStyle + " flex items-center gap-2";
+                bt.className = inactiveStyle + " flex items-center gap-2";
+                bt.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>Table';
+                bc.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>Scatter';
                 initChart();
             }
         }
@@ -346,30 +510,50 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    animation: false,
+                    animation: { duration: 750, easing: 'easeInOutQuart' },
                     plugins: {
                         tooltip: {
                             callbacks: {
                                 label: (ctx) => `#${ctx.raw.rank} ${ctx.raw.team} (${ctx.raw.conf})`
                             },
-                            backgroundColor: 'rgba(15, 23, 42, 0.9)',
-                            titleFont: { family: 'Inter', size: 13 },
-                            bodyFont: { family: 'Inter', size: 12 },
-                            padding: 10,
-                            cornerRadius: 8,
-                            displayColors: false
+                            backgroundColor: 'rgba(15, 23, 42, 0.95)',
+                            titleFont: { family: 'Inter', size: 14, weight: 'bold' },
+                            bodyFont: { family: 'Inter', size: 13 },
+                            padding: 12,
+                            cornerRadius: 10,
+                            displayColors: false,
+                            borderColor: 'rgba(99, 102, 241, 0.3)',
+                            borderWidth: 1
                         },
                         legend: { display: false }
                     },
                     scales: {
                         x: { 
-                            title: { display: true, text: 'Adjusted Offense', color: '#64748b', font: { family: 'Inter', weight: 'bold' } },
-                            grid: { color: (ctx) => Math.abs(ctx.tick.value - avgO) < 1 ? '#94a3b8' : '#f1f5f9', lineWidth: (ctx) => Math.abs(ctx.tick.value - avgO) < 1 ? 2 : 1 }
+                            title: { 
+                                display: true, 
+                                text: 'Adjusted Offense', 
+                                color: '#475569', 
+                                font: { family: 'Inter', weight: '600', size: 13 } 
+                            },
+                            grid: { 
+                                color: (ctx) => Math.abs(ctx.tick.value - avgO) < 1 ? '#94a3b8' : '#f1f5f9', 
+                                lineWidth: (ctx) => Math.abs(ctx.tick.value - avgO) < 1 ? 2 : 1 
+                            },
+                            ticks: { color: '#64748b', font: { family: 'JetBrains Mono', size: 11 } }
                         },
                         y: { 
-                            title: { display: true, text: 'Adjusted Defense', color: '#64748b', font: { family: 'Inter', weight: 'bold' } },
+                            title: { 
+                                display: true, 
+                                text: 'Adjusted Defense', 
+                                color: '#475569', 
+                                font: { family: 'Inter', weight: '600', size: 13 } 
+                            },
                             reverse: true,
-                            grid: { color: (ctx) => Math.abs(ctx.tick.value - avgD) < 1 ? '#94a3b8' : '#f1f5f9', lineWidth: (ctx) => Math.abs(ctx.tick.value - avgD) < 1 ? 2 : 1 }
+                            grid: { 
+                                color: (ctx) => Math.abs(ctx.tick.value - avgD) < 1 ? '#94a3b8' : '#f1f5f9', 
+                                lineWidth: (ctx) => Math.abs(ctx.tick.value - avgD) < 1 ? 2 : 1 
+                            },
+                            ticks: { color: '#64748b', font: { family: 'JetBrains Mono', size: 11 } }
                         }
                     }
                 }
@@ -452,9 +636,10 @@
             });
 
             document.querySelectorAll('th').forEach(th => {
-                th.classList.remove('text-brand-600', 'bg-slate-100');
+                th.classList.remove('text-brand-600', 'bg-brand-100/50', 'sort-asc', 'sort-desc');
                 if (th.getAttribute('onclick') && th.getAttribute('onclick').includes(`'${sortCol}'`)) {
-                    th.classList.add('text-brand-600', 'bg-slate-100');
+                    th.classList.add('text-brand-600', 'bg-brand-100/50');
+                    th.classList.add(sortAsc ? 'sort-asc' : 'sort-desc');
                 }
             });
 
@@ -463,67 +648,63 @@
             let html = '';
             currentData.forEach(row => {
                 const consVal = row.Consistency || 50.0;
-                const consColor = 'text-slate-500'
                 const scoreVal = (row.Selection_Score || 0).toFixed(1);
 
                 const rankRatio = (row.Rank - 1) / (totalRows - 1);
-                const hue = Math.pow(1 - rankRatio,3) * 120; 
-                const rankBg = `background-color: hsla(${hue}, 80%, 96%, 1);`;
+                const hue = Math.pow(1 - rankRatio, 3) * 120; 
+                const rankBg = `background: linear-gradient(135deg, hsla(${hue}, 85%, 96%, 1), hsla(${hue}, 85%, 92%, 1));`;
                 const adjEmStyle = `color: hsla(${hue}, 100%, 35%, 1);`;                
                 
-                const rqratio =(row.Rank_RQ -1) / (totalRows -1);
-                const rqhue = Math.pow(1 - rqratio,3) * 120;
+                const rqratio = (row.Rank_RQ - 1) / (totalRows - 1);
+                const rqhue = Math.pow(1 - rqratio, 3) * 120;
                 const rqStyle = `color: hsla(${rqhue}, 100%, 35%, 1);`;
                 
-                const sosratio =(row.Rank_SOS -1) / (totalRows -1);
-                const soshue = Math.pow(1 - sosratio,3) * 120;
+                const sosratio = (row.Rank_SOS - 1) / (totalRows - 1);
+                const soshue = Math.pow(1 - sosratio, 3) * 120;
                 const sosStyle = `color: hsla(${soshue}, 100%, 35%, 1);`;
 
-                const adjoratio =(row.Rank_AdjO -1) / (totalRows -1);
-                const adjorhue = Math.pow(1 - adjoratio,3) * 120;
+                const adjoratio = (row.Rank_AdjO - 1) / (totalRows - 1);
+                const adjorhue = Math.pow(1 - adjoratio, 3) * 120;
                 const adjOStyle = `color: hsla(${adjorhue}, 100%, 35%, 1);`;
 
-                const adjdratio =(row.Rank_AdjD -1) / (totalRows -1);
-                const adjdhue = Math.pow(1 - adjdratio,3) * 120;
+                const adjdratio = (row.Rank_AdjD - 1) / (totalRows - 1);
+                const adjdhue = Math.pow(1 - adjdratio, 3) * 120;
                 const adjDStyle = `color: hsla(${adjdhue}, 100%, 35%, 1);`;
 
-                const strAdjratio = (row.Rank_SA -1) / (totalRows -1);
-                const strAdjhue = Math.pow(1 - strAdjratio,3) * 120;
+                const strAdjratio = (row.Rank_SA - 1) / (totalRows - 1);
+                const strAdjhue = Math.pow(1 - strAdjratio, 3) * 120;
                 const strAdjStyle = `color: hsla(${strAdjhue}, 100%, 35%, 1);`;
 
-                const wqratio = (row.Rank_awq -1) / (totalRows -1);
-                const wqhue = Math.pow(1 - wqratio,3) * 120;
+                const wqratio = (row.Rank_awq - 1) / (totalRows - 1);
+                const wqhue = Math.pow(1 - wqratio, 3) * 120;
                 const wqStyle = `color: hsla(${wqhue}, 100%, 35%, 1);`;
 
-                const lqratio = (row.Rank_alq -1) / (totalRows -1);
-                const lqhue = Math.pow(1 - lqratio,3) * 120;
+                const lqratio = (row.Rank_alq - 1) / (totalRows - 1);
+                const lqhue = Math.pow(1 - lqratio, 3) * 120;
                 const lqStyle = `color: hsla(${lqhue}, 100%, 35%, 1);`;
 
-                const rdadjratio = (row.Rank_rdadj -1) / (totalRows -1);
-                const rdadjhue = Math.pow(1 - rdadjratio,3) * 120;
+                const rdadjratio = (row.Rank_rdadj - 1) / (totalRows - 1);
+                const rdadjhue = Math.pow(1 - rdadjratio, 3) * 120;
                 const rdadjStyle = `color: hsla(${rdadjhue}, 100%, 35%, 1);`;
 
-                // ✅ NEW: lock indicator based on AtLargeIfNoAQ_Prob === 1.0
                 const lockHtmlDesktop = isAtLargeLock(row.Team)
-                    ? ' <span title="100% At-Large Probability">🔒</span>'
+                    ? '<span class="lock-icon" title="100% At-Large Probability">🔒</span>'
                     : '';
 
-
-
                 html += `
-                <tr class="hover:bg-slate-50 transition-colors group border-b border-slate-50">
+                <tr class="hover:bg-slate-50/80 transition-all group border-b border-slate-100">
                     
-                    <!-- RANK (Colored Badge) -->
-                    <td class="sticky-col-1 bg-opaque px-4 py-3 text-center border-r border-slate-100 shadow-sm">
-                        <span class="inline-block w-8 py-0.5 rounded text-xs font-bold border border-black/5" style="${rankBg} color: hsla(${hue}, 100%, 25%, 1);">${row.Rank}</span>
+                    <!-- RANK (Enhanced Badge) -->
+                    <td class="sticky-col-1 bg-opaque px-4 py-3.5 text-center border-r border-slate-100">
+                        <span class="rank-badge" style="${rankBg} color: hsla(${hue}, 100%, 28%, 1); border-color: hsla(${hue}, 100%, 85%, 1);">${row.Rank}</span>
                     </td>
                     
                     <!-- TEAM -->
-                    <td class="sticky-col-2 bg-opaque px-2 sm:px-4 py-3 font-medium text-slate-900 border-r border-slate-100 shadow-sm text-sm">
-                        <a href="${row.Link}" class="flex items-center justify-center sm:justify-start gap-0 sm:gap-3 hover:text-brand-600 transition-colors w-full">
-                            <div class="relative">
+                    <td class="sticky-col-2 bg-opaque px-2 sm:px-4 py-3.5 font-semibold text-slate-900 border-r border-slate-100 text-sm">
+                        <a href="${row.Link}" class="flex items-center justify-center sm:justify-start gap-0 sm:gap-3 hover:text-brand-600 transition-colors w-full group/link">
+                            <div class="relative transform transition-transform group-hover/link:scale-110">
                                 <img src="${getLogoPath(row.Team)}"
-                                    class="w-7 h-7 sm:w-6 sm:h-6 object-contain"
+                                    class="w-8 h-8 sm:w-7 sm:h-7 object-contain filter drop-shadow-sm"
                                     alt=""
                                     onerror="this.style.display='none'">
                             </div>
@@ -531,48 +712,50 @@
                         </a>
                     </td>
 
-                    <td class="px-4 py-3 text-slate-500 text-left border-r border-slate-100 hidden sm:table-cell text-xs font-mono tracking-tight">${row.Conference || '-'}</td>
+                    <td class="px-4 py-3.5 text-left border-r border-slate-100 hidden sm:table-cell">
+                        <span class="conf-badge">${row.Conference || '-'}</span>
+                    </td>
                     
-                    <td class="px-4 py-3 font-bold text-right bg-blue-50/20 text-xs sm:text-sm font-mono" style="${adjEmStyle}">
+                    <td class="px-4 py-3.5 font-bold text-right bg-gradient-to-br from-blue-50/30 to-blue-100/20 text-xs sm:text-sm font-mono stat-cell border-l border-blue-200/50" style="${adjEmStyle}">
                         ${row.AdjEM.toFixed(2)}
                     </td>                    
-                    <td class="px-4 py-3 font-bold text-orange-600 text-right bg-orange-50/20 text-sm font-mono pure-col" style="${showPure ? '' : 'display:none'}">${row.Pure_AdjEM.toFixed(2)}</td>
-                    <td class="px-4 py-3  text-right bg-blue-50/20 text-xs sm:text-sm font-mono" style="${adjOStyle}">
+                    <td class="px-4 py-3.5 font-bold text-orange-600 text-right bg-gradient-to-br from-orange-50/30 to-orange-100/20 text-sm font-mono stat-cell pure-col border-l border-orange-200/50" style="${showPure ? '' : 'display:none'}">${row.Pure_AdjEM.toFixed(2)}</td>
+                    <td class="px-4 py-3.5 text-right bg-blue-50/10 text-xs sm:text-sm font-mono stat-cell" style="${adjOStyle}">
                         ${row.AdjO.toFixed(2)}
-                        <span class="text-[10px] text-slate-400 ml-1 font-mono">${row.Rank_AdjO || '-'}</span>
+                        <span class="rank-mini text-slate-400 ml-1.5 font-mono">${row.Rank_AdjO || '-'}</span>
                     </td> 
-                    <td class="px-4 py-3  text-right bg-blue-50/20 text-xs sm:text-sm font-mono" style="${adjDStyle}">
+                    <td class="px-4 py-3.5 text-right bg-blue-50/10 text-xs sm:text-sm font-mono stat-cell" style="${adjDStyle}">
                         ${row.AdjD.toFixed(2)}
-                        <span class="text-[10px] text-slate-400 ml-1 font-mono">${row.Rank_AdjD || '-'}</span>
+                        <span class="rank-mini text-slate-400 ml-1.5 font-mono">${row.Rank_AdjD || '-'}</span>
                     </td> 
-                    <td class="px-4 py-3 text-slate-600 text-right text-sm font-mono">${row.AdjT.toFixed(1)} <span class="text-[10px] text-slate-400 ml-0.5">${row.Rank_AdjT || '-'}</span></td>
-                    <td class="px-4 py-3  text-right bg-blue-50/20 text-xs sm:text-sm font-mono font-bold" style="${rdadjStyle}">
+                    <td class="px-4 py-3.5 text-slate-600 text-right text-sm font-mono stat-cell">${row.AdjT.toFixed(1)} <span class="rank-mini text-slate-400 ml-1">${row.Rank_AdjT || '-'}</span></td>
+                    <td class="px-4 py-3.5 text-right bg-blue-50/10 text-xs sm:text-sm font-mono font-bold stat-cell" style="${rdadjStyle}">
                         ${row.Venue_AdjEM_AN_minus_Home.toFixed(2)}
-                        <span class="text-[10px] text-slate-400 ml-1 font-mono">${row.Rank_rdadj || '-'}</span>
+                        <span class="rank-mini text-slate-400 ml-1.5 font-mono">${row.Rank_rdadj || '-'}</span>
                     </td> 
                     
-                    <td class="px-4 py-3 font-bold text-right bg-blue-50/20 text-xs sm:text-sm font-mono" style="${sosStyle}">
+                    <td class="px-4 py-3.5 font-bold text-right bg-gradient-to-br from-purple-50/30 to-purple-100/20 text-xs sm:text-sm font-mono stat-cell border-l border-purple-200/50" style="${sosStyle}">
                         ${row.SOS.toFixed(2)}
-                        <span class="text-[10px] text-slate-400 ml-1 font-mono">${row.Rank_SOS || '-'}</span>
+                        <span class="rank-mini text-slate-400 ml-1.5 font-mono">${row.Rank_SOS || '-'}</span>
                     </td> 
-                    <td class="px-4 py-3  text-right bg-blue-50/20 text-xs sm:text-sm font-mono font-bold" style="${strAdjStyle}">
+                    <td class="px-4 py-3.5 text-right bg-blue-50/10 text-xs sm:text-sm font-mono font-bold stat-cell" style="${strAdjStyle}">
                         ${row.StrengthAdjust.toFixed(2)}
-                        <span class="text-[10px] text-slate-400 ml-1 font-mono">${row.Rank_SA || '-'}</span>
+                        <span class="rank-mini text-slate-400 ml-1.5 font-mono">${row.Rank_SA || '-'}</span>
                     </td> 
-                    <td class="px-4 py-3 font-bold text-slate-800 text-right bg-slate-100/50 text-sm font-mono border-l border-slate-200">${scoreVal}<span class="text-[10px] text-slate-400 ml-0.5">${row.Rank_SLS || '-'}</span></td>
-                    <td class="px-4 py-3 font-bold text-right bg-blue-50/20 text-xs sm:text-sm font-mono " style="${rqStyle}">
+                    <td class="px-4 py-3.5 font-bold text-slate-800 text-right bg-gradient-to-br from-slate-100/50 to-slate-200/30 text-sm font-mono stat-cell border-l border-slate-300/50">${scoreVal}<span class="rank-mini text-slate-400 ml-1">${row.Rank_SLS || '-'}</span></td>
+                    <td class="px-4 py-3.5 font-bold text-right bg-gradient-to-br from-purple-50/30 to-purple-100/20 text-xs sm:text-sm font-mono stat-cell border-l border-purple-200/50" style="${rqStyle}">
                         ${row.RQ.toFixed(2)}
-                        <span class="text-[10px] text-slate-400 ml-1 font-mono">${row.Rank_RQ || '-'}</span>
+                        <span class="rank-mini text-slate-400 ml-1.5 font-mono">${row.Rank_RQ || '-'}</span>
                     </td>  
-                    <td class="px-4 py-3 font-bold text-right bg-blue-50/20 text-xs sm:text-sm font-mono " style="${wqStyle}">
+                    <td class="px-4 py-3.5 font-bold text-right bg-purple-50/10 text-xs sm:text-sm font-mono stat-cell" style="${wqStyle}">
                         ${row.RQ_Win_Avg.toFixed(2)}
-                        <span class="text-[10px] text-slate-400 ml-1 font-mono">${row.Rank_awq || '-'}</span>
+                        <span class="rank-mini text-slate-400 ml-1.5 font-mono">${row.Rank_awq || '-'}</span>
                     </td>  
-                    <td class="px-4 py-3 font-bold text-right bg-blue-50/20 text-xs sm:text-sm font-mono " style="${lqStyle}">
+                    <td class="px-4 py-3.5 font-bold text-right bg-purple-50/10 text-xs sm:text-sm font-mono stat-cell" style="${lqStyle}">
                         ${row.RQ_Loss_Avg.toFixed(2)}
-                        <span class="text-[10px] text-slate-400 ml-1 font-mono">${row.Rank_alq || '-'}</span>
+                        <span class="rank-mini text-slate-400 ml-1.5 font-mono">${row.Rank_alq || '-'}</span>
                     </td>  
-                    <td class="px-4 py-3 font-bold ${consColor} text-right text-sm font-mono border-l border-slate-100">${consVal.toFixed(1)}<span class="text-[10px] text-slate-400 ml-0.5">${row.Rank_Consistency || '-'}</span></td>
+                    <td class="px-4 py-3.5 font-bold text-slate-600 text-right text-sm font-mono stat-cell border-l border-slate-100">${consVal.toFixed(1)}<span class="rank-mini text-slate-400 ml-1">${row.Rank_Consistency || '-'}</span></td>
                 </tr>`;
             });
 
@@ -581,3 +764,4 @@
     </script>
 </body>
 </html>
+

@@ -8,11 +8,10 @@
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-  <!-- ✅ Monte Carlo data (must define window.MC_DATA = { "Team": { AtLargeIfNoAQ_Prob: 0.97 }, ... } ) -->
   <script src="mc_data.js"></script>
 
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
   <script>
     tailwind.config = {
       theme: {
@@ -21,173 +20,346 @@
             sans: ['Inter', 'sans-serif'],
             mono: ['JetBrains Mono', 'monospace'],
           },
-          colors: { brand: { 500: '#6366f1', 600: '#4f46e5', 900: '#312e81' } }
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              200: '#c7d2fe',
+              300: '#a5b4fc',
+              400: '#818cf8',
+              500: '#6366f1', 
+              600: '#4f46e5',
+              700: '#4338ca',
+              800: '#3730a3',
+              900: '#312e81',
+            }
+          }
         }
       }
     }
   </script>
+
   <style>
-    body { -webkit-font-smoothing: antialiased; }
-    ::-webkit-scrollbar { width: 8px; height: 8px; }
-    ::-webkit-scrollbar-track { background: #f1f5f9; }
-    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    body { 
+      -webkit-font-smoothing: antialiased;
+      background: linear-gradient(to bottom, #f8fafc 0%, #ffffff 100%);
+    }
+    
+    ::-webkit-scrollbar { width: 10px; height: 10px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 5px; }
+    ::-webkit-scrollbar-thumb { 
+      background: linear-gradient(180deg, #94a3b8, #64748b);
+      border-radius: 5px;
+      border: 2px solid #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #64748b, #475569); }
+
     .bg-opaque { background-color: white; }
+
+    /* Enhanced navbar */
+    .navbar-glass {
+      background: rgba(15, 23, 42, 0.98);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(71, 85, 105, 0.3);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Metric card enhancements */
+    .metric-card {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .metric-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 100%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .metric-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    }
+
+    .metric-card:hover::before {
+      opacity: 1;
+    }
+
+    /* Stat value enhancements */
+    .stat-value {
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.02em;
+    }
+
+    /* Table row hover */
+    tbody tr {
+      transition: all 0.2s ease;
+    }
+    
+    tbody tr:hover {
+      background-color: #fafbfc !important;
+      box-shadow: 0 2px 8px rgba(99, 102, 241, 0.08);
+      transform: translateY(-1px);
+    }
+
+    /* Gradient borders */
+    .gradient-border-green {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    }
+
+    .gradient-border-blue {
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    }
+
+    .gradient-border-orange {
+      background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+    }
+
+    .gradient-border-purple {
+      background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%);
+    }
+
+    .gradient-border-indigo {
+      background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+    }
+
+    .gradient-border-slate {
+      background: linear-gradient(135deg, #94a3b8 0%, #64748b 100%);
+    }
+
+    /* Enhanced badges */
+    .result-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.375rem 0.75rem;
+      border-radius: 0.5rem;
+      font-weight: 700;
+      font-size: 0.75rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      transition: all 0.2s ease;
+    }
+
+    .result-badge:hover {
+      transform: scale(1.05);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+
+    /* Card shadows */
+    .card-shadow {
+      box-shadow: 
+        0 1px 3px rgba(0,0,0,0.05),
+        0 10px 40px rgba(0,0,0,0.03),
+        0 0 1px rgba(0,0,0,0.1);
+    }
+
+    /* Quadrant badge styling */
+    .quad-badge {
+      display: inline-block;
+      padding: 0.25rem 0.625rem;
+      border-radius: 0.5rem;
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.025em;
+    }
+
+    /* Logo hover effect */
+    .logo-hover {
+      transition: transform 0.3s ease;
+    }
+    .logo-hover:hover {
+      transform: scale(1.05);
+    }
+
+    /* Animated gradient background */
+    @keyframes gradient-shift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .animated-gradient {
+      background-size: 200% 200%;
+      animation: gradient-shift 15s ease infinite;
+    }
   </style>
 </head>
-<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col selection:bg-brand-500 selection:text-white">
+<body class="bg-gradient-to-b from-slate-50 to-white text-slate-900 min-h-screen flex flex-col selection:bg-brand-500 selection:text-white">
 
-  <nav class="bg-slate-900/95 backdrop-blur-md text-white shadow-lg sticky top-0 z-50 border-b border-slate-700/50">
+  <!-- Enhanced Navbar -->
+  <nav class="navbar-glass text-white sticky top-0 z-50">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-16">
         <div class="flex items-center space-x-4">
           <a href="#" id="backBtn"
-             class="font-bold text-lg tracking-tight text-white hover:text-brand-500 transition flex items-center gap-2 group">
-            <svg class="w-5 h-5 text-slate-400 group-hover:text-brand-500 transition"
+             class="font-bold text-base tracking-tight text-white hover:text-brand-400 transition-all flex items-center gap-2.5 group px-3 py-2 rounded-lg hover:bg-slate-800/50">
+            <svg class="w-5 h-5 text-slate-300 group-hover:text-brand-400 transition-all group-hover:-translate-x-1"
                  fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
                     d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
-            Back
+            <span class="group-hover:tracking-wide transition-all">Back to Rankings</span>
           </a>
         </div>
       </div>
     </div>
   </nav>
 
-  <main class="flex-grow max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+  <main class="flex-grow max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
 
-    <!-- Header -->
+    <!-- Enhanced Header -->
     <div class="mb-8">
-      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
-        <div class="flex items-center gap-4">
-          <img id="teamLogo" src="" alt="Logo" class="w-16 h-16 object-contain hidden sm:block" onerror="this.style.display='none'">
+      <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-8 gap-6">
+        <div class="flex items-start gap-5">
+          <img id="teamLogo" src="" alt="Logo" 
+               class="w-20 h-20 sm:w-24 sm:h-24 object-contain hidden sm:block logo-hover filter drop-shadow-lg" 
+               onerror="this.style.display='none'">
           <div>
-            <h1 class="text-3xl sm:text-5xl font-bold text-slate-900 tracking-tight leading-none" id="teamName">Loading...</h1>
-            <div class="flex items-center gap-3 mt-2">
-              <span class="px-2.5 py-0.5 rounded-full bg-slate-200 text-slate-600 text-xs font-bold uppercase tracking-wide" id="teamConf">--</span>
+            <h1 class="text-4xl sm:text-6xl font-bold text-slate-900 tracking-tight leading-none mb-3" 
+                id="teamName">Loading...</h1>
+            <div class="flex items-center gap-3">
+              <span class="px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide shadow-sm"
+                    style="background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%); color: #475569;"
+                    id="teamConf">--</span>
             </div>
           </div>
         </div>
-        <div class="flex flex-col items-end">
-          <span class="text-xs text-slate-400 uppercase font-bold tracking-widest">Rank</span>
-          <span class="text-5xl font-bold text-slate-900 font-mono tracking-tighter" id="teamRank">--</span>
+        
+        <div class="flex flex-col items-start sm:items-end bg-white rounded-2xl p-5 card-shadow border border-slate-200">
+          <span class="text-xs text-slate-500 uppercase font-bold tracking-widest mb-1">Overall Rank</span>
+          <span class="text-5xl sm:text-6xl font-bold font-mono tracking-tighter animated-gradient" 
+                style="background: linear-gradient(135deg, #4f46e5, #7c3aed, #4f46e5); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"
+                id="teamRank">--</span>
         </div>
       </div>
 
-      <!-- Power Metrics Grid -->
-      <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3 mb-4">
-        <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 text-center relative overflow-hidden group hover:shadow-md transition-all">
-          <div class="text-[10px] text-slate-400 uppercase tracking-widest font-bold mb-1">AdjEM</div>
-          <div class="text-3xl font-bold font-mono tracking-tight" id="teamEM">--</div>
-          <div class="absolute top-0 left-0 w-full h-1 bg-gray-200 transition-colors duration-500" id="borderEM"></div>
+      <!-- Enhanced Power Metrics Grid -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-6">
+        <div class="metric-card bg-white p-5 rounded-xl card-shadow border border-slate-200 text-center">
+          <div class="text-[10px] text-slate-500 uppercase tracking-widest font-bold mb-2">AdjEM</div>
+          <div class="stat-value text-4xl font-bold font-mono tracking-tight mb-1" id="teamEM">--</div>
+          <div class="absolute top-0 left-0 w-full h-1.5 rounded-t-xl transition-all duration-500" id="borderEM"></div>
         </div>
 
-        <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 text-center relative overflow-hidden group hover:shadow-md transition-all">
-          <div class="text-[10px] text-slate-400 uppercase tracking-widest font-bold mb-1">RQ</div>
-          <div class="text-2xl font-bold font-mono text-purple-600" id="teamWAB">--</div>
-          <div class="absolute top-0 left-0 w-full h-1 bg-purple-500"></div>
+        <div class="metric-card bg-white p-5 rounded-xl card-shadow border border-slate-200 text-center">
+          <div class="text-[10px] text-slate-500 uppercase tracking-widest font-bold mb-2">Resume Quality</div>
+          <div class="stat-value text-3xl font-bold font-mono text-purple-600" id="teamWAB">--</div>
+          <div class="absolute top-0 left-0 w-full h-1.5 gradient-border-purple rounded-t-xl"></div>
         </div>
 
-        <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 text-center relative overflow-hidden group hover:shadow-md transition-all">
-          <div class="text-[10px] text-slate-400 uppercase tracking-widest font-bold mb-1">AdjO</div>
-          <div class="text-xl font-bold text-slate-700 font-mono" id="teamO">--</div>
-          <div class="absolute top-0 left-0 w-full h-1 bg-blue-500"></div>
+        <div class="metric-card bg-white p-5 rounded-xl card-shadow border border-slate-200 text-center">
+          <div class="text-[10px] text-slate-500 uppercase tracking-widest font-bold mb-2">Adj Offense</div>
+          <div class="stat-value text-2xl font-bold text-slate-700 font-mono" id="teamO">--</div>
+          <div class="absolute top-0 left-0 w-full h-1.5 gradient-border-blue rounded-t-xl"></div>
         </div>
 
-        <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 text-center relative overflow-hidden group hover:shadow-md transition-all">
-          <div class="text-[10px] text-slate-400 uppercase tracking-widest font-bold mb-1">AdjD</div>
-          <div class="text-xl font-bold text-slate-700 font-mono" id="teamD">--</div>
-          <div class="absolute top-0 left-0 w-full h-1 bg-orange-500"></div>
+        <div class="metric-card bg-white p-5 rounded-xl card-shadow border border-slate-200 text-center">
+          <div class="text-[10px] text-slate-500 uppercase tracking-widest font-bold mb-2">Adj Defense</div>
+          <div class="stat-value text-2xl font-bold text-slate-700 font-mono" id="teamD">--</div>
+          <div class="absolute top-0 left-0 w-full h-1.5 gradient-border-orange rounded-t-xl"></div>
         </div>
 
-        <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 text-center relative overflow-hidden group hover:shadow-md transition-all">
-          <div class="text-[10px] text-slate-400 uppercase tracking-widest font-bold mb-1">Tempo</div>
-          <div class="text-xl font-bold text-slate-700 font-mono" id="teamT">--</div>
-          <div class="absolute top-0 left-0 w-full h-1 bg-slate-300"></div>
+        <div class="metric-card bg-white p-5 rounded-xl card-shadow border border-slate-200 text-center">
+          <div class="text-[10px] text-slate-500 uppercase tracking-widest font-bold mb-2">Tempo</div>
+          <div class="stat-value text-2xl font-bold text-slate-700 font-mono" id="teamT">--</div>
+          <div class="absolute top-0 left-0 w-full h-1.5 gradient-border-slate rounded-t-xl"></div>
         </div>
 
-        <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 text-center relative overflow-hidden group hover:shadow-md transition-all">
-          <div class="text-[10px] text-slate-400 uppercase font-bold mb-1">SDiff</div>
-          <div class="text-xl font-bold font-mono" id="teamSA">--</div>
-          <div class="absolute top-0 left-0 w-full h-1 bg-indigo-500"></div>
+        <div class="metric-card bg-white p-5 rounded-xl card-shadow border border-slate-200 text-center">
+          <div class="text-[10px] text-slate-500 uppercase tracking-widest font-bold mb-2">Strength Diff</div>
+          <div class="stat-value text-2xl font-bold font-mono" id="teamSA">--</div>
+          <div class="absolute top-0 left-0 w-full h-1.5 gradient-border-indigo rounded-t-xl"></div>
         </div>
       </div>
 
-      <!-- Resume Metrics Grid -->
-      <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2 mb-6">
-        <div class="bg-white p-3 rounded-lg border border-slate-200 text-center shadow-sm">
-          <div class="text-[9px] text-slate-400 uppercase font-bold">Consistency</div>
-          <div class="text-lg font-bold font-mono" id="teamCons">--</div>
+      <!-- Enhanced Resume Metrics Grid -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-9 gap-3 mb-6">
+        <div class="metric-card bg-white p-4 rounded-xl border border-slate-200 text-center card-shadow">
+          <div class="text-[9px] text-slate-500 uppercase font-bold mb-1">Consistency</div>
+          <div class="stat-value text-xl font-bold font-mono" id="teamCons">--</div>
         </div>
 
-        <div class="bg-white p-3 rounded-lg border border-slate-200 text-center shadow-sm">
-          <div class="text-[9px] text-slate-400 uppercase font-bold">SOS</div>
-          <div class="text-lg font-bold font-mono text-slate-700" id="teamSOS">--</div>
+        <div class="metric-card bg-white p-4 rounded-xl border border-slate-200 text-center card-shadow">
+          <div class="text-[9px] text-slate-500 uppercase font-bold mb-1">SOS</div>
+          <div class="stat-value text-xl font-bold font-mono text-slate-700" id="teamSOS">--</div>
         </div>
 
-        <div class="bg-white p-3 rounded-lg border border-slate-200 text-center col-span-2 sm:col-span-2 shadow-sm">
-          <div class="text-[9px] text-slate-400 uppercase font-bold">vs Top 100</div>
-          <div class="text-lg font-bold font-mono text-slate-700" id="teamT100">--</div>
+        <div class="metric-card bg-white p-4 rounded-xl border border-slate-200 text-center col-span-2 sm:col-span-2 card-shadow">
+          <div class="text-[9px] text-slate-500 uppercase font-bold mb-1">vs Top 100</div>
+          <div class="stat-value text-xl font-bold font-mono text-slate-700" id="teamT100">--</div>
         </div>
 
-        <div class="bg-emerald-50/50 p-3 rounded-lg border border-emerald-100 text-center">
-          <div class="text-[9px] text-emerald-600 uppercase font-bold">Q1</div>
-          <div class="text-lg font-bold font-mono text-emerald-700" id="teamQ1">--</div>
+        <div class="metric-card bg-gradient-to-br from-emerald-50 to-emerald-100/50 p-4 rounded-xl border border-emerald-200 text-center">
+          <div class="text-[9px] text-emerald-700 uppercase font-bold mb-1">Quadrant 1</div>
+          <div class="stat-value text-xl font-bold font-mono text-emerald-800" id="teamQ1">--</div>
         </div>
 
-        <div class="bg-blue-50/50 p-3 rounded-lg border border-blue-100 text-center">
-          <div class="text-[9px] text-blue-600 uppercase font-bold">Q2</div>
-          <div class="text-lg font-bold font-mono text-blue-700" id="teamQ2">--</div>
+        <div class="metric-card bg-gradient-to-br from-blue-50 to-blue-100/50 p-4 rounded-xl border border-blue-200 text-center">
+          <div class="text-[9px] text-blue-700 uppercase font-bold mb-1">Quadrant 2</div>
+          <div class="stat-value text-xl font-bold font-mono text-blue-800" id="teamQ2">--</div>
         </div>
 
-        <div class="bg-orange-50/50 p-3 rounded-lg border border-orange-100 text-center">
-          <div class="text-[9px] text-orange-600 uppercase font-bold">Q3</div>
-          <div class="text-lg font-bold font-mono text-orange-700" id="teamQ3">--</div>
+        <div class="metric-card bg-gradient-to-br from-orange-50 to-orange-100/50 p-4 rounded-xl border border-orange-200 text-center">
+          <div class="text-[9px] text-orange-700 uppercase font-bold mb-1">Quadrant 3</div>
+          <div class="stat-value text-xl font-bold font-mono text-orange-800" id="teamQ3">--</div>
         </div>
 
-        <div class="bg-rose-50/50 p-3 rounded-lg border border-rose-100 text-center">
-          <div class="text-[9px] text-rose-600 uppercase font-bold">Q4</div>
-          <div class="text-lg font-bold font-mono text-rose-700" id="teamQ4">--</div>
+        <div class="metric-card bg-gradient-to-br from-rose-50 to-rose-100/50 p-4 rounded-xl border border-rose-200 text-center">
+          <div class="text-[9px] text-rose-700 uppercase font-bold mb-1">Quadrant 4</div>
+          <div class="stat-value text-xl font-bold font-mono text-rose-800" id="teamQ4">--</div>
         </div>
 
-        <!-- ✅ NEW: At-Large Probability Tile -->
-        <div class="bg-white p-3 rounded-lg border border-slate-200 text-center shadow-sm">
-          <div class="text-[9px] text-slate-400 uppercase font-bold">At-Large (No AQ)</div>
-          <div class="text-lg font-bold font-mono text-emerald-700" id="teamALProb">0.0%</div>
+        <div class="metric-card bg-gradient-to-br from-purple-50 to-purple-100/50 p-4 rounded-xl border border-purple-200 text-center card-shadow">
+          <div class="text-[9px] text-purple-700 uppercase font-bold mb-1">At-Large (No AQ)</div>
+          <div class="stat-value text-xl font-bold font-mono text-purple-800" id="teamALProb">0.0%</div>
         </div>
       </div>
     </div>
 
-    <!-- Trend Chart -->
-    <div class="mb-8 bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-      <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-6">Performance Trend</h3>
-      <div class="relative h-64 w-full">
+    <!-- Enhanced Trend Chart -->
+    <div class="mb-8 bg-white p-8 rounded-2xl card-shadow border border-slate-200">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h3 class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Performance Analysis</h3>
+          <p class="text-lg font-semibold text-slate-800">Game-by-Game Trend</p>
+        </div>
+        <div class="text-xs text-slate-500 font-mono">3-Game Rolling Average</div>
+      </div>
+      <div class="relative h-72 w-full">
         <canvas id="trendChart"></canvas>
       </div>
     </div>
 
-    <!-- Past Games -->
-    <div class="bg-white shadow-xl shadow-slate-200/50 rounded-2xl overflow-hidden border border-slate-200">
-      <div class="px-5 py-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+    <!-- Enhanced Past Games -->
+    <div class="bg-white card-shadow rounded-2xl overflow-hidden border border-slate-200 mb-8">
+      <div class="px-6 py-5 bg-gradient-to-r from-slate-50 to-slate-100/50 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
-          <div class="text-xs font-bold text-slate-400 uppercase tracking-widest">Game Log</div>
-          <div class="text-sm font-semibold text-slate-800">Completed Games</div>
+          <div class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Complete Record</div>
+          <div class="text-lg font-semibold text-slate-800">Game Log & Results</div>
         </div>
-        <div class="text-[10px] font-mono text-slate-400">RQ = Win vs Expected Bubble Team Win %</div>
+        <div class="text-xs font-mono text-slate-500 bg-white px-3 py-1.5 rounded-lg border border-slate-200">
+          RQ = Resume Quality Impact per Game
+        </div>
       </div>
 
       <div class="overflow-x-auto">
         <table class="w-full text-left border-collapse whitespace-nowrap text-sm">
-          <thead class="bg-slate-50 border-b border-slate-200 text-xs uppercase tracking-wider text-slate-500 font-bold">
+          <thead class="bg-gradient-to-b from-slate-50 to-slate-100/50 border-b-2 border-slate-200 text-xs uppercase tracking-wider text-slate-600 font-bold sticky top-0">
             <tr>
-              <th class="px-5 py-4">Date</th>
-              <th class="px-5 py-4 w-full">Opponent</th>
-              <th class="px-5 py-4 text-center">Loc</th>
-              <th class="px-5 py-4 text-center">Res</th>
-              <th class="px-5 py-4 text-right">Score</th>
-              <th class="px-5 py-4 text-right" title="Performance relative to expectation">P-Score</th>
-              <th class="px-5 py-4 text-right text-purple-700" title="Wins Above Bubble Impact">RQ +/-</th>
+              <th class="px-6 py-4">Date</th>
+              <th class="px-6 py-4 w-full">Opponent</th>
+              <th class="px-6 py-4 text-center">Location</th>
+              <th class="px-6 py-4 text-center">Result</th>
+              <th class="px-6 py-4 text-right">Score</th>
+              <th class="px-6 py-4 text-right" title="Performance relative to expectation">P-Score</th>
+              <th class="px-6 py-4 text-right text-purple-700" title="Resume Quality Impact">RQ +/-</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-slate-100 bg-white" id="gameTable"></tbody>
@@ -195,69 +367,72 @@
       </div>
     </div>
 
-    <!-- Future Schedule -->
-    <div class="mt-8 bg-white shadow-xl shadow-slate-200/50 rounded-2xl overflow-hidden border border-slate-200">
-      <div class="px-5 py-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+    <!-- Enhanced Future Schedule -->
+    <div class="bg-white card-shadow rounded-2xl overflow-hidden border border-slate-200 mb-8">
+      <div class="px-6 py-5 bg-gradient-to-r from-slate-50 to-slate-100/50 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
-          <div class="text-xs font-bold text-slate-400 uppercase tracking-widest">Schedule</div>
-          <div class="text-sm font-semibold text-slate-800">Upcoming Games</div>
+          <div class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Upcoming Matchups</div>
+          <div class="text-lg font-semibold text-slate-800">Future Schedule</div>
         </div>
       </div>
 
       <div class="overflow-x-auto">
         <table class="w-full text-left border-collapse whitespace-nowrap text-sm">
-          <thead class="bg-slate-50 border-b border-slate-200 text-xs uppercase tracking-wider text-slate-500 font-bold">
+          <thead class="bg-gradient-to-b from-slate-50 to-slate-100/50 border-b-2 border-slate-200 text-xs uppercase tracking-wider text-slate-600 font-bold">
             <tr>
-              <th class="px-5 py-4">Date</th>
-              <th class="px-5 py-4 w-full">Opponent</th>
-              <th class="px-5 py-4 text-center">Loc</th>
-              <th class="px-5 py-4 text-right">Win%</th>
-              <th class="px-5 py-4 text-right">Proj</th>
-              <th class="px-5 py-4 text-right">Spread</th>
+              <th class="px-6 py-4">Date</th>
+              <th class="px-6 py-4 w-full">Opponent</th>
+              <th class="px-6 py-4 text-center">Location</th>
+              <th class="px-6 py-4 text-right">Win Prob</th>
+              <th class="px-6 py-4 text-right">Projection</th>
+              <th class="px-6 py-4 text-right">Spread</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-slate-100 bg-white" id="futureTable"></tbody>
         </table>
       </div>
 
-      <div class="px-5 py-3 bg-white border-t border-slate-100 text-[11px] text-slate-400">
-        Note: projections are deterministic from current ratings; they will shift daily as ratings update
+      <div class="px-6 py-4 bg-slate-50 border-t border-slate-200 text-xs text-slate-500">
+        <div class="flex items-center gap-2">
+          <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <span>Projections are deterministic from current ratings and update daily as team performance evolves</span>
+        </div>
       </div>
     </div>
 
-    <!-- Projected Record -->
-    <div class="mt-8 bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-      <div class="px-6 py-5 bg-slate-50 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-        <div>
-          <div class="text-xs font-bold text-slate-400 uppercase tracking-widest">Projection</div>
-          <div class="text-sm font-semibold text-slate-800">Projected Final Record</div>
-        </div>
+    <!-- Enhanced Projected Record -->
+    <div class="bg-white rounded-2xl card-shadow border border-slate-200 overflow-hidden">
+      <div class="px-6 py-5 bg-gradient-to-r from-slate-50 to-slate-100/50 border-b border-slate-200">
+        <div class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Season Outlook</div>
+        <div class="text-lg font-semibold text-slate-800">Projected Final Records</div>
       </div>
 
-      <div class="px-4 py-4">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div class="rounded-xl border border-slate-200 bg-white p-4">
-            <div class="text-[10px] text-slate-400 uppercase tracking-widest font-bold mb-1">Current Record</div>
-            <div class="text-3xl font-bold font-mono tracking-tight" id="curRec">--</div>
-            <div class="text-xs text-slate-400 mt-1" id="curGames">--</div>
+      <div class="p-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div class="metric-card rounded-xl border-2 border-slate-200 bg-gradient-to-br from-white to-slate-50 p-5">
+            <div class="text-[10px] text-slate-500 uppercase tracking-widest font-bold mb-2">Current Overall</div>
+            <div class="stat-value text-4xl font-bold font-mono tracking-tight text-slate-900 mb-1" id="curRec">--</div>
+            <div class="text-xs text-slate-500 font-medium" id="curGames">--</div>
           </div>
 
-          <div class="rounded-xl border border-slate-200 bg-white p-4">
-            <div class="text-[10px] text-slate-400 uppercase tracking-widest font-bold mb-1">Expected Finish</div>
-            <div class="text-3xl font-bold font-mono tracking-tight" id="expRec">--</div>
-            <div class="text-xs text-slate-400 mt-1" id="expDetail">--</div>
+          <div class="metric-card rounded-xl border-2 border-brand-200 bg-gradient-to-br from-brand-50 to-brand-100/50 p-5">
+            <div class="text-[10px] text-brand-700 uppercase tracking-widest font-bold mb-2">Expected Final</div>
+            <div class="stat-value text-4xl font-bold font-mono tracking-tight text-brand-900 mb-1" id="expRec">--</div>
+            <div class="text-xs text-brand-700 font-medium" id="expDetail">--</div>
           </div>
 
-          <div class="rounded-xl border border-slate-200 bg-white p-4">
-            <div class="text-[10px] text-slate-400 uppercase tracking-widest font-bold mb-1">Current Conf Record</div>
-            <div class="text-3xl font-bold font-mono tracking-tight" id="curConfRec">--</div>
-            <div class="text-xs text-slate-400 mt-1" id="curConfGames">--</div>
+          <div class="metric-card rounded-xl border-2 border-slate-200 bg-gradient-to-br from-white to-slate-50 p-5">
+            <div class="text-[10px] text-slate-500 uppercase tracking-widest font-bold mb-2">Current Conference</div>
+            <div class="stat-value text-4xl font-bold font-mono tracking-tight text-slate-900 mb-1" id="curConfRec">--</div>
+            <div class="text-xs text-slate-500 font-medium" id="curConfGames">--</div>
           </div>
 
-          <div class="rounded-xl border border-slate-200 bg-white p-4">
-            <div class="text-[10px] text-slate-400 uppercase tracking-widest font-bold mb-1">Expected Conf Finish</div>
-            <div class="text-3xl font-bold font-mono tracking-tight" id="expConfRec">--</div>
-            <div class="text-xs text-slate-400 mt-1" id="expConfDetail">--</div>
+          <div class="metric-card rounded-xl border-2 border-purple-200 bg-gradient-to-br from-purple-50 to-purple-100/50 p-5">
+            <div class="text-[10px] text-purple-700 uppercase tracking-widest font-bold mb-2">Expected Conf Final</div>
+            <div class="stat-value text-4xl font-bold font-mono tracking-tight text-purple-900 mb-1" id="expConfRec">--</div>
+            <div class="text-xs text-purple-700 font-medium" id="expConfDetail">--</div>
           </div>
         </div>
       </div>
@@ -294,15 +469,14 @@
     }
     function spreadClass(sp) {
       const s = safeNum(sp, 0);
-      if (s > 0.5) return "text-emerald-600";
-      if (s < -0.5) return "text-rose-600";
+      if (s > 0.5) return "text-emerald-600 font-bold";
+      if (s < -0.5) return "text-rose-600 font-bold";
       return "text-slate-600";
     }
     function getLogoPath(name) { return `logos/${name}.png`; }
 
-    // ✅ FIXED: Monte Carlo lookup with better error handling and debugging
+    // Monte Carlo lookup with error handling
     function getAtLargeIfNoAQProb(team) {
-      // Check if MC_DATA exists and is an object
       if (typeof window.MC_DATA === 'undefined') {
         console.warn('MC_DATA is not defined. mc_data.js may not be loaded.');
         return 0.0;
@@ -313,25 +487,22 @@
         return 0.0;
       }
       
-      // Check if team exists in MC_DATA
       if (!window.MC_DATA.hasOwnProperty(team)) {
-        console.warn(`Team "${team}" not found in MC_DATA. Available teams:`, Object.keys(window.MC_DATA).slice(0, 10));
+        console.warn(`Team "${team}" not found in MC_DATA.`);
         return 0.0;
       }
       
       const teamData = window.MC_DATA[team];
       
-      // Check if teamData has the property
       if (!teamData || typeof teamData !== 'object') {
         console.warn(`Team data for "${team}" is not a valid object:`, teamData);
         return 0.0;
       }
       
-      // Try to get the probability - check for the exact property name
       const raw = teamData.al_noaq;
       
       if (raw === undefined || raw === null) {
-        console.warn(`AtLargeIfNoAQ_Prob not found for "${team}". Team data:`, teamData);
+        console.warn(`AtLargeIfNoAQ_Prob not found for "${team}".`);
         return 0.0;
       }
       
@@ -342,7 +513,6 @@
         return 0.0;
       }
       
-      console.log(`At-Large probability for "${team}":`, p);
       return clamp(p, 0, 1);
     }
 
@@ -353,9 +523,20 @@
     // Validate TEAMS_DATA
     if (!teamName || typeof TEAMS_DATA === 'undefined' || !TEAMS_DATA[teamName]) {
       document.querySelector('main').innerHTML =
-        `<div class="text-center mt-20 text-slate-400">
-          Team not found.
-          <a href="index.html" class="text-brand-600 hover:underline">Back to Rankings</a>
+        `<div class="text-center mt-20 p-8 bg-white rounded-2xl card-shadow border border-slate-200 max-w-md mx-auto">
+          <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-100 mb-4">
+            <svg class="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </div>
+          <p class="text-lg font-semibold text-slate-700 mb-2">Team Not Found</p>
+          <p class="text-sm text-slate-500 mb-4">The requested team could not be found in our database.</p>
+          <a href="index.html" class="inline-flex items-center gap-2 px-4 py-2 bg-brand-600 text-white rounded-lg hover:bg-brand-700 transition-colors font-medium">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+            </svg>
+            Back to Rankings
+          </a>
         </div>`;
       return;
     }
@@ -369,25 +550,24 @@
     document.getElementById('teamConf').innerText = t.conf || "D1";
     document.getElementById('teamLogo').src = getLogoPath(teamName);
 
-    // ✅ At-Large tile with debugging
-    console.log('Loading at-large probability for:', teamName);
+    // At-Large tile
     const alProb = getAtLargeIfNoAQProb(teamName);
     const alEl = document.getElementById('teamALProb');
     if (alEl) {
       alEl.innerText = fmtPct(alProb);
-      console.log('Set at-large display to:', fmtPct(alProb));
     }
 
     // Power metrics
+    const emVal = safeNum(t.adjem, 0);
     const emEl = document.getElementById('teamEM');
-    emEl.innerText = safeNum(t.adjem, 0).toFixed(2);
-    emEl.className = `text-4xl font-bold font-mono tracking-tighter ${safeNum(t.adjem, 0) > 0 ? 'text-emerald-600' : 'text-rose-600'}`;
-    document.getElementById('borderEM').className = `absolute top-0 left-0 w-full h-1 ${safeNum(t.adjem, 0) > 0 ? 'bg-emerald-500' : 'bg-rose-500'}`;
+    emEl.innerText = emVal.toFixed(2);
+    emEl.className = `stat-value text-4xl font-bold font-mono tracking-tight mb-1 ${emVal > 0 ? 'text-emerald-600' : 'text-rose-600'}`;
+    document.getElementById('borderEM').className = `absolute top-0 left-0 w-full h-1.5 rounded-t-xl transition-all duration-500 ${emVal > 0 ? 'gradient-border-green' : 'bg-rose-500'}`;
 
     const wabTotal = (t.wab_total !== undefined) ? safeNum(t.wab_total, 0.0) : 0.0;
     const wabEl = document.getElementById('teamWAB');
     wabEl.innerText = (wabTotal > 0 ? "+" : "") + wabTotal.toFixed(2);
-    wabEl.className = `text-2xl font-bold font-mono ${wabTotal > 0 ? 'text-purple-600' : 'text-slate-500'}`;
+    wabEl.className = `stat-value text-3xl font-bold font-mono ${wabTotal > 0 ? 'text-purple-600' : 'text-slate-500'}`;
 
     document.getElementById('teamO').innerText = safeNum(t.adjo, 0).toFixed(1);
     document.getElementById('teamD').innerText = safeNum(t.adjd, 0).toFixed(1);
@@ -398,7 +578,7 @@
     const cons = safeNum(t.consistency, 50.0);
     const consEl = document.getElementById('teamCons');
     consEl.innerText = cons.toFixed(1);
-    consEl.className = `text-lg font-bold font-mono ${cons > 80 ? 'text-emerald-600' : (cons < 60 ? 'text-rose-600' : 'text-slate-700')}`;
+    consEl.className = `stat-value text-xl font-bold font-mono ${cons > 80 ? 'text-emerald-600' : (cons < 60 ? 'text-rose-600' : 'text-slate-700')}`;
 
     document.getElementById('teamSOS').innerText = safeNum(t.sos, 0).toFixed(2);
     document.getElementById('teamT100').innerText = `${safeNum(t.t100_w,0)}-${safeNum(t.t100_l,0)}`;
@@ -407,7 +587,7 @@
     document.getElementById('teamQ3').innerText = `${safeNum(t.q3_w,0)}-${safeNum(t.q3_l,0)}`;
     document.getElementById('teamQ4').innerText = `${safeNum(t.q4_w,0)}-${safeNum(t.q4_l,0)}`;
 
-    // Chart
+    // Enhanced Chart
     const chartGames = Array.isArray(t.games) ? [...t.games].reverse() : [];
     const rollingAvg = chartGames.map((g, i, arr) => {
       const start = Math.max(0, i - 2);
@@ -425,18 +605,32 @@
             type: 'line',
             label: '3-Game Trend',
             data: rollingAvg,
-            borderColor: '#334155',
-            borderWidth: 2,
-            pointRadius: 0,
+            borderColor: '#4f46e5',
+            backgroundColor: 'rgba(79, 70, 229, 0.1)',
+            borderWidth: 3,
+            pointRadius: 4,
+            pointBackgroundColor: '#4f46e5',
+            pointBorderColor: '#fff',
+            pointBorderWidth: 2,
+            pointHoverRadius: 6,
             tension: 0.4,
-            order: 1
+            order: 1,
+            fill: true
           },
           {
             type: 'bar',
             label: 'P-Score',
             data: chartGames.map(g => safeNum(g.val, 0)),
-            backgroundColor: chartGames.map(g => safeNum(g.val, 0) > 0 ? '#10b981' : '#f43f5e'),
-            borderRadius: 4,
+            backgroundColor: chartGames.map(g => {
+              const val = safeNum(g.val, 0);
+              return val > 0 ? 'rgba(16, 185, 129, 0.7)' : 'rgba(244, 63, 94, 0.7)';
+            }),
+            borderColor: chartGames.map(g => {
+              const val = safeNum(g.val, 0);
+              return val > 0 ? '#10b981' : '#f43f5e';
+            }),
+            borderWidth: 1,
+            borderRadius: 6,
             order: 2
           }
         ]
@@ -444,7 +638,50 @@
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        plugins: { legend: { display: true, position: 'bottom' } }
+        interaction: {
+          mode: 'index',
+          intersect: false,
+        },
+        plugins: {
+          legend: {
+            display: true,
+            position: 'bottom',
+            labels: {
+              font: { family: 'Inter', size: 12, weight: '600' },
+              padding: 15,
+              usePointStyle: true,
+              pointStyle: 'circle'
+            }
+          },
+          tooltip: {
+            backgroundColor: 'rgba(15, 23, 42, 0.95)',
+            titleFont: { family: 'Inter', size: 13, weight: 'bold' },
+            bodyFont: { family: 'JetBrains Mono', size: 12 },
+            padding: 12,
+            cornerRadius: 8,
+            borderColor: 'rgba(99, 102, 241, 0.3)',
+            borderWidth: 1
+          }
+        },
+        scales: {
+          x: {
+            grid: { display: false },
+            ticks: {
+              font: { family: 'JetBrains Mono', size: 10 },
+              color: '#64748b'
+            }
+          },
+          y: {
+            grid: {
+              color: '#f1f5f9',
+              drawBorder: false
+            },
+            ticks: {
+              font: { family: 'JetBrains Mono', size: 11 },
+              color: '#64748b'
+            }
+          }
+        }
       }
     });
 
@@ -469,11 +706,11 @@
     let rows = "";
     pastGames.forEach(g => {
       const resColor = (g.res === 'W')
-        ? 'text-emerald-700 bg-emerald-50 border border-emerald-100'
-        : 'text-rose-700 bg-rose-50 border border-rose-100';
+        ? 'text-emerald-700 bg-gradient-to-br from-emerald-50 to-emerald-100/50 border-emerald-200'
+        : 'text-rose-700 bg-gradient-to-br from-rose-50 to-rose-100/50 border-rose-200';
 
       const v = safeNum(g.val, 0);
-      const valColor = v > 0 ? 'text-emerald-600' : 'text-rose-600';
+      const valColor = v > 0 ? 'text-emerald-600 font-bold' : 'text-rose-600 font-bold';
       const valSign = v > 0 ? '+' : '';
 
       const rq = safeNum(g.rq, 0);
@@ -481,18 +718,26 @@
       const rqSign = rq > 0 ? '+' : '';
 
       rows += `
-        <tr class="hover:bg-slate-50 transition-colors group">
-          <td class="px-5 py-4 text-slate-400 text-xs font-mono border-b border-slate-100">${g.date || ''}</td>
-          <td class="px-5 py-4 font-medium text-slate-900 border-b border-slate-100">
-            <a href="team.html?q=${encodeURIComponent(g.opp || '')}" class="hover:text-brand-600 hover:underline">${g.opp || ''}</a>
+        <tr class="hover:bg-slate-50 transition-all group border-b border-slate-50">
+          <td class="px-6 py-4 text-slate-500 text-xs font-mono">${g.date || ''}</td>
+          <td class="px-6 py-4 font-semibold text-slate-900">
+            <a href="team.html?q=${encodeURIComponent(g.opp || '')}" 
+               class="hover:text-brand-600 transition-colors inline-flex items-center gap-2 group/link">
+              ${g.opp || ''}
+              <svg class="w-3 h-3 opacity-0 group-hover/link:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+              </svg>
+            </a>
           </td>
-          <td class="px-5 py-4 text-center text-xs text-slate-400 font-bold border-b border-slate-100">${g.loc || ''}</td>
-          <td class="px-5 py-4 text-center border-b border-slate-100">
-            <span class="px-2.5 py-1 rounded-md text-xs font-bold ${resColor}">${g.res || ''}</span>
+          <td class="px-6 py-4 text-center">
+            <span class="px-2 py-1 rounded-md text-xs font-bold text-slate-600 bg-slate-100">${g.loc || ''}</span>
           </td>
-          <td class="px-5 py-4 text-right text-slate-600 font-mono text-sm border-b border-slate-100">${g.score || ''}</td>
-          <td class="px-5 py-4 text-right font-bold font-mono ${valColor} text-sm border-b border-slate-100">${valSign}${v.toFixed(1)}</td>
-          <td class="px-5 py-4 text-right font-mono ${rqColor} text-sm border-b border-slate-100">${rqSign}${rq.toFixed(2)}</td>
+          <td class="px-6 py-4 text-center">
+            <span class="result-badge ${resColor}">${g.res || ''}</span>
+          </td>
+          <td class="px-6 py-4 text-right text-slate-700 font-mono text-sm font-semibold">${g.score || ''}</td>
+          <td class="px-6 py-4 text-right font-mono ${valColor} text-sm">${valSign}${v.toFixed(1)}</td>
+          <td class="px-6 py-4 text-right font-mono ${rqColor} text-sm">${rqSign}${rq.toFixed(2)}</td>
         </tr>`;
     });
     tbody.innerHTML = rows;
@@ -514,8 +759,13 @@
 
     if (future.length === 0) {
       fbody.innerHTML = `
-        <tr><td colspan="6" class="px-5 py-8 text-center text-slate-400">
-          No upcoming games found.
+        <tr><td colspan="6" class="px-6 py-12 text-center">
+          <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-slate-100 mb-3">
+            <svg class="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+            </svg>
+          </div>
+          <p class="text-slate-500">No upcoming games scheduled</p>
         </td></tr>`;
     } else {
       let frows = "";
@@ -531,15 +781,23 @@
         const sprSign = spread > 0 ? "+" : "";
 
         frows += `
-          <tr class="hover:bg-slate-50 transition-colors group">
-            <td class="px-5 py-4 text-slate-400 text-xs font-mono border-b border-slate-100">${g.date || ''}</td>
-            <td class="px-5 py-4 font-medium text-slate-900 border-b border-slate-100">
-              <a href="team.html?q=${encodeURIComponent(g.opp || '')}" class="hover:text-brand-600 hover:underline">${g.opp || ''}</a>
+          <tr class="hover:bg-slate-50 transition-all group border-b border-slate-50">
+            <td class="px-6 py-4 text-slate-500 text-xs font-mono">${g.date || ''}</td>
+            <td class="px-6 py-4 font-semibold text-slate-900">
+              <a href="team.html?q=${encodeURIComponent(g.opp || '')}" 
+                 class="hover:text-brand-600 transition-colors inline-flex items-center gap-2 group/link">
+                ${g.opp || ''}
+                <svg class="w-3 h-3 opacity-0 group-hover/link:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+              </a>
             </td>
-            <td class="px-5 py-4 text-center text-xs text-slate-400 font-bold border-b border-slate-100">${g.loc || ''}</td>
-            <td class="px-5 py-4 text-right font-mono ${pctCls} text-sm border-b border-slate-100">${fmtPctLocal(p)}</td>
-            <td class="px-5 py-4 text-right text-slate-600 font-mono text-sm border-b border-slate-100">${g.proj || ''}</td>
-            <td class="px-5 py-4 text-right font-mono ${sprCls} text-sm border-b border-slate-100">${sprSign}${spread.toFixed(1)}</td>
+            <td class="px-6 py-4 text-center">
+              <span class="px-2 py-1 rounded-md text-xs font-bold text-slate-600 bg-slate-100">${g.loc || ''}</span>
+            </td>
+            <td class="px-6 py-4 text-right font-mono ${pctCls} text-sm">${fmtPctLocal(p)}</td>
+            <td class="px-6 py-4 text-right text-slate-700 font-mono text-sm font-semibold">${g.proj || ''}</td>
+            <td class="px-6 py-4 text-right font-mono ${sprCls} text-sm">${sprSign}${spread.toFixed(1)}</td>
           </tr>`;
       });
       fbody.innerHTML = frows;
@@ -557,14 +815,14 @@
     document.getElementById('curRec').innerText = `${curW}-${curL}`;
     document.getElementById('curGames').innerText = `${curW + curL} games played`;
 
-    document.getElementById('expRec').innerText = `${expTotalW.toFixed(2)}-${expTotalL.toFixed(2)}`;
-    document.getElementById('expDetail').innerText = `${nRemain} remaining • expected remaining wins: ${expRemainW.toFixed(2)}`;
+    document.getElementById('expRec').innerText = `${expTotalW.toFixed(1)}-${expTotalL.toFixed(1)}`;
+    document.getElementById('expDetail').innerText = `${nRemain} remaining • +${expRemainW.toFixed(1)} exp wins`;
 
     document.getElementById('curConfRec').innerText = `${curConfW}-${curConfL}`;
-    document.getElementById('curConfGames').innerText = `${curConfW + curConfL} conf games played`;
+    document.getElementById('curConfGames').innerText = `${curConfW + curConfL} conf games`;
 
-    document.getElementById('expConfRec').innerText = `${expConfTotalW.toFixed(2)}-${expConfTotalL.toFixed(2)}`;
-    document.getElementById('expConfDetail').innerText = `${nRemainConf} conf remaining • expected conf wins: ${expRemainConfW.toFixed(2)}`;
+    document.getElementById('expConfRec').innerText = `${expConfTotalW.toFixed(1)}-${expConfTotalL.toFixed(1)}`;
+    document.getElementById('expConfDetail').innerText = `${nRemainConf} conf remaining • +${expRemainConfW.toFixed(1)} exp wins`;
   })();
   </script>
 </body>
