@@ -336,6 +336,21 @@
         <canvas id="trendChart"></canvas>
       </div>
     </div>
+    <!-- Seeding Distribution (only shown if At-Large (No AQ) > 0%) -->
+<div id="seedSection" class="mb-8 bg-white p-8 rounded-2xl card-shadow border border-slate-200 hidden">
+  <div class="flex items-center justify-between mb-6">
+    <div>
+      <h3 class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Bracket Outlook</h3>
+      <p class="text-lg font-semibold text-slate-800">Seeding Distribution</p>
+      <p class="text-xs text-slate-500 font-mono mt-1" id="seedSummary">--</p>
+    </div>
+    <div class="text-xs text-slate-500 font-mono">At-Large path</div>
+  </div>
+
+  <div class="relative h-72 w-full">
+    <canvas id="seedChart"></canvas>
+  </div>
+</div>
 
     <!-- Enhanced Past Games -->
     <div class="bg-white card-shadow rounded-2xl overflow-hidden border border-slate-200 mb-8">
@@ -445,6 +460,117 @@
   <script>
   (function () {
     // Back button
+    function getSeedDist(team) {
+  if (typeof window.MC_DATA === 'undefined' || !window.MC_DATA) return null;
+  const d = window.MC_DATA[team];
+  if (!d || !d.seeds) return null;
+
+  // seeds is an object like {"1":0.02,"2":0.10,...,"16":0.00}
+  const s = d.seeds;
+  const arr = [];
+  for (let k = 1; k <= 16; k++) {
+    arr.push(clamp(s[String(k)] ?? 0, 0, 1));
+  }
+
+  // If completely empty, treat as unavailable
+  const sum = arr.reduce((a, b) => a + b, 0);
+  if (sum <= 0) return null;
+
+  // Normalize just in case (should already be normalized)
+  return arr.map(x => x / sum);
+}
+
+function seedSummaryFromDist(dist) {
+  // dist: length 16
+  let bestSeed = 1;
+  let bestP = -1;
+  let exp = 0;
+  for (let i = 0; i < dist.length; i++) {
+    const p = safeNum(dist[i], 0);
+    const seed = i + 1;
+    exp += seed * p;
+    if (p > bestP) {
+      bestP = p;
+      bestSeed = seed;
+    }
+  }
+  return { bestSeed, bestP, exp };
+}
+
+let seedChartInstance = null;
+function renderSeedChart(dist) {
+  const section = document.getElementById("seedSection");
+  const canvas = document.getElementById("seedChart");
+  const summaryEl = document.getElementById("seedSummary");
+  if (!section || !canvas) return;
+
+  // Reveal section
+  section.classList.remove("hidden");
+
+  const labels = Array.from({ length: 16 }, (_, i) => String(i + 1));
+  const dataPct = dist.map(p => p * 100);
+
+  const { bestSeed, bestP, exp } = seedSummaryFromDist(dist);
+  if (summaryEl) {
+    summaryEl.innerText =
+      `Most likely: ${bestSeed}-seed (${(bestP * 100).toFixed(1)}%) • Expected seed: ${exp.toFixed(2)}`;
+  }
+
+  // Recreate chart if already exists
+  if (seedChartInstance) {
+    seedChartInstance.destroy();
+    seedChartInstance = null;
+  }
+
+  seedChartInstance = new Chart(canvas, {
+    type: "bar",
+    data: {
+      labels,
+      datasets: [{
+        label: "Seed probability",
+        data: dataPct,
+        borderWidth: 1,
+        borderRadius: 6
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: 'rgba(15, 23, 42, 0.95)',
+          titleFont: { family: 'Inter', size: 13, weight: 'bold' },
+          bodyFont: { family: 'JetBrains Mono', size: 12 },
+          padding: 12,
+          cornerRadius: 8,
+          borderColor: 'rgba(99, 102, 241, 0.3)',
+          borderWidth: 1,
+          callbacks: {
+            label: (ctx) => `${ctx.parsed.y.toFixed(1)}%`
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: { display: false },
+          ticks: { font: { family: "JetBrains Mono", size: 11 }, color: "#64748b" }
+        },
+        y: {
+          beginAtZero: true,
+          suggestedMax: Math.max(10, Math.max(...dataPct) * 1.25),
+          grid: { color: "#f1f5f9", drawBorder: false },
+          ticks: {
+            callback: (v) => `${v}%`,
+            font: { family: "JetBrains Mono", size: 11 },
+            color: "#64748b"
+          }
+        }
+      }
+    }
+  });
+}
+
     const btn = document.getElementById("backBtn");
     if (btn) {
       btn.addEventListener("click", function (e) {
@@ -552,6 +678,12 @@
 
     // At-Large tile
     const alProb = getAtLargeIfNoAQProb(teamName);
+    // Seeding distribution chart: only if at-large (no AQ) > 0%
+    if (alProb > 0) {
+      const dist = getSeedDist(teamName);
+      if (dist) renderSeedChart(dist);
+    }
+
     const alEl = document.getElementById('teamALProb');
     if (alEl) {
       alEl.innerText = fmtPct(alProb);
