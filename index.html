@@ -60,6 +60,26 @@
         #mobile-menu.open { display: block; }
         
         .chart-wrapper { position: relative; height: 65vh; width: 100%; }
+
+        /* Column Filter Dropdown */
+        .column-filter-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 0.5rem;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            z-index: 50;
+            min-width: 250px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .column-filter-dropdown.hidden {
+            display: none;
+        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col selection:bg-brand-500 selection:text-white">
@@ -87,7 +107,7 @@
                 
                 <div class="flex items-center gap-4">
                     <div class="hidden md:block text-xs font-mono text-slate-400 bg-slate-800 px-3 py-1.5 rounded-full border border-slate-700">
-                        <span class="text-brand-500">●</span> Live Update: <span class="text-slate-200">2026-01-30 15:06 UTC</span>
+                        <span class="text-brand-500">●</span> Live Update: <span class="text-slate-200">2026-01-30 20:44 UTC</span>
                     </div>
 
                     <div class="-mr-2 flex md:hidden">
@@ -135,12 +155,31 @@
                         <option value="Power 5">Power 5</option>
                         <option value="Mid-Major">Mid-Major</option>
                     </select>
-                    
-                    <label class="flex items-center cursor-pointer relative" title="Show Pure Ratings (No Preseason Bias)">
-                        <input type="checkbox" id="togglePure" class="sr-only peer" onchange="renderTable()">
-                        <div class="w-9 h-5 bg-slate-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-brand-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-brand-600"></div>
-                        <span class="ml-2 text-xs font-medium text-slate-600 hidden lg:block">Pure</span>
-                    </label>
+
+                    <!-- Column Filter Button -->
+                    <div class="relative">
+                        <button onclick="toggleColumnFilter()" class="flex items-center gap-2 px-3 py-2 text-xs font-medium text-slate-700 bg-slate-50 border border-slate-200 rounded-lg hover:bg-slate-100 focus:ring-2 focus:ring-brand-500 transition-all">
+                            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 0v10" />
+                            </svg>
+                            <span class="hidden sm:inline">Columns</span>
+                        </button>
+                        
+                        <!-- Dropdown -->
+                        <div id="columnFilterDropdown" class="column-filter-dropdown hidden">
+                            <div class="p-3 border-b border-slate-200">
+                                <div class="flex items-center justify-between mb-2">
+                                    <h3 class="text-xs font-bold text-slate-700 uppercase tracking-wide">Show Columns</h3>
+                                    <button onclick="resetColumns()" class="text-xs text-brand-600 hover:text-brand-700 font-medium">Reset</button>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button onclick="selectAllColumns()" class="text-xs px-2 py-1 bg-slate-100 hover:bg-slate-200 rounded text-slate-700">All</button>
+                                    <button onclick="deselectAllColumns()" class="text-xs px-2 py-1 bg-slate-100 hover:bg-slate-200 rounded text-slate-700">None</button>
+                                </div>
+                            </div>
+                            <div class="p-2" id="columnCheckboxes"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -156,21 +195,23 @@
                         <tr>
                             <th class="sticky-col-1 bg-slate-50 px-4 py-4 text-center border-r border-slate-200 cursor-pointer hover:bg-slate-100 w-16" onclick="handleSort('Rank', this)">Rk</th>
                             <th class="sticky-col-2 bg-slate-50 px-4 py-4 text-left border-r border-slate-200 cursor-pointer hover:bg-slate-100" onclick="handleSort('Team', this)">Team</th>
-                            <th class="px-4 py-4 text-left border-r border-slate-200 cursor-pointer hover:bg-slate-100 hidden sm:table-cell text-slate-400" onclick="handleSort('Conference', this)">Conf</th>
+                            <th class="px-4 py-4 text-left border-r border-slate-200 cursor-pointer hover:bg-slate-100 hidden sm:table-cell text-slate-400 col-conference" onclick="handleSort('Conference', this)">Conf</th>
                             
-                            <th class="px-4 py-4 text-right bg-brand-50/50 text-brand-900 cursor-pointer hover:bg-brand-100" onclick="handleSort('AdjEM', this)">AdjEM</th>
-                            <th class="px-4 py-4 text-right bg-orange-50/50 text-orange-900 hidden pure-col cursor-pointer hover:bg-orange-100" onclick="handleSort('Pure_AdjEM', this)">Pure</th>
-                            <th class="px-4 py-4 text-right text-slate-500 cursor-pointer hover:bg-slate-100" onclick="handleSort('AdjO', this)">AdjO</th>
-                            <th class="px-4 py-4 text-right text-slate-500 cursor-pointer hover:bg-slate-100" onclick="handleSort('AdjD', this)">AdjD</th>
-                            <th class="px-4 py-4 text-right text-slate-500 cursor-pointer hover:bg-slate-100" onclick="handleSort('AdjT', this)">Tempo</th>
-                            <th class="px-4 py-4 text-right text-slate-500 cursor-pointer hover:bg-slate-100" onclick="handleSort('Venue_AdjEM_AN_minus_Home', this)">Road Adj</th>
-                            <th class="px-4 py-4 text-right bg-purple-50/50 text-slate-900 cursor-pointer hover:bg-purple-100 border-l border-purple-100 border-r border-slate-200" onclick="handleSort('SOS', this)">SOS</th>
-                            <th class="px-4 py-4 text-right text-slate-500 cursor-pointer hover:bg-slate-100 border-l border-slate-200" onclick="handleSort('StrengthAdjust', this)">SDiff</th>
-                            <th class="px-4 py-4 text-right bg-slate-100 text-slate-800 cursor-pointer hover:bg-slate-200 border-r border-slate-200" onclick="handleSort('Selection_Score', this)">Sel. Score</th>
-                            <th class="px-4 py-4 text-right bg-purple-50/50 text-purple-900 cursor-pointer hover:bg-purple-100 border-l border-purple-100" onclick="handleSort('RQ', this)">RQ</th>
-                            <th class="px-4 py-4 text-right bg-purple-50/50 text-purple-900 cursor-pointer hover:bg-purple-100 border-l border-purple-100" onclick="handleSort('RQ_Win_Avg', this)">Avg WQ</th>
-                            <th class="px-4 py-4 text-right bg-purple-50/50 text-purple-900 cursor-pointer hover:bg-purple-100 border-l border-purple-100" onclick="handleSort('RQ_Loss_Avg', this)">Avg LQ</th>
-                            <th class="px-4 py-4 text-right text-slate-500 cursor-pointer hover:bg-slate-100 border-l border-slate-200" onclick="handleSort('Consistency', this)">Cons</th>
+                            <th class="px-4 py-4 text-right bg-brand-50/50 text-brand-900 cursor-pointer hover:bg-brand-100 col-adjem" onclick="handleSort('AdjEM', this)">AdjEM</th>
+                            <th class="px-4 py-4 text-right bg-orange-50/50 text-orange-900 hidden pure-col col-pure-adjem" onclick="handleSort('Pure_AdjEM', this)">Pure</th>
+                            <th class="px-4 py-4 text-right text-slate-500 cursor-pointer hover:bg-slate-100 col-adjo" onclick="handleSort('AdjO', this)">AdjO</th>
+                            <th class="px-4 py-4 text-right text-slate-500 cursor-pointer hover:bg-slate-100 col-adjd" onclick="handleSort('AdjD', this)">AdjD</th>
+                            <th class="px-4 py-4 text-right text-slate-500 cursor-pointer hover:bg-slate-100 col-tempo" onclick="handleSort('AdjT', this)">Tempo</th>
+                            <th class="px-4 py-4 text-right text-slate-500 cursor-pointer hover:bg-slate-100 col-roadadj" onclick="handleSort('Venue_AdjEM_AN_minus_Home', this)">Road Adj</th>
+                            <th class="px-4 py-4 text-right bg-purple-50/50 text-slate-900 cursor-pointer hover:bg-purple-100 border-l border-purple-100 border-r border-slate-200 col-sos" onclick="handleSort('SOS', this)">SOS</th>
+                            <th class="px-4 py-4 text-right text-slate-500 cursor-pointer hover:bg-slate-100 border-l border-slate-200 col-sdiff" onclick="handleSort('StrengthAdjust', this)">SDiff</th>
+                            <th class="px-4 py-4 text-right bg-slate-100 text-slate-800 cursor-pointer hover:bg-slate-200 border-r border-slate-200 col-selscore" onclick="handleSort('Selection_Score', this)">Sel. Score</th>
+                            <th class="px-4 py-4 text-right bg-purple-50/50 text-purple-900 cursor-pointer hover:bg-purple-100 border-l border-purple-100 col-rq" onclick="handleSort('RQ', this)">RQ</th>
+                            <th class="px-4 py-4 text-right bg-purple-50/50 text-purple-900 cursor-pointer hover:bg-purple-100 border-l border-purple-100 col-avgwq" onclick="handleSort('RQ_Win_Avg', this)">Avg WQ</th>
+                            <th class="px-4 py-4 text-right bg-purple-50/50 text-purple-900 cursor-pointer hover:bg-purple-100 border-l border-purple-100 col-avglq" onclick="handleSort('RQ_Loss_Avg', this)">Avg LQ</th>
+                            <th class="px-4 py-4 text-right text-slate-500 cursor-pointer hover:bg-slate-100 border-l border-slate-200 col-cons" onclick="handleSort('Consistency', this)">Cons</th>
+                            <th class="px-4 py-4 text-right bg-green-50/50 text-green-900 cursor-pointer hover:bg-green-100 border-l border-green-100 col-atlarge" onclick="handleSort('AtLarge', this)">At-Large %</th>
+                            <th class="px-4 py-4 text-center bg-amber-50/50 text-amber-900 border-l border-amber-100 col-seedrange">Seed Range</th>
                             
                         </tr>
                     </thead>
@@ -229,6 +270,42 @@
             return p >= 0.999999; // float tolerance for "100%"
         }
 
+        // Helper to get seed distribution
+        function getSeedRange(team) {
+            if (typeof window.MC_DATA === 'undefined' || !window.MC_DATA) return null;
+            const d = window.MC_DATA[team];
+            if (!d || !d.seeds) return null;
+
+            // Don't show seed range if at-large probability is 0%
+            const atLargeProb = getAtLargeIfNoAQProb(team);
+            if (atLargeProb === null || atLargeProb === 0) return null;
+
+            const seeds = d.seeds;
+            const activeSeeds = [];
+            
+            for (let k = 1; k <= 16; k++) {
+                const prob = seeds[String(k)] || 0;
+                if (prob > 0.025) { // threshold: >1% probability
+                    activeSeeds.push(k);
+                }
+            }
+            
+            if (activeSeeds.length === 0) return null;
+            
+            const minSeed = Math.min(...activeSeeds);
+            const maxSeed = Math.max(...activeSeeds);
+            
+            if (minSeed === maxSeed) return String(minSeed);
+            return `${minSeed}-${maxSeed}`;
+        }
+
+        // Format at-large probability as percentage
+        function formatAtLargeProb(team) {
+            const prob = getAtLargeIfNoAQProb(team);
+            if (prob == null || prob === 0) return '0.0%';
+            return (prob * 100).toFixed(1) + '%';
+        }
+
         const MULTI_BID_LEAGUES = ["ACC", "B10", "B12", "SEC", "BE", "MWC", "A10", "Amer", "WCC"];
         const POWER_5_LEAGUES   = ["ACC", "B10", "B12", "SEC", "BE"];
         const NON_MID           = ["ACC", "B10", "B12", "SEC", "BE", "MWC"];
@@ -238,6 +315,131 @@
         let sortAsc = false;
         let chartInstance = null;
         const imageCache = {};
+
+        // Column visibility state
+        const columnConfig = {
+            'conference': { label: 'Conference', visible: true, class: 'col-conference' },
+            'adjem': { label: 'AdjEM', visible: true, class: 'col-adjem' },
+            'pure-adjem': { label: 'Pure AdjEM', visible: false, class: 'col-pure-adjem' },
+            'adjo': { label: 'AdjO', visible: true, class: 'col-adjo' },
+            'adjd': { label: 'AdjD', visible: true, class: 'col-adjd' },
+            'tempo': { label: 'Tempo', visible: true, class: 'col-tempo' },
+            'roadadj': { label: 'Road Adj', visible: false, class: 'col-roadadj' },
+            'sos': { label: 'SOS', visible: true, class: 'col-sos' },
+            'sdiff': { label: 'SDiff', visible: false, class: 'col-sdiff' },
+            'selscore': { label: 'Selection Score', visible: true, class: 'col-selscore' },
+            'rq': { label: 'RQ', visible: true, class: 'col-rq' },
+            'avgwq': { label: 'Avg WQ', visible: false, class: 'col-avgwq' },
+            'avglq': { label: 'Avg LQ', visible: false, class: 'col-avglq' },
+            'cons': { label: 'Consistency', visible: false, class: 'col-cons' },
+            'atlarge': { label: 'At-Large %', visible: true, class: 'col-atlarge' },
+            'seedrange': { label: 'Seed Range', visible: false, class: 'col-seedrange' }
+        };
+
+        function initColumnFilter() {
+            const container = document.getElementById('columnCheckboxes');
+            let html = '';
+            
+            Object.entries(columnConfig).forEach(([key, config]) => {
+                html += `
+                    <label class="flex items-center gap-2 px-3 py-2 hover:bg-slate-50 rounded cursor-pointer transition-colors">
+                        <input 
+                            type="checkbox" 
+                            id="col-${key}" 
+                            ${config.visible ? 'checked' : ''} 
+                            onchange="toggleColumn('${key}')"
+                            class="w-4 h-4 text-brand-600 border-slate-300 rounded focus:ring-brand-500 focus:ring-2"
+                        />
+                        <span class="text-sm text-slate-700 select-none">${config.label}</span>
+                    </label>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        function toggleColumnFilter() {
+            const dropdown = document.getElementById('columnFilterDropdown');
+            dropdown.classList.toggle('hidden');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('columnFilterDropdown');
+            const button = event.target.closest('button[onclick="toggleColumnFilter()"]');
+            
+            if (!dropdown.contains(event.target) && !button) {
+                dropdown.classList.add('hidden');
+            }
+        });
+
+        function toggleColumn(key) {
+            const config = columnConfig[key];
+            const checkbox = document.getElementById(`col-${key}`);
+            config.visible = checkbox.checked;
+            
+            updateColumnVisibility();
+        }
+
+        function updateColumnVisibility() {
+            Object.entries(columnConfig).forEach(([key, config]) => {
+                const elements = document.querySelectorAll(`.${config.class}`);
+                elements.forEach(el => {
+                    if (config.visible) {
+                        el.style.display = '';
+                    } else {
+                        el.style.display = 'none';
+                    }
+                });
+            });
+        }
+
+        function selectAllColumns() {
+            Object.keys(columnConfig).forEach(key => {
+                columnConfig[key].visible = true;
+                const checkbox = document.getElementById(`col-${key}`);
+                if (checkbox) checkbox.checked = true;
+            });
+            updateColumnVisibility();
+        }
+
+        function deselectAllColumns() {
+            Object.keys(columnConfig).forEach(key => {
+                columnConfig[key].visible = false;
+                const checkbox = document.getElementById(`col-${key}`);
+                if (checkbox) checkbox.checked = false;
+            });
+            updateColumnVisibility();
+        }
+
+        function resetColumns() {
+            // Reset to default visibility
+            const defaults = {
+                'conference': true,
+                'adjem': true,
+                'pure-adjem': false,
+                'adjo': true,
+                'adjd': true,
+                'tempo': true,
+                'roadadj': true,
+                'sos': true,
+                'sdiff': true,
+                'selscore': true,
+                'rq': true,
+                'avgwq': true,
+                'avglq': true,
+                'cons': true,
+                'atlarge': true,
+                'seedrange': true
+            };
+            
+            Object.keys(columnConfig).forEach(key => {
+                columnConfig[key].visible = defaults[key] !== undefined ? defaults[key] : true;
+                const checkbox = document.getElementById(`col-${key}`);
+                if (checkbox) checkbox.checked = defaults[key] !== undefined ? defaults[key] : true;
+            });
+            updateColumnVisibility();
+        }
 
         function toggleMenu() { document.getElementById('mobile-menu')?.classList.toggle('open'); }
         function getLogoPath(teamName) { return `logos/${teamName}.png`; }
@@ -385,6 +587,7 @@
 
         window.onload = function() {
             preloadLogos();
+            initColumnFilter();
             const sel = document.getElementById('confFilter');
             if(conferences) {
                 conferences.forEach(c => {
@@ -423,9 +626,6 @@
         function renderTable() {
             const tbody = document.getElementById('tableBody');
             const noData = document.getElementById('noDataMsg');
-            const showPure = document.getElementById('togglePure').checked;
-            
-            document.querySelectorAll('.pure-col').forEach(el => el.style.display = showPure ? 'table-cell' : 'none');
 
             if (currentData.length === 0) { tbody.innerHTML = ''; noData.classList.remove('hidden'); return; } 
             else { noData.classList.add('hidden'); }
@@ -508,6 +708,10 @@
                     ? ' <span title="100% At-Large Probability">🔒</span>'
                     : '';
 
+                // Add at-large probability to row for sorting
+                const atLargeProb = getAtLargeIfNoAQProb(row.Team) || 0;
+                row.AtLarge = atLargeProb;
+
 
 
                 html += `
@@ -531,52 +735,63 @@
                         </a>
                     </td>
 
-                    <td class="px-4 py-3 text-slate-500 text-left border-r border-slate-100 hidden sm:table-cell text-xs font-mono tracking-tight">${row.Conference || '-'}</td>
+                    <td class="px-4 py-3 text-slate-500 text-left border-r border-slate-100 hidden sm:table-cell text-xs font-mono tracking-tight col-conference">${row.Conference || '-'}</td>
                     
-                    <td class="px-4 py-3 font-bold text-right bg-blue-50/20 text-xs sm:text-sm font-mono" style="${adjEmStyle}">
+                    <td class="px-4 py-3 font-bold text-right bg-blue-50/20 text-xs sm:text-sm font-mono col-adjem" style="${adjEmStyle}">
                         ${row.AdjEM.toFixed(2)}
                     </td>                    
-                    <td class="px-4 py-3 font-bold text-orange-600 text-right bg-orange-50/20 text-sm font-mono pure-col" style="${showPure ? '' : 'display:none'}">${row.Pure_AdjEM.toFixed(2)}</td>
-                    <td class="px-4 py-3  text-right bg-blue-50/20 text-xs sm:text-sm font-mono" style="${adjOStyle}">
+                    <td class="px-4 py-3 font-bold text-orange-600 text-right bg-orange-50/20 text-sm font-mono pure-col col-pure-adjem">${row.Pure_AdjEM.toFixed(2)}</td>
+                    <td class="px-4 py-3  text-right bg-blue-50/20 text-xs sm:text-sm font-mono col-adjo" style="${adjOStyle}">
                         ${row.AdjO.toFixed(2)}
                         <span class="text-[10px] text-slate-400 ml-1 font-mono">${row.Rank_AdjO || '-'}</span>
                     </td> 
-                    <td class="px-4 py-3  text-right bg-blue-50/20 text-xs sm:text-sm font-mono" style="${adjDStyle}">
+                    <td class="px-4 py-3  text-right bg-blue-50/20 text-xs sm:text-sm font-mono col-adjd" style="${adjDStyle}">
                         ${row.AdjD.toFixed(2)}
                         <span class="text-[10px] text-slate-400 ml-1 font-mono">${row.Rank_AdjD || '-'}</span>
                     </td> 
-                    <td class="px-4 py-3 text-slate-600 text-right text-sm font-mono">${row.AdjT.toFixed(1)} <span class="text-[10px] text-slate-400 ml-0.5">${row.Rank_AdjT || '-'}</span></td>
-                    <td class="px-4 py-3  text-right bg-blue-50/20 text-xs sm:text-sm font-mono font-bold" style="${rdadjStyle}">
+                    <td class="px-4 py-3 text-slate-600 text-right text-sm font-mono col-tempo">${row.AdjT.toFixed(1)} <span class="text-[10px] text-slate-400 ml-0.5">${row.Rank_AdjT || '-'}</span></td>
+                    <td class="px-4 py-3  text-right bg-blue-50/20 text-xs sm:text-sm font-mono font-bold col-roadadj" style="${rdadjStyle}">
                         ${row.Venue_AdjEM_AN_minus_Home.toFixed(2)}
                         <span class="text-[10px] text-slate-400 ml-1 font-mono">${row.Rank_rdadj || '-'}</span>
                     </td> 
                     
-                    <td class="px-4 py-3 font-bold text-right bg-blue-50/20 text-xs sm:text-sm font-mono" style="${sosStyle}">
+                    <td class="px-4 py-3 font-bold text-right bg-blue-50/20 text-xs sm:text-sm font-mono col-sos" style="${sosStyle}">
                         ${row.SOS.toFixed(2)}
                         <span class="text-[10px] text-slate-400 ml-1 font-mono">${row.Rank_SOS || '-'}</span>
                     </td> 
-                    <td class="px-4 py-3  text-right bg-blue-50/20 text-xs sm:text-sm font-mono font-bold" style="${strAdjStyle}">
+                    <td class="px-4 py-3  text-right bg-blue-50/20 text-xs sm:text-sm font-mono font-bold col-sdiff" style="${strAdjStyle}">
                         ${row.StrengthAdjust.toFixed(2)}
                         <span class="text-[10px] text-slate-400 ml-1 font-mono">${row.Rank_SA || '-'}</span>
                     </td> 
-                    <td class="px-4 py-3 font-bold text-slate-800 text-right bg-slate-100/50 text-sm font-mono border-l border-slate-200">${scoreVal}<span class="text-[10px] text-slate-400 ml-0.5">${row.Rank_SLS || '-'}</span></td>
-                    <td class="px-4 py-3 font-bold text-right bg-blue-50/20 text-xs sm:text-sm font-mono " style="${rqStyle}">
+                    <td class="px-4 py-3 font-bold text-slate-800 text-right bg-slate-100/50 text-sm font-mono border-l border-slate-200 col-selscore">${scoreVal}<span class="text-[10px] text-slate-400 ml-0.5">${row.Rank_SLS || '-'}</span></td>
+                    <td class="px-4 py-3 font-bold text-right bg-blue-50/20 text-xs sm:text-sm font-mono col-rq" style="${rqStyle}">
                         ${row.RQ.toFixed(2)}
                         <span class="text-[10px] text-slate-400 ml-1 font-mono">${row.Rank_RQ || '-'}</span>
                     </td>  
-                    <td class="px-4 py-3 font-bold text-right bg-blue-50/20 text-xs sm:text-sm font-mono " style="${wqStyle}">
+                    <td class="px-4 py-3 font-bold text-right bg-blue-50/20 text-xs sm:text-sm font-mono col-avgwq" style="${wqStyle}">
                         ${row.RQ_Win_Avg.toFixed(2)}
                         <span class="text-[10px] text-slate-400 ml-1 font-mono">${row.Rank_awq || '-'}</span>
                     </td>  
-                    <td class="px-4 py-3 font-bold text-right bg-blue-50/20 text-xs sm:text-sm font-mono " style="${lqStyle}">
+                    <td class="px-4 py-3 font-bold text-right bg-blue-50/20 text-xs sm:text-sm font-mono col-avglq" style="${lqStyle}">
                         ${row.RQ_Loss_Avg.toFixed(2)}
                         <span class="text-[10px] text-slate-400 ml-1 font-mono">${row.Rank_alq || '-'}</span>
                     </td>  
-                    <td class="px-4 py-3 font-bold ${consColor} text-right text-sm font-mono border-l border-slate-100">${consVal.toFixed(1)}<span class="text-[10px] text-slate-400 ml-0.5">${row.Rank_Consistency || '-'}</span></td>
+                    <td class="px-4 py-3 font-bold ${consColor} text-right text-sm font-mono border-l border-slate-100 col-cons">${consVal.toFixed(1)}<span class="text-[10px] text-slate-400 ml-0.5">${row.Rank_Consistency || '-'}</span></td>
+                    
+                    <!-- At-Large Probability -->
+                    <td class="px-4 py-3 font-bold text-right bg-green-50/20 text-sm font-mono col-atlarge border-l border-green-100">
+                        ${formatAtLargeProb(row.Team)}
+                    </td>
+                    
+                    <!-- Seed Range -->
+                    <td class="px-4 py-3 text-center bg-amber-50/20 text-sm font-mono col-seedrange border-l border-amber-100">
+                        <span class="px-2 py-0.5 rounded bg-amber-100 text-amber-800 font-bold text-xs">${getSeedRange(row.Team) || '-'}</span>
+                    </td>
                 </tr>`;
             });
 
             tbody.innerHTML = html;
+            updateColumnVisibility();
         }
     </script>
 </body>
