@@ -210,7 +210,8 @@
                             <th class="px-4 py-4 text-right bg-purple-50/50 text-purple-900 cursor-pointer hover:bg-purple-100 border-l border-purple-100 col-avglq" onclick="handleSort('RQ_Loss_Avg', this)">Avg LQ</th>
                             <th class="px-4 py-4 text-right text-slate-500 cursor-pointer hover:bg-slate-100 border-l border-slate-200 col-cons" onclick="handleSort('Consistency', this)">Cons</th>
                             <th class="px-4 py-4 text-right bg-green-50/50 text-green-900 cursor-pointer hover:bg-green-100 border-l border-green-100 col-atlarge" onclick="handleSort('AtLarge', this)">At-Large %</th>
-                            <th class="px-4 py-4 text-center bg-amber-50/50 text-amber-900 border-l border-amber-100 col-seedrange">Seed Range</th>
+                            <th class="px-4 py-4 text-center bg-amber-50/50 text-amber-900 border-l border-amber-100 col-seedrange">AL Seed Range</th>
+                            <th class="px-4 py-4 text-right bg-green-50/50 text-green-900 cursor-pointer hover:bg-green-100 border-l border-green-100 col-regchamp" onclick="handleSort('RegChamp', this)">RS Conf Champ</th>
                             
                         </tr>
                     </thead>
@@ -268,7 +269,15 @@
             if (p == null) return false;
             return p >= 0.999999; // float tolerance for "100%"
         }
+        function getRegConfChampProb(team) {
+            // Prefer explicit AtLargeIfNoAQ_Prob if present
+            const v = MC?.[team]?.aq;
+            // Allow fallback key if you exported differently (e.g., al_noaq)
+            const v2 = MC?.[team]?.al_noaq;
 
+            const p = (v != null) ? Number(v) : Number(v2);
+            return Number.isFinite(p) ? p : null; // 0..1 or null
+        }
         // Helper to get seed distribution
         function getSeedRange(team) {
             if (typeof window.MC_DATA === 'undefined' || !window.MC_DATA) return null;
@@ -278,6 +287,8 @@
             // Don't show seed range if at-large probability is 0%
             const atLargeProb = getAtLargeIfNoAQProb(team);
             if (atLargeProb === null || atLargeProb === 0) return null;
+            
+            
 
             const seeds = d.seeds;
             const activeSeeds = [];
@@ -301,6 +312,12 @@
         // Format at-large probability as percentage
         function formatAtLargeProb(team) {
             const prob = getAtLargeIfNoAQProb(team);
+            if (prob == null || prob === 0) return '0.0%';
+            return (prob * 100).toFixed(1) + '%';
+        }
+
+        function formatrschamp(team) {
+            const prob = getRegConfChampProb(team);
             if (prob == null || prob === 0) return '0.0%';
             return (prob * 100).toFixed(1) + '%';
         }
@@ -331,7 +348,8 @@
             'avglq': { label: 'Avg LQ', visible: false, class: 'col-avglq' },
             'cons': { label: 'Consistency', visible: false, class: 'col-cons' },
             'atlarge': { label: 'At-Large %', visible: true, class: 'col-atlarge' },
-            'seedrange': { label: 'Seed Range', visible: false, class: 'col-seedrange' }
+            'seedrange': { label: 'Seed Range', visible: false, class: 'col-seedrange' },
+            'regchamp': { label: 'RS Conf Champ', visible: false, class: 'col-regchamp'}
         };
 
         function initColumnFilter() {
@@ -428,7 +446,8 @@
                 'avglq': true,
                 'cons': true,
                 'atlarge': true,
-                'seedrange': true
+                'seedrange': true,
+                'regchamp': true
             };
             
             Object.keys(columnConfig).forEach(key => {
@@ -710,6 +729,10 @@
                 const atLargeProb = getAtLargeIfNoAQProb(row.Team) || 0;
                 row.AtLarge = atLargeProb;
 
+                const regChampProb = getRegConfChampProb(row.Team) || 0;
+                row.RegChamp = regChampProb;
+
+
 
 
                 html += `
@@ -784,6 +807,10 @@
                     <td class="px-4 py-3 text-center bg-amber-50/20 text-sm font-mono col-seedrange border-l border-amber-100">
                         <span class="px-2 py-0.5 rounded bg-amber-100 text-amber-800 font-bold text-xs">${getSeedRange(row.Team) || '-'}</span>
                     </td>
+                    <td class="px-4 py-3 font-bold text-right bg-green-50/20 text-sm font-mono col-regchamp border-l border-green-100">
+                        ${formatrschamp(row.Team)}
+                    </td>
+
                 </tr>`;
             });
 
