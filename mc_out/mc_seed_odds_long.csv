@@ -1,862 +1,881 @@
 Team,Seed,Prob
-Abilene Christian,16,0.002
-Akron,10,0.005
-Akron,11,0.124
-Akron,12,0.489
-Akron,13,0.034
-Alabama,2,0.011
-Alabama,3,0.089
-Alabama,4,0.278
-Alabama,5,0.29
-Alabama,6,0.195
-Alabama,7,0.078
-Alabama,8,0.044
-Alabama,9,0.009
-Alabama,10,0.005
+Abilene Christian,15,0.001
+Abilene Christian,16,0.001
+Akron,10,0.004
+Akron,11,0.109
+Akron,12,0.508
+Akron,13,0.041
+Alabama,2,0.01
+Alabama,3,0.107
+Alabama,4,0.265
+Alabama,5,0.296
+Alabama,6,0.171
+Alabama,7,0.084
+Alabama,8,0.043
+Alabama,9,0.02
+Alabama,10,0.003
 Alabama,11,0.001
-Alabama A&M,16,0.064
-Alabama St.,16,0.005
-Albany,16,0.008
-Alcorn St.,16,0.007
-American,15,0.017
-American,16,0.178
-Appalachian St.,15,0.003
-Appalachian St.,16,0.003
-Arizona,1,0.989
-Arizona,2,0.011
-Arizona St.,11,0.001
-Arkansas,2,0.002
-Arkansas,3,0.057
-Arkansas,4,0.206
-Arkansas,5,0.321
-Arkansas,6,0.214
-Arkansas,7,0.13
-Arkansas,8,0.042
-Arkansas,9,0.021
-Arkansas,10,0.004
+Alabama A&M,16,0.068
+Alabama St.,16,0.006
+Albany,16,0.01
+Alcorn St.,16,0.006
+American,15,0.019
+American,16,0.167
+Appalachian St.,15,0.008
+Appalachian St.,16,0.001
+Arizona,1,0.991
+Arizona,2,0.008
+Arizona,3,0.001
+Arkansas,2,0.003
+Arkansas,3,0.047
+Arkansas,4,0.21
+Arkansas,5,0.301
+Arkansas,6,0.241
+Arkansas,7,0.115
+Arkansas,8,0.051
+Arkansas,9,0.024
+Arkansas,10,0.006
 Arkansas,11,0.002
-Arkansas Pine Bluff,16,0.113
+Arkansas Pine Bluff,16,0.094
 Arkansas St.,14,0.013
-Arkansas St.,15,0.199
-Arkansas St.,16,0.119
-Army,16,0.001
-Auburn,4,0.032
-Auburn,5,0.091
-Auburn,6,0.197
-Auburn,7,0.223
-Auburn,8,0.209
-Auburn,9,0.143
-Auburn,10,0.057
-Auburn,11,0.042
-Austin Peay,13,0.018
-Austin Peay,14,0.207
-Austin Peay,15,0.115
+Arkansas St.,15,0.167
+Arkansas St.,16,0.12
+Auburn,3,0.003
+Auburn,4,0.02
+Auburn,5,0.106
+Auburn,6,0.181
+Auburn,7,0.232
+Auburn,8,0.19
+Auburn,9,0.13
+Auburn,10,0.072
+Auburn,11,0.044
+Auburn,12,0.002
+Austin Peay,13,0.019
+Austin Peay,14,0.194
+Austin Peay,15,0.108
 Austin Peay,16,0.002
-BYU,2,0.036
-BYU,3,0.183
-BYU,4,0.345
+BYU,1,0.001
+BYU,2,0.054
+BYU,3,0.171
+BYU,4,0.342
 BYU,5,0.275
-BYU,6,0.1
+BYU,6,0.102
 BYU,7,0.043
-BYU,8,0.011
-BYU,9,0.005
-BYU,10,0.002
-Baylor,9,0.002
-Baylor,10,0.005
-Baylor,11,0.01
-Baylor,12,0.002
-Bellarmine,16,0.004
-Belmont,8,0.008
-Belmont,9,0.02
-Belmont,10,0.066
-Belmont,11,0.215
-Belmont,12,0.105
-Belmont,13,0.003
-Bethune Cookman,15,0.013
-Bethune Cookman,16,0.34
-Boise St.,9,0.001
-Boise St.,10,0.004
-Boise St.,11,0.024
-Boise St.,12,0.012
-Boston University,16,0.019
+BYU,8,0.01
+BYU,9,0.002
+Baylor,10,0.003
+Baylor,11,0.012
+Baylor,12,0.001
+Bellarmine,16,0.007
+Belmont,8,0.006
+Belmont,9,0.019
+Belmont,10,0.067
+Belmont,11,0.24
+Belmont,12,0.123
+Belmont,13,0.001
+Bethune Cookman,15,0.011
+Bethune Cookman,16,0.341
+Boise St.,8,0.001
+Boise St.,9,0.003
+Boise St.,10,0.005
+Boise St.,11,0.025
+Boise St.,12,0.016
+Boston University,16,0.018
 Bowling Green,13,0.001
-Bowling Green,14,0.008
+Bowling Green,14,0.006
 Bowling Green,15,0.008
-Bowling Green,16,0.001
-Bradley,12,0.002
 Bradley,13,0.005
 Bradley,14,0.001
-Bryant,16,0.002
-Buffalo,14,0.002
-Buffalo,15,0.002
-Butler,8,0.001
-Butler,9,0.011
-Butler,10,0.018
-Butler,11,0.053
-Butler,12,0.007
-CSUN,15,0.003
-Cal Baptist,12,0.01
-Cal Baptist,13,0.263
-Cal Baptist,14,0.08
-Cal St. Fullerton,15,0.01
-Cal St. Fullerton,16,0.012
-California,8,0.004
-California,9,0.029
-California,10,0.056
-California,11,0.126
-California,12,0.015
+Buffalo,14,0.007
+Buffalo,15,0.004
+Butler,9,0.009
+Butler,10,0.021
+Butler,11,0.059
+Butler,12,0.005
+CSUN,15,0.005
+CSUN,16,0.002
+Cal Baptist,12,0.013
+Cal Baptist,13,0.254
+Cal Baptist,14,0.075
+Cal Baptist,15,0.002
+Cal St. Fullerton,14,0.002
+Cal St. Fullerton,15,0.006
+Cal St. Fullerton,16,0.009
+California,6,0.001
+California,7,0.001
+California,8,0.008
+California,9,0.017
+California,10,0.057
+California,11,0.14
+California,12,0.01
 Campbell,16,0.002
 Canisius,16,0.002
-Central Arkansas,14,0.014
-Central Arkansas,15,0.182
-Central Arkansas,16,0.172
+Central Arkansas,14,0.009
+Central Arkansas,15,0.184
+Central Arkansas,16,0.143
 Central Connecticut,16,0.151
-Charleston,13,0.01
-Charleston,14,0.044
-Charleston,15,0.005
-Charleston Southern,16,0.001
+Charleston,13,0.005
+Charleston,14,0.031
+Charleston,15,0.007
+Charlotte,13,0.002
 Charlotte,14,0.001
-Chattanooga,16,0.001
 Cincinnati,11,0.001
-Clemson,3,0.004
-Clemson,4,0.021
-Clemson,5,0.113
-Clemson,6,0.213
-Clemson,7,0.237
-Clemson,8,0.208
-Clemson,9,0.115
-Clemson,10,0.061
+Clemson,3,0.001
+Clemson,4,0.018
+Clemson,5,0.126
+Clemson,6,0.241
+Clemson,7,0.241
+Clemson,8,0.185
+Clemson,9,0.121
+Clemson,10,0.042
 Clemson,11,0.019
-Clemson,12,0.001
-Coastal Carolina,15,0.007
-Coastal Carolina,16,0.01
-Colgate,14,0.003
-Colgate,15,0.049
-Colgate,16,0.086
-Colorado St.,12,0.023
-Colorado St.,13,0.012
+Coastal Carolina,15,0.002
+Coastal Carolina,16,0.008
+Colgate,14,0.001
+Colgate,15,0.063
+Colgate,16,0.079
+Colorado St.,12,0.025
+Colorado St.,13,0.018
+Columbia,12,0.001
 Columbia,13,0.019
-Columbia,14,0.017
-Columbia,15,0.004
-Connecticut,1,0.248
-Connecticut,2,0.554
-Connecticut,3,0.159
-Connecticut,4,0.035
-Connecticut,5,0.004
+Columbia,14,0.023
+Columbia,15,0.001
+Connecticut,1,0.233
+Connecticut,2,0.541
+Connecticut,3,0.186
+Connecticut,4,0.032
+Connecticut,5,0.006
+Connecticut,6,0.002
 Cornell,13,0.001
-Cornell,14,0.004
-Cornell,15,0.012
-Creighton,10,0.002
+Cornell,14,0.003
+Cornell,15,0.007
+Cornell,16,0.001
+Creighton,10,0.001
 Creighton,11,0.008
-Davidson,13,0.002
-Dayton,11,0.001
-Dayton,13,0.001
-DePaul,12,0.001
+Creighton,12,0.001
+Davidson,12,0.001
+Davidson,13,0.001
+Dayton,12,0.001
+DePaul,11,0.001
 Delaware St.,16,0.001
-Denver,16,0.004
-Drake,14,0.001
-Drake,15,0.001
-Drexel,15,0.009
-Drexel,16,0.031
-Duke,1,0.959
-Duke,2,0.04
-Duke,3,0.001
-East Tennessee St.,13,0.058
+Denver,16,0.003
+Detroit Mercy,16,0.002
+Drake,14,0.002
+Drake,15,0.002
+Drexel,15,0.008
+Drexel,16,0.026
+Duke,1,0.953
+Duke,2,0.047
+East Tennessee St.,13,0.038
 East Tennessee St.,14,0.251
-East Tennessee St.,15,0.052
-East Tennessee St.,16,0.001
-Eastern Illinois,16,0.009
-Eastern Kentucky,16,0.012
+East Tennessee St.,15,0.042
+Eastern Illinois,16,0.006
+Eastern Kentucky,16,0.01
 Eastern Washington,16,0.005
-Elon,13,0.001
-Elon,14,0.005
-Elon,15,0.004
-Elon,16,0.001
-FIU,14,0.001
-FIU,15,0.002
-FIU,16,0.002
-Fairfield,15,0.001
-Fairfield,16,0.001
-Fairleigh Dickinson,16,0.003
-Florida,2,0.081
-Florida,3,0.326
-Florida,4,0.364
-Florida,5,0.158
-Florida,6,0.051
-Florida,7,0.018
+Elon,14,0.009
+Elon,15,0.005
+FIU,16,0.001
+Fairfield,16,0.008
+Fairleigh Dickinson,16,0.008
+Florida,1,0.002
+Florida,2,0.098
+Florida,3,0.286
+Florida,4,0.386
+Florida,5,0.152
+Florida,6,0.056
+Florida,7,0.016
 Florida,8,0.002
-Florida A&M,16,0.01
-Florida Atlantic,12,0.006
-Florida Atlantic,13,0.005
-Florida Gulf Coast,16,0.028
-Fresno St.,14,0.001
-Furman,14,0.012
-Furman,15,0.012
-Furman,16,0.001
+Florida,9,0.001
+Florida,10,0.001
+Florida A&M,16,0.026
+Florida Atlantic,12,0.007
+Florida Atlantic,13,0.008
+Florida Gulf Coast,15,0.001
+Florida Gulf Coast,16,0.035
+Furman,14,0.011
+Furman,15,0.008
 George Mason,8,0.001
-George Mason,9,0.001
-George Mason,10,0.017
-George Mason,11,0.061
-George Mason,12,0.006
-George Washington,11,0.003
-George Washington,12,0.065
-George Washington,13,0.025
-Georgia,5,0.013
-Georgia,6,0.034
-Georgia,7,0.079
-Georgia,8,0.134
-Georgia,9,0.191
-Georgia,10,0.178
-Georgia,11,0.188
+George Mason,9,0.007
+George Mason,10,0.013
+George Mason,11,0.045
+George Mason,12,0.005
+George Washington,11,0.002
+George Washington,12,0.057
+George Washington,13,0.012
+Georgia,4,0.002
+Georgia,5,0.012
+Georgia,6,0.025
+Georgia,7,0.088
+Georgia,8,0.16
+Georgia,9,0.193
+Georgia,10,0.181
+Georgia,11,0.167
 Georgia,12,0.01
-Georgia Southern,15,0.001
-Georgia St.,16,0.002
-Gonzaga,1,0.01
-Gonzaga,2,0.376
-Gonzaga,3,0.43
-Gonzaga,4,0.155
-Gonzaga,5,0.028
+Georgia Southern,16,0.001
+Georgia St.,16,0.004
+Gonzaga,1,0.018
+Gonzaga,2,0.387
+Gonzaga,3,0.429
+Gonzaga,4,0.141
+Gonzaga,5,0.023
 Gonzaga,6,0.001
-Grambling St.,16,0.179
-Grand Canyon,9,0.001
-Grand Canyon,11,0.031
-Grand Canyon,12,0.163
-Grand Canyon,13,0.007
-Green Bay,15,0.029
-Green Bay,16,0.027
-Hampton,16,0.001
-Harvard,14,0.006
-Harvard,15,0.006
-Hawaii,12,0.048
-Hawaii,13,0.51
-Hawaii,14,0.095
-High Point,12,0.036
-High Point,13,0.616
-High Point,14,0.13
-High Point,15,0.002
-Hofstra,13,0.015
-Hofstra,14,0.11
-Hofstra,15,0.042
-Hofstra,16,0.002
+Gonzaga,7,0.001
+Grambling St.,16,0.188
+Grand Canyon,10,0.001
+Grand Canyon,11,0.036
+Grand Canyon,12,0.146
+Grand Canyon,13,0.018
+Green Bay,14,0.001
+Green Bay,15,0.027
+Green Bay,16,0.026
+Hampton,15,0.001
+Hampton,16,0.002
+Harvard,14,0.009
+Harvard,15,0.008
+Harvard,16,0.001
+Hawaii,12,0.053
+Hawaii,13,0.476
+Hawaii,14,0.078
+High Point,12,0.038
+High Point,13,0.567
+High Point,14,0.155
+High Point,15,0.003
+Hofstra,13,0.012
+Hofstra,14,0.09
+Hofstra,15,0.044
+Hofstra,16,0.001
 Holy Cross,16,0.004
-Houston,1,0.064
-Houston,2,0.45
-Houston,3,0.31
-Houston,4,0.137
-Houston,5,0.038
-Houston,6,0.001
-Howard,16,0.499
-Idaho,14,0.012
-Idaho,15,0.068
-Idaho,16,0.014
-Idaho St.,14,0.003
-Idaho St.,15,0.048
-Idaho St.,16,0.05
-Illinois,1,0.075
-Illinois,2,0.42
-Illinois,3,0.362
-Illinois,4,0.117
-Illinois,5,0.021
-Illinois,6,0.005
-Illinois Chicago,13,0.001
-Illinois Chicago,14,0.01
+Houston,1,0.08
+Houston,2,0.449
+Houston,3,0.319
+Houston,4,0.12
+Houston,5,0.027
+Houston,6,0.004
+Houston,7,0.001
+Howard,16,0.506
+Idaho,14,0.007
+Idaho,15,0.047
+Idaho,16,0.018
+Idaho St.,14,0.004
+Idaho St.,15,0.04
+Idaho St.,16,0.043
+Illinois,1,0.095
+Illinois,2,0.429
+Illinois,3,0.341
+Illinois,4,0.103
+Illinois,5,0.031
+Illinois,6,0.001
+Illinois Chicago,13,0.002
+Illinois Chicago,14,0.009
 Illinois Chicago,15,0.001
-Illinois St.,11,0.003
-Illinois St.,12,0.282
-Illinois St.,13,0.137
-Indiana,4,0.001
-Indiana,5,0.003
-Indiana,6,0.024
-Indiana,7,0.072
-Indiana,8,0.138
-Indiana,9,0.194
-Indiana,10,0.189
-Indiana,11,0.197
-Indiana,12,0.006
-Indiana St.,15,0.001
-Iona,14,0.001
-Iona,15,0.009
-Iona,16,0.044
-Iowa,3,0.003
-Iowa,4,0.017
-Iowa,5,0.067
-Iowa,6,0.155
-Iowa,7,0.217
-Iowa,8,0.222
-Iowa,9,0.159
-Iowa,10,0.091
-Iowa,11,0.054
-Iowa St.,1,0.035
-Iowa St.,2,0.311
-Iowa St.,3,0.344
-Iowa St.,4,0.242
-Iowa St.,5,0.057
-Iowa St.,6,0.008
-Iowa St.,7,0.003
-Jackson St.,16,0.012
-Jacksonville,16,0.008
-Jacksonville St.,14,0.005
-Jacksonville St.,15,0.007
-Jacksonville St.,16,0.001
-James Madison,15,0.014
-James Madison,16,0.057
-Kansas,1,0.001
-Kansas,2,0.068
-Kansas,3,0.202
-Kansas,4,0.386
-Kansas,5,0.239
-Kansas,6,0.078
+Illinois St.,11,0.004
+Illinois St.,12,0.228
+Illinois St.,13,0.149
+Indiana,5,0.005
+Indiana,6,0.028
+Indiana,7,0.079
+Indiana,8,0.133
+Indiana,9,0.185
+Indiana,10,0.19
+Indiana,11,0.167
+Indiana,12,0.017
+Indiana,13,0.001
+Indiana St.,16,0.001
+Iona,15,0.018
+Iona,16,0.031
+Iowa,3,0.004
+Iowa,4,0.019
+Iowa,5,0.089
+Iowa,6,0.17
+Iowa,7,0.236
+Iowa,8,0.202
+Iowa,9,0.147
+Iowa,10,0.077
+Iowa,11,0.04
+Iowa St.,1,0.03
+Iowa St.,2,0.301
+Iowa St.,3,0.389
+Iowa St.,4,0.217
+Iowa St.,5,0.053
+Iowa St.,6,0.009
+Iowa St.,7,0.001
+Jackson St.,16,0.014
+Jacksonville,16,0.012
+Jacksonville St.,14,0.004
+Jacksonville St.,15,0.011
+Jacksonville St.,16,0.003
+James Madison,15,0.019
+James Madison,16,0.056
+Kansas,1,0.003
+Kansas,2,0.053
+Kansas,3,0.206
+Kansas,4,0.381
+Kansas,5,0.248
+Kansas,6,0.083
 Kansas,7,0.02
-Kansas,8,0.006
-Kennesaw St.,13,0.017
-Kennesaw St.,14,0.059
-Kennesaw St.,15,0.006
-Kent St.,13,0.002
-Kent St.,14,0.001
-Kentucky,4,0.003
-Kentucky,5,0.017
-Kentucky,6,0.049
-Kentucky,7,0.098
-Kentucky,8,0.155
-Kentucky,9,0.209
-Kentucky,10,0.157
-Kentucky,11,0.157
-Kentucky,12,0.011
-LIU,14,0.02
-LIU,15,0.311
-LIU,16,0.302
+Kansas,8,0.004
+Kansas,9,0.002
+Kennesaw St.,13,0.011
+Kennesaw St.,14,0.04
+Kennesaw St.,15,0.013
+Kentucky,5,0.01
+Kentucky,6,0.048
+Kentucky,7,0.096
+Kentucky,8,0.184
+Kentucky,9,0.188
+Kentucky,10,0.168
+Kentucky,11,0.166
+Kentucky,12,0.007
+LIU,14,0.018
+LIU,15,0.291
+LIU,16,0.271
+LSU,7,0.001
+LSU,8,0.001
 LSU,9,0.002
-LSU,10,0.005
+LSU,10,0.003
 LSU,11,0.014
-Lafayette,16,0.001
+Lafayette,16,0.002
 Lamar,14,0.001
-Lamar,15,0.006
-Lamar,16,0.001
-Le Moyne,16,0.164
-Lehigh,16,0.004
-Liberty,9,0.002
-Liberty,10,0.017
-Liberty,11,0.144
-Liberty,12,0.421
-Liberty,13,0.031
-Lindenwood,15,0.029
-Lindenwood,16,0.164
-Lipscomb,13,0.006
-Lipscomb,14,0.085
-Lipscomb,15,0.053
-Little Rock,16,0.05
-Longwood,16,0.007
-Louisville,3,0.006
-Louisville,4,0.053
-Louisville,5,0.175
-Louisville,6,0.238
-Louisville,7,0.229
-Louisville,8,0.138
-Louisville,9,0.078
-Louisville,10,0.046
-Louisville,11,0.027
-Maine,16,0.014
-Marist,14,0.03
-Marist,15,0.214
-Marist,16,0.083
-Marshall,14,0.05
-Marshall,15,0.085
-Marshall,16,0.008
-Maryland Eastern Shore,16,0.415
-McNeese,8,0.001
-McNeese,9,0.005
-McNeese,10,0.03
-McNeese,11,0.192
-McNeese,12,0.41
+Lamar,15,0.002
+Le Moyne,16,0.196
+Lehigh,16,0.003
+Liberty,10,0.015
+Liberty,11,0.14
+Liberty,12,0.437
+Liberty,13,0.026
+Lindenwood,15,0.026
+Lindenwood,16,0.163
+Lipscomb,13,0.004
+Lipscomb,14,0.086
+Lipscomb,15,0.076
+Little Rock,16,0.056
+Long Beach St.,16,0.001
+Longwood,16,0.002
+Louisville,3,0.01
+Louisville,4,0.042
+Louisville,5,0.159
+Louisville,6,0.228
+Louisville,7,0.226
+Louisville,8,0.164
+Louisville,9,0.102
+Louisville,10,0.043
+Louisville,11,0.021
+Louisville,12,0.001
+Loyola MD,16,0.003
+Maine,16,0.015
+Marist,14,0.022
+Marist,15,0.205
+Marist,16,0.073
+Marshall,14,0.069
+Marshall,15,0.088
+Marshall,16,0.004
+Maryland Eastern Shore,16,0.399
+McNeese,9,0.006
+McNeese,10,0.035
+McNeese,11,0.241
+McNeese,12,0.387
 McNeese,13,0.014
-Memphis,12,0.017
-Memphis,13,0.037
-Memphis,14,0.001
-Mercer,12,0.001
-Mercer,13,0.057
-Mercer,14,0.378
-Mercer,15,0.09
-Mercer,16,0.001
-Mercyhurst,16,0.035
-Merrimack,15,0.044
-Merrimack,16,0.075
+Memphis,12,0.01
+Memphis,13,0.034
+Memphis,14,0.004
+Mercer,13,0.06
+Mercer,14,0.377
+Mercer,15,0.104
+Mercyhurst,16,0.056
+Merrimack,15,0.037
+Merrimack,16,0.083
 Miami FL,5,0.001
-Miami FL,6,0.012
-Miami FL,7,0.038
-Miami FL,8,0.086
-Miami FL,9,0.146
-Miami FL,10,0.179
-Miami FL,11,0.224
-Miami FL,12,0.012
-Miami OH,8,0.008
-Miami OH,9,0.042
-Miami OH,10,0.105
-Miami OH,11,0.262
-Miami OH,12,0.062
-Michigan,1,0.914
-Michigan,2,0.076
-Michigan,3,0.008
-Michigan,4,0.002
-Michigan St.,1,0.099
-Michigan St.,2,0.43
-Michigan St.,3,0.302
-Michigan St.,4,0.141
-Michigan St.,5,0.026
-Michigan St.,6,0.002
-Middle Tennessee,13,0.009
-Middle Tennessee,14,0.024
-Middle Tennessee,15,0.007
-Milwaukee,16,0.018
-Minnesota,11,0.001
-Missouri,8,0.001
-Missouri,10,0.002
-Missouri,11,0.014
-Missouri,12,0.002
+Miami FL,6,0.01
+Miami FL,7,0.049
+Miami FL,8,0.087
+Miami FL,9,0.135
+Miami FL,10,0.19
+Miami FL,11,0.223
+Miami FL,12,0.013
+Miami OH,7,0.001
+Miami OH,8,0.002
+Miami OH,9,0.04
+Miami OH,10,0.104
+Miami OH,11,0.248
+Miami OH,12,0.075
+Miami OH,13,0.002
+Michigan,1,0.921
+Michigan,2,0.07
+Michigan,3,0.009
+Michigan St.,1,0.087
+Michigan St.,2,0.434
+Michigan St.,3,0.306
+Michigan St.,4,0.144
+Michigan St.,5,0.023
+Michigan St.,6,0.004
+Michigan St.,7,0.002
+Middle Tennessee,13,0.015
+Middle Tennessee,14,0.039
+Middle Tennessee,15,0.003
+Milwaukee,16,0.011
+Mississippi,11,0.002
+Mississippi,12,0.001
+Missouri,10,0.006
+Missouri,11,0.011
+Missouri,12,0.001
 Missouri St.,14,0.002
-Missouri St.,15,0.003
-Monmouth,15,0.004
-Monmouth,16,0.005
-Montana,13,0.044
-Montana,14,0.192
-Montana,15,0.039
-Montana St.,13,0.01
-Montana St.,14,0.1
-Montana St.,15,0.048
+Missouri St.,15,0.004
+Monmouth,15,0.001
+Monmouth,16,0.007
+Montana,13,0.037
+Montana,14,0.206
+Montana,15,0.042
+Montana St.,13,0.004
+Montana St.,14,0.076
+Montana St.,15,0.057
 Montana St.,16,0.001
-Morehead St.,16,0.022
-Morgan St.,16,0.006
-Mount St. Mary's,16,0.002
-Murray St.,11,0.002
-Murray St.,12,0.054
-Murray St.,13,0.012
-N.C. State,4,0.008
-N.C. State,5,0.069
-N.C. State,6,0.169
-N.C. State,7,0.219
-N.C. State,8,0.213
-N.C. State,9,0.158
-N.C. State,10,0.093
-N.C. State,11,0.046
-N.C. State,12,0.001
-NJIT,16,0.012
-Navy,13,0.007
-Navy,14,0.195
-Navy,15,0.412
-Navy,16,0.024
-Nebraska,1,0.516
-Nebraska,2,0.379
-Nebraska,3,0.091
+Morehead St.,16,0.021
+Morgan St.,16,0.008
+Mount St. Mary's,16,0.008
+Murray St.,11,0.004
+Murray St.,12,0.047
+Murray St.,13,0.019
+N.C. State,3,0.001
+N.C. State,4,0.014
+N.C. State,5,0.079
+N.C. State,6,0.148
+N.C. State,7,0.235
+N.C. State,8,0.2
+N.C. State,9,0.168
+N.C. State,10,0.081
+N.C. State,11,0.044
+N.C. State,12,0.003
+NJIT,16,0.011
+Navy,13,0.002
+Navy,14,0.181
+Navy,15,0.418
+Navy,16,0.04
+Nebraska,1,0.525
+Nebraska,2,0.381
+Nebraska,3,0.081
 Nebraska,4,0.012
-Nebraska,5,0.002
-Nevada,8,0.001
-Nevada,9,0.006
-Nevada,10,0.019
-Nevada,11,0.074
-Nevada,12,0.013
-New Hampshire,16,0.04
-New Haven,16,0.004
-New Mexico,5,0.004
-New Mexico,6,0.046
-New Mexico,7,0.14
-New Mexico,8,0.195
-New Mexico,9,0.206
-New Mexico,10,0.182
-New Mexico,11,0.139
-New Mexico,12,0.004
+Nebraska,5,0.001
+Nebraska Omaha,16,0.002
+Nevada,8,0.002
+Nevada,9,0.005
+Nevada,10,0.021
+Nevada,11,0.078
+Nevada,12,0.019
+New Hampshire,16,0.048
+New Haven,16,0.003
+New Mexico,4,0.001
+New Mexico,5,0.019
+New Mexico,6,0.039
+New Mexico,7,0.115
+New Mexico,8,0.211
+New Mexico,9,0.224
+New Mexico,10,0.167
+New Mexico,11,0.11
+New Mexico,12,0.001
+New Mexico St.,15,0.001
 New Orleans,15,0.003
-Niagara,16,0.003
-Norfolk St.,16,0.051
-North Carolina,3,0.006
-North Carolina,4,0.063
-North Carolina,5,0.177
-North Carolina,6,0.262
-North Carolina,7,0.233
-North Carolina,8,0.141
-North Carolina,9,0.073
-North Carolina,10,0.025
-North Carolina,11,0.015
-North Carolina Central,16,0.027
+Niagara,16,0.004
+Norfolk St.,16,0.061
+North Carolina,3,0.004
+North Carolina,4,0.061
+North Carolina,5,0.16
+North Carolina,6,0.29
+North Carolina,7,0.219
+North Carolina,8,0.148
+North Carolina,9,0.071
+North Carolina,10,0.034
+North Carolina,11,0.011
+North Carolina,12,0.001
+North Carolina Central,16,0.024
 North Dakota,16,0.002
-North Dakota St.,12,0.003
-North Dakota St.,13,0.139
+North Dakota St.,12,0.001
+North Dakota St.,13,0.166
 North Dakota St.,14,0.117
-North Dakota St.,15,0.004
-North Texas,14,0.001
-Northern Colorado,14,0.004
-Northern Colorado,15,0.032
-Northern Colorado,16,0.018
-Northern Iowa,12,0.004
-Northern Iowa,13,0.037
-Northern Iowa,14,0.01
-Northern Iowa,15,0.001
-Northern Kentucky,14,0.013
-Northern Kentucky,15,0.073
-Northern Kentucky,16,0.019
-Northwestern,12,0.001
-Oakland,13,0.034
-Oakland,14,0.2
-Oakland,15,0.061
-Ohio St.,5,0.002
+North Dakota St.,15,0.003
+Northern Colorado,14,0.002
+Northern Colorado,15,0.03
+Northern Colorado,16,0.021
+Northern Iowa,12,0.003
+Northern Iowa,13,0.039
+Northern Iowa,14,0.015
+Northern Kentucky,14,0.007
+Northern Kentucky,15,0.068
+Northern Kentucky,16,0.014
+Northwestern,11,0.001
+Notre Dame,11,0.002
+Notre Dame,12,0.001
+Oakland,13,0.035
+Oakland,14,0.229
+Oakland,15,0.08
+Oakland,16,0.001
+Ohio St.,5,0.004
 Ohio St.,6,0.014
-Ohio St.,7,0.041
-Ohio St.,8,0.103
-Ohio St.,9,0.143
-Ohio St.,10,0.15
-Ohio St.,11,0.189
-Ohio St.,12,0.011
-Oklahoma,10,0.001
+Ohio St.,7,0.035
+Ohio St.,8,0.106
+Ohio St.,9,0.122
+Ohio St.,10,0.173
+Ohio St.,11,0.206
+Ohio St.,12,0.014
 Oklahoma,11,0.001
-Oklahoma St.,9,0.006
+Oklahoma St.,9,0.002
 Oklahoma St.,10,0.004
-Oklahoma St.,11,0.012
-Old Dominion,16,0.017
+Oklahoma St.,11,0.013
+Old Dominion,16,0.016
 Pacific,12,0.001
-Penn,14,0.011
-Penn,15,0.009
-Portland St.,12,0.002
-Portland St.,13,0.065
-Portland St.,14,0.163
-Portland St.,15,0.009
-Prairie View A&M,16,0.01
+Penn,13,0.001
+Penn,14,0.012
+Penn,15,0.016
+Portland St.,13,0.068
+Portland St.,14,0.192
+Portland St.,15,0.024
+Prairie View A&M,16,0.008
 Presbyterian,16,0.002
 Princeton,16,0.003
-Providence,11,0.001
-Providence,12,0.003
+Providence,12,0.001
 Providence,13,0.001
-Purdue,1,0.063
-Purdue,2,0.32
-Purdue,3,0.35
-Purdue,4,0.196
-Purdue,5,0.06
-Purdue,6,0.008
-Purdue,7,0.003
+Purdue,1,0.033
+Purdue,2,0.311
+Purdue,3,0.367
+Purdue,4,0.219
+Purdue,5,0.056
+Purdue,6,0.012
+Purdue,7,0.002
 Purdue Fort Wayne,15,0.001
-Queens,14,0.005
-Queens,15,0.052
-Queens,16,0.035
-Quinnipiac,14,0.006
-Quinnipiac,15,0.198
-Quinnipiac,16,0.181
-Rhode Island,12,0.002
-Rhode Island,13,0.001
-Richmond,13,0.002
-Robert Morris,15,0.015
-Robert Morris,16,0.006
-SIUE,16,0.04
+Purdue Fort Wayne,16,0.001
+Queens,14,0.002
+Queens,15,0.053
+Queens,16,0.052
+Quinnipiac,14,0.007
+Quinnipiac,15,0.191
+Quinnipiac,16,0.206
+Radford,16,0.001
+Rhode Island,12,0.001
+Rhode Island,13,0.002
+Richmond,13,0.001
+Robert Morris,14,0.001
+Robert Morris,15,0.013
+Robert Morris,16,0.007
+SIUE,16,0.037
 SMU,3,0.001
-SMU,4,0.018
-SMU,5,0.08
-SMU,6,0.165
-SMU,7,0.214
-SMU,8,0.231
-SMU,9,0.14
-SMU,10,0.071
-SMU,11,0.052
-SMU,12,0.001
-Sacramento St.,16,0.001
-Sacred Heart,16,0.002
-Saint Francis,16,0.001
-Saint Louis,3,0.002
-Saint Louis,4,0.052
-Saint Louis,5,0.254
-Saint Louis,6,0.341
-Saint Louis,7,0.22
-Saint Louis,8,0.08
-Saint Louis,9,0.039
-Saint Louis,10,0.01
-Saint Louis,11,0.002
+SMU,4,0.015
+SMU,5,0.099
+SMU,6,0.176
+SMU,7,0.221
+SMU,8,0.191
+SMU,9,0.13
+SMU,10,0.086
+SMU,11,0.051
+SMU,12,0.003
+Sacramento St.,16,0.003
+Saint Joseph's,12,0.001
+Saint Louis,4,0.059
+Saint Louis,5,0.251
+Saint Louis,6,0.342
+Saint Louis,7,0.222
+Saint Louis,8,0.09
+Saint Louis,9,0.029
+Saint Louis,10,0.006
+Saint Louis,11,0.001
 Saint Mary's,4,0.004
-Saint Mary's,5,0.062
-Saint Mary's,6,0.157
-Saint Mary's,7,0.225
-Saint Mary's,8,0.277
-Saint Mary's,9,0.13
-Saint Mary's,10,0.091
-Saint Mary's,11,0.047
-Sam Houston St.,12,0.02
-Sam Houston St.,13,0.185
-Sam Houston St.,14,0.029
+Saint Mary's,5,0.053
+Saint Mary's,6,0.178
+Saint Mary's,7,0.254
+Saint Mary's,8,0.242
+Saint Mary's,9,0.147
+Saint Mary's,10,0.074
+Saint Mary's,11,0.038
+Sam Houston St.,12,0.023
+Sam Houston St.,13,0.184
+Sam Houston St.,14,0.023
+Samford,16,0.002
 San Diego St.,5,0.001
-San Diego St.,6,0.008
-San Diego St.,7,0.035
-San Diego St.,8,0.099
+San Diego St.,6,0.006
+San Diego St.,7,0.025
+San Diego St.,8,0.083
 San Diego St.,9,0.162
-San Diego St.,10,0.177
-San Diego St.,11,0.234
-San Diego St.,12,0.014
-San Francisco,13,0.001
-Santa Clara,6,0.001
-Santa Clara,7,0.008
-Santa Clara,8,0.051
-Santa Clara,9,0.095
-Santa Clara,10,0.186
-Santa Clara,11,0.253
-Santa Clara,12,0.018
-Seton Hall,7,0.001
-Seton Hall,8,0.009
-Seton Hall,9,0.044
-Seton Hall,10,0.092
-Seton Hall,11,0.199
-Seton Hall,12,0.014
-Siena,14,0.007
-Siena,15,0.072
-Siena,16,0.025
-South Alabama,14,0.029
-South Alabama,15,0.045
-South Alabama,16,0.008
+San Diego St.,10,0.198
+San Diego St.,11,0.228
+San Diego St.,12,0.012
+Santa Clara,7,0.014
+Santa Clara,8,0.049
+Santa Clara,9,0.119
+Santa Clara,10,0.171
+Santa Clara,11,0.245
+Santa Clara,12,0.014
+Seattle,13,0.001
+Seton Hall,7,0.003
+Seton Hall,8,0.018
+Seton Hall,9,0.046
+Seton Hall,10,0.074
+Seton Hall,11,0.188
+Seton Hall,12,0.023
+Siena,14,0.009
+Siena,15,0.075
+Siena,16,0.021
+South Alabama,14,0.026
+South Alabama,15,0.047
+South Alabama,16,0.007
 South Carolina St.,16,0.001
-South Dakota,16,0.001
-South Dakota St.,15,0.012
-South Dakota St.,16,0.326
+South Dakota St.,15,0.017
+South Dakota St.,16,0.316
 South Florida,10,0.002
-South Florida,11,0.049
-South Florida,12,0.211
-South Florida,13,0.014
-Southeast Missouri,16,0.007
-Southern,16,0.193
-Southern Illinois,13,0.001
-Southern Illinois,14,0.01
-Southern Illinois,15,0.025
-Southern Utah,16,0.002
-St. John's,3,0.014
-St. John's,4,0.091
-St. John's,5,0.277
-St. John's,6,0.302
-St. John's,7,0.179
-St. John's,8,0.091
-St. John's,9,0.032
-St. John's,10,0.011
-St. John's,11,0.002
-St. John's,12,0.001
-St. Thomas,12,0.001
-St. Thomas,13,0.164
-St. Thomas,14,0.216
-St. Thomas,15,0.011
+South Florida,11,0.054
+South Florida,12,0.218
+South Florida,13,0.018
+Southern,16,0.197
+Southern Illinois,13,0.004
+Southern Illinois,14,0.021
+Southern Illinois,15,0.019
+Southern Illinois,16,0.001
+Southern Indiana,16,0.002
+Southern Utah,16,0.001
+St. John's,2,0.001
+St. John's,3,0.019
+St. John's,4,0.118
+St. John's,5,0.287
+St. John's,6,0.262
+St. John's,7,0.169
+St. John's,8,0.092
+St. John's,9,0.04
+St. John's,10,0.008
+St. John's,11,0.004
+St. Thomas,13,0.173
+St. Thomas,14,0.186
+St. Thomas,15,0.014
 Stanford,9,0.002
-Stanford,11,0.014
-Stanford,12,0.001
-Stephen F. Austin,11,0.006
-Stephen F. Austin,12,0.236
-Stephen F. Austin,13,0.067
-Stetson,16,0.001
-Stonehill,16,0.004
-Stony Brook,15,0.004
-Stony Brook,16,0.002
-TCU,7,0.003
-TCU,8,0.011
-TCU,9,0.048
-TCU,10,0.074
-TCU,11,0.16
-TCU,12,0.012
-Tarleton St.,15,0.001
-Tarleton St.,16,0.001
-Temple,13,0.002
-Temple,14,0.002
-Tennessee,2,0.002
-Tennessee,3,0.016
-Tennessee,4,0.103
-Tennessee,5,0.26
-Tennessee,6,0.268
-Tennessee,7,0.191
-Tennessee,8,0.097
-Tennessee,9,0.041
-Tennessee,10,0.012
-Tennessee,11,0.007
-Tennessee Martin,14,0.048
-Tennessee Martin,15,0.438
-Tennessee Martin,16,0.187
-Tennessee St.,15,0.002
-Tennessee St.,16,0.003
-Tennessee Tech,16,0.001
-Texas,5,0.001
-Texas,7,0.016
-Texas,8,0.036
-Texas,9,0.087
-Texas,10,0.135
-Texas,11,0.199
-Texas,12,0.009
-Texas A&M,4,0.002
-Texas A&M,5,0.015
-Texas A&M,6,0.034
-Texas A&M,7,0.08
-Texas A&M,8,0.148
-Texas A&M,9,0.186
-Texas A&M,10,0.159
-Texas A&M,11,0.189
-Texas A&M,12,0.013
+Stanford,10,0.004
+Stanford,11,0.01
+Stanford,12,0.002
+Stephen F. Austin,11,0.009
+Stephen F. Austin,12,0.209
+Stephen F. Austin,13,0.069
+Stetson,16,0.002
+Stonehill,16,0.001
+Stony Brook,15,0.001
+Stony Brook,16,0.004
+TCU,6,0.001
+TCU,7,0.005
+TCU,8,0.008
+TCU,9,0.038
+TCU,10,0.083
+TCU,11,0.148
+TCU,12,0.016
+Temple,13,0.001
+Tennessee,2,0.001
+Tennessee,3,0.019
+Tennessee,4,0.113
+Tennessee,5,0.235
+Tennessee,6,0.256
+Tennessee,7,0.204
+Tennessee,8,0.089
+Tennessee,9,0.055
+Tennessee,10,0.02
+Tennessee,11,0.006
+Tennessee Martin,14,0.052
+Tennessee Martin,15,0.441
+Tennessee Martin,16,0.183
+Tennessee St.,15,0.011
+Tennessee St.,16,0.002
+Texas,6,0.001
+Texas,7,0.009
+Texas,8,0.034
+Texas,9,0.071
+Texas,10,0.125
+Texas,11,0.234
+Texas,12,0.018
+Texas A&M,4,0.001
+Texas A&M,5,0.014
+Texas A&M,6,0.045
+Texas A&M,7,0.068
+Texas A&M,8,0.132
+Texas A&M,9,0.166
+Texas A&M,10,0.183
+Texas A&M,11,0.182
+Texas A&M,12,0.014
 Texas A&M Corpus Chris,14,0.001
-Texas A&M Corpus Chris,15,0.009
-Texas A&M Corpus Chris,16,0.001
-Texas Southern,16,0.054
+Texas A&M Corpus Chris,15,0.008
+Texas A&M Corpus Chris,16,0.002
+Texas Southern,16,0.041
 Texas Tech,1,0.002
-Texas Tech,2,0.081
-Texas Tech,3,0.212
-Texas Tech,4,0.369
-Texas Tech,5,0.238
-Texas Tech,6,0.073
-Texas Tech,7,0.019
-Texas Tech,8,0.005
-Texas Tech,9,0.001
+Texas Tech,2,0.076
+Texas Tech,3,0.208
+Texas Tech,4,0.363
+Texas Tech,5,0.242
+Texas Tech,6,0.083
+Texas Tech,7,0.017
+Texas Tech,8,0.008
+Texas Tech,10,0.001
 Toledo,15,0.001
-Towson,15,0.003
-Troy,13,0.025
-Troy,14,0.204
-Troy,15,0.101
+Towson,15,0.002
+Troy,13,0.03
+Troy,14,0.216
+Troy,15,0.096
+Troy,16,0.002
 Tulsa,8,0.004
 Tulsa,9,0.031
-Tulsa,10,0.084
-Tulsa,11,0.22
-Tulsa,12,0.134
-Tulsa,13,0.004
+Tulsa,10,0.061
+Tulsa,11,0.221
+Tulsa,12,0.146
+Tulsa,13,0.003
 UAB,13,0.006
-UAB,14,0.002
-UC Davis,15,0.003
-UC Irvine,12,0.003
-UC Irvine,13,0.122
-UC Irvine,14,0.14
-UC Irvine,15,0.006
-UC Santa Barbara,13,0.024
-UC Santa Barbara,14,0.023
-UC Santa Barbara,15,0.001
+UAB,14,0.003
+UC Davis,15,0.004
+UC Davis,16,0.002
+UC Irvine,12,0.001
+UC Irvine,13,0.145
+UC Irvine,14,0.152
+UC Irvine,15,0.005
+UC Santa Barbara,13,0.018
+UC Santa Barbara,14,0.038
+UC Santa Barbara,15,0.003
+UCF,4,0.001
 UCF,5,0.003
-UCF,6,0.012
-UCF,7,0.039
-UCF,8,0.092
-UCF,9,0.152
-UCF,10,0.195
-UCF,11,0.231
-UCF,12,0.017
-UCLA,5,0.004
-UCLA,6,0.031
-UCLA,7,0.066
+UCF,6,0.016
+UCF,7,0.051
+UCF,8,0.096
+UCF,9,0.163
+UCF,10,0.209
+UCF,11,0.212
+UCF,12,0.01
+UCLA,5,0.003
+UCLA,6,0.017
+UCLA,7,0.051
 UCLA,8,0.134
-UCLA,9,0.184
-UCLA,10,0.182
-UCLA,11,0.176
-UCLA,12,0.015
-UMBC,15,0.002
-UMBC,16,0.179
-UMass Lowell,16,0.007
-UNC Asheville,16,0.021
-UNC Wilmington,12,0.116
-UNC Wilmington,13,0.268
-UNC Wilmington,14,0.009
-USC,6,0.002
-USC,7,0.025
-USC,8,0.054
-USC,9,0.117
-USC,10,0.147
-USC,11,0.217
-USC,12,0.014
-UT Arlington,12,0.007
-UT Arlington,13,0.095
-UT Arlington,14,0.04
-UT Rio Grande Valley,14,0.007
+UCLA,9,0.174
+UCLA,10,0.178
+UCLA,11,0.224
+UCLA,12,0.012
+UMBC,15,0.006
+UMBC,16,0.166
+UMass Lowell,16,0.005
+UNC Asheville,15,0.001
+UNC Asheville,16,0.025
+UNC Wilmington,12,0.136
+UNC Wilmington,13,0.297
+UNC Wilmington,14,0.006
+UNLV,12,0.001
+USC,6,0.006
+USC,7,0.023
+USC,8,0.059
+USC,9,0.114
+USC,10,0.128
+USC,11,0.209
+USC,12,0.019
+UT Arlington,12,0.002
+UT Arlington,13,0.084
+UT Arlington,14,0.043
+UT Arlington,15,0.001
+UT Rio Grande Valley,13,0.001
+UT Rio Grande Valley,14,0.003
 UT Rio Grande Valley,15,0.016
 UT Rio Grande Valley,16,0.001
-Utah St.,3,0.001
-Utah St.,4,0.023
-Utah St.,5,0.104
-Utah St.,6,0.227
-Utah St.,7,0.242
-Utah St.,8,0.179
-Utah St.,9,0.117
-Utah St.,10,0.063
-Utah St.,11,0.03
-Utah Tech,14,0.003
-Utah Tech,15,0.016
-Utah Tech,16,0.002
-Utah Valley,12,0.04
-Utah Valley,13,0.401
-Utah Valley,14,0.037
+Utah St.,3,0.003
+Utah St.,4,0.016
+Utah St.,5,0.111
+Utah St.,6,0.215
+Utah St.,7,0.222
+Utah St.,8,0.214
+Utah St.,9,0.121
+Utah St.,10,0.054
+Utah St.,11,0.032
+Utah St.,12,0.001
+Utah Tech,14,0.002
+Utah Tech,15,0.018
+Utah Tech,16,0.004
+Utah Valley,12,0.047
+Utah Valley,13,0.423
+Utah Valley,14,0.029
+VCU,7,0.001
 VCU,8,0.005
-VCU,9,0.027
-VCU,10,0.078
-VCU,11,0.162
-VCU,12,0.027
-Valparaiso,14,0.014
-Valparaiso,15,0.022
-Valparaiso,16,0.002
-Vanderbilt,1,0.025
-Vanderbilt,2,0.34
-Vanderbilt,3,0.383
-Vanderbilt,4,0.188
-Vanderbilt,5,0.054
-Vanderbilt,6,0.009
+VCU,9,0.039
+VCU,10,0.062
+VCU,11,0.215
+VCU,12,0.011
+Valparaiso,14,0.006
+Valparaiso,15,0.011
+Vanderbilt,1,0.026
+Vanderbilt,2,0.33
+Vanderbilt,3,0.37
+Vanderbilt,4,0.209
+Vanderbilt,5,0.056
+Vanderbilt,6,0.008
 Vanderbilt,7,0.001
-Vermont,15,0.056
-Vermont,16,0.68
-Villanova,4,0.012
-Villanova,5,0.063
-Villanova,6,0.15
-Villanova,7,0.225
-Villanova,8,0.194
-Villanova,9,0.157
-Villanova,10,0.085
-Villanova,11,0.073
-Villanova,12,0.006
-Virginia,2,0.012
-Virginia,3,0.138
-Virginia,4,0.324
-Virginia,5,0.33
+Vermont,15,0.046
+Vermont,16,0.693
+Villanova,4,0.006
+Villanova,5,0.057
+Villanova,6,0.141
+Villanova,7,0.213
+Villanova,8,0.22
+Villanova,9,0.175
+Villanova,10,0.098
+Villanova,11,0.061
+Villanova,12,0.004
+Virginia,2,0.016
+Virginia,3,0.112
+Virginia,4,0.346
+Virginia,5,0.325
 Virginia,6,0.129
-Virginia,7,0.051
-Virginia,8,0.012
-Virginia,9,0.001
-Virginia,10,0.003
-Virginia Tech,6,0.004
-Virginia Tech,7,0.004
-Virginia Tech,8,0.026
-Virginia Tech,9,0.065
-Virginia Tech,10,0.104
-Virginia Tech,11,0.23
-Virginia Tech,12,0.018
+Virginia,7,0.05
+Virginia,8,0.018
+Virginia,9,0.004
+Virginia Tech,6,0.001
+Virginia Tech,7,0.005
+Virginia Tech,8,0.017
+Virginia Tech,9,0.07
+Virginia Tech,10,0.105
+Virginia Tech,11,0.218
+Virginia Tech,12,0.02
 Wagner,16,0.005
-Wake Forest,11,0.003
-Washington,8,0.002
-Washington,9,0.015
-Washington,10,0.026
-Washington,11,0.099
-Washington,12,0.012
-Weber St.,14,0.002
-Weber St.,15,0.023
-Weber St.,16,0.047
+Wake Forest,10,0.001
+Wake Forest,12,0.001
+Washington,8,0.004
+Washington,9,0.012
+Washington,10,0.049
+Washington,11,0.104
+Washington,12,0.011
+Weber St.,14,0.001
+Weber St.,15,0.029
+Weber St.,16,0.043
 West Georgia,16,0.001
-West Virginia,8,0.001
-West Virginia,9,0.004
-West Virginia,10,0.013
-West Virginia,11,0.041
-West Virginia,12,0.004
-Western Carolina,16,0.007
-Western Kentucky,14,0.002
-Western Kentucky,15,0.007
-Wichita St.,12,0.099
-Wichita St.,13,0.119
-William & Mary,12,0.002
-William & Mary,13,0.137
-William & Mary,14,0.162
+West Virginia,8,0.002
+West Virginia,9,0.01
+West Virginia,10,0.01
+West Virginia,11,0.04
+West Virginia,12,0.005
+Western Carolina,16,0.009
+Western Kentucky,14,0.001
+Western Kentucky,15,0.003
+Western Kentucky,16,0.001
+Wichita St.,11,0.001
+Wichita St.,12,0.096
+Wichita St.,13,0.124
+William & Mary,12,0.004
+William & Mary,13,0.133
+William & Mary,14,0.16
 William & Mary,15,0.006
 Winthrop,13,0.044
-Winthrop,14,0.122
-Winthrop,15,0.019
-Wisconsin,5,0.003
-Wisconsin,6,0.011
-Wisconsin,7,0.035
+Winthrop,14,0.139
+Winthrop,15,0.023
+Wisconsin,5,0.001
+Wisconsin,6,0.008
+Wisconsin,7,0.033
 Wisconsin,8,0.09
-Wisconsin,9,0.14
-Wisconsin,10,0.195
+Wisconsin,9,0.134
+Wisconsin,10,0.196
 Wisconsin,11,0.204
-Wisconsin,12,0.009
-Wofford,14,0.036
-Wofford,15,0.042
-Wright St.,13,0.003
-Wright St.,14,0.15
-Wright St.,15,0.31
-Wright St.,16,0.029
-Wyoming,13,0.001
-Yale,9,0.005
-Yale,10,0.03
-Yale,11,0.223
-Yale,12,0.602
-Yale,13,0.048
-Youngstown St.,16,0.012
+Wisconsin,12,0.012
+Wofford,14,0.033
+Wofford,15,0.062
+Wofford,16,0.003
+Wright St.,13,0.004
+Wright St.,14,0.149
+Wright St.,15,0.295
+Wright St.,16,0.022
+Yale,9,0.003
+Yale,10,0.026
+Yale,11,0.203
+Yale,12,0.615
+Yale,13,0.047
+Youngstown St.,15,0.001
+Youngstown St.,16,0.005

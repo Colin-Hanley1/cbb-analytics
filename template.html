@@ -198,7 +198,6 @@
                             <th class="px-4 py-4 text-left border-r border-slate-200 cursor-pointer hover:bg-slate-100 hidden sm:table-cell text-slate-400 col-conference" onclick="handleSort('Conference', this)">Conf</th>
                             
                             <th class="px-4 py-4 text-right bg-brand-50/50 text-brand-900 cursor-pointer hover:bg-brand-100 col-adjem" onclick="handleSort('AdjEM', this)">AdjEM</th>
-                            <th class="px-4 py-4 text-right bg-orange-50/50 text-orange-900 hidden pure-col col-pure-adjem" onclick="handleSort('Pure_AdjEM', this)">Pure</th>
                             <th class="px-4 py-4 text-right text-slate-500 cursor-pointer hover:bg-slate-100 col-adjo" onclick="handleSort('AdjO', this)">AdjO</th>
                             <th class="px-4 py-4 text-right text-slate-500 cursor-pointer hover:bg-slate-100 col-adjd" onclick="handleSort('AdjD', this)">AdjD</th>
                             <th class="px-4 py-4 text-right text-slate-500 cursor-pointer hover:bg-slate-100 col-tempo" onclick="handleSort('AdjT', this)">Tempo</th>
@@ -320,7 +319,6 @@
         const columnConfig = {
             'conference': { label: 'Conference', visible: true, class: 'col-conference' },
             'adjem': { label: 'AdjEM', visible: true, class: 'col-adjem' },
-            'pure-adjem': { label: 'Pure AdjEM', visible: false, class: 'col-pure-adjem' },
             'adjo': { label: 'AdjO', visible: true, class: 'col-adjo' },
             'adjd': { label: 'AdjD', visible: true, class: 'col-adjd' },
             'tempo': { label: 'Tempo', visible: true, class: 'col-tempo' },
@@ -740,7 +738,6 @@
                     <td class="px-4 py-3 font-bold text-right bg-blue-50/20 text-xs sm:text-sm font-mono col-adjem" style="${adjEmStyle}">
                         ${row.AdjEM.toFixed(2)}
                     </td>                    
-                    <td class="px-4 py-3 font-bold text-orange-600 text-right bg-orange-50/20 text-sm font-mono pure-col col-pure-adjem">${row.Pure_AdjEM.toFixed(2)}</td>
                     <td class="px-4 py-3  text-right bg-blue-50/20 text-xs sm:text-sm font-mono col-adjo" style="${adjOStyle}">
                         ${row.AdjO.toFixed(2)}
                         <span class="text-[10px] text-slate-400 ml-1 font-mono">${row.Rank_AdjO || '-'}</span>

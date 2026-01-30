@@ -30,6 +30,7 @@ import math
 import argparse
 import datetime as dt
 import json
+import time
 from dataclasses import dataclass
 from collections import defaultdict, Counter
 
@@ -124,6 +125,10 @@ ADJEM_CLAMP_PER_GAME = 1.5  # max absolute AdjEM change per game
 W_PRED  = 3.20   # predictive strength weight (AdjEM)
 W_RES   = 7.50   # resume strength weight (resume_score)
 W_STAB  = 0.10   # mild stability toward preseason (optional)
+
+# Selection weight variance (simulates committee opinion differences)
+W_PRED_VARIANCE = 0.30   # standard deviation for W_PRED sampling
+W_RES_VARIANCE  = 0.70   # standard deviation for W_RES sampling
 
 
 # -----------------------------
@@ -460,11 +465,11 @@ def init_team_states(df: pd.DataFrame, ocol: str, dcol: str, tcol: str) -> dict[
 # -----------------------------
 # Tournament selection + seeding
 # -----------------------------
-def selection_score(st: TeamState) -> float:
-    return (W_PRED * st.adjem) + (W_RES * st.resume)
+def selection_score(st: TeamState, w_pred: float = W_PRED, w_res: float = W_RES) -> float:
+    return (w_pred * st.adjem) + (w_res * st.resume)
 
 
-def seed_tournament(states: dict[str, TeamState]):
+def seed_tournament(states: dict[str, TeamState], w_pred: float = W_PRED, w_res: float = W_RES):
     """
     Returns:
       field_df     : 68-team field with seeds + Bid_Type
@@ -483,13 +488,13 @@ def seed_tournament(states: dict[str, TeamState]):
         def keyfun(s: TeamState):
             g = s.conf_w + s.conf_l
             wp = (s.conf_w / g) if g > 0 else 0.0
-            return (s.conf_w, wp, selection_score(s), s.adjem)
+            return (s.conf_w, wp, selection_score(s, w_pred, w_res), s.adjem)
 
         top = sorted(lst, key=keyfun, reverse=True)[0]
         aq_list.append(top.team)
 
     all_states = list(states.values())
-    all_states.sort(key=lambda s: selection_score(s), reverse=True)
+    all_states.sort(key=lambda s: selection_score(s, w_pred, w_res), reverse=True)
 
     # committee-style selection ignoring AQ
     selection68 = [s.team for s in all_states[:68]]
@@ -502,7 +507,7 @@ def seed_tournament(states: dict[str, TeamState]):
     at_large_bids = at_large_pool[:num_at_large]
 
     field = auto_bids + at_large_bids
-    field.sort(key=lambda s: selection_score(s), reverse=True)
+    field.sort(key=lambda s: selection_score(s, w_pred, w_res), reverse=True)
 
     seeds = []
     for s in range(1, 11):
@@ -521,7 +526,7 @@ def seed_tournament(states: dict[str, TeamState]):
             "Conference": st.conf,
             "AdjEM_SIM": st.adjem,
             "Resume_SIM": st.resume,
-            "Selection_Score": selection_score(st),
+            "Selection_Score": selection_score(st, w_pred, w_res),
             "Conf_W": st.conf_w,
             "Conf_L": st.conf_l,
             "Seed": int(seeds[i]),
@@ -539,6 +544,8 @@ def run_one_sim(
     base_states: dict[str, TeamState],
     schedule: pd.DataFrame,
     preseason_anchor: dict[str, float] | None = None,
+    w_pred: float = W_PRED,
+    w_res: float = W_RES,
 ):
     """
     Returns:
@@ -656,7 +663,7 @@ def run_one_sim(
             states[team].q_l[q] += 1
             states[opp].q_w[q] += 1
 
-    field_df, aq_list, selection68 = seed_tournament(states)
+    field_df, aq_list, selection68 = seed_tournament(states, w_pred, w_res)
     return states, field_df, aq_list, selection68
 
 
@@ -709,6 +716,16 @@ def main():
     ap.add_argument("--sims", type=int, default=1000)
     ap.add_argument("--seed", type=int, default=123)
 
+    # Selection weight variance
+    ap.add_argument("--weight-variance", dest="weight_variance", action="store_true", default=True,
+                    help="Enable selection weight variance to simulate committee differences (default: on)")
+    ap.add_argument("--no-weight-variance", dest="weight_variance", action="store_false",
+                    help="Disable selection weight variance (use fixed weights)")
+    ap.add_argument("--w-pred-var", type=float, default=W_PRED_VARIANCE,
+                    help=f"Standard deviation for predictive weight sampling (default: {W_PRED_VARIANCE})")
+    ap.add_argument("--w-res-var", type=float, default=W_RES_VARIANCE,
+                    help=f"Standard deviation for resume weight sampling (default: {W_RES_VARIANCE})")
+
     # JSONL logging
     ap.add_argument("--log-jsonl", dest="log_jsonl", action="store_true", default=True,
                     help="Write one JSON object per sim to mc_seasons.jsonl (default: on)")
@@ -747,11 +764,50 @@ def main():
         print("You will still get deterministic seeds from current ratings/resume baseline.")
     else:
         print(f"Loaded {len(sch)} future games. Simulating {args.sims} seasons...")
+    
+    if args.weight_variance:
+        print(f"Selection weight variance enabled: W_PRED ~ N({W_PRED:.2f}, {args.w_pred_var:.2f}), W_RES ~ N({W_RES:.2f}, {args.w_res_var:.2f})")
+    else:
+        print(f"Selection weight variance disabled: using fixed W_PRED={W_PRED:.2f}, W_RES={W_RES:.2f}")
+    
+    # Time estimation variables
+    start_time = time.time()
+    checkpoint_interval = max(1, args.sims // 100)  # Update every 1% of progress
+    
     sims = 0
     for sim in range(args.sims):
-        print(f" Simulating season {sim + 1} / {args.sims}...", end="\r", flush=True)
+        # Sample selection weights for this simulation to simulate committee variability
+        # Weights are sampled from normal distribution centered at base weights
+        if args.weight_variance:
+            sim_w_pred = max(0.1, rng.normal(W_PRED, args.w_pred_var))  # ensure positive
+            sim_w_res = max(0.1, rng.normal(W_RES, args.w_res_var))    # ensure positive
+        else:
+            sim_w_pred = W_PRED
+            sim_w_res = W_RES
+        
+        # Progress and time estimation
+        if sim > 0 and sim % checkpoint_interval == 0:
+            elapsed = time.time() - start_time
+            rate = sim / elapsed  # sims per second
+            remaining_sims = args.sims - sim
+            eta_seconds = remaining_sims / rate if rate > 0 else 0
+            
+            # Format ETA
+            if eta_seconds < 60:
+                eta_str = f"{eta_seconds:.0f}s"
+            elif eta_seconds < 3600:
+                eta_str = f"{eta_seconds/60:.1f}m"
+            else:
+                eta_str = f"{eta_seconds/3600:.1f}h"
+            
+            pct = 100.0 * sim / args.sims
+            print(f" Progress: {sim}/{args.sims} ({pct:.1f}%) | ETA: {eta_str}        ", end="\r", flush=True)
+        elif sim == 0:
+            print(f" Simulating season {sim + 1} / {args.sims}...", end="\r", flush=True)
+        
         _states, field_df, aq_list, selection68 = run_one_sim(
-            rng, base_states, sch, preseason_anchor=preseason_anchor
+            rng, base_states, sch, preseason_anchor=preseason_anchor,
+            w_pred=sim_w_pred, w_res=sim_w_res
         )
 
         aq_set = set(aq_list)
@@ -828,6 +884,19 @@ def main():
                 "selection68": list(selection68),
                 "field": field_records,
             })
+
+    # Print final timing information
+    print()  # New line after progress
+    total_time = time.time() - start_time
+    if total_time < 60:
+        time_str = f"{total_time:.1f} seconds"
+    elif total_time < 3600:
+        time_str = f"{total_time/60:.1f} minutes"
+    else:
+        time_str = f"{total_time/3600:.2f} hours"
+    
+    avg_time_per_sim = total_time / args.sims if args.sims > 0 else 0
+    print(f"Completed {args.sims} simulations in {time_str} ({avg_time_per_sim:.3f}s per simulation)")
 
     if jsonl_fp is not None:
         jsonl_fp.close()
