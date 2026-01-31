@@ -211,7 +211,7 @@
                             <th class="px-4 py-4 text-right text-slate-500 cursor-pointer hover:bg-slate-100 border-l border-slate-200 col-cons" onclick="handleSort('Consistency', this)">Cons</th>
                             <th class="px-4 py-4 text-right bg-green-50/50 text-green-900 cursor-pointer hover:bg-green-100 border-l border-green-100 col-atlarge" onclick="handleSort('AtLarge', this)">At-Large %</th>
                             <th class="px-4 py-4 text-center bg-amber-50/50 text-amber-900 border-l border-amber-100 col-seedrange">AL Seed Range</th>
-                            <th class="px-4 py-4 text-right bg-green-50/50 text-green-900 cursor-pointer hover:bg-green-100 border-l border-green-100 col-regchamp" onclick="handleSort('RegChamp', this)">RS Conf Champ</th>
+                            <!--<th class="px-4 py-4 text-right bg-green-50/50 text-green-900 cursor-pointer hover:bg-green-100 border-l border-green-100 col-regchamp" onclick="handleSort('RegChamp', this)">RS Conf Champ</th> -->
                             
                         </tr>
                     </thead>
@@ -348,9 +348,7 @@
             'avglq': { label: 'Avg LQ', visible: false, class: 'col-avglq' },
             'cons': { label: 'Consistency', visible: false, class: 'col-cons' },
             'atlarge': { label: 'At-Large %', visible: true, class: 'col-atlarge' },
-            'seedrange': { label: 'Seed Range', visible: false, class: 'col-seedrange' },
-            'regchamp': { label: 'RS Conf Champ', visible: false, class: 'col-regchamp'}
-        };
+            'seedrange': { label: 'Seed Range', visible: false, class: 'col-seedrange' }        };
 
         function initColumnFilter() {
             const container = document.getElementById('columnCheckboxes');
@@ -446,8 +444,7 @@
                 'avglq': true,
                 'cons': true,
                 'atlarge': true,
-                'seedrange': true,
-                'regchamp': true
+                'seedrange': true
             };
             
             Object.keys(columnConfig).forEach(key => {
@@ -807,9 +804,7 @@
                     <td class="px-4 py-3 text-center bg-amber-50/20 text-sm font-mono col-seedrange border-l border-amber-100">
                         <span class="px-2 py-0.5 rounded bg-amber-100 text-amber-800 font-bold text-xs">${getSeedRange(row.Team) || '-'}</span>
                     </td>
-                    <td class="px-4 py-3 font-bold text-right bg-green-50/20 text-sm font-mono col-regchamp border-l border-green-100">
-                        ${formatrschamp(row.Team)}
-                    </td>
+
 
                 </tr>`;
             });
