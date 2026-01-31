@@ -595,8 +595,8 @@ function renderSeedChart(dist) {
     }
     function spreadClass(sp) {
       const s = safeNum(sp, 0);
-      if (s > 0.5) return "text-emerald-600 font-bold";
-      if (s < -0.5) return "text-rose-600 font-bold";
+      if (s < 0.5) return "text-emerald-600 font-bold";
+      if (s > -0.5) return "text-rose-600 font-bold";
       return "text-slate-600";
     }
     function getLogoPath(name) { return `logos/${name}.png`; }
@@ -903,7 +903,7 @@ function renderSeedChart(dist) {
       let frows = "";
       future.forEach(g => {
         const p = clamp(g.p_win, 0, 1);
-        const spread = safeNum(g.spread, 0);
+        const spread = -safeNum(g.spread, 0);
 
         expRemainW += p; nRemain += 1;
         if (g.is_conf === true) { expRemainConfW += p; nRemainConf += 1; }
