@@ -713,7 +713,7 @@ def main():
     ap.add_argument("--confs", default="cbb_conferences.csv")
     ap.add_argument("--schedule", default="schedule.csv")
     ap.add_argument("--outdir", default="mc_out")
-    ap.add_argument("--sims", type=int, default=1000)
+    ap.add_argument("--sims", type=int, default=5000)
     ap.add_argument("--seed", type=int, default=123)
 
     # Selection weight variance
